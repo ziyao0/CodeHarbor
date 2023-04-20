@@ -1,0 +1,22 @@
+
+allprojects {
+
+    apply plugin: 'java-library'
+
+
+    group 'com.cfx'
+    version '1.0.0'
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
+
+    }
+
+    dependencies {
+//    api(platform(project(':cfx-dependencies')))
+        api(platform('com.cfx:cfx-dependencies:1.0.0.SNAPSHOT'))
+        api("commons-httpclient:commons-httpclient")
+    }
+}
+
