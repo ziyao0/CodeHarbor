@@ -15,7 +15,7 @@ allprojects {
 
     dependencies {
 //    api(platform(project(':cfx-dependencies')))
-        api(platform('com.cfx:cfx-dependencies:1.0.0.SNAPSHOT'))
+        api(platform('com.cfx:dependencies:1.0.0.SNAPSHOT'))
         api("commons-httpclient:commons-httpclient")
     }
 }

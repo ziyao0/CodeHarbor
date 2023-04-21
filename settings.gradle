@@ -1,3 +1,2 @@
 rootProject.name = 'CloudFoundationX'
-include 'cfx-comm-utils'
-
+include 'comm-utils'
