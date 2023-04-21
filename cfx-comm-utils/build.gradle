@@ -1,4 +1,3 @@
 dependencies {
-    api('commons-httpclient:commons-httpclient')
-    api('org.springframework:spring-context')
+    api 'jakarta.servlet:jakarta.servlet-api'
 }
