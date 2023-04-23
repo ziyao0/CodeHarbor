@@ -1,0 +1,7 @@
+dependencies {
+    api(project(":comm-utils"))
+    api 'org.springframework:spring-webmvc'
+    api 'org.springframework:spring-context'
+    api 'javax.validation:validation-api'
+    api 'org.slf4j:slf4j-api:1.7.32'
+}
