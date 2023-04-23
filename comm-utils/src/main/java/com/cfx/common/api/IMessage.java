@@ -6,7 +6,7 @@ import java.io.Serializable;
  * @author Eason
  * @date 2023/4/21
  */
-public interface MessageDetails extends Serializable {
+public interface IMessage extends Serializable {
 
     /**
      * 用于返回成功的响应状态
@@ -59,8 +59,8 @@ public interface MessageDetails extends Serializable {
     String getMessage();
 
 
-    static MessageDetails getInstance(Integer status, String message) {
-        return new MessageDetails() {
+    static IMessage getInstance(Integer status, String message) {
+        return new IMessage() {
             private static final long serialVersionUID = 8562177041789091450L;
 
             @Override

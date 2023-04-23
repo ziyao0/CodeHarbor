@@ -1,0 +1,7 @@
+spring:
+    application:
+        name: gateway
+    cloud:
+        nacos:
+            config: localhost:8848
+            discovery: localhost:8848

@@ -1,10 +1,17 @@
-allprojects {
+plugins {
+    id 'org.springframework.boot' version '3.0.6'
+    id 'io.spring.dependency-management' version '1.1.0'
+}
 
+allprojects {
     apply plugin: 'java-library'
+    apply plugin: "io.spring.dependency-management"
+    apply plugin: "org.springframework.boot"
 
     group 'com.cfx'
     version '1.0.0-SNAPSHOT'
-
+    sourceCompatibility = '17'
+    compileJava.options.encoding = "UTF-8"
     repositories {
         mavenLocal()
         mavenCentral()
@@ -17,8 +24,16 @@ allprojects {
         maven {
             url 'https://maven.aliyun.com/repository/spring-plugin/'
         }
+        maven {
+            url = uri("https://repo.spring.io/release")
+        }
     }
 
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
 
     dependencies {
         //从项目获取
@@ -26,11 +41,38 @@ allprojects {
         // 从依赖获取
         api(platform('com.cfx:dependencies:1.0.0.SNAPSHOT'))
     }
+    dependencyManagement {
+        imports {
+            mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
 
 }
 
 ext {
-    set('springBootVersion', "3.0.6")
-    set('springCloudVersion', "2022.0.2")
-    set('active', "dev")
+    set('springBootVersion', "${springBootVersion}")
+    set('springCloudVersion', "${springCloudVersion}")
+    set('active', "${active}")
+}
+
+
+//remove source
+sourceSets {
+    main {
+        java {
+            srcDirs = []
+        }
+        resources {
+            srcDirs = []
+        }
+    }
+    test {
+        java {
+            srcDirs = []
+        }
+        resources {
+            srcDirs = []
+        }
+    }
 }

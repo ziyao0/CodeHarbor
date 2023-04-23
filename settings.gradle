@@ -30,6 +30,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'CloudFoundationX'
-include 'comm-utils'
-include 'gateway'
+include 'comm-utils', 'gateway', 'user-center-service', 'web-spring-boot-starter'
 

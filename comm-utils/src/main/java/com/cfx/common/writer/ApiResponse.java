@@ -1,7 +1,7 @@
 package com.cfx.common.writer;
 
-import com.cfx.common.api.DataMessageDetails;
-import com.cfx.common.api.MessageDetails;
+import com.cfx.common.api.DataIMessage;
+import com.cfx.common.api.IMessage;
 
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author Eason
  * @date 2023/4/21
  */
-public final class ApiResponse<T> implements DataMessageDetails<T> {
+public final class ApiResponse<T> implements DataIMessage<T> {
 
     private static final long serialVersionUID = 4683215504590500529L;
 
@@ -37,16 +37,16 @@ public final class ApiResponse<T> implements DataMessageDetails<T> {
     public ApiResponse() {
     }
 
-    public ApiResponse(MessageDetails messageDetails) {
-        Checker.check(messageDetails);
-        this.state = messageDetails.getStatus();
-        this.message = messageDetails.getMessage();
+    public ApiResponse(IMessage IMessage) {
+        Checker.check(IMessage);
+        this.state = IMessage.getStatus();
+        this.message = IMessage.getMessage();
     }
 
-    public ApiResponse(MessageDetails messageDetails, T data) {
-        Checker.check(messageDetails, data);
-        this.state = messageDetails.getStatus();
-        this.message = messageDetails.getMessage();
+    public ApiResponse(IMessage IMessage, T data) {
+        Checker.check(IMessage, data);
+        this.state = IMessage.getStatus();
+        this.message = IMessage.getMessage();
         this.data = data;
     }
 
@@ -65,7 +65,7 @@ public final class ApiResponse<T> implements DataMessageDetails<T> {
     }
 
     public static <T> ApiResponse<T> success(T data) {
-        return ApiResponse.success(MessageDetails.SUCCESS_STATE(), MessageDetails.SUCCESS_MESSAGE(), data);
+        return ApiResponse.success(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
     }
 
     public static <T> ApiResponse<T> success(Integer state, String message, T data) {
@@ -73,19 +73,19 @@ public final class ApiResponse<T> implements DataMessageDetails<T> {
     }
 
     public static <T> ApiResponse<T> failed() {
-        return new ApiResponse<>(MessageDetails.FAILED_STATE(), MessageDetails.FAILED_MESSAGE());
+        return new ApiResponse<>(IMessage.FAILED_STATE(), IMessage.FAILED_MESSAGE());
     }
 
     public static <T> ApiResponse<T> failed(Integer state, String message) {
         return new ApiResponse<>(state, message);
     }
 
-    public static <T> ApiResponse<T> failed(MessageDetails messageDetails, String message) {
-        return failed(messageDetails.getStatus(), message);
+    public static <T> ApiResponse<T> failed(IMessage IMessage, String message) {
+        return failed(IMessage.getStatus(), message);
     }
 
-    public static <T> ApiResponse<T> failed(MessageDetails messageDetails) {
-        return failed(messageDetails.getStatus(), messageDetails.getMessage());
+    public static <T> ApiResponse<T> failed(IMessage IMessage) {
+        return failed(IMessage.getStatus(), IMessage.getMessage());
     }
 
 
@@ -115,12 +115,12 @@ public final class ApiResponse<T> implements DataMessageDetails<T> {
             }
         }
 
-        public static void check(MessageDetails messageDetails) {
-            check(messageDetails.getStatus(), messageDetails.getMessage());
+        public static void check(IMessage IMessage) {
+            check(IMessage.getStatus(), IMessage.getMessage());
         }
 
-        public static void check(MessageDetails messageDetails, Object data) {
-            check(messageDetails.getStatus(), messageDetails.getMessage(), data);
+        public static void check(IMessage IMessage, Object data) {
+            check(IMessage.getStatus(), IMessage.getMessage(), data);
         }
     }
 

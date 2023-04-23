@@ -8,12 +8,12 @@ import java.util.Objects;
  * @author Eason
  * @date 2023/4/21
  */
-public interface DataMessageDetails<T> extends MessageDetails {
+public interface DataIMessage<T> extends IMessage {
 
     T getData();
 
     default boolean isSuccessful() {
-        return Objects.equals(getStatus(), MessageDetails.SUCCESS_STATE());
+        return Objects.equals(getStatus(), IMessage.SUCCESS_STATE());
     }
 
     default boolean isFailed() {
@@ -27,8 +27,8 @@ public interface DataMessageDetails<T> extends MessageDetails {
         throw new ServiceException(this);
     }
 
-    static <T> DataMessageDetails<T> getInstance(int state, String message, T data) {
-        return new DataMessageDetails<T>() {
+    static <T> DataIMessage<T> getInstance(int state, String message, T data) {
+        return new DataIMessage<T>() {
             private static final long serialVersionUID = 60363046931488050L;
 
             @Override
@@ -48,7 +48,7 @@ public interface DataMessageDetails<T> extends MessageDetails {
         };
     }
 
-    static <T> DataMessageDetails<T> getSuccessInstance(T data) {
-        return getInstance(MessageDetails.SUCCESS_STATE(), MessageDetails.SUCCESS_MESSAGE(), data);
+    static <T> DataIMessage<T> getSuccessInstance(T data) {
+        return getInstance(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
     }
 }
