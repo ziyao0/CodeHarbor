@@ -1,8 +1,14 @@
-apply plugin: 'java-platform'
-apply plugin: 'maven-publish'
-
+plugins {
+    id('java-platform')
+    id('maven-publish')
+}
 group 'com.cfx'
 version '1.0.0.SNAPSHOT'
+
+
+ext {
+    set('springCloudVersion', "2022.0.2")
+}
 
 dependencies {
     constraints {
@@ -17,6 +23,8 @@ dependencies {
         api 'javax.validation:validation-api:2.0.1.Final'
     }
 }
+
+
 
 publishing {
     publications {
