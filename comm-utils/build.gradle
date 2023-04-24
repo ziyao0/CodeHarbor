@@ -4,4 +4,5 @@
 //}
 dependencies {
     api 'jakarta.servlet:jakarta.servlet-api'
+    api("org.projectlombok:lombok:1.18.24")
 }

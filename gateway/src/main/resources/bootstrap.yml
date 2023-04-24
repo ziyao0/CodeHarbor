@@ -1,7 +1,10 @@
+server:
+  port: 8000
 spring:
-    application:
-        name: gateway
-    cloud:
-        nacos:
-            config: localhost:8848
-            discovery: localhost:8848
+  application: gateway
+  main:
+    allow-bean-definition-overriding: true
+  cloud:
+    config:
+      import-check:
+        enabled: false

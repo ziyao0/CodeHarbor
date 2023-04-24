@@ -1,1 +1,13 @@
-bootstrap.properties
+logging:
+  level:
+    org.springframework.web: DEBUG
+    org.hibernate: TRACE
+spring:
+  main:
+    allow-bean-definition-overriding: true
+
+  cloud:
+    nacos:
+      config:
+        import-check:
+          enabled: false

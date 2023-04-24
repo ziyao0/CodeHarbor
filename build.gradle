@@ -1,6 +1,6 @@
 plugins {
-    id 'org.springframework.boot' version '3.0.6'
-    id 'io.spring.dependency-management' version '1.1.0'
+    id 'org.springframework.boot' version "${springBootPluginVersion}"
+    id 'io.spring.dependency-management' version "${springDependencyPluginVersion}"
 }
 
 allprojects {
@@ -9,24 +9,19 @@ allprojects {
     apply plugin: "org.springframework.boot"
 
     group 'com.cfx'
-    version '1.0.0-SNAPSHOT'
-    sourceCompatibility = '17'
+    version "${projectVersion}"
+    sourceCompatibility = "${sourceCompatibilityVersion}"
     compileJava.options.encoding = "UTF-8"
+    // 仓库地址
     repositories {
         mavenLocal()
-        mavenCentral()
-        maven {
-            url 'https://maven.aliyun.com/repository/spring/'
-        }
         maven {
             url 'https://maven.aliyun.com/repository/public/'
         }
         maven {
-            url 'https://maven.aliyun.com/repository/spring-plugin/'
+            url 'https://maven.aliyun.com/repository/spring/'
         }
-        maven {
-            url = uri("https://repo.spring.io/release")
-        }
+        mavenCentral()
     }
 
     configurations {
@@ -51,8 +46,6 @@ allprojects {
 }
 
 ext {
-    set('springBootVersion', "${springBootVersion}")
-    set('springCloudVersion', "${springCloudVersion}")
     set('active', "${active}")
 }
 
