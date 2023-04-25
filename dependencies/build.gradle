@@ -18,8 +18,8 @@ dependencies {
         api 'jakarta.servlet:jakarta.servlet-api:4.0.4'
         api 'javax.validation:validation-api:2.0.1.Final'
         api 'org.freemarker:freemarker:2.3.31'
-        api 'com.baomidou:mybatis-plus:3.4.1'
-        api 'com.baomidou:mybatis-plus-generator:3.4.1'
+        api 'com.baomidou:mybatis-plus:3.5.0'
+        api 'com.baomidou:mybatis-plus-generator:3.5.0'
     }
 }
 
