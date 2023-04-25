@@ -1,0 +1,5 @@
+dependencies {
+    implementation 'org.freemarker:freemarker'
+    implementation 'com.baomidou:mybatis-plus'
+    implementation 'com.baomidou:mybatis-plus-generator'
+}
