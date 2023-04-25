@@ -1,7 +1,7 @@
 package com.cfx.usercenter.security.codec;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public interface Decryptor {

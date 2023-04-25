@@ -5,7 +5,7 @@ import com.cfx.common.exception.ServiceException;
 import java.util.Objects;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public interface DataIMessage<T> extends IMessage {

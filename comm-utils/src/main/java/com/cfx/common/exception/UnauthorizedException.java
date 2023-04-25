@@ -3,7 +3,7 @@ package com.cfx.common.exception;
 import com.cfx.common.writer.Errors;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public class UnauthorizedException extends ServiceException {

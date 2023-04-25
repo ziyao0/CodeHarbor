@@ -7,7 +7,7 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public interface AuthenticationProvider extends Ordered, BeanNameAware {

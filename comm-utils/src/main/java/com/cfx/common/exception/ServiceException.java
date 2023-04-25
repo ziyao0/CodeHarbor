@@ -4,7 +4,7 @@ import com.cfx.common.api.IMessage;
 import com.cfx.common.writer.Errors;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public class ServiceException extends RuntimeException implements IMessage {

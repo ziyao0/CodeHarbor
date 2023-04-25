@@ -4,7 +4,7 @@ import com.cfx.common.api.IMessage;
 import com.cfx.common.exception.ServiceException;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public class UserStatusException extends ServiceException {

@@ -5,7 +5,7 @@ import com.cfx.usercenter.security.api.ProviderName;
 import com.cfx.usercenter.security.core.PrimaryAuthProvider;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {

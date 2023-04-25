@@ -6,7 +6,7 @@ import com.cfx.common.api.IMessage;
 import java.util.Objects;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public final class ApiResponse<T> implements DataIMessage<T> {

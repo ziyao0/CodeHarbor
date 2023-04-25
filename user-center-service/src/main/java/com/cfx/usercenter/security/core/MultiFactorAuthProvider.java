@@ -8,7 +8,7 @@ package com.cfx.usercenter.security.core;
  * 使系统或资源更加安全。攻击者即使破解单一因子（如短信等），应用的安全依然可以得到保障。
  * </p>
  *
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public interface MultiFactorAuthProvider extends AuthenticationProvider {

@@ -3,7 +3,7 @@ package com.cfx.usercenter.security.core;
 import com.cfx.usercenter.security.api.UserDetails;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public interface UserDetailsChecker {

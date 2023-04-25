@@ -3,7 +3,7 @@ package com.cfx.usercenter.comm.exception;
 import com.cfx.common.api.IMessage;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public enum ErrorsIMessage implements IMessage {

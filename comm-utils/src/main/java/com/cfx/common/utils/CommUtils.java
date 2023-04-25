@@ -1,7 +1,7 @@
 package com.cfx.common.utils;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/23
  */
 public abstract class CommUtils {

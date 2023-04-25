@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 用于解析树结构的公共类
  *
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public abstract class AbstractTreeNode implements Serializable {

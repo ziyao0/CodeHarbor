@@ -5,7 +5,7 @@ import org.springframework.core.Ordered;
 /**
  * 认证管理器
  *
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public interface ProviderManager extends Ordered {

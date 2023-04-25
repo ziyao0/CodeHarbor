@@ -3,7 +3,7 @@ package com.cfx.usercenter.security.api;
 import java.io.Serializable;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public interface UserDetails extends Serializable {

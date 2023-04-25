@@ -3,7 +3,7 @@ package com.cfx.common.writer;
 import com.cfx.common.api.IMessage;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public abstract class Errors {

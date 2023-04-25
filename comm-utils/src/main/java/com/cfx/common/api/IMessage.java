@@ -3,7 +3,7 @@ package com.cfx.common.api;
 import java.io.Serializable;
 
 /**
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/21
  */
 public interface IMessage extends Serializable {

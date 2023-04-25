@@ -9,7 +9,7 @@ import org.springframework.util.StringUtils;
 /**
  * 检查用户状态公共类
  *
- * @author Eason
+ * @author zhangziyao
  * @date 2023/4/24
  */
 public class UserStatusChecker implements UserDetailsChecker {
