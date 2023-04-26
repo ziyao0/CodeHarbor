@@ -1,17 +1,54 @@
 plugins {
+
+   //     id 'java-library'
+
     id 'org.springframework.boot' version "${springBootPluginVersion}"
     id 'io.spring.dependency-management' version "${springDependencyPluginVersion}"
 }
 
 allprojects {
+    apply plugin: 'maven-publish'
     apply plugin: 'java-library'
     apply plugin: "io.spring.dependency-management"
     apply plugin: "org.springframework.boot"
 
     group 'com.cfx'
     version "${projectVersion}"
-    sourceCompatibility = "${sourceCompatibilityVersion}"
+    //sourceCompatibility = "${sourceCompatibilityVersion}"
     compileJava.options.encoding = "UTF-8"
+
+    configurations.configureEach {
+        transitive = true
+    }
+
+    jar {
+        enabled = true //生成依赖jar包
+        archiveClassifier = '' //取消原来plain的后缀
+    }
+
+    configurations {
+        compileOnly {
+            extendsFrom annotationProcessor
+        }
+    }
+
+    //发布
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+                versionMapping {
+                    usage('java-api') {
+                        fromResolutionOf('runtimeClasspath')
+                    }
+                    usage('java-runtime') {
+                        fromResolutionResult()
+                    }
+                }
+            }
+        }
+    }
+
     // 仓库地址
     repositories {
         mavenLocal()
@@ -24,17 +61,15 @@ allprojects {
         mavenCentral()
     }
 
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
-    }
-
     dependencies {
         //从项目获取
 //        api(platform(project(':cfx-dependencies')))
         // 从依赖获取
-        api(platform('com.cfx:dependencies:1.0.0.SNAPSHOT'))
+        api 'org.slf4j:slf4j-api:1.7.36'
+        api 'com.alibaba:fastjson:2.0.15'
+        implementation(platform('com.cfx:dependencies:1.0.0.SNAPSHOT'))
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
     }
     dependencyManagement {
         imports {

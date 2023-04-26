@@ -1,9 +1,7 @@
-//plugins {
-//    id 'org.springframework.boot' version '3.0.6'
-//    id 'io.spring.dependency-management' version '1.1.0'
-//}
+plugins {
+    id 'java-library'
+}
 dependencies {
-    api('jakarta.servlet:jakarta.servlet-api')
-    api("org.projectlombok:lombok:1.18.24")
-    api('org.slf4j:slf4j-api:1.7.32')
+    api 'com.google.guava:guava:31.1-jre'
+    api 'jakarta.servlet:jakarta.servlet-api'
 }
