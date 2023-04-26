@@ -1,6 +1,13 @@
 dependencies {
+    implementation(project(":comm-utils"))
     implementation 'org.freemarker:freemarker'
     implementation 'com.baomidou:mybatis-plus'
     implementation 'com.baomidou:mybatis-plus-generator'
     implementation('org.projectlombok:lombok')
+    implementation('mysql:mysql-connector-java:8.0.29')
+    implementation 'javax:javaee-api:8.0'
+    implementation('org.apache.cassandra:cassandra-all:3.0.26') {
+        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
+        exclude group: 'log4j', module: 'log4j'
+    }
 }

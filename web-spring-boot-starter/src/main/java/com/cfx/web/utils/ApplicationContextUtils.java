@@ -11,7 +11,7 @@ import java.util.*;
  * @author zhangziyao
  * @date 2023/4/24
  */
-public class ApplicationContextUtils {
+public abstract class ApplicationContextUtils {
 
     private static ApplicationContext applicationContext;
 

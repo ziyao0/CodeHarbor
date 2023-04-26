@@ -1,5 +1,6 @@
 package com.cfx.usercenter;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -8,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author zhangziyao
  * @date 2023/4/23
  */
-
+@MapperScan("com.cfx.usercenter.mapper")
 @SpringBootApplication
 public class UserCenterStarter implements CommandLineRunner {
 

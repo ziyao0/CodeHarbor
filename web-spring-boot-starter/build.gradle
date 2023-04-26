@@ -3,5 +3,18 @@ dependencies {
     api 'org.springframework:spring-webmvc'
     api 'org.springframework:spring-context'
     api 'javax.validation:validation-api'
-    api 'org.slf4j:slf4j-api:1.7.32'
+    api 'com.baomidou:mybatis-plus-annotation'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+
+}
+
+jar {
+    // 将 spring.factories 文件包含在 JAR 中
+    from("src/main/resources") {
+        include("META-INF/spring.factories")
+    }
+}
+
+bootJar {
+    mainClassName = 'org.springframework.boot.loader.JarLauncher'
 }

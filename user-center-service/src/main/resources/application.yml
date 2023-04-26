@@ -1,0 +1,17 @@
+spring:
+  datasource:
+    driverClassName: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8
+    username: root
+    password: 1qaz@WSX
+
+mybatis-plus:
+#  global-config:
+#    db-config:
+#      id-type: auto
+  mapper-locations: classpath:mapper/usercenter/*Mapper.xml
+#  type-aliases-super-type: com.cfx.usercenter.entity
+logging:
+  level:
+    org:
+      springframework: DEBUG
