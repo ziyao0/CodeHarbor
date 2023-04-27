@@ -22,7 +22,7 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> ,
 
     @Override
     public boolean supports(@Nullable MethodParameter returnType, @Nullable Class converterType) {
-        return false;
+        return true;
     }
 
     @Override

@@ -1,12 +1,9 @@
 package com.cfx.web;
 
-import com.cfx.web.global.GlobalExceptionHandlerAdvice;
-import com.cfx.web.global.GlobalResponseHandlerAdvice;
 import com.cfx.web.utils.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
 
@@ -16,8 +13,6 @@ import org.springframework.lang.Nullable;
  */
 @Configuration
 public class AutoWebConfiguration implements ApplicationContextAware {
-
-
 
 
     @Override

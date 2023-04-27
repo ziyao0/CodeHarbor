@@ -4,5 +4,6 @@ dependencies {
     api 'org.springframework:spring-context'
     api 'javax.validation:validation-api'
     api 'com.baomidou:mybatis-plus-annotation'
+    api 'com.baomidou:mybatis-plus-extension:3.4.0'
     api 'org.springframework.boot:spring-boot-autoconfigure'
 }
