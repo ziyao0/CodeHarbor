@@ -1,6 +1,9 @@
 package com.cfx.usercenter.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cfx.common.exception.ServiceException;
 import com.cfx.common.writer.Errors;
 import com.cfx.usercenter.dto.AppDTO;
@@ -52,5 +55,22 @@ public class AppController extends BaseController<AppService, App> {
     @PostMapping("/saveBatch")
     public void saveBatch(@RequestBody List<AppDTO> entityDTOList) {
         super.iService.saveBatch(entityDTOList.stream().map(AppDTO::getInstance).collect(Collectors.toList()), 500);
+    }
+
+
+    @PostMapping("/page/get")
+    public Page<App> getPage(@RequestBody AppDTO appDTO){
+
+        Page<App> page = new Page<>();
+
+        LambdaQueryWrapper<App> queryWrapper = new LambdaQueryWrapper<>();
+
+
+        queryWrapper.eq(StringUtils.isEmpty(appDTO.getAppName()),App::getAppName,appDTO.getAppName());
+
+        Page<App> page1 = iService.page(page);
+
+        return page1;
+
     }
 }
