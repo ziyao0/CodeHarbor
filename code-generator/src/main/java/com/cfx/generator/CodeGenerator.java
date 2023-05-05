@@ -1,13 +1,17 @@
 package com.cfx.generator;
 
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.cfx.generator.config.GeneratorConfig;
 import com.cfx.generator.core.GeneratorConfigManager;
+
+import java.util.List;
 
 /**
  * @author zhangziyao
@@ -44,6 +48,18 @@ public class CodeGenerator {
             }
         });
 
+
+        FileOutConfig etConfig = new FileOutConfig("templates/entityDTO.java.ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                return generatorConfig.getProjectDir() + "/src/main/java/com/cfx/" + generatorConfig.getModuleName()
+                        + "/dto/" + tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
+            }
+        };
+        List<FileOutConfig> list = cfg.getFileOutConfigList();
+        list.add(etConfig);
+        cfg.setFileOutConfigList(list);
+
         mpg.setCfg(cfg);
 
         // 配置模板
@@ -79,6 +95,7 @@ public class CodeGenerator {
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
         gc.setSuperControllerClass("com.cfx.web.mvc.BaseController");
+//        gc.setInclude("app");
         gc.setInclude("app,user,department,menu,role,user_role,role_menu");
 
         gc.setProjectDir(System.getProperty("user.dir") + "/user-center-service");

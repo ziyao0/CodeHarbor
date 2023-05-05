@@ -3,6 +3,7 @@ package com.cfx.usercenter.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
@@ -22,17 +23,36 @@ public class App implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 主键id
+     */
     @TableId("ID")
     private Integer id;
 
+    /**
+     * 系统名称
+     */
     @TableField("APP_NAME")
     private String appName;
 
+    /**
+     * 系统访问路径
+     */
     @TableField("URL")
     private String url;
 
+    /**
+     * 系统介绍
+     */
     @TableField("INTRODUCE")
     private String introduce;
+
+    /**
+     * 删除状态 0正常 1 删除
+     */
+    @TableField("DELETED")
+    @TableLogic
+    private Integer deleted;
 
     /**
      * 创建人id

@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ * 角色菜单表
  * </p>
  *
  * @author zhangziyao

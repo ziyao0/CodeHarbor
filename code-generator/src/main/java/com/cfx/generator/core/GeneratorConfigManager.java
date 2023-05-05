@@ -11,7 +11,9 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.cfx.generator.config.GeneratorConfig;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author Eason
@@ -133,6 +135,9 @@ public abstract class GeneratorConfigManager {
             @Override
             public void initMap() {
                 // to do nothing
+                Map<String, Object> map = new HashMap<>();
+                map.put("dto", "com.cfx.usercenter.dto");
+                this.setMap(map);
             }
         };
         // 设置mapper路径

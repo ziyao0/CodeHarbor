@@ -4,4 +4,5 @@ plugins {
 dependencies {
     api 'com.google.guava:guava:31.1-jre'
     api 'jakarta.servlet:jakarta.servlet-api'
+    api 'org.springframework:spring-beans:5.3.21'
 }

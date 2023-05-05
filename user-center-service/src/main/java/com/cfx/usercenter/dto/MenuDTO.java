@@ -1,95 +1,79 @@
-package com.cfx.usercenter.entity;
+package com.cfx.usercenter.dto;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
-import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.cfx.common.dto.EntityDTO;
+import com.cfx.usercenter.entity.Menu;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 /**
  * <p>
- * 菜单资源表
+ *菜单资源表
  * </p>
  *
  * @author zhangziyao
  * @since 2023-05-05
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class Menu implements Serializable {
+public class MenuDTO implements EntityDTO<Menu>, Serializable {
 
     private static final long serialVersionUID = 1L;
 
     /**
      * 资源ID
      */
-    @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
-
     /**
      * 系统id
      */
     private Integer appId;
-
     /**
      * 资源名称
      */
     private String name;
-
     /**
      * 菜单编码
      */
     private String code;
-
     /**
      * 资源URL
      */
     private String url;
-
     /**
      * 资源图标
      */
     private String icon;
-
     /**
      * 上级资源ID
      */
     private Integer parentId;
-
     /**
      * 资源级别
      */
     private Integer level;
-
     /**
      * 排序
      */
     private Integer sort;
-
     /**
      * 创建人ID
      */
-    @TableField(fill = FieldFill.INSERT)
     private Integer createdBy;
-
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
-
     /**
      * 更新人ID
      */
     private Integer updatedBy;
-
     /**
      * 更新时间
      */
     private LocalDateTime updatedAt;
 
-
+    @Override
+    public Menu getEntity() {
+        return new Menu();
+    }
 }

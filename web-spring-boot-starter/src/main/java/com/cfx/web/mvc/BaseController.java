@@ -2,6 +2,8 @@ package com.cfx.web.mvc;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -20,4 +22,10 @@ public class BaseController<M extends IService<T>, T> {
     public List<T> list() {
         return iService.list();
     }
+
+    @GetMapping("/remove/{id}")
+    public void removeById(@PathVariable("id") String id) {
+        iService.removeById(id);
+    }
+
 }
