@@ -80,6 +80,10 @@ public final class ApiResponse<T> implements DataIMessage<T> {
         return new ApiResponse<>(state, message);
     }
 
+    public static <T> ApiResponse<T> failed(Integer state, String message, T data) {
+        return new ApiResponse<>(state, message, data);
+    }
+
     public static <T> ApiResponse<T> failed(IMessage IMessage, String message) {
         return failed(IMessage.getStatus(), message);
     }

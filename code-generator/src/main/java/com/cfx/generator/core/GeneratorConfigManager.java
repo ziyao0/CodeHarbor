@@ -110,8 +110,8 @@ public abstract class GeneratorConfigManager {
         TemplateConfig templateConfig = new TemplateConfig();
         // 配置自定义输出模板
         //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-        templateConfig.setEntity(config.getEntity());
-        templateConfig.setService(config.getService());
+//        templateConfig.setEntity(config.getEntity());
+//        templateConfig.setService(config.getService());
         templateConfig.setController(config.getController());
 
         return templateConfig;

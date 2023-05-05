@@ -1,7 +1,5 @@
 package com.cfx.common.api;
 
-import com.cfx.common.exception.ServiceException;
-
 import java.util.Objects;
 
 /**
@@ -16,16 +14,6 @@ public interface DataIMessage<T> extends IMessage {
         return Objects.equals(getStatus(), IMessage.SUCCESS_STATE());
     }
 
-    default boolean isFailed() {
-        return !isSuccessful();
-    }
-
-    default T getSuccessfulData() {
-        if (isSuccessful()) {
-            return getData();
-        }
-        throw new ServiceException(this);
-    }
 
     static <T> DataIMessage<T> getInstance(int state, String message, T data) {
         return new DataIMessage<T>() {
@@ -46,6 +34,10 @@ public interface DataIMessage<T> extends IMessage {
                 return message;
             }
         };
+    }
+
+    static <T> DataIMessage<T> getInstance(int state, String message) {
+        return getInstance(state, message, null);
     }
 
     static <T> DataIMessage<T> getSuccessInstance(T data) {

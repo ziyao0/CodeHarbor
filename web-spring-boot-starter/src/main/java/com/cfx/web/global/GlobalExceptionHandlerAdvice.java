@@ -1,6 +1,7 @@
 package com.cfx.web.global;
 
 
+import com.cfx.common.api.DataIMessage;
 import com.cfx.common.api.IMessage;
 import com.cfx.common.exception.ServiceException;
 import com.cfx.common.utils.CommUtils;
@@ -94,7 +95,7 @@ public class GlobalExceptionHandlerAdvice {
         if (causeThrowable != null) {
             LOGGER.error("发生由其他异常导致的业务异常", causeThrowable);
         }
-        return IMessage.getInstance(e.getStatus(), e.getMessage());
+        return DataIMessage.getInstance(e.getStatus(), e.getMessage());
     }
 
     /**
@@ -107,6 +108,18 @@ public class GlobalExceptionHandlerAdvice {
     public IMessage illegalArgumentExceptionHandler(IllegalArgumentException e) {
         return buildIllegalArgument(e.getMessage());
     }
+
+    /**
+     * 拦截 Exception
+     *
+     * @param e {@link Exception}
+     * @return 包含异常信息的 {@link IMessage}
+     */
+    @ExceptionHandler(value = Exception.class)
+    public IMessage exceptionHandler(Exception e) {
+        return ApiResponse.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(), e.getMessage());
+    }
+
 
     private IMessage buildIllegalArgument(String message) {
         return ApiResponse.failed(Errors.ILLEGAL_ARGUMENT, message);

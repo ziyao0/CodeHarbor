@@ -2,6 +2,9 @@ package com.cfx.web.mvc;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 /**
  * @author Eason
@@ -13,4 +16,8 @@ public class BaseController<M extends IService<T>, T> {
     protected M iService;
 
 
+    @PostMapping("/list")
+    public List<T> list() {
+        return iService.list();
+    }
 }
