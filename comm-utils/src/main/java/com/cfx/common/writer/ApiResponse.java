@@ -64,11 +64,11 @@ public final class ApiResponse<T> implements DataIMessage<T> {
         this.data = data;
     }
 
-    public static <T> ApiResponse<T> success(T data) {
-        return ApiResponse.success(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
+    public static <T> ApiResponse<T> ok(T data) {
+        return ApiResponse.ok(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
     }
 
-    public static <T> ApiResponse<T> success(Integer state, String message, T data) {
+    public static <T> ApiResponse<T> ok(Integer state, String message, T data) {
         return new ApiResponse<>(state, message, data);
     }
 

@@ -1,7 +1,7 @@
 package com.cfx.web.global;
 
-import com.cfx.common.api.DataIMessage;
 import com.cfx.common.api.IMessage;
+import com.cfx.common.writer.ApiResponse;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -30,6 +30,6 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof IMessage)
             return body;
 
-        return DataIMessage.getSuccessInstance(body);
+        return ApiResponse.ok(body);
     }
 }
