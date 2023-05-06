@@ -1,7 +1,9 @@
 package com.cfx.usercenter.service;
 
-import com.cfx.usercenter.entity.Department;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cfx.usercenter.dto.DepartmentDTO;
+import com.cfx.usercenter.entity.Department;
 
 /**
  * <p>
@@ -9,8 +11,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-05
+ * @since 2023-05-06
  */
 public interface DepartmentService extends IService<Department> {
 
+    /**
+     * 分页查询
+     */
+    Page<Department> page(Page<Department> page, DepartmentDTO departmentDTO);
 }

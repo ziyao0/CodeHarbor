@@ -1,7 +1,7 @@
 package com.cfx.usercenter.mapper;
 
-import com.cfx.usercenter.entity.RoleMenu;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.cfx.usercenter.entity.RoleMenu;
 
 /**
  * <p>
@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-05
+ * @since 2023-05-06
  */
 public interface RoleMenuMapper extends BaseMapper<RoleMenu> {
 

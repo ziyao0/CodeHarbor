@@ -1,5 +1,7 @@
 package ${package.Service};
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import ${cfg.dto}.${entity}DTO;
 import ${package.Entity}.${entity};
 import ${superServiceClassPackage};
 
@@ -16,5 +18,9 @@ interface ${table.serviceName} : ${superServiceClass}<${entity}>
 <#else>
 public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
 
+    /**
+     * 分页查询
+     */
+    Page<${entity}> page(Page<${entity}> page, ${entity}DTO ${entity?uncap_first}DTO);
 }
 </#if>

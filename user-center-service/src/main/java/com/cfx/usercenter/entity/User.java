@@ -1,13 +1,14 @@
 package com.cfx.usercenter.entity;
 
-import com.baomidou.mybatisplus.annotation.TableId;
-import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableField;
-import java.io.Serializable;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-05
+ * @since 2023-05-06
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

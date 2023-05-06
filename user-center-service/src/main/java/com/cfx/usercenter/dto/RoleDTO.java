@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-05
+ * @since 2023-05-06
  */
 @Data
 public class RoleDTO implements EntityDTO<Role>, Serializable {

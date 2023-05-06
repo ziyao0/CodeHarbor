@@ -95,7 +95,7 @@ public class CodeGenerator {
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
         gc.setSuperControllerClass("com.cfx.web.mvc.BaseController");
-//        gc.setInclude("app");
+//        gc.setInclude("menu");
         gc.setInclude("app,user,department,menu,role,user_role,role_menu");
 
         gc.setProjectDir(System.getProperty("user.dir") + "/user-center-service");

@@ -117,7 +117,8 @@ public class GlobalExceptionHandlerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public IMessage exceptionHandler(Exception e) {
-        return ApiResponse.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(), e.getMessage());
+        return ApiResponse.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
+                Errors.INTERNAL_SERVER_ERROR.getMessage() + e.getMessage());
     }
 
 

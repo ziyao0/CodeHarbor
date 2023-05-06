@@ -1,7 +1,9 @@
 package com.cfx.usercenter.service;
 
-import com.cfx.usercenter.entity.Menu;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.cfx.usercenter.dto.MenuDTO;
+import com.cfx.usercenter.entity.Menu;
 
 /**
  * <p>
@@ -9,8 +11,12 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-05
+ * @since 2023-05-06
  */
 public interface MenuService extends IService<Menu> {
 
+    /**
+     * 分页查询
+     */
+    Page<Menu> page(Page<Menu> page, MenuDTO menuDTO);
 }

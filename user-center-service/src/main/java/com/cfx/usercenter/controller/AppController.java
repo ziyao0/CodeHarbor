@@ -1,8 +1,5 @@
 package com.cfx.usercenter.controller;
 
-
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cfx.common.exception.ServiceException;
 import com.cfx.common.writer.Errors;
@@ -10,12 +7,15 @@ import com.cfx.usercenter.dto.AppDTO;
 import com.cfx.usercenter.entity.App;
 import com.cfx.usercenter.service.AppService;
 import com.cfx.web.mvc.BaseController;
+import com.cfx.web.orm.PageQuery;
+import com.cfx.web.orm.PageUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,11 +25,14 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-05
+ * @since 2023-05-06
  */
 @RestController
 @RequestMapping("/usercenter/app")
 public class AppController extends BaseController<AppService, App> {
+
+    @Resource
+    private AppService appService;
 
     @PostMapping("/save")
     public void save(@RequestBody AppDTO entityDTO) {
@@ -57,20 +60,15 @@ public class AppController extends BaseController<AppService, App> {
         super.iService.saveBatch(entityDTOList.stream().map(AppDTO::getInstance).collect(Collectors.toList()), 500);
     }
 
-
+    /**
+     * 条件分页查询
+     *
+     * @param pageQuery 分页参数
+     * @return 返回分页查询信息
+     */
     @PostMapping("/page/get")
-    public Page<App> getPage(@RequestBody AppDTO appDTO){
-
-        Page<App> page = new Page<>();
-
-        LambdaQueryWrapper<App> queryWrapper = new LambdaQueryWrapper<>();
-
-
-        queryWrapper.eq(StringUtils.isEmpty(appDTO.getAppName()),App::getAppName,appDTO.getAppName());
-
-        Page<App> page1 = iService.page(page);
-
-        return page1;
-
+    public Page<App> getPage(@RequestBody PageQuery<AppDTO> pageQuery) {
+        Page<App> page = PageUtils.initPage(pageQuery, App.class);
+        return appService.page(page, pageQuery.getQuery());
     }
 }
