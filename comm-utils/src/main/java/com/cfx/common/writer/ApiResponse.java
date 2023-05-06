@@ -2,6 +2,8 @@ package com.cfx.common.writer;
 
 import com.cfx.common.api.DataIMessage;
 import com.cfx.common.api.IMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -12,6 +14,7 @@ import java.util.Objects;
 public final class ApiResponse<T> implements DataIMessage<T> {
 
     private static final long serialVersionUID = 4683215504590500529L;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApiResponse.class);
 
     private Integer state;
 
@@ -115,7 +118,7 @@ public final class ApiResponse<T> implements DataIMessage<T> {
             check(state, message);
 
             if (null == data) {
-                throw new IllegalArgumentException("data cannot be empty.");
+                LOGGER.debug("response data cannot be empty.");
             }
         }
 

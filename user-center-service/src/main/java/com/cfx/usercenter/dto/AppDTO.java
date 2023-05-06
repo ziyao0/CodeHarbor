@@ -1,14 +1,18 @@
 package com.cfx.usercenter.dto;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import com.cfx.usercenter.entity.App;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 /**
  * <p>
- *应用系统
+ * 应用系统
  * </p>
  *
  * @author zhangziyao
@@ -55,6 +59,25 @@ public class AppDTO implements EntityDTO<App>, Serializable {
      * 修改时间
      */
     private LocalDateTime modifiedAt;
+
+    /**
+     * 组装查询条件，可根据具体情况做出修改
+     *
+     * @see LambdaQueryWrapper
+     */
+    public LambdaQueryWrapper<App> initWrapper() {
+
+        return Wrappers.lambdaQuery(App.class)
+                // 系统名称
+                .likeRight(!StringUtils.isEmpty(appName), App::getAppName, appName)
+                // 系统访问路径
+                .likeRight(!StringUtils.isEmpty(url), App::getUrl, url)
+                // 系统介绍
+                .likeRight(!StringUtils.isEmpty(introduce), App::getIntroduce, introduce)
+                // 删除状态 0正常 1 删除
+                .eq(!StringUtils.isEmpty(deleted), App::getDeleted, deleted)
+                ;
+    }
 
     @Override
     public App getEntity() {

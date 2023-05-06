@@ -24,7 +24,7 @@ public class BaseController<M extends IService<T>, T> {
     }
 
     @GetMapping("/remove/{id}")
-    public void removeById(@PathVariable("id") String id) {
+    public void removeById(@PathVariable("id") Long id) {
         iService.removeById(id);
     }
 

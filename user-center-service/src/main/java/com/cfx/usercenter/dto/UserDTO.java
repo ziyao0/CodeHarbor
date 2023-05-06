@@ -1,14 +1,18 @@
 package com.cfx.usercenter.dto;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import com.cfx.usercenter.entity.User;
 import lombok.Data;
+import org.springframework.util.StringUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
+
 /**
  * <p>
- *用户表
+ * 用户表
  * </p>
  *
  * @author zhangziyao
@@ -75,6 +79,37 @@ public class UserDTO implements EntityDTO<User>, Serializable {
      * 修改时间
      */
     private LocalDateTime modifiedAt;
+
+    /**
+     * 组装查询条件，可根据具体情况做出修改
+     *
+     * @see LambdaQueryWrapper
+     */
+    public LambdaQueryWrapper<User> initWrapper() {
+
+        return Wrappers.lambdaQuery(User.class)
+                // 系统ID
+                .eq(!StringUtils.isEmpty(appId), User::getAppId, appId)
+                // 用户账号
+                .likeRight(!StringUtils.isEmpty(accessKey), User::getAccessKey, accessKey)
+                // 昵称
+                .likeRight(!StringUtils.isEmpty(nickname), User::getNickname, nickname)
+                // 用户凭证
+                .likeRight(!StringUtils.isEmpty(secretKey), User::getSecretKey, secretKey)
+                // 账号状态
+                .eq(!StringUtils.isEmpty(status), User::getStatus, status)
+                // 部门ID
+                .eq(!StringUtils.isEmpty(deptId), User::getDeptId, deptId)
+                // 部门名称
+                .likeRight(!StringUtils.isEmpty(deptName), User::getDeptName, deptName)
+                // 排序
+                .eq(!StringUtils.isEmpty(sort), User::getSort, sort)
+                // 删除状态 0正常 1 删除
+                .eq(!StringUtils.isEmpty(deleted), User::getDeleted, deleted)
+                // 排序
+                .orderByAsc(User::getSort)
+                ;
+    }
 
     @Override
     public User getEntity() {

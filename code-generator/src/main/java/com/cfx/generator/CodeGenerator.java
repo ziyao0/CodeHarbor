@@ -4,13 +4,12 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.cfx.generator.config.GeneratorConfig;
 import com.cfx.generator.core.GeneratorConfigManager;
 
+import java.io.File;
 import java.util.List;
 
 /**
@@ -40,11 +39,18 @@ public class CodeGenerator {
         // 自定义配置
         InjectionConfig cfg = GeneratorConfigManager.getInstance(generatorConfig, InjectionConfig.class);
 
-        cfg.setFileCreate(new IFileCreate() {
-            @Override
-            public boolean isCreate(ConfigBuilder configBuilder, FileType fileType, String filePath) {
-                // 允许生成模板文件
-                return true;
+        cfg.setFileCreate((configBuilder, fileType, filePath) -> {
+            // 允许生成模板文件
+            // 已经生成 mapper 文件判断存在，不想重新生成返回 false
+            switch (fileType) {
+                case MAPPER:
+                case XML:
+                case SERVICE:
+                case SERVICE_IMPL:
+                case CONTROLLER:
+                    return !new File(filePath).exists();
+                default:
+                    return true;
             }
         });
 
