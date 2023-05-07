@@ -58,6 +58,7 @@ public class CodeGenerator {
         FileOutConfig etConfig = new FileOutConfig("templates/entityDTO.java.ftl") {
             @Override
             public String outputFile(TableInfo tableInfo) {
+                System.out.println(tableInfo.getEntityPath());
                 return generatorConfig.getProjectDir() + "/src/main/java/com/cfx/" + generatorConfig.getModuleName()
                         + "/dto/" + tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
             }
@@ -87,10 +88,11 @@ public class CodeGenerator {
 
         gc.setServiceName("%sService");
 
-        gc.setUrl("jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8");
+        gc.setUrl("jdbc:mysql://localhost:3306/cfx");
+//        gc.setUrl("jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8");
         gc.setDriverName("com.mysql.cj.jdbc.Driver");
         gc.setUserName("root");
-        gc.setPassword("1qaz@WSX");
+        gc.setPassword("root");
 
         gc.setModuleName("usercenter");
 

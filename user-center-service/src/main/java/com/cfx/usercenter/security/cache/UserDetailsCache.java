@@ -2,6 +2,7 @@ package com.cfx.usercenter.security.cache;
 
 import com.cfx.usercenter.security.api.UserDetails;
 
+import java.util.function.BiFunction;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -20,7 +21,7 @@ public interface UserDetailsCache {
      *
      * @return {@link  Function}
      */
-    Function<String, UserDetails> getUserDetailsOfCache();
+    BiFunction<String, String, UserDetails> getUserDetailsOfCache();
 
     /**
      * 将用户对象放入缓存中
