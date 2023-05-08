@@ -1,5 +1,3 @@
-import org.codehaus.groovy.runtime.GStringImpl
-
 plugins {
 
     //     id 'java-library'
@@ -89,11 +87,9 @@ allprojects {
 
     bootRun {
         systemProperty 'spring.profiles.active', "${active}"
-        systemProperties['spring.datasource.url']="${envlocalenabled}" ? "${envlocaldburl}" : "${envdburl}"
+        systemProperties['spring.datasource.url'] = "${envlocalenabled}" ? "${envlocaldburl}" : "${envdburl}"
     }
 }
-
-
 
 
 //remove source

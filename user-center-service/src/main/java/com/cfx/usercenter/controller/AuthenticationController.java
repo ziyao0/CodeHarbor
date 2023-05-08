@@ -2,7 +2,9 @@ package com.cfx.usercenter.controller;
 
 import com.cfx.common.writer.ApiResponse;
 import com.cfx.usercenter.dto.LoginDTO;
+import com.cfx.usercenter.security.api.AccessToken;
 import com.cfx.usercenter.security.api.Authentication;
+import com.cfx.usercenter.security.codec.DefaultPdEncryptor;
 import com.cfx.usercenter.security.processer.AuthenticationProcessor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,12 +29,12 @@ public class AuthenticationController {
 
 
     @PostMapping("/login")
-    public ApiResponse<Authentication> login(@RequestBody LoginDTO loginDTO) {
+    public AccessToken login(@RequestBody LoginDTO loginDTO) {
         // 1 d
-        Authentication process = authenticationProcessor.process(loginDTO);
-        response.setHeader("Authorization", "Bearer " + "token");
-        return null;
+        AccessToken accessToken = authenticationProcessor.process(loginDTO);
+        assert accessToken != null;
+        response.setHeader("Authorization", "Bearer " + accessToken.getToken());
+        return accessToken;
     }
-
 
 }

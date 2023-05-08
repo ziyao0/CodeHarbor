@@ -16,19 +16,12 @@ public class UserInfo {
 
     private String username;
 
+    public UserInfo() {
+    }
 
-    public static void main(String[] args) {
-
-        UserInfo userInfo = new UserInfo();
-
-        userInfo.setAppId(841994265727877120L);
-        userInfo.setUserId(841994265727877120L);
-        userInfo.setUsername("zhangziyao");
-
-
-        String s = Tokens.create(userInfo, "123");
-
-        System.out.println(s);
-
+    public UserInfo(Long appId, Long userId, String username) {
+        this.appId = appId;
+        this.userId = userId;
+        this.username = username;
     }
 }

@@ -16,5 +16,5 @@ public class LoginDTO {
 
     private String accessKey;
 
-    private ProviderName loginType;
+    private ProviderName loginType = ProviderName.PASSWD;
 }

@@ -2,9 +2,13 @@ package com.cfx.usercenter.security.processer;
 
 import com.cfx.usercenter.dto.LoginDTO;
 import com.cfx.usercenter.security.PrimaryAuthProviderManager;
+import com.cfx.usercenter.security.api.AccessToken;
 import com.cfx.usercenter.security.api.Authentication;
 import com.cfx.usercenter.security.auth.AuthenticationDetails;
+import com.cfx.usercenter.security.auth.SuccessAuthDetails;
 import com.cfx.usercenter.security.core.GlobalProcessor;
+import com.cfx.usercenter.security.core.SuccessHandler;
+import com.cfx.usercenter.security.handle.AuthenticationSuccessHandler;
 import com.cfx.usercenter.security.support.SecurityUtils;
 import org.springframework.stereotype.Component;
 
@@ -15,10 +19,12 @@ import javax.annotation.Resource;
  * @since 2023/5/8
  */
 @Component
-public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Authentication> {
+public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, AccessToken> {
 
     @Resource
     private PrimaryAuthProviderManager providerManager;
+    @Resource
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Override
     public void preProcessBefore(LoginDTO loginDTO) {
@@ -27,7 +33,7 @@ public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Authen
     }
 
     @Override
-    public Authentication process(LoginDTO loginDTO) {
+    public AccessToken process(LoginDTO loginDTO) {
         try {
             // 前置处理
             this.preProcessBefore(loginDTO);
@@ -35,9 +41,10 @@ public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Authen
             Authentication authentication = attemptAuthentication(loginDTO);
 
             if (SecurityUtils.authenticated(authentication)) {
-                Authentication successful = successfulAuthentication(authentication);
+                SuccessAuthDetails successful = (SuccessAuthDetails) authentication;
+                AccessToken accessToken = successfulAuthentication(successful);
                 this.preProcessAfter(successful);
-                return successful;
+                return accessToken;
             } else
                 this.authenticationFailure(authentication);
         } catch (Exception e) {
@@ -61,8 +68,8 @@ public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Authen
 
     }
 
-    private Authentication successfulAuthentication(Authentication authentication) {
+    private AccessToken successfulAuthentication(SuccessAuthDetails successAuthDetails) {
 
-        return null;
+       return authenticationSuccessHandler.onSuccess(successAuthDetails);
     }
 }

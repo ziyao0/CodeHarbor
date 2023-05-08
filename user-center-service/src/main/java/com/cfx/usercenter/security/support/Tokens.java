@@ -30,9 +30,9 @@ public abstract class Tokens {
     public static final String AUTHORIZATION = "Authorization";
 
     public static final String AUTHORIZED = "ira";
-    public static final String userId = "uid";
-    public static final String appid = "aid";
-    public static final String username = "un";
+    private  static final String userId = "uid";
+    private static final String appid = "aid";
+    private static final String username = "un";
 
     private Tokens() {
     }

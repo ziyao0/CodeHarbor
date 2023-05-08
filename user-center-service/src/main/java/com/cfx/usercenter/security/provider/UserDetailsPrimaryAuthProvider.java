@@ -6,6 +6,7 @@ import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.security.UserStatusChecker;
 import com.cfx.usercenter.security.api.Authentication;
 import com.cfx.usercenter.security.api.ProviderName;
+import com.cfx.usercenter.security.api.UserDetails;
 import com.cfx.usercenter.security.auth.SuccessAuthDetails;
 import com.cfx.usercenter.security.cache.UserDetailsCache;
 import com.cfx.usercenter.security.codec.DefaultPdEncryptor;
@@ -17,6 +18,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
+import java.util.function.BiFunction;
+import java.util.function.Consumer;
 
 /**
  * @author zhangziyao
@@ -28,8 +31,23 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
     private String beanName;
     @Resource
     private UserService userService;
-    @Resource
-    private UserDetailsCache userDetailsCache;
+
+    private final UserDetailsCache userDetailsCache = new UserDetailsCache() {
+        @Override
+        public BiFunction<Long, String, UserDetails> getUserDetailsOfCache() {
+            return null;
+        }
+
+        @Override
+        public Consumer<UserDetails> putUserDetailsInCache() {
+            return null;
+        }
+
+        @Override
+        public Consumer<String> removeUserDetails() {
+            return null;
+        }
+    };
 
     private final Encryptor encryptor = new DefaultPdEncryptor();
 
@@ -46,10 +64,11 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
         String secretKey = authentication.getSecretKey();
 
         // 获取用户信息，先从缓存获取，获取不到从数据获取并保存到缓存
-        User userDetails = (User) userDetailsCache.getUserDetailsOfCache().apply(appId, accessKey);
+//        User userDetails = (User) userDetailsCache.getUserDetailsOfCache().apply(appId, accessKey);
+        User userDetails = null;
         if (ObjectUtils.isEmpty(userDetails)) {
             userDetails = userService.loadUserDetails(appId, accessKey);
-            userDetailsCache.putUserDetailsInCache().accept(userDetails);
+//            userDetailsCache.putUserDetailsInCache().accept(userDetails);
         }
         // 验证账号是否存在
         if (ObjectUtils.isEmpty(userDetails)) {
