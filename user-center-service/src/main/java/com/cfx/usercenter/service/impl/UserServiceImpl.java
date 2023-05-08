@@ -5,11 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.cfx.usercenter.dto.UserDTO;
-import com.cfx.usercenter.entity.App;
 import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.mapper.UserMapper;
 import com.cfx.usercenter.service.UserService;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -36,7 +34,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User loadUserDetails(String appid, String accessKey) {
+    public User loadUserDetails(Long appid, String accessKey) {
         // 通过appid和accessKey获取用户信息
         return userMapper.selectOne(
                 Wrappers.lambdaQuery(User.class)

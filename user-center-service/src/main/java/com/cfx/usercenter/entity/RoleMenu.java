@@ -2,7 +2,7 @@ package com.cfx.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
+import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -26,20 +26,20 @@ public class RoleMenu implements Serializable {
     /**
      * 系统id
      */
-    @TableId("APP_ID")
-    private Integer appId;
+    @MppMultiId("APP_ID")
+    private Long appId;
 
     /**
      * 角色id
      */
-    @TableField("ROLE_ID")
-    private Integer roleId;
+    @MppMultiId("ROLE_ID")
+    private Long roleId;
 
     /**
      * 菜单id
      */
-    @TableField("MENU_ID")
-    private Integer menuId;
+    @MppMultiId("MENU_ID")
+    private Long menuId;
 
     /**
      * 创建人id

@@ -8,7 +8,7 @@ import org.springframework.beans.BeanUtils;
  */
 public interface EntityDTO<T> {
 
-    default Integer getId() {
+    default Long getId() {
         return null;
     }
 

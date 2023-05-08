@@ -21,7 +21,7 @@ public interface UserDetailsCache {
      *
      * @return {@link  Function}
      */
-    BiFunction<String, String, UserDetails> getUserDetailsOfCache();
+    BiFunction<Long, String, UserDetails> getUserDetailsOfCache();
 
     /**
      * 将用户对象放入缓存中

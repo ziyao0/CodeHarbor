@@ -71,6 +71,10 @@ public final class ApiResponse<T> implements DataIMessage<T> {
         return ApiResponse.ok(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
     }
 
+    public static <T> ApiResponse<T> ok() {
+        return new ApiResponse<>(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE());
+    }
+
     public static <T> ApiResponse<T> ok(Integer state, String message, T data) {
         return new ApiResponse<>(state, message, data);
     }

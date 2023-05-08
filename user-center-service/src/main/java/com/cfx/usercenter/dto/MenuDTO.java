@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 public class MenuDTO implements EntityDTO<Menu>, Serializable {
@@ -26,11 +26,11 @@ public class MenuDTO implements EntityDTO<Menu>, Serializable {
     /**
      * 资源ID
      */
-    private Integer id;
+    private Long id;
     /**
      * 系统id
      */
-    private Integer appId;
+    private Long appId;
     /**
      * 资源名称
      */
@@ -50,7 +50,7 @@ public class MenuDTO implements EntityDTO<Menu>, Serializable {
     /**
      * 上级资源ID
      */
-    private Integer parentId;
+    private Long parentId;
     /**
      * 资源级别
      */

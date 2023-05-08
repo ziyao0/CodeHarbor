@@ -88,11 +88,11 @@ public class CodeGenerator {
 
         gc.setServiceName("%sService");
 
-        gc.setUrl("jdbc:mysql://localhost:3306/cfx");
-//        gc.setUrl("jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8");
+//        gc.setUrl("jdbc:mysql://localhost:3306/cfx");
+        gc.setUrl("jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8");
         gc.setDriverName("com.mysql.cj.jdbc.Driver");
         gc.setUserName("root");
-        gc.setPassword("root");
+        gc.setPassword("1qaz@WSX");
 
         gc.setModuleName("usercenter");
 
@@ -103,7 +103,7 @@ public class CodeGenerator {
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
         gc.setSuperControllerClass("com.cfx.web.mvc.BaseController");
-//        gc.setInclude("menu");
+//        gc.setInclude("role_menu");
         gc.setInclude("app,user,department,menu,role,user_role,role_menu");
 
         gc.setProjectDir(System.getProperty("user.dir") + "/user-center-service");

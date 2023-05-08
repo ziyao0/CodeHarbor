@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 public class RoleDTO implements EntityDTO<Role>, Serializable {
@@ -26,11 +26,11 @@ public class RoleDTO implements EntityDTO<Role>, Serializable {
     /**
      * 角色ID
      */
-    private Integer id;
+    private Long id;
     /**
      * 系统id
      */
-    private Integer appId;
+    private Long appId;
     /**
      * 角色名称
      */

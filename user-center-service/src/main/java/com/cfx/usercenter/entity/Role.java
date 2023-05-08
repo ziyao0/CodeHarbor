@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,13 +28,13 @@ public class Role implements Serializable {
      * 角色ID
      */
     @TableId(value = "ID", type = IdType.AUTO)
-    private Integer id;
+    private Long id;
 
     /**
      * 系统id
      */
     @TableField("APP_ID")
-    private Integer appId;
+    private Long appId;
 
     /**
      * 角色名称

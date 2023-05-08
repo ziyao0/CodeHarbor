@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,13 +27,13 @@ public class Department implements Serializable {
      * 主键id
      */
     @TableId("ID")
-    private Integer id;
+    private Long id;
 
     /**
      * 系统id
      */
     @TableField("APP_ID")
-    private Integer appId;
+    private Long appId;
 
     /**
      * 部门名称
@@ -45,7 +45,7 @@ public class Department implements Serializable {
      * 上级部门id
      */
     @TableField("PARENT_ID")
-    private Integer parentId;
+    private Long parentId;
 
     /**
      * 创建人id

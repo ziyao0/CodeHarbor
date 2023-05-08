@@ -12,11 +12,11 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 public class UserRoleDTO implements EntityDTO<UserRole>, Serializable {
@@ -26,17 +26,17 @@ public class UserRoleDTO implements EntityDTO<UserRole>, Serializable {
     /**
      * 系统id
      */
-    private Integer appId;
+    private Long appId;
     /**
-     * 
+     *
      */
-    private Integer userId;
+    private Long userId;
     /**
-     * 
+     *
      */
-    private Integer roleId;
+    private Long roleId;
     /**
-     * 
+     *
      */
     private LocalDateTime createdAt;
     /**

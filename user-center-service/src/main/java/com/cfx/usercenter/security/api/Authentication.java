@@ -6,10 +6,13 @@ package com.cfx.usercenter.security.api;
  */
 public interface Authentication {
 
-    String getAppId();
+    Long getAppId();
 
     String getAccessKey();
 
     String getSecretKey();
 
+    boolean isAuthenticated();
+
+    String getProviderName();
 }

@@ -2,13 +2,12 @@ package com.cfx.usercenter.security.provider;
 
 import com.cfx.common.exception.ServiceException;
 import com.cfx.usercenter.comm.exception.ErrorsIMessage;
-import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.security.UserStatusChecker;
 import com.cfx.usercenter.security.api.Authentication;
 import com.cfx.usercenter.security.api.ProviderName;
 import com.cfx.usercenter.security.api.UserDetails;
 import com.cfx.usercenter.security.cache.UserDetailsCache;
-import com.cfx.usercenter.security.codec.Decryptor;
+import com.cfx.usercenter.security.codec.DefaultPdEncryptor;
 import com.cfx.usercenter.security.codec.Encryptor;
 import com.cfx.usercenter.security.core.PrimaryAuthProvider;
 import com.cfx.usercenter.security.core.UserDetailsChecker;
@@ -31,17 +30,7 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
     @Resource
     private UserDetailsCache userDetailsCache;
 
-    private final Encryptor encryptor = new Encryptor() {
-        @Override
-        public String encode(CharSequence pubKey, CharSequence raw) {
-            return null;
-        }
-
-        @Override
-        public boolean matches(CharSequence raw, String encodedPd) {
-            return false;
-        }
-    };
+    private final Encryptor encryptor = new DefaultPdEncryptor();
 
     private final UserDetailsChecker checker = new UserStatusChecker();
 
@@ -49,7 +38,7 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
     @Override
     public Authentication authenticate(Authentication authentication) {
 
-        String appId = authentication.getAppId();
+        Long appId = authentication.getAppId();
 
         String accessKey = authentication.getAccessKey();
 

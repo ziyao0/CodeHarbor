@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2023-05-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -28,7 +28,7 @@ public class App implements Serializable {
      * 主键id
      */
     @TableId("ID")
-    private Integer id;
+    private Long id;
 
     /**
      * 系统名称
