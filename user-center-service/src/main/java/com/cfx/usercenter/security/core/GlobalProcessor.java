@@ -8,7 +8,7 @@ import org.springframework.lang.Nullable;
  * @author Eason
  * @since 2023/5/8
  */
-public interface GlobalProcessor<T> extends Ordered {
+public interface GlobalProcessor<T, R> extends Ordered {
 
     /**
      * 前置处理器，在 {@link GlobalProcessor#process(T)} 执行前执行
@@ -24,7 +24,7 @@ public interface GlobalProcessor<T> extends Ordered {
      * @return 返回处理对象
      */
     @Nullable
-    Authentication process(T t);
+    R process(T t);
 
     /**
      * 后置处理器 在 {@link GlobalProcessor#process(T)} 后执行

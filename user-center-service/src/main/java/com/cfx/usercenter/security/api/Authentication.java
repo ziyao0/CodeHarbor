@@ -14,5 +14,7 @@ public interface Authentication {
 
     boolean isAuthenticated();
 
-    String getProviderName();
+    default String getProviderName() {
+        return null;
+    }
 }

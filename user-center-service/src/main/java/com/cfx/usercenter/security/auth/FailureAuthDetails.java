@@ -39,8 +39,4 @@ public class FailureAuthDetails implements Authentication {
         return false;
     }
 
-    @Override
-    public String getProviderName() {
-        return null;
-    }
 }

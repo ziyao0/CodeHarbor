@@ -15,7 +15,7 @@ import javax.annotation.Resource;
  * @since 2023/5/8
  */
 @Component
-public class AuthenticationProcessor implements GlobalProcessor<LoginDTO> {
+public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Authentication> {
 
     @Resource
     private PrimaryAuthProviderManager providerManager;

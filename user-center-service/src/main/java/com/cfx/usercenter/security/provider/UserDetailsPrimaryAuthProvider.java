@@ -2,10 +2,11 @@ package com.cfx.usercenter.security.provider;
 
 import com.cfx.common.exception.ServiceException;
 import com.cfx.usercenter.comm.exception.ErrorsIMessage;
+import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.security.UserStatusChecker;
 import com.cfx.usercenter.security.api.Authentication;
 import com.cfx.usercenter.security.api.ProviderName;
-import com.cfx.usercenter.security.api.UserDetails;
+import com.cfx.usercenter.security.auth.SuccessAuthDetails;
 import com.cfx.usercenter.security.cache.UserDetailsCache;
 import com.cfx.usercenter.security.codec.DefaultPdEncryptor;
 import com.cfx.usercenter.security.codec.Encryptor;
@@ -45,7 +46,7 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
         String secretKey = authentication.getSecretKey();
 
         // 获取用户信息，先从缓存获取，获取不到从数据获取并保存到缓存
-        UserDetails userDetails = userDetailsCache.getUserDetailsOfCache().apply(appId, accessKey);
+        User userDetails = (User) userDetailsCache.getUserDetailsOfCache().apply(appId, accessKey);
         if (ObjectUtils.isEmpty(userDetails)) {
             userDetails = userService.loadUserDetails(appId, accessKey);
             userDetailsCache.putUserDetailsInCache().accept(userDetails);
@@ -60,7 +61,8 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
         }
 
         checker.check(userDetails);
-        return null;
+        return new SuccessAuthDetails(userDetails.getAppId(),
+                userDetails.getId(), userDetails.getAccessKey(), userDetails.getNickname());
     }
 
     @Override
