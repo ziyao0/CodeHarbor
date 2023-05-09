@@ -7,7 +7,6 @@ plugins {
 }
 
 allprojects {
-    apply plugin: 'maven-publish'
     apply plugin: 'java-library'
     apply plugin: "io.spring.dependency-management"
     apply plugin: "org.springframework.boot"
@@ -31,31 +30,20 @@ allprojects {
             extendsFrom annotationProcessor
         }
     }
-
-    //发布
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from components.java
-                versionMapping {
-                    usage('java-api') {
-                        fromResolutionOf('runtimeClasspath')
-                    }
-                    usage('java-runtime') {
-                        fromResolutionResult()
-                    }
-                }
-            }
-        }
-    }
-
     // 仓库地址
     repositories {
         mavenLocal()
         mavenCentral()
     }
+    ext {
+        set("mybaitsPlusVersion", "3.5.3.1")
+    }
 
     dependencies {
+
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
+
         constraints {
             // Platform declares some versions of libraries used in subprojects
             implementation('commons-httpclient:commons-httpclient:3.1')
@@ -64,9 +52,10 @@ allprojects {
             implementation('javax.validation:validation-api:2.0.1.Final')
             implementation('org.freemarker:freemarker:2.3.31')
             implementation('com.baomidou:mybatis-plus:3.4.0')
-            implementation('com.baomidou:mybatis-plus-generator:3.4.0')
-            implementation('com.baomidou:mybatis-plus-annotation:3.4.0')
-            implementation('com.baomidou:mybatis-plus-boot-starter:3.4.0')
+            implementation("com.baomidou:mybatis-plus-generator:${mybaitsPlusVersion}")
+            implementation("com.baomidou:mybatis-plus-annotation:${mybaitsPlusVersion}")
+            implementation("com.baomidou:mybatis-plus-boot-starter:${mybaitsPlusVersion}")
+            implementation("com.baomidou:mybatis-plus-extension:${mybaitsPlusVersion}")
             implementation('mysql:mysql-connector-java:8.0.29')
             implementation('org.projectlombok:lombok:1.18.24')
             implementation('com.alibaba:fastjson:2.0.15')

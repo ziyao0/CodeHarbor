@@ -9,6 +9,11 @@ spring:
     nacos:
       discovery:
         server-addr: 8.130.67.73:8848
+      config:
+        import-check:
+          enabled: false
+        server-addr: 8.130.67.73:8848
+        file-extension: yml
 #    url: jdbc:mysql://localhost:3306/cfx
 #    password: root
 

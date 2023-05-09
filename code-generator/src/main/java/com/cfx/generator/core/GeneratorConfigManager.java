@@ -1,19 +1,15 @@
 package com.cfx.generator.core;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableFill;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
+import com.baomidou.mybatisplus.generator.fill.Column;
 import com.cfx.generator.config.GeneratorConfig;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author Eason
@@ -38,9 +34,6 @@ public abstract class GeneratorConfigManager {
         if (beanClass.isAssignableFrom(InjectionConfig.class)) {
             instance = getInjectionConfig(config);
         }
-        if (beanClass.isAssignableFrom(FileOutConfig.class)) {
-            instance = getFileOutConfig(config);
-        }
         if (beanClass.isAssignableFrom(TemplateConfig.class)) {
             instance = getTemplateConfig(config);
         }
@@ -57,8 +50,10 @@ public abstract class GeneratorConfigManager {
     private static StrategyConfig getStrategyConfig(GeneratorConfig config) {
 
         // 策略配置
-        StrategyConfig strategy = new StrategyConfig();
-        strategy.setNaming(NamingStrategy.underline_to_camel);
+        StrategyConfig strategy = new StrategyConfig.Builder
+
+
+                .setNaming(NamingStrategy.underline_to_camel);
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
 
         if (StringUtils.isNotBlank(config.getSuperEntityClass())) {
@@ -105,79 +100,59 @@ public abstract class GeneratorConfigManager {
         strategy.setTableFillList(tableFills);
 
         return strategy;
+
+        return new StrategyConfig.Builder().entityBuilder()
+//                .
+                .addTableFills(new Column("CREATED_BY", FieldFill.INSERT))
+                .addTableFills(new Column("CREATED_AT", FieldFill.INSERT))
+                .addTableFills(new Column("MODIFIED_BY", FieldFill.UPDATE))
+                .addTableFills(new Column("MODIFIED_AT", FieldFill.UPDATE))
+                .build();
+
     }
 
     private static TemplateConfig getTemplateConfig(GeneratorConfig config) {
         // 配置模板
-        TemplateConfig templateConfig = new TemplateConfig();
-        // 配置自定义输出模板
-        //指定自定义模板路径，注意不要带上.ftl/.vm, 会根据使用的模板引擎自动识别
-//        templateConfig.setEntity(config.getEntity());
-//        templateConfig.setService(config.getService());
-        templateConfig.setController(config.getController());
-
-        return templateConfig;
-    }
-
-    private static FileOutConfig getFileOutConfig(GeneratorConfig config) {
-        // 如果模板引擎是 freemarker
-        return new FileOutConfig(config.getTemplatePath()) {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                return config.getProjectDir() + "/src/main/resources/mapper/" + config.getModuleName()
-                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
-            }
-        };
+        return new TemplateConfig.Builder().build();
     }
 
     private static InjectionConfig getInjectionConfig(GeneratorConfig config) {
-        InjectionConfig injectionConfig = new InjectionConfig() {
-            @Override
-            public void initMap() {
-                // to do nothing
-                Map<String, Object> map = new HashMap<>();
-                map.put("dto", "com.cfx.usercenter.dto");
-                this.setMap(map);
-            }
-        };
-        // 设置mapper路径
-        FileOutConfig fileOutConfig = getFileOutConfig(config);
-        List<FileOutConfig> focList = new ArrayList<>();
-        focList.add(fileOutConfig);
-        injectionConfig.setFileOutConfigList(focList);
+        Map<String, Object> map = new HashMap<>();
+        map.put("dto", "com.cfx.usercenter.dto");
+        return new InjectionConfig.Builder().customMap(map).customFile(CustomFileBuilder.createDto()).build();
 
-        return injectionConfig;
+
     }
 
     private static PackageConfig getPackageConfig(GeneratorConfig config) {
-
-        PackageConfig pc = new PackageConfig();
-        pc.setModuleName(config.getModuleName());
-        pc.setParent(config.getParent());
-        return pc;
+        return new PackageConfig.Builder()
+                .moduleName(config.getModuleName())
+                .parent(config.getParent())
+//                .other("model.dto")
+                .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/resources/mapper"))
+                .build();
     }
 
     private static DataSourceConfig getDataSourceConfig(GeneratorConfig config) {
 
         // 数据源配置
-        DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl(config.getUrl());
-        // dsc.setSchemaName("public");
-        dsc.setDriverName(config.getDriverName());
-        dsc.setUsername(config.getUserName());
-        dsc.setPassword(config.getPassword());
-        return dsc;
+        return new DataSourceConfig
+                .Builder(config.getUrl(), config.getUserName(), config.getPassword()).build();
     }
 
 
     private static GlobalConfig getGlobalConfig(GeneratorConfig config) {
-        GlobalConfig gc = new GlobalConfig();
 
-        gc.setOutputDir(config.getProjectDir() + "/src/main/java");
-        gc.setAuthor(config.getAuthor());
-        gc.setOpen(config.isOpen());
-        gc.setServiceName(config.getServiceName());
-        return gc;
+        return new GlobalConfig.Builder()
+                .outputDir(config.getProjectDir() + "/src/main/java")
+                .author(config.getAuthor())
+                .enableKotlin()
+//                .enableSwagger()
+                .dateType(DateType.TIME_PACK)
+//                .commentDate("yyyy-MM-dd")
+//                .ser
+                .build();
+
     }
 
 }

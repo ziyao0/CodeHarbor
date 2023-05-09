@@ -2,7 +2,6 @@ plugins {
     id 'java-library'
 }
 dependencies {
-    api('org.projectlombok:lombok')
     api('com.google.guava:guava:31.1-jre')
     api('jakarta.servlet:jakarta.servlet-api')
     api('org.springframework:spring-beans')

@@ -4,3 +4,7 @@ server:
 spring:
   application:
     name: user-center-service
+
+
+  config:
+    import: nacos

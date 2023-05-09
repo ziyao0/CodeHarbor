@@ -1,7 +1,7 @@
 package com.cfx.web.utils;
 
 import org.springframework.context.ApplicationContext;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 import java.util.*;
 
@@ -47,7 +47,7 @@ public abstract class ApplicationContextUtils {
      */
     public static <T> List<T> getBeansOfType(Class<T> clazz) {
         Map<String, T> beansOfType = applicationContext.getBeansOfType(clazz);
-        if (StringUtils.isEmpty(beansOfType)) {
+        if (ObjectUtils.isEmpty(beansOfType)) {
             return Collections.emptyList();
         }
         Collection<T> collection = beansOfType.values();
