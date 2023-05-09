@@ -1,5 +1,6 @@
 package ${package.Entity};
 
+import java.io.Serial;
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
@@ -49,6 +50,7 @@ public class ${entity} implements Serializable {
 </#if>
 
 <#if entitySerialVersionUID>
+    @Serial
     private static final long serialVersionUID = 1L;
 </#if>
 <#-- ----------  BEGIN 字段循环遍历  ---------->

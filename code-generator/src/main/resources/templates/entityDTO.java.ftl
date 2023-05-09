@@ -5,11 +5,13 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import ${package.Entity}.${entity};
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 <#--<#list table.importPackages as pkg>-->
 <#--import ${pkg};-->
 <#--</#list>-->
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -27,6 +29,7 @@ import java.time.LocalDateTime;
 public class ${entity}DTO implements EntityDTO<${entity}>, Serializable {
 
 <#if entitySerialVersionUID>
+    @Serial
     private static final long serialVersionUID = 1L;
 </#if>
 
@@ -61,9 +64,9 @@ public class ${entity}DTO implements EntityDTO<${entity}>, Serializable {
             <#if !field.keyFlag>
                 // ${field.comment}
                 <#if field.propertyType == "String">
-                .likeRight(!StringUtils.isEmpty(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
+                .likeRight(StringUtils.hasLength(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
                 <#else>
-                .eq(!StringUtils.isEmpty(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
+                .eq(!ObjectUtils.isEmpty(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
                 </#if>
             </#if>
         </#if>
