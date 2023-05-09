@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import com.cfx.usercenter.entity.User;
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,11 +18,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 public class UserDTO implements EntityDTO<User>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -89,23 +92,23 @@ public class UserDTO implements EntityDTO<User>, Serializable {
 
         return Wrappers.lambdaQuery(User.class)
                 // 系统ID
-                .eq(!StringUtils.isEmpty(appId), User::getAppId, appId)
+                .eq(!ObjectUtils.isEmpty(appId), User::getAppId, appId)
                 // 用户账号
-                .likeRight(!StringUtils.isEmpty(accessKey), User::getAccessKey, accessKey)
+                .likeRight(StringUtils.hasLength(accessKey), User::getAccessKey, accessKey)
                 // 昵称
-                .likeRight(!StringUtils.isEmpty(nickname), User::getNickname, nickname)
+                .likeRight(StringUtils.hasLength(nickname), User::getNickname, nickname)
                 // 用户凭证
-                .likeRight(!StringUtils.isEmpty(secretKey), User::getSecretKey, secretKey)
+                .likeRight(StringUtils.hasLength(secretKey), User::getSecretKey, secretKey)
                 // 账号状态
-                .eq(!StringUtils.isEmpty(status), User::getStatus, status)
+                .eq(!ObjectUtils.isEmpty(status), User::getStatus, status)
                 // 部门ID
-                .eq(!StringUtils.isEmpty(deptId), User::getDeptId, deptId)
+                .eq(!ObjectUtils.isEmpty(deptId), User::getDeptId, deptId)
                 // 部门名称
-                .likeRight(!StringUtils.isEmpty(deptName), User::getDeptName, deptName)
+                .likeRight(StringUtils.hasLength(deptName), User::getDeptName, deptName)
                 // 排序
-                .eq(!StringUtils.isEmpty(sort), User::getSort, sort)
+                .eq(!ObjectUtils.isEmpty(sort), User::getSort, sort)
                 // 删除状态 0正常 1 删除
-                .eq(!StringUtils.isEmpty(deleted), User::getDeleted, deleted)
+                .eq(!ObjectUtils.isEmpty(deleted), User::getDeleted, deleted)
                 // 排序
                 .orderByAsc(User::getSort)
                 ;

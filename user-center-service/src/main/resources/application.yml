@@ -1,11 +1,16 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8
+    url: jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8
     username: root
-#    password: 1qaz@WSX
-    url: jdbc:mysql://localhost:3306/cfx
-    password: root
+    password: 1qaz@WSX
+
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 8.130.67.73:8848
+#    url: jdbc:mysql://localhost:3306/cfx
+#    password: root
 
 mybatis-plus:
   global-config:
@@ -18,4 +23,6 @@ mybatis-plus:
 logging:
   level:
     org:
-      springframework: info
+      springframework: debug
+
+

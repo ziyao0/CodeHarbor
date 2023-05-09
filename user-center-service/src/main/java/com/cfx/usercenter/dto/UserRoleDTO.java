@@ -5,8 +5,9 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import com.cfx.usercenter.entity.UserRole;
 import lombok.Data;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,11 +17,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 public class UserRoleDTO implements EntityDTO<UserRole>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -53,9 +55,9 @@ public class UserRoleDTO implements EntityDTO<UserRole>, Serializable {
 
         return Wrappers.lambdaQuery(UserRole.class)
                 // 
-                .eq(!StringUtils.isEmpty(userId), UserRole::getUserId, userId)
+                .eq(!ObjectUtils.isEmpty(userId), UserRole::getUserId, userId)
                 // 
-                .eq(!StringUtils.isEmpty(roleId), UserRole::getRoleId, roleId)
+                .eq(!ObjectUtils.isEmpty(roleId), UserRole::getRoleId, roleId)
                 ;
     }
 

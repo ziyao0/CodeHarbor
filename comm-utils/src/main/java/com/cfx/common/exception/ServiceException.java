@@ -11,24 +11,28 @@ public class ServiceException extends RuntimeException implements IMessage {
     private static final long serialVersionUID = -3435528093859682944L;
 
 
-    private final IMessage message;
+    private final IMessage iMessage;
 
     public ServiceException() {
-        this.message = Errors.INTERNAL_SERVER_ERROR;
+        this.iMessage = Errors.INTERNAL_SERVER_ERROR;
     }
 
     public ServiceException(IMessage IMessage) {
-        this.message = IMessage;
+        this.iMessage = IMessage;
     }
 
     public ServiceException(Integer status, String message) {
-        this.message = IMessage.getInstance(status, message);
+        this.iMessage = IMessage.getInstance(status, message);
     }
 
     @Override
     public Integer getStatus() {
-        return message.getStatus();
+        return iMessage.getStatus();
     }
 
 
+    @Override
+    public String getMessage() {
+        return iMessage.getMessage();
+    }
 }

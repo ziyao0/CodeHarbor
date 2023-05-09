@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,12 +17,13 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Menu implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

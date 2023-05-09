@@ -8,6 +8,7 @@ import com.cfx.usercenter.security.api.UserDetails;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -17,12 +18,13 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User implements UserDetails, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**

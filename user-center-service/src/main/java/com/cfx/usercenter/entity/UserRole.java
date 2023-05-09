@@ -2,10 +2,11 @@ package com.cfx.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.github.jeffreyning.mybatisplus.anno.MppMultiId;
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -15,24 +16,25 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class UserRole implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
      * 系统id
      */
-    @MppMultiId("APP_ID")
+    @TableId("APP_ID")
     private Long appId;
 
-    @MppMultiId("USER_ID")
+    @TableField("USER_ID")
     private Long userId;
 
-    @MppMultiId("ROLE_ID")
+    @TableField("ROLE_ID")
     private Long roleId;
 
     @TableField(value = "CREATED_AT", fill = FieldFill.INSERT)

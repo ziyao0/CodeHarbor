@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import com.cfx.usercenter.entity.Department;
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,11 +18,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 public class DepartmentDTO implements EntityDTO<Department>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -65,11 +68,11 @@ public class DepartmentDTO implements EntityDTO<Department>, Serializable {
 
         return Wrappers.lambdaQuery(Department.class)
                 // 系统id
-                .eq(!StringUtils.isEmpty(appId), Department::getAppId, appId)
+                .eq(!ObjectUtils.isEmpty(appId), Department::getAppId, appId)
                 // 部门名称
-                .likeRight(!StringUtils.isEmpty(deptName), Department::getDeptName, deptName)
+                .likeRight(StringUtils.hasLength(deptName), Department::getDeptName, deptName)
                 // 上级部门id
-                .eq(!StringUtils.isEmpty(parentId), Department::getParentId, parentId)
+                .eq(!ObjectUtils.isEmpty(parentId), Department::getParentId, parentId)
                 ;
     }
 

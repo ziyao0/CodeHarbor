@@ -2,15 +2,13 @@ package com.cfx.usercenter.security.cache;
 
 import com.cfx.usercenter.security.api.UserDetails;
 
-import java.util.function.BiFunction;
-import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
  * @author zhangziyao
  * @date 2023/4/24
  */
-public interface UserDetailsCache {
+public interface UserDetailsCache<T extends UserDetails> {
 
     /**
      * Obtains a {@link com.cfx.usercenter.security.api.UserDetails} from the cache.
@@ -21,23 +19,30 @@ public interface UserDetailsCache {
      *
      * @return {@link  Function}
      */
-    BiFunction<Long, String, UserDetails> getUserDetailsOfCache();
+    T get(Long appid, String accessKey);
 
     /**
      * 将用户对象放入缓存中
      * <p>
      * userDetails {@link UserDetails} to cache
-     *
-     * @return {@link  Consumer <UserDetails>}
      */
-    Consumer<UserDetails> putUserDetailsInCache();
+    void put(T t);
 
     /**
      * 清除缓存中的用户信息
      * <p>
      * loginName {@link UserDetails#getAccessKey()}
-     *
-     * @return {@link  Consumer<String>}
      */
-    Consumer<String> removeUserDetails();
+    void remove(Long appid, String accessKey);
+
+    /**
+     * 获取key
+     *
+     * @param appid     系统id
+     * @param accessKey 用户名
+     * @return 返回map key
+     */
+    default String getKey(Long appid, String accessKey) {
+        return appid + ":" + accessKey;
+    }
 }

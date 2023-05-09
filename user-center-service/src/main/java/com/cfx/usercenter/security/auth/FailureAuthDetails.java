@@ -1,6 +1,7 @@
 package com.cfx.usercenter.security.auth;
 
 import com.cfx.common.api.IMessage;
+import com.cfx.common.writer.ApiResponse;
 import com.cfx.usercenter.security.api.Authentication;
 import lombok.Data;
 
@@ -17,6 +18,10 @@ public class FailureAuthDetails implements Authentication {
 
     public FailureAuthDetails(IMessage message) {
         this.message = message;
+    }
+
+    public FailureAuthDetails(Integer status, String message) {
+        this.message = ApiResponse.failed(status, message);
     }
 
     @Override

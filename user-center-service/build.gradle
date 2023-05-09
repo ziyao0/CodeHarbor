@@ -1,8 +1,8 @@
 dependencies {
     implementation(project(":web-spring-boot-starter"))
-//    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
-//    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'

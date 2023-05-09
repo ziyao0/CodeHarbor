@@ -1,6 +1,6 @@
 package com.cfx.usercenter.security;
 
-import com.cfx.common.writer.ApiResponse;
+import com.cfx.usercenter.comm.exception.ErrorsIMessage;
 import com.cfx.usercenter.security.api.Authentication;
 import com.cfx.usercenter.security.auth.FailureAuthDetails;
 import com.cfx.usercenter.security.core.PrimaryAuthProvider;
@@ -52,10 +52,8 @@ public class PrimaryAuthProviderManager implements ProviderManager {
 
         if (!provider.supports(authentication.getClass())) {
             log.error("当前认证处理不支持. {}", authentication.getClass());
-            // TODO: 2023/5/8
-            return new FailureAuthDetails(ApiResponse.failed());
+            return new FailureAuthDetails(ErrorsIMessage.UN_SUPPORTS);
         }
-        // 认证
         return provider.authenticate(authentication);
     }
 

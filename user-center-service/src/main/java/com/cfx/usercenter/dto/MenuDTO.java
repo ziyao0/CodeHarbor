@@ -5,8 +5,10 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import com.cfx.usercenter.entity.Menu;
 import lombok.Data;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -16,11 +18,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-08
+ * @since 2023-05-09
  */
 @Data
 public class MenuDTO implements EntityDTO<Menu>, Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     /**
@@ -85,25 +88,25 @@ public class MenuDTO implements EntityDTO<Menu>, Serializable {
 
         return Wrappers.lambdaQuery(Menu.class)
                 // 系统id
-                .eq(!StringUtils.isEmpty(appId), Menu::getAppId, appId)
+                .eq(!ObjectUtils.isEmpty(appId), Menu::getAppId, appId)
                 // 资源名称
-                .likeRight(!StringUtils.isEmpty(name), Menu::getName, name)
+                .likeRight(StringUtils.hasLength(name), Menu::getName, name)
                 // 菜单编码
-                .likeRight(!StringUtils.isEmpty(code), Menu::getCode, code)
+                .likeRight(StringUtils.hasLength(code), Menu::getCode, code)
                 // 资源URL
-                .likeRight(!StringUtils.isEmpty(url), Menu::getUrl, url)
+                .likeRight(StringUtils.hasLength(url), Menu::getUrl, url)
                 // 资源图标
-                .likeRight(!StringUtils.isEmpty(icon), Menu::getIcon, icon)
+                .likeRight(StringUtils.hasLength(icon), Menu::getIcon, icon)
                 // 上级资源ID
-                .eq(!StringUtils.isEmpty(parentId), Menu::getParentId, parentId)
+                .eq(!ObjectUtils.isEmpty(parentId), Menu::getParentId, parentId)
                 // 资源级别
-                .eq(!StringUtils.isEmpty(level), Menu::getLevel, level)
+                .eq(!ObjectUtils.isEmpty(level), Menu::getLevel, level)
                 // 排序
-                .eq(!StringUtils.isEmpty(sort), Menu::getSort, sort)
+                .eq(!ObjectUtils.isEmpty(sort), Menu::getSort, sort)
                 // 更新人ID
-                .eq(!StringUtils.isEmpty(updatedBy), Menu::getUpdatedBy, updatedBy)
+                .eq(!ObjectUtils.isEmpty(updatedBy), Menu::getUpdatedBy, updatedBy)
                 // 更新时间
-                .eq(!StringUtils.isEmpty(updatedAt), Menu::getUpdatedAt, updatedAt)
+                .eq(!ObjectUtils.isEmpty(updatedAt), Menu::getUpdatedAt, updatedAt)
                 // 排序
                 .orderByAsc(Menu::getSort)
                 ;
