@@ -1,16 +1,21 @@
 package com.cfx.generator;
 
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
-import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.generator.FastAutoGenerator;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.OutputFile;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
+import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
+import com.baomidou.mybatisplus.generator.fill.Column;
 import com.cfx.generator.config.GeneratorConfig;
 import com.cfx.generator.core.GeneratorConfigManager;
 
-import java.io.File;
-import java.util.List;
+import java.sql.Types;
+import java.util.Collections;
+import java.util.function.Consumer;
 
 /**
  * @author zhangziyao
@@ -19,67 +24,51 @@ import java.util.List;
 public class CodeGenerator {
 
     public static void main(String[] args) throws InstantiationException {
+
+        GeneratorConfig config = generatorConfig();
         // 代码生成器
-        AutoGenerator mpg = new AutoGenerator();
+        FastAutoGenerator.create(GeneratorConfigManager.getInstance(config, DataSourceConfig.Builder.class))
+                .globalConfig(builder -> builder
+                        .outputDir(config.getProjectDir() + "/src/main/java")
+                        .author(config.getAuthor())
+                        .enableKotlin()
+//                .enableSwagger()
+                        .dateType(DateType.TIME_PACK))
+                .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
+                    int typeCode = metaInfo.getJdbcType().TYPE_CODE;
+                    if (typeCode == Types.SMALLINT) {
+                        // 自定义类型转换
+                        return DbColumnType.INTEGER;
+                    }
 
-        GeneratorConfig generatorConfig = generatorConfig();
-        // 全局配置
-        GlobalConfig gc = GeneratorConfigManager.getInstance(generatorConfig, GlobalConfig.class);
-        // gc.setSwagger2(true); 实体属性 Swagger2 注解
-        mpg.setGlobalConfig(gc);
+                    return typeRegistry.getColumnType(metaInfo);
 
-        // 数据源配置
-        DataSourceConfig dsc = GeneratorConfigManager.getInstance(generatorConfig, DataSourceConfig.class);
-        mpg.setDataSource(dsc);
-
-        // 包配置
-        PackageConfig pc = GeneratorConfigManager.getInstance(generatorConfig, PackageConfig.class);
-        mpg.setPackageInfo(pc);
-
-        // 自定义配置
-        InjectionConfig cfg = GeneratorConfigManager.getInstance(generatorConfig, InjectionConfig.class);
-
-        cfg.setFileCreate((configBuilder, fileType, filePath) -> {
-            // 允许生成模板文件
-            // 已经生成 mapper 文件判断存在，不想重新生成返回 false
-            switch (fileType) {
-                case MAPPER:
-                case XML:
-                case SERVICE:
-                case SERVICE_IMPL:
-                case CONTROLLER:
-                    return !new File(filePath).exists();
-                default:
-                    return true;
-            }
-        });
-
-
-        FileOutConfig etConfig = new FileOutConfig("templates/entityDTO.java.ftl") {
-            @Override
-            public String outputFile(TableInfo tableInfo) {
-                System.out.println(tableInfo.getEntityPath());
-                return generatorConfig.getProjectDir() + "/src/main/java/com/cfx/" + generatorConfig.getModuleName()
-                        + "/dto/" + tableInfo.getEntityName() + "DTO" + StringPool.DOT_JAVA;
-            }
-        };
-        List<FileOutConfig> list = cfg.getFileOutConfigList();
-        list.add(etConfig);
-        cfg.setFileOutConfigList(list);
-
-        mpg.setCfg(cfg);
-
-        // 配置模板
-//        TemplateConfig templateConfig = GeneratorConfigManager.getInstance(generatorConfig, TemplateConfig.class);
-//
-//        templateConfig.setXml(null);
-//        mpg.setTemplate(templateConfig);
-
-        // 策略配置
-        StrategyConfig strategy = GeneratorConfigManager.getInstance(generatorConfig, StrategyConfig.class);
-        mpg.setStrategy(strategy);
-        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
-        mpg.execute();
+                }))
+                .packageConfig(builder -> {
+                    builder.moduleName(config.getModuleName())// 设置父包模块名
+                            .parent(config.getParent()) // 设置父包名
+//                .other("model.dto")
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/resources/mapper"))// 设置mapperXml生成路径
+                    ;
+                })
+                .strategyConfig(builder -> {
+                    builder.addInclude(config.getInclude().split(","))
+                            .entityBuilder()
+                            .addTableFills(new Column("CREATED_BY", FieldFill.INSERT))
+                            .addTableFills(new Column("CREATED_AT", FieldFill.INSERT))
+                            .addTableFills(new Column("MODIFIED_BY", FieldFill.UPDATE))
+                            .addTableFills(new Column("MODIFIED_AT", FieldFill.UPDATE))
+                            //逻辑删除字段
+                            .logicDeleteColumnName("DELETED")
+                            .enableLombok()
+                            .naming(NamingStrategy.underline_to_camel)
+                            .columnNaming(NamingStrategy.underline_to_camel)
+                            .controllerBuilder()
+                            .superClass(config.getSuperControllerClass())
+                            .enableRestStyle();
+                })
+                .templateEngine(new FreemarkerTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
+                .execute();
     }
 
 
