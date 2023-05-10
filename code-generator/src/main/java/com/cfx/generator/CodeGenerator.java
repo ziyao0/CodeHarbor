@@ -36,8 +36,8 @@ public class CodeGenerator {
                 .globalConfig(builder -> builder
                         .outputDir(config.getProjectDir() + "/src/main/java")
                         .author("zhangziyao")
-                        .dateType(DateType.TIME_PACK))
-
+                        .dateType(DateType.TIME_PACK)
+                )
                 // 数据库配置
                 .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
                     int typeCode = metaInfo.getJdbcType().TYPE_CODE;
@@ -58,7 +58,9 @@ public class CodeGenerator {
                 // 策略配置
                 .strategyConfig(builder -> {
                     builder.addInclude(config.getInclude().split(","))
+                            // 实体类相关策略
                             .entityBuilder()
+                            .enableFileOverride()
                             .addTableFills(new Column("CREATED_BY", FieldFill.INSERT))
                             .addTableFills(new Column("CREATED_AT", FieldFill.INSERT))
                             .addTableFills(new Column("MODIFIED_BY", FieldFill.UPDATE))
@@ -68,9 +70,11 @@ public class CodeGenerator {
                             .enableLombok()
                             .naming(NamingStrategy.underline_to_camel)
                             .columnNaming(NamingStrategy.underline_to_camel)
+                            // controller 相关策略
                             .controllerBuilder()
                             .superClass(config.getSuperControllerClass())
                             .enableRestStyle()
+                            // service 相关策略
                             .serviceBuilder()
                             .formatServiceFileName("%sService");
                 })
@@ -83,7 +87,6 @@ public class CodeGenerator {
                                     CustomFileBuilder.createDto("DTO" + StringPool.DOT_JAVA, "templates/entityDTO.java.ftl"))
                             );
                 })
-
 
                 .templateEngine(new CustomTemplateEngine()) // 使用Freemarker引擎模板，默认的是Velocity引擎模板
                 .execute();

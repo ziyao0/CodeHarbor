@@ -11,7 +11,8 @@ public abstract class CustomFileBuilder {
 
     public static CustomFile createDto(String fileName, String templatePath) {
         return new CustomFile.Builder().fileName(fileName)
-                .templatePath(templatePath).build();
+                .templatePath(templatePath)
+                .build();
 
     }
 }
