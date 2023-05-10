@@ -10,12 +10,14 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.lang.Nullable;
 
 /**
  * @author Eason
  * @since 2023/4/26
  */
+@Order(-1)
 @Configuration
 public class AutoWebConfiguration implements ApplicationContextAware {
 

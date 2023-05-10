@@ -7,9 +7,10 @@ import com.cfx.usercenter.dto.UserRoleDTO;
 import com.cfx.usercenter.entity.UserRole;
 import com.cfx.usercenter.mapper.UserRoleMapper;
 import com.cfx.usercenter.service.UserRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 @Service
 public class UserRoleServiceImpl extends ServiceImpl<UserRoleMapper, UserRole> implements UserRoleService {
 
-    @Resource
+    @Autowired
     private UserRoleMapper userRoleMapper;
 
     @Override

@@ -28,6 +28,6 @@ mybatis-plus:
 logging:
   level:
     org:
-      springframework: debug
+      springframework: info
 
 

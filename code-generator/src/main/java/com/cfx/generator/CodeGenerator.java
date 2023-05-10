@@ -37,6 +37,7 @@ public class CodeGenerator {
                         .outputDir(config.getProjectDir() + "/src/main/java")
                         .author("zhangziyao")
                         .dateType(DateType.TIME_PACK)
+                        .disableOpenDir()
                 )
                 // 数据库配置
                 .dataSourceConfig(builder -> builder.typeConvertHandler((globalConfig, typeRegistry, metaInfo) -> {
@@ -52,7 +53,7 @@ public class CodeGenerator {
                 .packageConfig(builder -> {
                     builder.moduleName(config.getModuleName())// 设置父包模块名
                             .parent(config.getParent()) // 设置父包名
-                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/resources/mapper"));// 设置mapperXml生成路径
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/Autowireds/mapper"));// 设置mapperXml生成路径
                 })
 
                 // 策略配置

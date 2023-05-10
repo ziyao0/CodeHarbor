@@ -17,8 +17,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthTokenProcessor implements LoginPostProcessor {
 
-
-
     @Override
     public AccessToken process(SuccessAuthDetails details) {
 

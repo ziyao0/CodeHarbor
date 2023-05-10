@@ -7,9 +7,10 @@ import com.cfx.usercenter.dto.AppDTO;
 import com.cfx.usercenter.entity.App;
 import com.cfx.usercenter.mapper.AppMapper;
 import com.cfx.usercenter.service.AppService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
-    @Resource
+    @Autowired
     private AppMapper appMapper;
 
     @Override

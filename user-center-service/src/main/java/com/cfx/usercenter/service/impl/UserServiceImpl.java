@@ -8,9 +8,10 @@ import com.cfx.usercenter.dto.UserDTO;
 import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.mapper.UserMapper;
 import com.cfx.usercenter.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 
 /**
  * <p>
@@ -23,7 +24,7 @@ import javax.annotation.Resource;
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
-    @Resource
+    @Autowired
     private UserMapper userMapper;
 
     @Override

@@ -16,10 +16,10 @@ import com.cfx.usercenter.security.core.PrimaryAuthProvider;
 import com.cfx.usercenter.security.core.UserDetailsChecker;
 import com.cfx.usercenter.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
-import javax.annotation.Resource;
 
 /**
  * @author zhangziyao
@@ -30,7 +30,7 @@ import javax.annotation.Resource;
 public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
 
     private String beanName;
-    @Resource
+    @Autowired
     private UserService userService;
 
     private final UserDetailsCache<User> userDetailsCache = new MemoryUserDetailsCache();
