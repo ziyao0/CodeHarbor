@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 8.130.67.73:8848
+      config:
+        import-check:
+          enabled: false
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml

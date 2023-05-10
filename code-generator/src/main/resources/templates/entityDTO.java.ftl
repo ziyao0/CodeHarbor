@@ -1,4 +1,4 @@
-package ${cfg.dto};
+package ${dto};
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;

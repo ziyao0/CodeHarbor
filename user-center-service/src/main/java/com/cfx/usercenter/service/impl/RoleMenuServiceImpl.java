@@ -7,9 +7,10 @@ import com.cfx.usercenter.dto.RoleMenuDTO;
 import com.cfx.usercenter.entity.RoleMenu;
 import com.cfx.usercenter.mapper.RoleMenuMapper;
 import com.cfx.usercenter.service.RoleMenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 @Service
 public class RoleMenuServiceImpl extends ServiceImpl<RoleMenuMapper, RoleMenu> implements RoleMenuService {
 
-    @Resource
+    @Autowired
     private RoleMenuMapper roleMenuMapper;
 
     @Override

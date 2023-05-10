@@ -3,15 +3,16 @@ package ${package.Controller};
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cfx.common.exception.ServiceException;
 import com.cfx.common.writer.Errors;
-import ${cfg.dto}.${entity}DTO;
+import ${dto}.${entity}DTO;
 <#if superControllerClassPackage??>
-import ${package.Entity}.${entity};
-import ${package.Service}.${table.serviceName};
-import ${superControllerClassPackage};
+    import ${package.Entity}.${entity};
+    import ${package.Service}.${table.serviceName};
+    import ${superControllerClassPackage};
 </#if>
 import com.cfx.web.orm.PageQuery;
 import com.cfx.web.orm.PageUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.stereotype.Controller;
 </#if>
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,8 +48,8 @@ public class ${table.controllerName} extends ${superControllerClass}<${table.ser
 <#--public class ${table.controllerName} {-->
 <#--</#if>-->
 
-    @Resource
-    private ${table.serviceName} ${table.serviceName?uncap_first};
+@Autowired
+private ${table.serviceName} ${table.serviceName?uncap_first};
 
     @PostMapping("/save")
     public void save(@RequestBody ${entity}DTO entityDTO) {
@@ -63,17 +63,18 @@ public class ${table.controllerName} extends ${superControllerClass}<${table.ser
 
     @PostMapping("/updateById")
     public void updateById(@RequestBody ${entity}DTO entityDTO) {
-        if (StringUtils.isEmpty(entityDTO.getId())) {
-            throw new ServiceException(Errors.ILLEGAL_ARGUMENT);
-        }
-        super.iService.updateById(entityDTO.getInstance());
-    }
+if (ObjectUtils.isEmpty(entityDTO.getId())) {
+throw new ServiceException(Errors.ILLEGAL_ARGUMENT);
+}
+super.iService.updateById(entityDTO.getInstance());
+}
 
-    /**
-     * 默认一次插入500条
-     */
-    @PostMapping("/saveBatch")
-    public void saveBatch(@RequestBody List<${entity}DTO> entityDTOList) {
+/**
+* 默认一次插入500条
+*/
+@PostMapping("/saveBatch")
+public void saveBatch(@RequestBody List
+<${entity}DTO> entityDTOList) {
         super.iService.saveBatch(entityDTOList.stream().map(${entity}DTO::getInstance).collect(Collectors.toList()), 500);
     }
 

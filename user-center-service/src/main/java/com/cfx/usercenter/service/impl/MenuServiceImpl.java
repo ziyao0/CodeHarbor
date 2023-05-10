@@ -7,9 +7,10 @@ import com.cfx.usercenter.dto.MenuDTO;
 import com.cfx.usercenter.entity.Menu;
 import com.cfx.usercenter.mapper.MenuMapper;
 import com.cfx.usercenter.service.MenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 @Service
 public class MenuServiceImpl extends ServiceImpl<MenuMapper, Menu> implements MenuService {
 
-    @Resource
+    @Autowired
     private MenuMapper menuMapper;
 
     @Override

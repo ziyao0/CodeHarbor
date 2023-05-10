@@ -3,12 +3,12 @@ package com.cfx.usercenter.controller;
 import com.cfx.usercenter.dto.LoginDTO;
 import com.cfx.usercenter.security.api.AccessToken;
 import com.cfx.usercenter.security.processer.AuthenticationProcessor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 
 /**
  * @author Eason
@@ -17,7 +17,8 @@ import javax.annotation.Resource;
 @RequestMapping("/auth")
 @RestController
 public class AuthenticationController {
-    @Resource
+
+    @Autowired
     private AuthenticationProcessor authenticationProcessor;
 
 

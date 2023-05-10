@@ -13,9 +13,9 @@ import com.cfx.usercenter.security.core.GlobalProcessor;
 import com.cfx.usercenter.security.handle.AuthenticationSuccessHandler;
 import com.cfx.usercenter.security.support.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
 
 /**
  * @author Eason
@@ -25,9 +25,9 @@ import javax.annotation.Resource;
 @Component
 public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, AccessToken> {
 
-    @Resource
+    @Autowired
     private PrimaryAuthProviderManager providerManager;
-    @Resource
+    @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Override

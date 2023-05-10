@@ -7,9 +7,10 @@ import com.cfx.usercenter.dto.DepartmentDTO;
 import com.cfx.usercenter.entity.Department;
 import com.cfx.usercenter.mapper.DepartmentMapper;
 import com.cfx.usercenter.service.DepartmentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+
 
 /**
  * <p>
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 @Service
 public class DepartmentServiceImpl extends ServiceImpl<DepartmentMapper, Department> implements DepartmentService {
 
-    @Resource
+    @Autowired
     private DepartmentMapper departmentMapper;
 
     @Override

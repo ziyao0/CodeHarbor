@@ -9,13 +9,13 @@ import com.cfx.usercenter.service.MenuService;
 import com.cfx.web.mvc.BaseController;
 import com.cfx.web.orm.PageQuery;
 import com.cfx.web.orm.PageUtils;
-import org.springframework.util.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/usercenter/menu")
 public class MenuController extends BaseController<MenuService, Menu> {
 
-    @Resource
+    @Autowired
     private MenuService menuService;
 
     @PostMapping("/save")
@@ -46,7 +46,7 @@ public class MenuController extends BaseController<MenuService, Menu> {
 
     @PostMapping("/updateById")
     public void updateById(@RequestBody MenuDTO entityDTO) {
-        if (StringUtils.isEmpty(entityDTO.getId())) {
+        if (ObjectUtils.isEmpty(entityDTO.getId())) {
             throw new ServiceException(Errors.ILLEGAL_ARGUMENT);
         }
         super.iService.updateById(entityDTO.getInstance());
