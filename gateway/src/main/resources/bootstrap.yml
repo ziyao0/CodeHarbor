@@ -1,10 +1,7 @@
 server:
-  port: 8000
+  port: 8888
 spring:
-  application: gateway
+  application:
+    name: gateway
   main:
     allow-bean-definition-overriding: true
-  cloud:
-    config:
-      import-check:
-        enabled: false
