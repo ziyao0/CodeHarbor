@@ -3,7 +3,7 @@ package ${package.ServiceImpl};
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import ${superServiceImplClassPackage};
-import ${cfg.dto}.${entity}DTO;
+import ${dto}.${entity}DTO;
 import ${package.Entity}.${entity};
 import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
- * <p>
- * ${table.comment!} 服务实现类
+* <p>
+    * ${table.comment!} 服务实现类
  * </p>
  *
  * @author ${author}

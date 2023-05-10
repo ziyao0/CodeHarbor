@@ -3,11 +3,11 @@ package ${package.Controller};
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cfx.common.exception.ServiceException;
 import com.cfx.common.writer.Errors;
-import ${cfg.dto}.${entity}DTO;
+import ${dto}.${entity}DTO;
 <#if superControllerClassPackage??>
-import ${package.Entity}.${entity};
-import ${package.Service}.${table.serviceName};
-import ${superControllerClassPackage};
+    import ${package.Entity}.${entity};
+    import ${package.Service}.${table.serviceName};
+    import ${superControllerClassPackage};
 </#if>
 import com.cfx.web.orm.PageQuery;
 import com.cfx.web.orm.PageUtils;
