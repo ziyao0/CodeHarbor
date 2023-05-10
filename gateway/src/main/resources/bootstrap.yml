@@ -3,5 +3,7 @@ server:
 spring:
   application:
     name: gateway
+  profiles:
+    active: nacos
   main:
     allow-bean-definition-overriding: true

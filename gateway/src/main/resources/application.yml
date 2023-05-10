@@ -2,6 +2,3 @@ logging:
   level:
     org.springframework.web: DEBUG
     org.hibernate: TRACE
-spring:
-  main:
-    allow-bean-definition-overriding: true

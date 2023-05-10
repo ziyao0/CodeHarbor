@@ -6,7 +6,3 @@ spring:
     name: user-center-service
   profiles:
     active: dev,nacos
-
-  cloud:
-    bootstrap:
-      enabled: true
