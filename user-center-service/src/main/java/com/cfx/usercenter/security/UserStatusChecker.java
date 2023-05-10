@@ -4,7 +4,7 @@ import com.cfx.usercenter.comm.exception.ErrorsIMessage;
 import com.cfx.usercenter.comm.exception.UserStatusException;
 import com.cfx.usercenter.security.api.UserDetails;
 import com.cfx.usercenter.security.core.UserDetailsChecker;
-import org.springframework.util.StringUtils;
+import org.springframework.util.ObjectUtils;
 
 /**
  * 检查用户状态公共类
@@ -23,11 +23,11 @@ public class UserStatusChecker implements UserDetailsChecker {
     @Override
     public void check(UserDetails userDetails) {
         // 账号
-        if (StringUtils.isEmpty(userDetails.getAccessKey())) {
+        if (ObjectUtils.isEmpty(userDetails.getAccessKey())) {
             throw new UserStatusException(ErrorsIMessage.ACCOUNT_NULL);
         }
         // 密码
-        if (StringUtils.isEmpty(userDetails.getSecretKey())) {
+        if (ObjectUtils.isEmpty(userDetails.getSecretKey())) {
             throw new UserStatusException(ErrorsIMessage.ACCOUNT_PD_NULL);
         }
 

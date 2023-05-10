@@ -4,7 +4,9 @@ server:
 spring:
   application:
     name: user-center-service
+  profiles:
+    active: dev,nacos
 
-
-  config:
-    import: nacos
+  cloud:
+    bootstrap:
+      enabled: true

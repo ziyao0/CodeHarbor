@@ -1,4 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.cfx.web.AutoWebConfiguration,\
-  com.cfx.web.global.GlobalExceptionHandlerAdvice,\
-  com.cfx.web.global.GlobalResponseHandlerAdvice

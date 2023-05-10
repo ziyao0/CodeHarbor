@@ -171,7 +171,7 @@ CREATE TABLE `user`
     `DEPT_ID`     int(11) UNSIGNED                                              NOT NULL COMMENT '部门ID',
     `DEPT_NAME`   varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci  NOT NULL COMMENT '部门名称',
     `sort`        smallint(5) UNSIGNED                                          NOT NULL DEFAULT 0 COMMENT '排序',
-    `DELETED`     tinyint(3) UNSIGNED                                           NOT NULL COMMENT '删除状态 0正常 1 删除',
+    `DELETED`     tinyint(3) UNSIGNED                                           NOT NULL DEFAULT 0 COMMENT '删除状态 0正常 1 删除',
     `CREATED_BY`  int(11) UNSIGNED                                              NOT NULL COMMENT '创建人id',
     `CREATED_AT`  timestamp                                                     NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `MODIFIED_BY` int(11) UNSIGNED                                              NULL     DEFAULT NULL COMMENT '修改人id ',
