@@ -30,4 +30,11 @@ dependencyResolutionManagement {
 rootProject.name = 'CloudFoundationX'
 include 'comm-utils', 'gateway', 'user-center-service', 'web-spring-boot-starter'
 include 'code-generator'
+include 'samples'
+include 'samples:dubbo-samples'
+findProject(':samples:dubbo-samples')?.name = 'dubbo-samples'
+include 'samples:rocketmq-samples'
+findProject(':samples:rocketmq-samples')?.name = 'rocketmq-samples'
+include 'samples:seata-samples'
+findProject(':samples:seata-samples')?.name = 'seata-samples'
 
