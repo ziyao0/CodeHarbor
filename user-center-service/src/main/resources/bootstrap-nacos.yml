@@ -8,3 +8,14 @@ spring:
           enabled: false
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yml
+
+dubbo:
+  scan:
+    base-packages: com.cfx.usercenter.service.impl #暴露包名
+  cloud:
+    subscribed-services: gateway
+  protocol:
+    name: dubbo
+    port: 28081
+  registry:
+    address: spring-cloud://${spring.cloud.nacos.discovery.server-addr}

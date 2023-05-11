@@ -8,7 +8,7 @@ dependencies {
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 }
 
-bootRun {
-//    systemProperty 'spring.profiles.active', "${active}"
-}
 
+bootRun {
+    systemProperty("spring.cloud.nacos.discovery.server-addr", "${nacosAddr}")
+}

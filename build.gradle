@@ -70,12 +70,6 @@ allprojects {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
         }
     }
-
-    bootRun {
-        systemProperty 'spring.profiles.active', "${active}"
-
-        systemProperties['spring.datasource.url'] = "${envlocalenabled}" ? "${envlocaldburl}" : "${envdburl}"
-    }
 }
 
 

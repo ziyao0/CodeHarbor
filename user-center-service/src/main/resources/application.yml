@@ -19,5 +19,3 @@ logging:
   level:
     org:
       springframework: info
-
-

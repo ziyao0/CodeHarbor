@@ -2,8 +2,6 @@ dependencies {
     implementation(project(":web-spring-boot-starter"))
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
-// https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-starter-dubbo
-    implementation group: 'com.alibaba.cloud', name: 'spring-cloud-starter-dubbo', version: '2021.1'
     implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
     implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -16,4 +14,9 @@ dependencies {
     implementation 'org.mindrot:jbcrypt:0.4'
     implementation 'com.auth0:java-jwt:3.19.0'
     implementation 'com.github.jeffreyning:mybatisplus-plus:1.5.1-RELEASE'
+}
+
+
+bootRun {
+    systemProperty("spring.cloud.nacos.discovery.server-addr", "${nacosAddr}")
 }
