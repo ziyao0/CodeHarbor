@@ -1,0 +1,32 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: gateway
+  cloud:
+    gateway:
+      #      discovery:
+      #        locator:
+      #          enabled: true
+      #          lower-case-service-id: true
+      routes:
+        - id: dubbo_route
+          uri: dubbo://dubbo-samples:20881
+          predicates:
+            - Path=/dubbo/**
+
+    nacos:
+      discovery:
+        server-addr: 8.130.67.73:8848
+
+dubbo:
+  application:
+    name: gateway
+  registry:
+    address: nacos://8.130.67.73:8848
+
+logging:
+  level:
+    org:
+      springframework: debug

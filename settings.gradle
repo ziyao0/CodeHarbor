@@ -37,4 +37,6 @@ include 'samples:rocketmq-samples'
 findProject(':samples:rocketmq-samples')?.name = 'rocketmq-samples'
 include 'samples:seata-samples'
 findProject(':samples:seata-samples')?.name = 'seata-samples'
+include 'samples:dubbo-gateway-samples'
+findProject(':samples:dubbo-gateway-samples')?.name = 'dubbo-gateway-samples'
 
