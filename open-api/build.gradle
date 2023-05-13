@@ -1,0 +1,16 @@
+dependencies {
+    implementation(project(":web-spring-boot-starter"))
+    implementation(project(':dubbo-api'))
+    implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    implementation('org.springframework.boot:spring-boot-autoconfigure')
+    implementation('org.springframework.boot:spring-boot-configuration-processor')
+    implementation('org.springframework.boot:spring-boot-starter-data-redis')
+    implementation('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config')
+    implementation('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery')
+}
+
+
+//bootRun {
+//    systemProperty("spring.cloud.nacos.discovery.server-addr", "${nacosAddr}")
+//}

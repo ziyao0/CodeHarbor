@@ -1,4 +1,5 @@
 dependencies {
+    implementation(project(':dubbo-api'))
     implementation(project(":web-spring-boot-starter"))
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
