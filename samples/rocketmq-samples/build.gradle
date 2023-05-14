@@ -1,11 +1,10 @@
-
 dependencies {
 
-    implementation "com.alibaba.nacos:nacos-client:2.2.0"
+    implementation "com.alibaba.nacos:nacos-client"
     implementation "org.apache.dubbo:dubbo-spring-boot-starter:3.2.0"
-    implementation 'org.springframework.boot:spring-boot-starter:3.0.0'
-    implementation 'org.springframework.boot:spring-boot-configuration-processor:3.0.0'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure:3.0.0'
-    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery:2022.0.0.0-RC2'
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 
 }
