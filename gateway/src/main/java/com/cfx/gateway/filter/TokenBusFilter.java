@@ -16,6 +16,6 @@ public class TokenBusFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        return null;
+        return chain.filter(exchange);
     }
 }

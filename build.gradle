@@ -60,7 +60,7 @@ allprojects {
             implementation('org.projectlombok:lombok:1.18.24')
             implementation('com.alibaba:fastjson:2.0.15')
             implementation('org.slf4j:slf4j-api:1.7.36')
-
+            implementation("org.apache.dubbo:dubbo-spring-boot-starter:3.2.0")
         }
     }
 
@@ -68,22 +68,12 @@ allprojects {
         imports {
             mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+//            mavenBom 'org.apache.dubbo:dubbo-dependencies-bom:3.2.0'
         }
     }
 }
 
-
 // 拷贝配置文件
-//if (subproject.name == 'dubbo-api') {
-//    println subproject.name
-//    // 目标路径
-//    from('resources/config/bootstrap-register.yml')
-//
-//    into(subproject.name + '/src/main/resources')
-//    into(subproject.name + '/src/main/resources2')
-//    println subproject.name + '/src/main/resources'
-//}
-
 tasks.register('copyFiles', Copy) {
     // 需要排除的文件路径
     def exclude = ['code-generator', 'dubbo-api', 'comm-utils', 'web-spring-boot-starter', 'samples']
