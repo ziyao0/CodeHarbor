@@ -11,7 +11,7 @@ spring:
 
 dubbo:
   application:
-    name: ${spring.application.name}
+    name: dubbo-${spring.application.name}
   registry:
     address: nacos://${spring.cloud.nacos.discovery.server-addr}
     parameters:
@@ -19,5 +19,5 @@ dubbo:
       register-consumer-url: true
     group: dubbo
   protocol:
-    port: 20889
+    port: -1
     name: dubbo

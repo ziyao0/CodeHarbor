@@ -3,22 +3,3 @@ server:
 spring:
   application:
     name: open-api
-  cloud:
-    #nacos
-    nacos:
-      discovery:
-        server-addr: 8.130.67.73:8848
-      config:
-        import-check:
-          enabled: false
-        server-addr: ${spring.cloud.nacos.discovery.server-addr}
-        file-extension: yml
-#dubbo
-dubbo:
-  application:
-    name: dubbo-open-api
-  registry:
-    address: nacos://${spring.cloud.nacos.discovery.server-addr}
-  protocol:
-    name: dubbo
-    port: 20888

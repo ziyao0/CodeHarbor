@@ -8,8 +8,3 @@ dependencies {
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
 
 }
-
-tasks.register('copyFile', Copy) {
-    from('resources/application.properties')
-    into('resources/application2.properties')
-}
