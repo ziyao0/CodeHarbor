@@ -74,23 +74,38 @@ allprojects {
 
 
 // 拷贝配置文件
+//if (subproject.name == 'dubbo-api') {
+//    println subproject.name
+//    // 目标路径
+//    from('resources/config/bootstrap-register.yml')
+//
+//    into(subproject.name + '/src/main/resources')
+//    into(subproject.name + '/src/main/resources2')
+//    println subproject.name + '/src/main/resources'
+//}
 
-
-tasks.register('copyFile', Copy) {
+tasks.register('copyFiles', Copy) {
+    // 需要排除的文件路径
+    def exclude = ['code-generator', 'dubbo-api', 'comm-utils', 'web-spring-boot-starter', 'samples']
     //获取所有模块信息
-    // 源文件
+    def dirs = []
     rootProject.subprojects.each { subproject ->
-        if (subproject.name.contains('samples') && subproject.name != 'samples') {
-            println subproject.name
-            // 目标路径
-            from('resources/config/bootstrap-register.yml')
-
-            into('samples/' + subproject.name + '/src/main/resources')
-            println 'samples/' + subproject.name + '/src/main/resources'
+        if (!exclude.contains(subproject.name)) {
+            if (subproject.name.contains("samples")) {
+                dirs.add('samples/' + subproject.name + '/src/main/resources')
+            } else {
+                dirs.add(subproject.name + '/src/main/resources')
+            }
+        }
+    }
+// 拷贝文件
+    dirs.each { dir ->
+        copy {
+            from 'resources/config/bootstrap-register.yml'
+            into dir
         }
     }
 }
-
 
 //remove source
 sourceSets {

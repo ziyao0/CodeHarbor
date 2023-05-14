@@ -4,6 +4,6 @@ spring:
   application:
     name: gateway
   profiles:
-    active: nacos
+    active: register
   main:
     allow-bean-definition-overriding: true
