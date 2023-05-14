@@ -1,0 +1,23 @@
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 8.130.67.73:8848
+      config:
+        import-check:
+          enabled: false
+        server-addr: ${spring.cloud.nacos.discovery.server-addr}
+        file-extension: yml
+
+dubbo:
+  application:
+    name: dubbo-${spring.application.name}
+  registry:
+    address: nacos://${spring.cloud.nacos.discovery.server-addr}
+    parameters:
+      namespace: public
+      register-consumer-url: true
+    group: dubbo
+  protocol:
+    port: -1
+    name: dubbo
