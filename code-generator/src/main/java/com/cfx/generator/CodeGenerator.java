@@ -98,10 +98,10 @@ public class CodeGenerator {
         GeneratorConfig gc = new GeneratorConfig();
 
 
-//        gc.setUrl("jdbc:mysql://localhost:3306/cfx");
-        gc.setUrl("jdbc:mysql://192.168.206.200:33306/cfx?useUnicode=true&useSSL=false&characterEncoding=utf8");
+//        gc.setUrl("jdbc:mysql://localhost:3306/cfx"); ?useUnicode=true&useSSL=false&characterEncoding=utf8
+        gc.setUrl("jdbc:mysql://124.222.42.249:33306/cfx");
         gc.setUserName("root");
-        gc.setPassword("1qaz@WSX");
+        gc.setPassword("root");
 
         gc.setModuleName("usercenter");
 
