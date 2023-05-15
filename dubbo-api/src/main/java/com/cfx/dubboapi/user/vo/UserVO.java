@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @date 2023/4/23
  */
 @Data
-public class UserVo implements Serializable {
+public class UserVO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1654141491584935890L;

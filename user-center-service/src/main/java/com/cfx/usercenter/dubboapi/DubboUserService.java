@@ -2,7 +2,7 @@ package com.cfx.usercenter.dubboapi;
 
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.dubboapi.user.UserOpenApi;
-import com.cfx.dubboapi.user.vo.UserVo;
+import com.cfx.dubboapi.user.vo.UserVO;
 import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.mapper.UserMapper;
 import org.apache.dubbo.config.annotation.DubboService;
@@ -23,7 +23,7 @@ public class DubboUserService implements UserOpenApi {
     private UserMapper userMapper;
 
     @Override
-    public UserVo getUser(Long appid, String username) {
+    public UserVO getUser(Long appid, String username) {
 
         User user = userMapper.selectOne(
                 Wrappers.lambdaQuery(User.class)
@@ -31,7 +31,7 @@ public class DubboUserService implements UserOpenApi {
                         .eq(User::getAccessKey, username));
 
         if (!ObjectUtils.isEmpty(user)) {
-            UserVo userVo = new UserVo();
+            UserVO userVo = new UserVO();
             BeanUtils.copyProperties(user, userVo);
             return userVo;
         }
