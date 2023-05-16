@@ -10,9 +10,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @EnableDubbo
 @SpringBootApplication
-public class GatewayStarter {
+public class GatewaySamplesStarter {
 
     public static void main(String[] args) {
-        SpringApplication.run(GatewayStarter.class, args);
+        SpringApplication.run(GatewaySamplesStarter.class, args);
     }
 }

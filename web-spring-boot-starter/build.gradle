@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":comm-utils"))
+    api(project(":core"))
     api 'org.springframework:spring-webmvc'
     api 'org.springframework:spring-context'
     api 'javax.validation:validation-api'

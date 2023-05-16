@@ -28,7 +28,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'CloudFoundationX'
-include 'comm-utils', 'gateway', 'user-center-service', 'web-spring-boot-starter'
+include 'core', 'gateway', 'user-center-service', 'web-spring-boot-starter'
 include 'code-generator'
 include 'open-api'
 include 'dubbo-api'

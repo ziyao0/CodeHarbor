@@ -1,11 +1,10 @@
-package com.cfx.usercenter.security.support;
+package com.cfx.common.support;
 
 import com.alibaba.fastjson2.util.DateUtils;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.cfx.usercenter.security.api.UserInfo;
 import com.google.common.collect.Maps;
 
 import java.util.Arrays;
@@ -30,24 +29,27 @@ public abstract class Tokens {
     public static final String AUTHORIZATION = "Authorization";
 
     public static final String AUTHORIZED = "ira";
-    private  static final String userId = "uid";
-    private static final String appid = "aid";
-    private static final String username = "un";
+    public static final String USER_ID = "uid";
+    public static final String APP_ID = "aid";
+    public static final String USERNAME = "un";
 
     private Tokens() {
     }
 
 
-    public static String create(UserInfo userInfo, String secret) {
+    public static String create(Long appid, Long userId, String username, String secret) {
         Map<String, Object> map = Maps.newHashMap();
-
-        map.put(userId, userInfo.getUserId());
-        map.put(appid, userInfo.getAppId());
-        map.put(username, userInfo.getUsername());
+        map.put(USER_ID, userId);
+        map.put(APP_ID, appid);
+        map.put(USERNAME, username);
 
         return JWT.create(map, secret);
     }
 
+
+    public static Map<String, Claim> getClaims(String token, String secret) {
+        return JWT.getClaims(token, secret);
+    }
 
     public static String refresh(String token, String secret, boolean now) {
 

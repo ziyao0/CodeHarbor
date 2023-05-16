@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(":comm-utils"))
+    implementation(project(":core"))
     implementation 'org.freemarker:freemarker'
     implementation 'com.baomidou:mybatis-plus'
     implementation 'com.baomidou:mybatis-plus-generator'

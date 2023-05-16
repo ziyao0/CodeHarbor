@@ -1,6 +1,5 @@
 package com.cfx.usercenter.security.api;
 
-import com.cfx.usercenter.security.support.Tokens;
 import lombok.Data;
 
 /**
