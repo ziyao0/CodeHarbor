@@ -1,6 +1,6 @@
 package com.cfx.dubboapi.user;
 
-import com.cfx.dubboapi.user.vo.UserVo;
+import com.cfx.dubboapi.user.vo.UserVO;
 
 /**
  * @author zhangziyao
@@ -14,5 +14,5 @@ public interface UserOpenApi {
      * @param username 用户名
      * @return 返回用户信息
      */
-    UserVo getUser(Long appid, String username);
+    UserVO getUser(Long appid, String username);
 }

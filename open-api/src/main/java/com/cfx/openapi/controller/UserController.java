@@ -1,7 +1,7 @@
 package com.cfx.openapi.controller;
 
 import com.cfx.dubboapi.user.UserOpenApi;
-import com.cfx.dubboapi.user.vo.UserVo;
+import com.cfx.dubboapi.user.vo.UserVO;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,7 +20,7 @@ public class UserController {
     private UserOpenApi userOpenApi;
 
     @GetMapping("/{appid}/{username}")
-    public UserVo getUserByAppidAndUserId(@PathVariable("appid") Long appid, @PathVariable("username") String username) {
+    public UserVO getUserByAppidAndUserId(@PathVariable("appid") Long appid, @PathVariable("username") String username) {
 
         return userOpenApi.getUser(appid, username);
     }
