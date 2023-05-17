@@ -15,22 +15,22 @@ import com.cfx.gateway.support.SecurityPredicate;
 import com.google.common.base.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.filter.OrderedFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
+import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
-import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
 import reactor.core.publisher.MonoSink;
 
 import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -39,8 +39,7 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Component
-public class AuthenticationFilter implements GlobalFilter {
-
+public class AuthFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private GatewayConfig gatewayConfig;
@@ -50,16 +49,7 @@ public class AuthenticationFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 处理白名单
-
-//        String originalPath = PathPatternParserServerWebExchangeUtils
-//                .extractPathWithinPattern(exchange.getAttribute(
-//                        PathPatternParserServerWebExchangeUtils.PATH_WITHIN_MATCHING_ROUTE_ATTRIBUTE));
-        Map<String, Object> attributes = exchange.getAttributes();
-
-        System.out.println(ServerWebExchangeUtils.GATEWAY_PREDICATE_ROUTE_ATTR);
-        System.out.println(attributes.get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR));
-
-        String api = UriComponentsBuilder.fromUri(exchange.getRequest().getURI()).build().getPath();
+        String api = exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString();
         boolean skip = SecurityPredicate.initSecurityApis(gatewayConfig.getSkipApis())
                 .add(gatewayConfig.getDefaultSkipApis()).skip(api);
         if (skip) {
@@ -120,6 +110,11 @@ public class AuthenticationFilter implements GlobalFilter {
                 exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(iMessage.getStatus()));
                 return exchange.getResponse()
                         .bufferFactory()
-                        .wrap(JSON.toJSONString(iMessage).getBytes(StandardCharsets.UTF_8));
+                        .wrap(JSON.toJSONString(iMessage).getBytes());
             };
+
+    @Override
+    public int getOrder() {
+        return 0;
+    }
 }
