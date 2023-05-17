@@ -4,7 +4,7 @@ import com.cfx.gateway.security.api.Authorization;
 import lombok.Data;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 @Data
@@ -22,15 +22,5 @@ public class FailureAuthorization implements Authorization {
     @Override
     public String getToken() {
         return null;
-    }
-
-    @Override
-    public boolean isSecurity() {
-        return false;
-    }
-
-    @Override
-    public boolean isAuthorized() {
-        return false;
     }
 }

@@ -3,7 +3,7 @@ package com.cfx.usercenter.security.codec;
 import org.mindrot.jbcrypt.BCrypt;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 public class BCEncryptor implements Encryptor {

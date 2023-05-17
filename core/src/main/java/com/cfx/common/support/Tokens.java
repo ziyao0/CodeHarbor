@@ -15,7 +15,7 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 public abstract class Tokens {
@@ -28,7 +28,7 @@ public abstract class Tokens {
      */
     public static final String AUTHORIZATION = "Authorization";
 
-    public static final String AUTHORIZED = "ira";
+    public static final String BEARER = "Bearer ";
     public static final String USER_ID = "uid";
     public static final String APP_ID = "aid";
     public static final String USERNAME = "un";
@@ -36,6 +36,9 @@ public abstract class Tokens {
     private Tokens() {
     }
 
+    public static String getBearerToken(String token) {
+        return BEARER + token;
+    }
 
     public static String create(Long appid, Long userId, String username, String secret) {
         Map<String, Object> map = Maps.newHashMap();

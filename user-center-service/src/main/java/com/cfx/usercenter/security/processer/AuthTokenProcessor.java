@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 /**
  * 处理并生成token
  *
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 @Component

@@ -3,14 +3,22 @@ package com.cfx.gateway.security.api;
 import java.io.Serializable;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 public interface Authorization extends Serializable {
     String getToken();
 
-    boolean isSecurity();
+    default boolean isSecurity() {
+        return false;
+    }
 
-    boolean isAuthorized();
+    default boolean isAuthorized() {
+        return false;
+    }
+
+    default String getMessage() {
+        return null;
+    }
 
 }

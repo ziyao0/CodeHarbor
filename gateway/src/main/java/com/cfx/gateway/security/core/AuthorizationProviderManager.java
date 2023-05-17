@@ -19,7 +19,7 @@ import java.util.List;
  * 为true则表示授权成功.
  * </p>
  *
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 public class AuthorizationProviderManager implements ProviderManager {

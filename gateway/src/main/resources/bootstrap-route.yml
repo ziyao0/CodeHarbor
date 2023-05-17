@@ -5,3 +5,7 @@ spring:
         locator:
           enabled: true
           lower-case-service-id: true
+config:
+  gateway:
+    skip-apis:
+      - /user-center-service/usercenter/app/list

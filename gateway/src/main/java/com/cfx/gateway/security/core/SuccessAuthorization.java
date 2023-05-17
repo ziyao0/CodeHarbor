@@ -4,7 +4,7 @@ import com.cfx.gateway.security.api.Authorization;
 import lombok.Data;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 @Data

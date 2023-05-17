@@ -4,7 +4,7 @@ import com.cfx.usercenter.security.api.Authentication;
 import org.springframework.util.ObjectUtils;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 public abstract class SecurityUtils {

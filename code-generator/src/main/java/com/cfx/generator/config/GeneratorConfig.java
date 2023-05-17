@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import lombok.Data;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/4/26
  */
 @Data

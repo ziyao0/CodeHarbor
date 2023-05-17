@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/9
  */
 public class MemoryUserDetailsCache implements UserDetailsCache<User> {

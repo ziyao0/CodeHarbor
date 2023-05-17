@@ -1,9 +1,9 @@
 package com.cfx.gateway.security.api;
 
-import java.util.function.Consumer;
+import org.springframework.web.server.ServerWebExchange;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 public interface SuccessfulHandler<T> {
@@ -11,8 +11,6 @@ public interface SuccessfulHandler<T> {
 
     /**
      * 成功时调用方法
-     *
-     * @return {@link Consumer}
      */
-    Consumer<T> onSuccessful();
+    void onSuccessful(ServerWebExchange exchange, T t);
 }

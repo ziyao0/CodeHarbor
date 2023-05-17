@@ -5,7 +5,7 @@ import org.springframework.core.Ordered;
 import org.springframework.lang.Nullable;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 public interface GlobalProcessor<T, R> extends Ordered {

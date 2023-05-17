@@ -3,11 +3,14 @@ package com.cfx.common.exception;
 import com.cfx.common.api.IMessage;
 import com.cfx.common.writer.Errors;
 
+import java.io.Serial;
+
 /**
  * @author zhangziyao
  * @date 2023/4/21
  */
 public class ServiceException extends RuntimeException implements IMessage {
+    @Serial
     private static final long serialVersionUID = -3435528093859682944L;
 
 

@@ -5,7 +5,7 @@ import com.cfx.usercenter.security.api.Authentication;
 import com.cfx.usercenter.security.core.FailureHandler;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 public class AuthenticationFailureHandler implements FailureHandler<Authentication, AuthenticationException> {

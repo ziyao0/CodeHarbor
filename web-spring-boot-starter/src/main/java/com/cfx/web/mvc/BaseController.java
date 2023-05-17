@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/4/27
  */
 public class BaseController<M extends IService<T>, T> {

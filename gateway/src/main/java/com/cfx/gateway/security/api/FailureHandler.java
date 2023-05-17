@@ -1,14 +1,13 @@
 package com.cfx.gateway.security.api;
 
+import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.web.server.ServerWebExchange;
 
-import java.util.function.BiFunction;
-
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
-public interface FailureHandler<T> {
+public interface FailureHandler {
 
     /**
      * 失败时调用
@@ -16,6 +15,6 @@ public interface FailureHandler<T> {
      * {@link Throwable}              异常信息
      * T 返回类型
      */
-    BiFunction<Throwable, ServerWebExchange, T> onFailureResume();
+    DataBuffer onFailureResume(ServerWebExchange exchange, Throwable throwable);
 
 }

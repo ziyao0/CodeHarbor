@@ -1,7 +1,7 @@
 package com.cfx.web.orm;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/6
  */
 public class PageQuery<T> {

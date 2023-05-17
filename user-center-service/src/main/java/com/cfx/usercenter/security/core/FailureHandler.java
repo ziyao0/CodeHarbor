@@ -1,7 +1,7 @@
 package com.cfx.usercenter.security.core;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 public interface FailureHandler<T, E extends Exception> {

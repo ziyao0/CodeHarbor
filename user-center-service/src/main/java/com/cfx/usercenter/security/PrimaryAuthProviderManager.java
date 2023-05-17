@@ -23,7 +23,7 @@ import java.util.Map;
  * {@link Authentication#isAuthenticated()}必须为true，false或者null则代表在第一重验证的时候没有通过.
  * </p>
  *
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/8
  */
 @Slf4j

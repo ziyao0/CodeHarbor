@@ -1,5 +1,12 @@
 package com.cfx.gateway.common;
 
+import com.cfx.gateway.security.api.Provider;
+import com.cfx.gateway.security.api.ProviderManager;
+import com.cfx.gateway.security.core.AuthorizationProviderManager;
+import com.cfx.gateway.support.ApplicationContextUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
@@ -8,13 +15,16 @@ import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.lang.Nullable;
+
+import java.util.List;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 @Configuration
-public class GatewayAutoConfiguration {
+public class GatewayAutoConfiguration implements ApplicationContextAware {
 
 
     /**
@@ -69,4 +79,14 @@ public class GatewayAutoConfiguration {
         return builder.build();
     }
 
+    @Bean
+    public ProviderManager providerManager() {
+        List<Provider> providers = ApplicationContextUtils.getBeansOfType(Provider.class);
+        return new AuthorizationProviderManager(providers);
+    }
+
+    @Override
+    public void setApplicationContext(@Nullable ApplicationContext applicationContext) throws BeansException {
+        ApplicationContextUtils.setApplicationContext(applicationContext);
+    }
 }

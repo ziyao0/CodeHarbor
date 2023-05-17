@@ -3,7 +3,7 @@ package com.cfx.gateway.security.api;
 import org.springframework.lang.NonNull;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
 public interface ProviderManager {

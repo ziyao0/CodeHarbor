@@ -3,7 +3,7 @@ package com.cfx.usercenter.security.core;
 import com.cfx.usercenter.security.api.AccessToken;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/9
  */
 public interface TokenEnhancer {

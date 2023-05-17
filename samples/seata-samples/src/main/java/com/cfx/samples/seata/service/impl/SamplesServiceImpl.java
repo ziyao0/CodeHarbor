@@ -4,7 +4,7 @@ import com.cfx.samples.seata.service.SamplesService;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/11
  */
 @DubboService

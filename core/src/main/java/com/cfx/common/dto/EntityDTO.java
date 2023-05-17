@@ -3,7 +3,7 @@ package com.cfx.common.dto;
 import org.springframework.beans.BeanUtils;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/5
  */
 public interface EntityDTO<T> {

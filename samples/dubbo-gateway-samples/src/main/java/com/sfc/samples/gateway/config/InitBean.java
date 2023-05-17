@@ -1,7 +1,7 @@
 package com.sfc.samples.gateway.config;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/11
  */
 public class InitBean {

@@ -8,6 +8,14 @@ import com.cfx.common.api.IMessage;
  */
 public abstract class Errors {
 
+
+    public static final int E_500 = 500;
+    public static final int E_404 = 404;
+    public static final int E_403 = 403;
+    public static final int E_401 = 401;
+    public static final int E_400 = 400;
+    public static final int E_200 = 200;
+
     /**
      * 通用: 请求成功.
      */

@@ -4,7 +4,7 @@ import com.cfx.gateway.security.api.Authorization;
 import com.cfx.gateway.security.api.AuthorizationProcessor;
 import com.cfx.gateway.security.api.ProviderManager;
 import org.springframework.lang.NonNull;
-import reactor.core.publisher.Mono;
+import org.springframework.stereotype.Component;
 
 /**
  * 授权处理器
@@ -19,29 +19,25 @@ import reactor.core.publisher.Mono;
  * <p>
  * 授权处理器{@link DefaultAuthorizationProcessor#processAfter(Authorization)}对认证成功的token进行过期时间刷新
  *
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/5/16
  */
+@Component
 public class DefaultAuthorizationProcessor implements AuthorizationProcessor {
 
 
     private ProviderManager providerManager;
-
 
     public DefaultAuthorizationProcessor(ProviderManager providerManager) {
         this.providerManager = providerManager;
     }
 
     @Override
-    public Mono<Authorization> process(@NonNull Mono<Authorization> authorizationMono) {
-
-        return authorizationMono.flatMap(requestAuthor -> {
-            if (requestAuthor.isAuthorized())
-                return Mono.just(new SuccessAuthorization());
-            else
-                return Mono.just(getProviderManager().authorize(requestAuthor));
-
-        });
+    public Authorization process(@NonNull Authorization authorization) {
+        if (authorization.isAuthorized())
+            return new SuccessAuthorization();
+        else
+            return getProviderManager().authorize(authorization);
     }
 
     public ProviderManager getProviderManager() {

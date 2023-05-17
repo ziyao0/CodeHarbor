@@ -3,7 +3,7 @@ package com.cfx.usercenter.init;
 import org.springframework.context.annotation.Configuration;
 
 /**
- * @author Eason
+ * @author ziyao zhang
  * @since 2023/4/26
  */
 @Configuration
