@@ -15,7 +15,6 @@ import com.cfx.gateway.support.SecurityPredicate;
 import com.google.common.base.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.filter.OrderedFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
@@ -30,7 +29,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
 import reactor.core.publisher.MonoSink;
 
-import java.nio.charset.StandardCharsets;
 import java.util.function.Consumer;
 
 /**
@@ -39,7 +37,7 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Component
-public class AuthFilter implements GlobalFilter, Ordered {
+public class AuthCenterFilter implements GlobalFilter, Ordered {
 
     @Autowired
     private GatewayConfig gatewayConfig;
@@ -57,12 +55,10 @@ public class AuthFilter implements GlobalFilter, Ordered {
         }
         return MonoOperator.create((Consumer<MonoSink<Authorization>>) monoSink -> {
                     String authToken = exchange.getRequest().getHeaders().getFirst(Tokens.AUTHORIZATION);
-                    if (StringUtils.hasLength(authToken) && authToken.startsWith(Tokens.BEARER)) {
-                        String jwtToken = authToken.substring(7);
-                        monoSink.success((Authorization) () -> jwtToken);
-                    } else {
+                    if (StringUtils.hasLength(authToken) && authToken.startsWith(Tokens.BEARER))
+                        monoSink.success((Authorization) () -> authToken.substring(7));
+                    else
                         monoSink.error(new UnauthorizedException());
-                    }
                 }).flatMap(authorization -> {
                     Authorization author = authorizationProcessor.process(authorization);
                     if (author.isAuthorized()) {
@@ -72,7 +68,6 @@ public class AuthFilter implements GlobalFilter, Ordered {
                         return MonoOperator.error(new UnauthorizedException(author.getMessage()));
                     }
                 })
-                //                     Mono<ServerResponse> body = ServerResponse.status(401).contentType(MediaType.APPLICATION_JSON).body(BodyInserters.fromValue(throwable.getMessage().getBytes()));
                 .onErrorResume((Function<Throwable, Mono<Void>>) throwable -> {
                     DataBuffer dataBuffer = failureHandler.onFailureResume(exchange, throwable);
                     ServerHttpResponse response = exchange.getResponse();
