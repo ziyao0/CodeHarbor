@@ -11,6 +11,7 @@ import com.cfx.gateway.security.api.AuthorizationProcessor;
 import com.cfx.gateway.security.api.FailureHandler;
 import com.cfx.gateway.security.api.SuccessfulHandler;
 import com.cfx.gateway.security.core.SuccessAuthorization;
+import com.cfx.gateway.support.IPUtils;
 import com.cfx.gateway.support.SecurityPredicate;
 import com.google.common.base.Function;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +30,7 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
 import reactor.core.publisher.MonoSink;
 
+import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -47,6 +49,8 @@ public class AuthCenterFilter implements GlobalFilter, Ordered {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 处理白名单
+        String ip = IPUtils.getIP(exchange);
+        exchange.getResponse().getHeaders().add("ip", ip);
         String api = exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString();
         boolean skip = SecurityPredicate.initSecurityApis(gatewayConfig.getSkipApis())
                 .add(gatewayConfig.getDefaultSkipApis()).skip(api);

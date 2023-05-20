@@ -19,6 +19,6 @@ public class BCEncryptor implements Encryptor {
     }
 
     public static void main(String[] args) {
-        System.out.println(new BCEncryptor().encode("root"));
+        System.out.println(new BCEncryptor().encode("admin"));
     }
 }

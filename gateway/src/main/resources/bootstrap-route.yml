@@ -9,3 +9,4 @@ config:
   gateway:
     skip-apis:
       - /user-center-service/usercenter/app/list
+      - /user-center-service/auth/login
