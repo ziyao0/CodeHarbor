@@ -11,16 +11,11 @@ import com.cfx.gateway.security.api.AuthorizationProcessor;
 import com.cfx.gateway.security.api.FailureHandler;
 import com.cfx.gateway.security.api.SuccessfulHandler;
 import com.cfx.gateway.security.core.SuccessAuthorization;
-import com.cfx.gateway.support.IPUtils;
-import com.cfx.gateway.support.SecurityPredicate;
 import com.google.common.base.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatusCode;
@@ -32,7 +27,6 @@ import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
 import reactor.core.publisher.MonoSink;
 
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**

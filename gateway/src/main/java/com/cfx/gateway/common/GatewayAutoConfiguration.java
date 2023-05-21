@@ -1,15 +1,10 @@
 package com.cfx.gateway.common;
 
-import com.cfx.gateway.filter.AuthCenterFilter;
-import com.cfx.gateway.filter.GatewayPostFilter;
-import com.cfx.gateway.filter.GatewayPreFilter;
 import com.cfx.gateway.security.api.Provider;
 import com.cfx.gateway.security.api.ProviderManager;
 import com.cfx.gateway.security.core.AuthorizationProviderManager;
 import com.cfx.gateway.support.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
