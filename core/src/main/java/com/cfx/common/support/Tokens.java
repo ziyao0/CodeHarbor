@@ -27,6 +27,7 @@ public abstract class Tokens {
      * @see <a href="https://tools.ietf.org/html/rfc7235#section-4.2">Section 4.2 of RF 7235</a>
      */
     public static final String AUTHORIZATION = "Authorization";
+    public static final String SECURITY = "security";
 
     public static final String BEARER = "Bearer ";
     public static final String USER_ID = "uid";

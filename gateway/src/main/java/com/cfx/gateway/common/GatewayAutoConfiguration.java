@@ -1,10 +1,15 @@
 package com.cfx.gateway.common;
 
+import com.cfx.gateway.filter.AuthCenterFilter;
+import com.cfx.gateway.filter.GatewayPostFilter;
+import com.cfx.gateway.filter.GatewayPreFilter;
 import com.cfx.gateway.security.api.Provider;
 import com.cfx.gateway.security.api.ProviderManager;
 import com.cfx.gateway.security.core.AuthorizationProviderManager;
 import com.cfx.gateway.support.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.cloud.gateway.route.RouteLocator;
+import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
@@ -89,4 +94,19 @@ public class GatewayAutoConfiguration implements ApplicationContextAware {
     public void setApplicationContext(@Nullable ApplicationContext applicationContext) throws BeansException {
         ApplicationContextUtils.setApplicationContext(applicationContext);
     }
+
+//    @Bean
+//    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
+////        return builder.routes()
+////                .route("example_route", r -> r.path("/example")
+//////                        .filters(f -> f.filter(customGatewayFilter1()).filter(customGatewayFilter2()))
+////                        /*.uri("http://example.com")*/)
+////                .build();
+//
+//        return builder.routes().route("route", r -> r.path("/**").filters(
+//                f -> f.filter(ApplicationContextUtils.getBean(GatewayPreFilter.class))
+//                        .filter(ApplicationContextUtils.getBean(AuthCenterFilter.class))
+//                        .filter(ApplicationContextUtils.getBean(GatewayPostFilter.class))
+//        ).uri("http://127.0.0.1:8888")).build();
+//    }
 }

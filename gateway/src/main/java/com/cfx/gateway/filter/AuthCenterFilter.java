@@ -16,10 +16,12 @@ import com.cfx.gateway.support.SecurityPredicate;
 import com.google.common.base.Function;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpResponse;
@@ -39,7 +41,8 @@ import java.util.function.Consumer;
  */
 @Slf4j
 @Component
-public class AuthCenterFilter implements GlobalFilter, Ordered {
+@Order(0)
+public class AuthCenterFilter implements GlobalFilter {
 
     @Autowired
     private GatewayConfig gatewayConfig;
@@ -48,13 +51,8 @@ public class AuthCenterFilter implements GlobalFilter, Ordered {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        // 处理白名单
-        String ip = IPUtils.getIP(exchange);
-        exchange.getResponse().getHeaders().add("ip", ip);
-        String api = exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString();
-        boolean skip = SecurityPredicate.initSecurityApis(gatewayConfig.getSkipApis())
-                .add(gatewayConfig.getDefaultSkipApis()).skip(api);
-        if (skip) {
+        Boolean isSecurity = exchange.getAttributeOrDefault(Tokens.SECURITY, false);
+        if (isSecurity) {
             return chain.filter(exchange);
         }
         return MonoOperator.create((Consumer<MonoSink<Authorization>>) monoSink -> {
@@ -111,9 +109,4 @@ public class AuthCenterFilter implements GlobalFilter, Ordered {
                         .bufferFactory()
                         .wrap(JSON.toJSONString(iMessage).getBytes());
             };
-
-    @Override
-    public int getOrder() {
-        return 0;
-    }
 }

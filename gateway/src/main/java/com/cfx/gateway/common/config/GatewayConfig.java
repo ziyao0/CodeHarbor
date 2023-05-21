@@ -29,5 +29,13 @@ public class GatewayConfig {
      * 跳过授权
      */
     private Set<String> skipApis;
+    /**
+     * 禁止访问api集合
+     */
+    private Set<String> disallowApis;
+    /**
+     * 默认禁止访问api集合
+     */
+    private Set<String> defaultDisallowApis;
 
 }
