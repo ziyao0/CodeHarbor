@@ -8,6 +8,7 @@ public abstract class ContextUtils {
 
     private ContextUtils() {
     }
+
     public static boolean isLegal() {
         return true;
     }

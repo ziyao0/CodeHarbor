@@ -75,7 +75,7 @@ public class UserDTO implements EntityDTO<User>, Serializable {
      */
     private LocalDateTime createdAt;
     /**
-     * 修改人id 
+     * 修改人id
      */
     private Integer modifiedBy;
     /**

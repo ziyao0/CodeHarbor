@@ -30,6 +30,6 @@ public record ServletContext(HttpServletRequest request, HttpServletResponse res
     }
 
     public static void main(String[] args) {
-        ServletContext servletContext = new ServletContext(null,null);
+        ServletContext servletContext = new ServletContext(null, null);
     }
 }

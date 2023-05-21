@@ -31,5 +31,5 @@ public class UserDetails implements Serializable {
 
     private String deptName;
 
-    private Map<String,Object> additionalInformation;
+    private Map<String, Object> additionalInformation;
 }

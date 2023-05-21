@@ -42,7 +42,7 @@ public class UserRoleDTO implements EntityDTO<UserRole>, Serializable {
      */
     private LocalDateTime createdAt;
     /**
-     * 
+     *
      */
     private Integer createdBy;
 

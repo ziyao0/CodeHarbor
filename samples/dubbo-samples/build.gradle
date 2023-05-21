@@ -11,6 +11,6 @@ dependencies {
     implementation 'com.alibaba.csp:sentinel-transport-simple-http'
     // 集成skywalking
     implementation 'org.apache.dubbo:dubbo-metrics-api'
-    implementation'org.apache.skywalking:apm-toolkit-micrometer-1.10:8.14.0'
+    implementation 'org.apache.skywalking:apm-toolkit-micrometer-1.10:8.14.0'
 
 }
