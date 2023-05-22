@@ -1,3 +1,4 @@
 com.cfx.web.AutoWebConfiguration
 com.cfx.web.global.GlobalExceptionHandlerAdvice
 com.cfx.web.global.GlobalResponseHandlerAdvice
+com.cfx.web.filter.RequestFilter

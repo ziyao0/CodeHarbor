@@ -68,6 +68,8 @@ public class GatewayPreFilter implements GlobalFilter {
                             .wrap(JSON.toJSONString(Errors.FORBIDDEN).getBytes());
                     return response.writeWith(MonoOperator.just(dataBuffer));
                 })
-                .doFinally(signalType -> exchange.getRequest().getHeaders().add(Tokens.IP, IPUtils.getIP(exchange)));
+                .doFirst(() -> exchange.getRequest().mutate()
+                        .header(Tokens.IP, IPUtils.getIP(exchange))
+                        .build());
     }
 }

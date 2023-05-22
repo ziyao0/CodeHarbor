@@ -37,5 +37,5 @@ public interface ContextInfo {
      */
     void assertAuthentication();
 
-    UserDetails getUserDetails();
+    UserDetails getUser();
 }

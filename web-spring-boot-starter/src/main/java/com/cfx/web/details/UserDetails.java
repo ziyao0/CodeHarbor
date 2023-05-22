@@ -1,5 +1,6 @@
 package com.cfx.web.details;
 
+import lombok.Builder;
 import lombok.Data;
 
 import java.io.Serial;
@@ -11,6 +12,7 @@ import java.util.Map;
  * @date 2023/4/23
  */
 @Data
+@Builder
 public class UserDetails implements Serializable {
     @Serial
     private static final long serialVersionUID = 8891009175629512495L;
