@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.cfx.common.support.Tokens;
 import com.cfx.common.writer.Errors;
 import com.cfx.gateway.common.config.GatewayConfig;
+import com.cfx.gateway.support.IPUtils;
 import com.cfx.gateway.support.SecurityPredicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -37,8 +38,8 @@ public class GatewayPreFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         //处理请求api
         return Mono.create((Consumer<MonoSink<String>>) monoSink -> {
-                    // 处理黑名单
                     String api = exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString();
+                    // 处理黑名单
                     boolean illegal = SecurityPredicate.initIllegalApis(gatewayConfig.getDefaultDisallowApis())
                             .addIllegalApis(gatewayConfig.getDisallowApis()).isIllegal(api);
                     if (illegal)
@@ -66,6 +67,7 @@ public class GatewayPreFilter implements GlobalFilter {
                             .bufferFactory()
                             .wrap(JSON.toJSONString(Errors.FORBIDDEN).getBytes());
                     return response.writeWith(MonoOperator.just(dataBuffer));
-                });
+                })
+                .doFinally(signalType -> exchange.getRequest().getHeaders().add(Tokens.IP, IPUtils.getIP(exchange)));
     }
 }

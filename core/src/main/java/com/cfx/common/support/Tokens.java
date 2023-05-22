@@ -28,7 +28,7 @@ public abstract class Tokens {
      */
     public static final String AUTHORIZATION = "Authorization";
     public static final String SECURITY = "security";
-
+    public static final String IP = "IP";
     public static final String BEARER = "Bearer ";
     public static final String USER_ID = "uid";
     public static final String APP_ID = "aid";
