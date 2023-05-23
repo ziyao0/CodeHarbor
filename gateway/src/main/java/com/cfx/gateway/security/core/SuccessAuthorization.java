@@ -1,7 +1,10 @@
 package com.cfx.gateway.security.core;
 
+import com.auth0.jwt.interfaces.Claim;
 import com.cfx.gateway.security.api.Authorization;
 import lombok.Data;
+
+import java.util.Map;
 
 /**
  * @author ziyao zhang
@@ -10,29 +13,20 @@ import lombok.Data;
 @Data
 public class SuccessAuthorization implements Authorization {
 
-    private Long appid;
-    private Long userId;
-    private String username;
+    Map<String, Claim> claims;
     private String token;
 
     public SuccessAuthorization() {
     }
 
-    public SuccessAuthorization(Long appid, Long userId, String username, String token) {
-        this.appid = appid;
-        this.userId = userId;
-        this.username = username;
+    public SuccessAuthorization(Map<String, Claim> claims, String token) {
+        this.claims = claims;
         this.token = token;
     }
 
     @Override
     public String getToken() {
         return this.token;
-    }
-
-    @Override
-    public boolean isSecurity() {
-        return false;
     }
 
     @Override

@@ -64,7 +64,8 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
             checker.check(userDetails);
             userDetailsCache.put(userDetails);
             return new SuccessAuthDetails(userDetails.getAppId(),
-                    userDetails.getId(), userDetails.getAccessKey(), userDetails.getNickname());
+                    userDetails.getId(), userDetails.getAccessKey(), userDetails.getNickname()
+                    , null, null, userDetails.getDeptId(), userDetails.getDeptName());
         } catch (ServiceException e) {
             return new FailureAuthDetails(e.getStatus(), e.getMessage());
         }

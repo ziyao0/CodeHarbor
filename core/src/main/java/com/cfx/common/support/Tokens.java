@@ -1,16 +1,12 @@
 package com.cfx.common.support;
 
-import com.alibaba.fastjson2.util.DateUtils;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Maps;
 
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -50,6 +46,10 @@ public abstract class Tokens {
         return JWT.create(map, secret);
     }
 
+    public static String create(Map<String, Object> payload, String secret) {
+        return JWT.create(payload, secret);
+    }
+
 
     public static Map<String, Claim> getClaims(String token, String secret) {
         return JWT.getClaims(token, secret);
@@ -67,10 +67,78 @@ public abstract class Tokens {
         //过期前2分钟刷新
         Date expiresAt = verify.getExpiresAt();
 
-        if (Dates.isExpired(expiresAt))
+        if (Dates.isExpired(expiresAt)) {
+            claims.remove("exp");
             return JWT.create(claims, secret);
-        else
+        } else
             return token;
+    }
+
+
+    public static class TokenConverter {
+
+        public static final String APP_ID = "aid";
+        public static final String USER_ID = "uid";
+        public static final String USERNAME = "un";
+        public static final String NICKNAME = "nn";
+        public static final String PHONE = "p";
+        public static final String EMAIL = "e";
+        public static final String DEPT_ID = "di";
+        public static final String DEPT_NAME = "dn";
+
+        private final Map<String, Object> payload;
+
+        private TokenConverter() {
+            this.payload = new HashMap<>(8);
+        }
+
+        public static TokenConverter create() {
+            return new TokenConverter();
+        }
+
+        public TokenConverter appid(Long appid) {
+            this.payload.put(APP_ID, appid);
+            return this;
+        }
+
+        public TokenConverter userId(Long userId) {
+            this.payload.put(USER_ID, userId);
+            return this;
+        }
+
+        public TokenConverter username(String username) {
+            this.payload.put(USERNAME, username);
+            return this;
+        }
+
+        public TokenConverter nickname(String nickname) {
+            this.payload.put(NICKNAME, nickname);
+            return this;
+        }
+
+        public TokenConverter phone(String phone) {
+            this.payload.put(PHONE, phone);
+            return this;
+        }
+
+        public TokenConverter email(String email) {
+            this.payload.put(EMAIL, email);
+            return this;
+        }
+
+        public TokenConverter deptId(Long deptId) {
+            this.payload.put(DEPT_ID, deptId);
+            return this;
+        }
+
+        public TokenConverter deptName(String deptName) {
+            this.payload.put(DEPT_NAME, deptName);
+            return this;
+        }
+
+        public Map<String, Object> build() {
+            return this.payload;
+        }
     }
 
 
@@ -96,7 +164,6 @@ public abstract class Tokens {
             final Calendar instance = Calendar.getInstance();
             instance.add(Calendar.MINUTE, 2);
             Date date = instance.getTime();
-            System.out.println(DateUtils.toString(date));
             return expiresAt.compareTo(date) <= 0;
         }
     }

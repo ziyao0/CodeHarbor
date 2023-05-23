@@ -43,7 +43,6 @@ public class RequestFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request,
                                     @NonNull HttpServletResponse response, @NonNull FilterChain chain) throws ServletException, IOException {
-
         ServletContext servletContext = new ServletContext(request, response);
         ContextManager.set(servletContext);
         if (!servletContext.isAuthentication()) {

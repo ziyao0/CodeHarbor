@@ -21,12 +21,23 @@ public class SuccessAuthDetails implements Authentication {
 
     private String nickname;
 
+    private String phone;
 
-    public SuccessAuthDetails(Long appId, Long userId, String accessKey, String nickname) {
+    private String email;
+
+    private Long deptId;
+
+    private String deptName;
+
+    public SuccessAuthDetails(Long appId, Long userId, String accessKey, String nickname, String phone, String email, Long deptId, String deptName) {
         this.appId = appId;
         this.userId = userId;
         this.accessKey = accessKey;
         this.nickname = nickname;
+        this.phone = phone;
+        this.email = email;
+        this.deptId = deptId;
+        this.deptName = deptName;
     }
 
     @Override

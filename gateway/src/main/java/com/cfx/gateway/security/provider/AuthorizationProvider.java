@@ -29,11 +29,7 @@ public class AuthorizationProvider implements Provider {
         String token = authorization.getToken();
         try {
             Map<String, Claim> claims = Tokens.getClaims(token, gatewayConfig.getOauth2Security());
-            // 获取token数据
-            Long appid = claims.get(Tokens.APP_ID).asLong();
-            Long userId = claims.get(Tokens.USER_ID).asLong();
-            String username = claims.get(Tokens.USERNAME).asString();
-            return new SuccessAuthorization(appid, userId, username, token);
+            return new SuccessAuthorization(claims, token);
         } catch (JWTVerificationException e) {
             return new FailureAuthorization(e.getMessage());
         }

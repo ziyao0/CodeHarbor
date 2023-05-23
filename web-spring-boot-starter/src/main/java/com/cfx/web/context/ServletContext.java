@@ -8,6 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.util.StringUtils;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -85,16 +87,34 @@ public final class ServletContext implements ContextInfo {
     final static class UserDetailsConstructor {
 
         private static UserDetails build(HttpServletRequest request) {
-            String appid = request.getHeader(Tokens.APP_ID);
-            String userId = request.getHeader(Tokens.USER_ID);
-            String username = request.getHeader(Tokens.USERNAME);
+            String appid = getValue(request, Tokens.TokenConverter.APP_ID);
+            String userId = getValue(request, Tokens.TokenConverter.USER_ID);
+            String username = getValue(request, Tokens.TokenConverter.USERNAME);
+            String nickname = getValue(request, Tokens.TokenConverter.NICKNAME);
+            String phone = getValue(request, Tokens.TokenConverter.PHONE);
+            String email = getValue(request, Tokens.TokenConverter.EMAIL);
+            String deptId = getValue(request, Tokens.TokenConverter.DEPT_ID);
+            String deptName = getValue(request, Tokens.TokenConverter.DEPT_NAME);
 
             return UserDetails.builder()
                     .appid(StringUtils.hasLength(appid) ? Long.parseLong(appid) : null)
                     .userId(StringUtils.hasLength(userId) ? Long.parseLong(userId) : null)
                     .username(username)
+                    .nickname(nickname)
+                    .phone(phone)
+                    .email(email)
+                    .deptId(StringUtils.hasLength(deptId) ? Long.parseLong(deptId) : null)
+                    .deptName(deptName)
                     .additionalInformation(getAdditionalInformation(request))
                     .build();
+        }
+
+        private static String getValue(HttpServletRequest request, String key) {
+            String value = request.getHeader(key);
+            if (StringUtils.hasLength(value)) {
+                return URLDecoder.decode(value, StandardCharsets.UTF_8);
+            }
+            return value;
         }
 
         private static Map<String, Object> getAdditionalInformation(HttpServletRequest request) {

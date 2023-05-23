@@ -6,15 +6,14 @@ import com.cfx.common.writer.Errors;
 import com.cfx.usercenter.dto.UserDTO;
 import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.service.UserService;
+import com.cfx.web.context.ContextManager;
+import com.cfx.web.details.UserDetails;
 import com.cfx.web.mvc.BaseController;
 import com.cfx.web.orm.PageQuery;
 import com.cfx.web.orm.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -70,5 +69,11 @@ public class UserController extends BaseController<UserService, User> {
     public Page<User> getPage(@RequestBody PageQuery<UserDTO> pageQuery) {
         Page<User> page = PageUtils.initPage(pageQuery, User.class);
         return userService.page(page, pageQuery.getQuery());
+    }
+
+    @GetMapping("/current")
+    public UserDetails userDetails() {
+        ContextManager.get().assertAuthentication();
+        return ContextManager.get().getUser();
     }
 }
