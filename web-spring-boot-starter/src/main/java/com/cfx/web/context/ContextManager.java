@@ -6,7 +6,7 @@ package com.cfx.web.context;
  * @author zhangziyao
  * @date 2023/4/23
  */
-public class ContextManager {
+public abstract class ContextManager {
 
     private static final ThreadLocal<ContextInfo> contextManager = new ThreadLocal<>();
 

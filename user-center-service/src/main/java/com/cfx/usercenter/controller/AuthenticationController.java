@@ -25,9 +25,7 @@ public class AuthenticationController {
     @PostMapping("/login")
     public AccessToken login(@RequestBody LoginDTO loginDTO) {
         // 1 d
-        AccessToken accessToken = authenticationProcessor.process(loginDTO);
-
-        return accessToken;
+        return authenticationProcessor.process(loginDTO);
     }
 
 }
