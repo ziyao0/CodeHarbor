@@ -2,4 +2,4 @@ spring:
   application:
     name: dubbo-samples
   profiles:
-    active: register
+    active: register,metrics

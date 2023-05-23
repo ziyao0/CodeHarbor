@@ -1,0 +1,20 @@
+management:
+  metrics:
+    tags:
+      application: metrics-dubbo-${spring.application.name}
+
+  server:
+    port: 18081
+  endpoints:
+    web:
+      base-path: /management
+      exposure:
+        include: info,health,env,prometheus
+  endpoint:
+    metrics:
+      enabled: true
+    prometheus:
+      enabled: true
+dubbo:
+  metrics:
+    protocol: prometheus
