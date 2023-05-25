@@ -1,5 +1,7 @@
 package com.cfx.web.context;
 
+import com.cfx.web.details.UserDetails;
+
 /**
  * 通过线程绑定 {@link ContextInfo} 对象的形式开放web请求信息
  *
@@ -17,6 +19,17 @@ public abstract class ContextManager {
      */
     public static ContextInfo get() {
         return contextManager.get();
+    }
+
+    /**
+     * 返回绑定到当前线程{@link ContextInfo#getUser()}
+     *
+     * @return 绑定到当前线程的 {@link ContextInfo}, 如果未绑定则返回 {@code null}
+     */
+    public static UserDetails getUser() {
+        ContextInfo contextInfo = contextManager.get();
+        contextInfo.assertAuthentication();
+        return contextInfo.getUser();
     }
 
     /**

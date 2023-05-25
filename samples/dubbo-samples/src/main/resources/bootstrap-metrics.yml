@@ -1,7 +1,7 @@
 management:
   metrics:
     tags:
-      application: metrics-dubbo-${spring.application.name}
+      application: metrics-${dubbo.application.name}
 
   server:
     port: 18081
@@ -17,4 +17,4 @@ management:
       enabled: true
 dubbo:
   metrics:
-    protocol: prometheus
+    protocol: prometheus ,

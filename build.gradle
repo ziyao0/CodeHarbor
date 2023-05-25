@@ -66,6 +66,10 @@ allprojects {
         }
     }
 
+    bootRun {
+
+    }
+
     dependencyManagement {
         imports {
             mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"

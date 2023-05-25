@@ -4,6 +4,7 @@ package com.cfx.web.global;
 import com.cfx.common.api.DataIMessage;
 import com.cfx.common.api.IMessage;
 import com.cfx.common.exception.ServiceException;
+import com.cfx.common.exception.UnauthorizedException;
 import com.cfx.common.utils.CommUtils;
 import com.cfx.common.writer.ApiResponse;
 import com.cfx.common.writer.Errors;
@@ -99,6 +100,21 @@ public class GlobalExceptionHandlerAdvice {
     }
 
     /**
+     * 自定义业务异常处理.
+     *
+     * @param e {@link ServiceException}
+     * @return 包含业务异常信息的 {@link IMessage}
+     */
+    @ExceptionHandler(value = UnauthorizedException.class)
+    public IMessage unauthorizedExceptionHandler(UnauthorizedException e) {
+        Throwable causeThrowable = e.getCause();
+        if (causeThrowable != null) {
+            LOGGER.error("发生由其他异常导致的业务异常", causeThrowable);
+        }
+        return IMessage.getInstance(e.getStatus(), e.getMessage());
+    }
+
+    /**
      * 处理参数错误异常.
      *
      * @param e {@link IllegalArgumentException}
@@ -166,8 +182,7 @@ public class GlobalExceptionHandlerAdvice {
             sb.append("参数校验失败: ");
             violations.forEach(error -> {
                 sb.append("[");
-                if (error instanceof FieldError) {
-                    FieldError fieldError = (FieldError) error;
+                if (error instanceof FieldError fieldError) {
                     sb.append(fieldError.getField()).append(":");
                 }
                 sb.append(error.getMessage());

@@ -1,5 +1,6 @@
 package com.cfx.common.api;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 
@@ -11,21 +12,21 @@ import java.util.List;
  */
 public abstract class AbstractTreeNode implements Serializable {
 
-    private static final long serialVersionUID = -5395676306973486839L;
-    private String id;
+    @Serial
+    private static final long serialVersionUID = 8382484378443306257L;
+    private Long id;
     private String name;
+    private String code;
     private String parentId;
     private List<AbstractTreeNode> nodes;
     private int level;
-
     private String url;
 
-
-    public String getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -35,6 +36,14 @@ public abstract class AbstractTreeNode implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getParentId() {
@@ -69,4 +78,3 @@ public abstract class AbstractTreeNode implements Serializable {
         this.url = url;
     }
 }
-

@@ -6,7 +6,6 @@ import com.cfx.common.writer.Errors;
 import com.cfx.usercenter.dto.UserDTO;
 import com.cfx.usercenter.entity.User;
 import com.cfx.usercenter.service.UserService;
-import com.cfx.web.context.ContextInfo;
 import com.cfx.web.context.ContextManager;
 import com.cfx.web.details.UserDetails;
 import com.cfx.web.mvc.BaseController;
@@ -74,8 +73,6 @@ public class UserController extends BaseController<UserService, User> {
 
     @GetMapping("/current")
     public UserDetails userDetails() {
-        ContextInfo contextInfo = ContextManager.get();
-        contextInfo.assertAuthentication();
-        return contextInfo.getUser();
+        return ContextManager.getUser();
     }
 }
