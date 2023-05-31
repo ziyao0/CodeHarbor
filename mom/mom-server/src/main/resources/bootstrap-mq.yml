@@ -1,0 +1,4 @@
+rocketmq:
+  producer:
+    access-key:
+    secret-key:
