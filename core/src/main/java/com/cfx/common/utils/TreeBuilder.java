@@ -26,15 +26,15 @@ public abstract class TreeBuilder {
      * @param id       父节点id
      * @return 根节点列表
      */
-    public static <T extends AbstractTreeNode> List<T> buildTree(List<T> nodeList, String id) {
+    public static <T extends AbstractTreeNode> List<T> buildTree(List<T> nodeList, Long id) {
         // 用哈希表存储节点信息，以便快速查找某个节点的父节点
 
-        Map<String, T> nodeMap = nodeList.stream().collect(Collectors.toMap(AbstractTreeNode::getId, Function.identity()));
+        Map<Long, T> nodeMap = nodeList.stream().collect(Collectors.toMap(AbstractTreeNode::getId, Function.identity()));
 
         // 遍历节点列表，将每个节点加入其父节点的children列表中
         List<T> rootNodes = new ArrayList<>();
         for (T node : nodeList) {
-            String parentId = node.getParentId();
+            Long parentId = node.getParentId();
             // 判断是否为父节点
             if (Objects.equals(parentId, id)) {
                 node.setLevel(0);

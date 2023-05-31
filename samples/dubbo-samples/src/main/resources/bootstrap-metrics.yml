@@ -17,4 +17,4 @@ management:
       enabled: true
 dubbo:
   metrics:
-    protocol: prometheus ,
+    protocol: prometheus

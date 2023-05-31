@@ -17,7 +17,7 @@ public abstract class AbstractTreeNode implements Serializable {
     private Long id;
     private String name;
     private String code;
-    private String parentId;
+    private Long parentId;
     private List<AbstractTreeNode> nodes;
     private int level;
     private String url;
@@ -46,11 +46,11 @@ public abstract class AbstractTreeNode implements Serializable {
         this.code = code;
     }
 
-    public String getParentId() {
+    public Long getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Long parentId) {
         this.parentId = parentId;
     }
 
