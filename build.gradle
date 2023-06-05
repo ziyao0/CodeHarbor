@@ -83,15 +83,14 @@ allprojects {
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
     // 需要排除的文件路径
-    def exclude = ['code-generator', 'dubbo-api', 'core', 'web-spring-boot-starter', 'samples', 'mom', 'mom-client']
+    def exclude =
+            ['code-generator', 'dubbo-api', 'core', 'web-spring-boot-starter', 'samples', 'mq-api']
     //获取所有模块信息
     def dirs = []
     rootProject.subprojects.each { subproject ->
         if (!exclude.contains(subproject.name)) {
             if (subproject.name.contains("samples")) {
                 dirs.add('samples/' + subproject.name + '/src/main/resources')
-            } else if (subproject.name.contains("mom")) {
-                dirs.add('mom/' + subproject.name + '/src/main/resources')
             } else {
                 dirs.add(subproject.name + '/src/main/resources')
             }

@@ -1,8 +1,8 @@
-package com.ziyao.cfx.mom.client.api;
+package com.ziyao.cfx.mq.api;
 
 /**
  * @author ziyao zhang
- * @since 2023/5/31
+ * @since 2023/6/1
  */
 public interface MQClient {
 }

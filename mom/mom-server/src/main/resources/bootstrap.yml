@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: mom-server
-  profiles:
-    active: register,mq
-
