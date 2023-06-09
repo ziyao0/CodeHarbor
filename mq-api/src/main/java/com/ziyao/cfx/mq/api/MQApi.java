@@ -6,5 +6,5 @@ package com.ziyao.cfx.mq.api;
  */
 public interface MQApi {
 
-
+    void send(String topic, Message message);
 }

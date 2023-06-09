@@ -1,12 +1,10 @@
 dependencies {
-    implementation(project(":web-spring-boot-starter"))
-    implementation(project(':dubbo-api'))
-    implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
-    implementation('org.springframework.boot:spring-boot-starter-web')
     implementation('org.springframework.boot:spring-boot-autoconfigure')
-    implementation('org.springframework.boot:spring-boot-configuration-processor')
-    implementation('org.springframework.boot:spring-boot-starter-data-redis')
-    implementation('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config')
-    implementation('com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery')
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
     implementation("org.apache.rocketmq:rocketmq-spring-boot-starter:2.2.3")
+    implementation("org.springframework.boot:spring-boot-starter")
+}
+
+tasks.named('compileJava') {
+    inputs.files(tasks.named('processResources'))
 }

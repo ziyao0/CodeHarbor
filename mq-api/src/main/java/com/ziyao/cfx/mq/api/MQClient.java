@@ -5,4 +5,6 @@ package com.ziyao.cfx.mq.api;
  * @since 2023/6/1
  */
 public interface MQClient {
+
+
 }

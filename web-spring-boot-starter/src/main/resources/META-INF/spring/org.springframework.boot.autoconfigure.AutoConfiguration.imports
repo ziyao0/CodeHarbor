@@ -1,4 +1,4 @@
-com.cfx.web.AutoWebConfiguration
-com.cfx.web.global.GlobalExceptionHandlerAdvice
-com.cfx.web.global.GlobalResponseHandlerAdvice
-com.cfx.web.filter.RequestFilter
+com.ziyao.cfx.web.AutoWebConfiguration
+com.ziyao.cfx.web.global.GlobalExceptionHandlerAdvice
+com.ziyao.cfx.web.global.GlobalResponseHandlerAdvice
+com.ziyao.cfx.web.filter.RequestFilter

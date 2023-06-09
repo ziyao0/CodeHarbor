@@ -1,0 +1,33 @@
+{
+  "groups": [
+    {
+      "name": "config.mq",
+      "type": "com.ziyao.cfx.mq.config.MQConfig",
+      "sourceType": "com.ziyao.cfx.mq.config.MQConfig"
+    },
+    {
+      "name": "config.mq.rocketMQ",
+      "type": "com.ziyao.cfx.mq.config.RocketMQConfig",
+      "sourceType": "com.ziyao.cfx.mq.config.RocketMQConfig"
+    },
+    {
+      "name": "config.mq.rabbitMQ",
+      "type": "com.ziyao.cfx.mq.config.RabbitMQConfig",
+      "sourceType": "com.ziyao.cfx.mq.config.RabbitMQConfig"
+    },
+    {
+      "name": "config.mq.kafka",
+      "type": "com.ziyao.cfx.mq.config.KafkaConfig",
+      "sourceType": "com.ziyao.cfx.mq.config.KafkaConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "config.mq.type",
+      "type": "com.ziyao.cfx.mq.api.MQType",
+      "description": "MQ type.",
+      "sourceType": "com.ziyao.cfx.mq.config.MQConfig",
+      "defaultValue": "ROCKET_MQ"
+    }
+  ]
+}
