@@ -82,7 +82,7 @@ public class CodeGenerator {
                 // 自定义配置 可以生成自定义文件
                 .injectionConfig(builder -> {
                     Map<String, Object> map = new HashMap<>();
-                    map.put("dto", "com.cfx.usercenter.dto");
+                    map.put("dto", "com.ziyao.cfx.usercenter.dto");
                     builder.customMap(map)
                             .customFile(Lists.newArrayList(
                                     CustomFileBuilder.createDto("DTO" + StringPool.DOT_JAVA, "templates/entityDTO.java.ftl"))
@@ -105,13 +105,13 @@ public class CodeGenerator {
 
         gc.setModuleName("usercenter");
 
-        gc.setParent("com.cfx");
+        gc.setParent("com.ziyao.cfx");
 
 //        gc.setSuperEntityClass("com.cfx.web.orm.BaseEntity");
 //
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
-        gc.setSuperControllerClass("com.cfx.web.mvc.BaseController");
+        gc.setSuperControllerClass("com.ziyao.cfx.web.mvc.BaseController");
         gc.setInclude("app");
 //        gc.setInclude("app,user,department,menu,role,user_role,role_menu");
 
