@@ -14,9 +14,6 @@ import java.util.Set;
 @Configuration
 @ConfigurationProperties("config.gateway")
 public class GatewayConfig {
-
-
-    private String oauth2Security = "cfx:oauth2:security";
     /**
      * 是否跳过授权，默认不跳过
      */

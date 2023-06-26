@@ -1,4 +1,4 @@
-package com.ziyao.cfx.common.support;
+package com.ziyao.cfx.common.jwt;
 
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;

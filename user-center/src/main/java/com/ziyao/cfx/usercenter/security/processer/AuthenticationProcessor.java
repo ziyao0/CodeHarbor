@@ -11,7 +11,6 @@ import com.ziyao.cfx.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.cfx.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.cfx.usercenter.security.core.GlobalProcessor;
 import com.ziyao.cfx.usercenter.security.handle.AuthenticationSuccessHandler;
-import com.ziyao.cfx.usercenter.security.support.SecurityUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -44,7 +43,7 @@ public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Access
 
             Authentication authentication = attemptAuthentication(loginDTO);
 
-            if (SecurityUtils.authenticated(authentication)) {
+            if (authentication.isAuthenticated()) {
                 SuccessAuthDetails successful = (SuccessAuthDetails) authentication;
                 AccessToken accessToken = successfulAuthentication(successful);
                 this.preProcessAfter(successful);

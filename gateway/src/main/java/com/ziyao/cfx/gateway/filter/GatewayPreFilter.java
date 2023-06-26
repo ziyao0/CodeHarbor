@@ -1,7 +1,7 @@
 package com.ziyao.cfx.gateway.filter;
 
 import com.alibaba.fastjson2.JSON;
-import com.ziyao.cfx.common.support.Tokens;
+import com.ziyao.cfx.common.jwt.Tokens;
 import com.ziyao.cfx.common.writer.Errors;
 import com.ziyao.cfx.gateway.common.config.GatewayConfig;
 import com.ziyao.cfx.gateway.support.IPUtils;

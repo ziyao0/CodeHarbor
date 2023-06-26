@@ -1,10 +1,10 @@
 package com.ziyao.cfx.usercenter.security.processer;
 
-import com.ziyao.cfx.common.support.Tokens;
+import com.ziyao.cfx.common.jwt.Tokens;
+import com.ziyao.cfx.common.utils.SecurityUtils;
 import com.ziyao.cfx.usercenter.security.api.AccessToken;
 import com.ziyao.cfx.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.cfx.usercenter.security.core.LoginPostProcessor;
-import com.ziyao.cfx.usercenter.security.support.SecurityUtils;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;
@@ -26,7 +26,7 @@ public class AuthTokenProcessor implements LoginPostProcessor {
                 .deptId(details.getDeptId())
                 .deptName(details.getDeptName()).userId(details.getUserId())
                 .username(details.getAccessKey()).nickname(details.getNickname()).build();
-        String token = Tokens.create(payload, SecurityUtils.OAUTH2_SECURITY);
+        String token = Tokens.create(payload, SecurityUtils.loadJwtTokenSecret());
         return new AccessToken(token);
     }
 }

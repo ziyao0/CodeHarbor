@@ -5,9 +5,9 @@ import com.auth0.jwt.interfaces.Claim;
 import com.google.common.base.Function;
 import com.ziyao.cfx.common.api.IMessage;
 import com.ziyao.cfx.common.exception.UnauthorizedException;
-import com.ziyao.cfx.common.support.Tokens;
+import com.ziyao.cfx.common.jwt.Tokens;
+import com.ziyao.cfx.common.utils.SecurityUtils;
 import com.ziyao.cfx.common.writer.Errors;
-import com.ziyao.cfx.gateway.common.config.GatewayConfig;
 import com.ziyao.cfx.gateway.security.api.Authorization;
 import com.ziyao.cfx.gateway.security.api.AuthorizationProcessor;
 import com.ziyao.cfx.gateway.security.api.FailureHandler;
@@ -44,8 +44,6 @@ import java.util.function.Consumer;
 @Order(0)
 public class AuthCenterFilter implements GlobalFilter {
 
-    @Autowired
-    private GatewayConfig gatewayConfig;
     @Autowired
     private AuthorizationProcessor authorizationProcessor;
 
@@ -92,7 +90,7 @@ public class AuthCenterFilter implements GlobalFilter {
                             httpHeaders.addAll(headers);
                         })
                         .build();
-                String refreshToken = Tokens.refresh(information.getToken(), gatewayConfig.getOauth2Security(), false);
+                String refreshToken = Tokens.refresh(information.getToken(), SecurityUtils.loadJwtTokenSecret(), false);
                 exchange.getResponse().getHeaders().add(Tokens.AUTHORIZATION, Tokens.getBearerToken(refreshToken));
             };
 
