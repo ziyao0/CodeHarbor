@@ -1,0 +1,9 @@
+{
+
+  "properties": [
+    {
+      "name": "config.gateway.skip-apis",
+      "type": "java.lang.String",
+      "description": "Description for config.gateway.skip-apis."
+  }
+] }
