@@ -14,6 +14,9 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.NonNull;
 
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+
 /**
  * @author ziyao zhang
  * @since 2023/6/29
@@ -21,6 +24,7 @@ import lombok.NonNull;
 public class NettyClient extends AbstractStarter {
     public NettyClient() {
         super(new Bootstrap());
+        init();
     }
 
     @Override
@@ -41,7 +45,10 @@ public class NettyClient extends AbstractStarter {
     }
 
     public static void main(String[] args) {
-        new NettyClient().start("127.0.0.1", 8888);
+
+        SocketAddress socketAddress = new InetSocketAddress("127.0.0.1", 8888);
+
+        new NettyClient().start(socketAddress);
     }
 
 

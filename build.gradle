@@ -84,7 +84,7 @@ allprojects {
 tasks.register('copyFiles', Copy) {
     // 需要排除的文件路径
     def exclude =
-            ['code-generator', 'dubbo-api', 'core', 'web-spring-boot-starter', 'samples', 'mq-api', 'mpuher'
+            ['code-generator', 'dubbo-api', 'core', 'web-spring-boot-starter', 'samples', 'mq-api', 'mpusher'
              , "mpush-client", "mpush-core", "mpush-server"]
     //获取所有模块信息
     def dirs = []

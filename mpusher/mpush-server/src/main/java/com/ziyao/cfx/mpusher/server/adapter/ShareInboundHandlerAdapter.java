@@ -1,9 +1,6 @@
 package com.ziyao.cfx.mpusher.server.adapter;
 
-import com.ziyao.cfx.mpusher.api.Live;
-import com.ziyao.cfx.mpusher.api.Packet;
-import com.ziyao.cfx.mpusher.api.State;
-import com.ziyao.cfx.mpusher.core.ChannelManager;
+import com.ziyao.cfx.mpusher.core.SessionManager;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.util.internal.logging.InternalLogger;
@@ -18,7 +15,6 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
 
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(ShareInboundHandlerAdapter.class);
 
-
     /**
      * 用户上线时出发该方法
      *
@@ -27,8 +23,6 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) {
         LOGGER.info("online:{}", ctx.channel().localAddress());
-        ChannelManager.storage(ctx.channel());
-        ctx.channel().writeAndFlush(new Packet(State.PONG, Live.PONG));
     }
 
     /**
@@ -39,8 +33,7 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         LOGGER.info("CommonHandler: User offline=====>ip：{}", ctx.channel().localAddress());
-        ChannelManager.remove(ctx);
-        ctx.channel().close();
+        SessionManager.removeAndClose(ctx.channel());
     }
 
     /**
@@ -52,7 +45,7 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         try {
-            ChannelManager.remove(ctx);
+            SessionManager.removeAndClose(ctx.channel());
             ctx.channel().close();
             LOGGER.error("CommonHandler: Message exception！", cause);
         } catch (Exception e) {

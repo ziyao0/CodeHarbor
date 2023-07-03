@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.ziyao.cfx.mpusher.api.Live;
 import com.ziyao.cfx.mpusher.api.Packet;
 import com.ziyao.cfx.mpusher.api.State;
-import com.ziyao.cfx.mpusher.core.ChannelManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,7 +20,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(ClientHandler.class);
 
     @Override
-    public void channelActive(ChannelHandlerContext ctx) throws Exception {
+    public void channelActive(ChannelHandlerContext ctx) {
         LOGGER.info("Connection SUCCESS!");
         Channel channel = ctx.channel();
         ChannelManager.storage(channel);
@@ -30,9 +29,15 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         LOGGER.info(JSON.toJSONString(msg));
         Packet packet = new Packet("hello server");
         ctx.channel().writeAndFlush(packet);
+    }
+
+
+    @Override
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        super.channelInactive(ctx);
     }
 }

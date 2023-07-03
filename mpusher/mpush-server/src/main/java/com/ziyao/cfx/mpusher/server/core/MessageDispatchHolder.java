@@ -1,7 +1,6 @@
 package com.ziyao.cfx.mpusher.server.core;
 
 import com.ziyao.cfx.mpusher.api.Packet;
-import com.ziyao.cfx.mpusher.core.ChannelManager;
 import com.ziyao.cfx.mpusher.core.DispatchHolder;
 import io.netty.channel.Channel;
 

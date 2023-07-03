@@ -2,7 +2,6 @@ package com.ziyao.cfx.mpusher.server.adapter;
 
 import com.ziyao.cfx.mpusher.api.Agreement;
 import com.ziyao.cfx.mpusher.api.Packet;
-import com.ziyao.cfx.mpusher.core.ChannelManager;
 import com.ziyao.cfx.mpusher.server.core.HealthBeatProcessor;
 import com.ziyao.cfx.mpusher.server.core.MessageDispatchHolder;
 import io.netty.channel.Channel;
@@ -47,7 +46,6 @@ public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Packet> {
             case SEND -> {
                 // 发送消息
                 LOGGER.debug("{}", packet.getMsg());
-                ctx.channel().writeAndFlush(new Packet("hello client"));
             }
             case PING -> {
                 LOGGER.debug("Received heartbeat parameters:{}", packet);

@@ -9,7 +9,7 @@ import io.netty.util.ResourceLeakDetector;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-import java.net.URI;
+import java.net.SocketAddress;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -52,7 +52,6 @@ public abstract class AbstractStarter implements Starter {
      */
     @Override
     public void start(final int port) {
-        init();
         LOGGER.info("netty core args Initialization complete!");
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
         LOGGER.info("netty server is starting ...");
@@ -69,7 +68,6 @@ public abstract class AbstractStarter implements Starter {
 
     @Override
     public void start(String host, int port) {
-        init();
         ChannelFuture future = bootstrap.connect(host, port);
         future.addListener((ChannelFutureListener) future1 -> {
             if (future1.isSuccess()) {
@@ -82,25 +80,24 @@ public abstract class AbstractStarter implements Starter {
     }
 
     @Override
-    public void start(URI uri) throws InterruptedException {
-        init();
-        ChannelFuture channelFuture = bootstrap.connect(uri.getHost(), uri.getPort()).sync();
+    public void start(SocketAddress socketAddress) {
+        ChannelFuture channelFuture = bootstrap.connect(socketAddress);
         channelFuture.addListener((ChannelFutureListener) future -> {
             if (future.isSuccess()) {
-                LOGGER.info("Netty Server Address：{}:{}{}!", uri.getHost(), uri.getPort(), uri.getPath());
+                LOGGER.info("Netty Server Address：{}!", socketAddress);
                 MISSIONS_RETRIED.set(0);
                 LOGGER.info("Netty Client Shake Hands SUCCESS! Reset retries!");
             } else {
                 future.channel().eventLoop().schedule(() -> {
                     try {
                         int retryCount = MISSIONS_RETRIED.incrementAndGet();
-                        LOGGER.error("The client reconnects! the number of retries is:{}", retryCount);
-                        start(uri);
+                        LOGGER.error("The client reconnect! The number of current reconnections: {}", retryCount);
+                        start(socketAddress);
                     } catch (Exception e) {
-                        LOGGER.error("Reconnect abnormal!,error:{}", e.getMessage());
+                        LOGGER.error("connect exception!", e);
                     }
                 }, getMissionsRetried(), TimeUnit.MILLISECONDS);
-                LOGGER.error("Netty Client Shake Hands FAIL!");
+                LOGGER.error("reconnect!");
             }
         });
     }

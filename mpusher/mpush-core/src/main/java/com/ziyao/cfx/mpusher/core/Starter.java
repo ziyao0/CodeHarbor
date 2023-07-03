@@ -1,6 +1,6 @@
 package com.ziyao.cfx.mpusher.core;
 
-import java.net.URI;
+import java.net.SocketAddress;
 
 /**
  * @author ziyao zhang
@@ -35,11 +35,11 @@ public interface Starter {
     /**
      * Used for netty client startup
      *
-     * @param uri Netty Server for websocket
+     * @param socketAddress socketAddress
      * @throws InterruptedException The program terminal is abnormal
      * @see io.netty.bootstrap.ServerBootstrap#bind()
      */
-    void start(URI uri) throws InterruptedException;
+    void start(SocketAddress socketAddress) throws InterruptedException;
 
     /**
      * to netty server close

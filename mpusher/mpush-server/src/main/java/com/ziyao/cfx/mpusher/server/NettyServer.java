@@ -24,6 +24,7 @@ public class NettyServer extends AbstractStarter {
 
     public NettyServer() {
         super(new ServerBootstrap(), new NioEventLoopGroup(1));
+        init();
     }
 
     @Override
