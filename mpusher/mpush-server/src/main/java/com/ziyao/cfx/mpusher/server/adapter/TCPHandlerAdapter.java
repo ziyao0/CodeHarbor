@@ -2,6 +2,7 @@ package com.ziyao.cfx.mpusher.server.adapter;
 
 import com.ziyao.cfx.mpusher.api.Agreement;
 import com.ziyao.cfx.mpusher.api.Packet;
+import com.ziyao.cfx.mpusher.core.SessionManager;
 import com.ziyao.cfx.mpusher.server.core.HealthBeatProcessor;
 import com.ziyao.cfx.mpusher.server.core.MessageDispatchHolder;
 import io.netty.channel.Channel;
@@ -69,7 +70,7 @@ public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Packet> {
         Channel channel = ctx.channel();
         // Asynchronously process user online retransmissions
         channel.eventLoop().submit(() -> {
-            ChannelManager.storage(ctx.channel());
+            SessionManager.add("", ctx.channel());
             //存储管道和用户id之间的关系
             //设置用户在线
             //User connection attempt message resend

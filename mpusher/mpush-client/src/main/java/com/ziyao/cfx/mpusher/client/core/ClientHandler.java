@@ -23,7 +23,6 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) {
         LOGGER.info("Connection SUCCESS!");
         Channel channel = ctx.channel();
-        ChannelManager.storage(channel);
         // Send heartbeat
         channel.writeAndFlush(new Packet(State.PING, Live.PING));
     }
