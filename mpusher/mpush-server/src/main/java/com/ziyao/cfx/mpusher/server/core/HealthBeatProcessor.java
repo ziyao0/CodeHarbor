@@ -3,7 +3,7 @@ package com.ziyao.cfx.mpusher.server.core;
 import com.alibaba.fastjson.JSON;
 import com.ziyao.cfx.mpusher.api.Agreement;
 import com.ziyao.cfx.mpusher.api.Live;
-import com.ziyao.cfx.mpusher.api.Message;
+import com.ziyao.cfx.mpusher.api.Packet;
 import com.ziyao.cfx.mpusher.api.State;
 import com.ziyao.cfx.mpusher.core.MetricsProcessor;
 import io.netty.channel.ChannelHandlerContext;
@@ -30,7 +30,7 @@ public class HealthBeatProcessor implements MetricsProcessor {
             // send heart beat
             try {
                 Thread.sleep(5000L);
-                Message heartbeat = new Message(State.PONG, Live.PONG);
+                Packet heartbeat = new Packet(State.PONG, Live.PONG);
                 if (agreement.equals(Agreement.TCP)) {
                     ctx.channel().writeAndFlush(heartbeat);
                 } else {

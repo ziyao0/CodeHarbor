@@ -1,6 +1,6 @@
 package com.ziyao.cfx.mpusher.server.core;
 
-import com.ziyao.cfx.mpusher.api.Message;
+import com.ziyao.cfx.mpusher.api.Packet;
 import com.ziyao.cfx.mpusher.core.ChannelManager;
 import com.ziyao.cfx.mpusher.core.DispatchHolder;
 import io.netty.channel.Channel;
@@ -12,16 +12,16 @@ import io.netty.channel.Channel;
 public class MessageDispatchHolder implements DispatchHolder {
 
 
-    public void send(Message message) {
-        switch (message.getType()) {
+    public void send(Packet packet) {
+        switch (packet.getType()) {
             case BROADCAST -> {
-                ChannelManager.channels().writeAndFlush(message);
+                ChannelManager.channels().writeAndFlush(packet);
             }
             case UNICAST -> {
                 Channel channel = ChannelManager.get("");
-                channel.writeAndFlush(message);
+                channel.writeAndFlush(packet);
             }
-            default -> throw new IllegalStateException("Unexpected value: " + message.getType());
+            default -> throw new IllegalStateException("Unexpected value: " + packet.getType());
         }
     }
 

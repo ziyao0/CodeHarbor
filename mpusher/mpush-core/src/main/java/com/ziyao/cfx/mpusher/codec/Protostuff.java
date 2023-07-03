@@ -80,6 +80,7 @@ public abstract class Protostuff {
             ProtostuffIOUtil.mergeFrom(bytes, obj, schema);
             return obj;
         } catch (Exception e) {
+            e.printStackTrace();
             throw new IllegalStateException(e.getMessage());
         }
     }

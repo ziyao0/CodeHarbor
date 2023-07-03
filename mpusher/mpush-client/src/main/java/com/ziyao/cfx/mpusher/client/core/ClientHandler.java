@@ -1,9 +1,9 @@
 package com.ziyao.cfx.mpusher.client.core;
 
+import com.alibaba.fastjson.JSON;
 import com.ziyao.cfx.mpusher.api.Live;
-import com.ziyao.cfx.mpusher.api.Message;
+import com.ziyao.cfx.mpusher.api.Packet;
 import com.ziyao.cfx.mpusher.api.State;
-import com.ziyao.cfx.mpusher.codec.Protostuff;
 import com.ziyao.cfx.mpusher.core.ChannelManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
@@ -26,6 +26,13 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         Channel channel = ctx.channel();
         ChannelManager.storage(channel);
         // Send heartbeat
-        channel.writeAndFlush(Protostuff.serializer(new Message(State.PING, Live.PING)));
+        channel.writeAndFlush(new Packet(State.PING, Live.PING));
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        LOGGER.info(JSON.toJSONString(msg));
+        Packet packet = new Packet("hello server");
+        ctx.channel().writeAndFlush(packet);
     }
 }

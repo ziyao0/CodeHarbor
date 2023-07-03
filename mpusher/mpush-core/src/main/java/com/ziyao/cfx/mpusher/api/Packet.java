@@ -9,7 +9,7 @@ import java.util.Objects;
  * @author ziyao zhang
  * @since 2023/6/29
  */
-public class Message implements Serializable {
+public class Packet implements Serializable {
     @Serial
     private static final long serialVersionUID = -130418831225718544L;
 
@@ -23,23 +23,27 @@ public class Message implements Serializable {
      */
     private List<String> receivedBys;
 
-    public Message(State state, Object msg) {
+    public Packet() {
+    }
+
+    public Packet(State state, Object msg) {
         this.state = state;
         this.msg = msg;
     }
 
-    public Message(Object msg, String receivedBy) {
+    public Packet(Object msg, String receivedBy) {
         this.msg = msg;
         this.type = Type.UNICAST;
         this.receivedBys = List.of(receivedBy);
     }
 
-    public Message(Object msg) {
+    public Packet(Object msg) {
         this.msg = msg;
+        this.state = State.SEND;
         this.type = Type.BROADCAST;
     }
 
-    public Message(Object msg, List<String> receivedBys) {
+    public Packet(Object msg, List<String> receivedBys) {
         this.msg = msg;
         this.type = Type.UNICAST;
         this.receivedBys = receivedBys;
@@ -49,8 +53,8 @@ public class Message implements Serializable {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Message message = (Message) o;
-        return state == message.state && Objects.equals(msg, message.msg) && type == message.type && Objects.equals(receivedBys, message.receivedBys);
+        Packet packet = (Packet) o;
+        return state == packet.state && Objects.equals(msg, packet.msg) && type == packet.type && Objects.equals(receivedBys, packet.receivedBys);
     }
 
     @Override
@@ -90,7 +94,7 @@ public class Message implements Serializable {
         this.receivedBys = receivedBys;
     }
 
-   public enum Type {
+    public enum Type {
         BROADCAST,
         UNICAST,
         ;

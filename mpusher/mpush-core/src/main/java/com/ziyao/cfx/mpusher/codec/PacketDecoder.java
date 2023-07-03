@@ -1,5 +1,6 @@
 package com.ziyao.cfx.mpusher.codec;
 
+import com.ziyao.cfx.mpusher.api.Packet;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageDecoder;
@@ -12,15 +13,10 @@ import java.util.List;
  * @author ziyao zhang
  * @since 2023/6/29
  */
-public class MessageDecoder extends ByteToMessageDecoder {
+public class PacketDecoder extends ByteToMessageDecoder {
 
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(ByteToMessageDecoder.class);
 
-    private final Class<?> genericClass;
-
-    public MessageDecoder(Class<?> genericClass) {
-        this.genericClass = genericClass;
-    }
 
     @Override
     protected void decode(ChannelHandlerContext ctx, ByteBuf in, List<Object> out) throws Exception {
@@ -36,7 +32,7 @@ public class MessageDecoder extends ByteToMessageDecoder {
         }
         byte[] data = new byte[dataLength];
         in.readBytes(data);
-        Object deserializer = Protostuff.deserializer(data, genericClass);
+        Object deserializer = Protostuff.deserializer(data, Packet.class);
         out.add(deserializer);
     }
 }

@@ -15,7 +15,7 @@ public class Metadata implements Serializable {
 
     private Agreement agreement;
 
-    private Message message;
+    private Packet packet;
 
     public static Metadata.MetadataBuilder builder() {
         return new Metadata.MetadataBuilder();
@@ -24,10 +24,10 @@ public class Metadata implements Serializable {
     public Metadata() {
     }
 
-    public Metadata(int dataLength, Agreement agreement, Message message) {
+    public Metadata(int dataLength, Agreement agreement, Packet packet) {
         this.dataLength = dataLength;
         this.agreement = agreement;
-        this.message = message;
+        this.packet = packet;
     }
 
     public Agreement getAgreement() {
@@ -46,17 +46,17 @@ public class Metadata implements Serializable {
         this.dataLength = dataLength;
     }
 
-    public Message getMessage() {
-        return message;
+    public Packet getMessage() {
+        return packet;
     }
 
-    public void setMessage(Message message) {
-        this.message = message;
+    public void setMessage(Packet packet) {
+        this.packet = packet;
     }
 
     public static class MetadataBuilder {
         private int dataLength;
-        private Message message;
+        private Packet packet;
         private Agreement agreement;
 
         public MetadataBuilder() {
@@ -67,8 +67,8 @@ public class Metadata implements Serializable {
             return this;
         }
 
-        public Metadata.MetadataBuilder message(final Message message) {
-            this.message = message;
+        public Metadata.MetadataBuilder message(final Packet packet) {
+            this.packet = packet;
             return this;
         }
 
@@ -78,7 +78,7 @@ public class Metadata implements Serializable {
         }
 
         public Metadata build() {
-            return new Metadata(this.dataLength, this.agreement, this.message);
+            return new Metadata(this.dataLength, this.agreement, this.packet);
         }
     }
 }

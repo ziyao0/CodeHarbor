@@ -1,7 +1,7 @@
 package com.ziyao.cfx.mpusher.server.adapter;
 
 import com.ziyao.cfx.mpusher.api.Agreement;
-import com.ziyao.cfx.mpusher.api.Message;
+import com.ziyao.cfx.mpusher.api.Packet;
 import com.ziyao.cfx.mpusher.core.ChannelManager;
 import com.ziyao.cfx.mpusher.server.core.HealthBeatProcessor;
 import com.ziyao.cfx.mpusher.server.core.MessageDispatchHolder;
@@ -17,7 +17,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  * @since 2023/6/29
  */
 @ChannelHandler.Sharable
-public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Message> {
+public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Packet> {
 
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(TCPHandlerAdapter.class);
 
@@ -27,35 +27,35 @@ public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Message> {
         this.messageDispatchHolder = messageDispatchHolder;
     }
 
+
     /**
      * 读取客户端发送的数据
      *
-     * @param ctx     Context object, containing channels{@link io.netty.channel.Channel}
-     *                channel{@link io.netty.channel.ChannelPipeline}
-     * @param message Data sent by the client
+     * @param ctx    Context object, containing channels{@link io.netty.channel.Channel}
+     *               channel{@link io.netty.channel.ChannelPipeline}
+     * @param packet Data sent by the client
      * @see io.netty.channel.Channel
      * @see io.netty.channel.ChannelPipeline
      */
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, Message message) {
-        LOGGER.info("TCP Server send to message is {}", message.getMsg());
-        switch (message.getState()) {
+    protected void channelRead0(ChannelHandlerContext ctx, Packet packet) {
+        LOGGER.info("TCP Server send to message is {}", packet.getMsg());
+        switch (packet.getState()) {
             case OPEN ->
                 // 请求
-                    processReadEvent(ctx, (String) message.getMsg());
+                    processReadEvent(ctx, (String) packet.getMsg());
             case SEND -> {
                 // 发送消息
-                LOGGER.debug("{}", message.getMsg());
-
+                LOGGER.debug("{}", packet.getMsg());
+                ctx.channel().writeAndFlush(new Packet("hello client"));
             }
-
             case PING -> {
-                LOGGER.debug("Received heartbeat parameters:{}", message);
+                LOGGER.debug("Received heartbeat parameters:{}", packet);
                 //健康检查pong
                 new HealthBeatProcessor().process(ctx, Agreement.TCP);
             }
-            case ACK -> messageDispatchHolder.ack((String) message.getMsg());
-            default -> LOGGER.error("Unknown processing status {}!", message.getState());
+            case ACK -> messageDispatchHolder.ack((String) packet.getMsg());
+            default -> LOGGER.error("Unknown processing status {}!", packet.getState());
         }
     }
 

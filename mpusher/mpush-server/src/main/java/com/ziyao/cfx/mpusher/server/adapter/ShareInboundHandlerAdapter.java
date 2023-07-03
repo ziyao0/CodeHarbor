@@ -1,5 +1,8 @@
 package com.ziyao.cfx.mpusher.server.adapter;
 
+import com.ziyao.cfx.mpusher.api.Live;
+import com.ziyao.cfx.mpusher.api.Packet;
+import com.ziyao.cfx.mpusher.api.State;
 import com.ziyao.cfx.mpusher.core.ChannelManager;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
@@ -25,6 +28,7 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) {
         LOGGER.info("online:{}", ctx.channel().localAddress());
         ChannelManager.storage(ctx.channel());
+        ctx.channel().writeAndFlush(new Packet(State.PONG, Live.PONG));
     }
 
     /**

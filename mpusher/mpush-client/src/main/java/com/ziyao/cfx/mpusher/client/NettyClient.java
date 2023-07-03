@@ -1,15 +1,18 @@
 package com.ziyao.cfx.mpusher.client;
 
 import com.ziyao.cfx.mpusher.client.core.ClientHandler;
+import com.ziyao.cfx.mpusher.codec.PacketDecoder;
+import com.ziyao.cfx.mpusher.codec.PacketEncoder;
 import com.ziyao.cfx.mpusher.core.AbstractStarter;
-import com.ziyao.cfx.mpusher.core.PipelineHolder;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
+import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
+import lombok.NonNull;
 
 /**
  * @author ziyao zhang
@@ -28,9 +31,11 @@ public class NettyClient extends AbstractStarter {
                 .handler(new LoggingHandler(LogLevel.INFO))
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
-                    protected void initChannel(SocketChannel channel) {
-                        PipelineHolder.createPipeline(channel);
-                        PipelineHolder.addLast(new ClientHandler());
+                    protected void initChannel(@NonNull SocketChannel channel) {
+                        ChannelPipeline pipeline = channel.pipeline();
+                        pipeline.addLast(new PacketDecoder());
+                        pipeline.addLast(new PacketEncoder());
+                        pipeline.addLast(new ClientHandler());
                     }
                 });
     }

@@ -2,8 +2,8 @@ package com.ziyao.cfx.mpusher.core;
 
 import com.alibaba.fastjson.JSON;
 import com.ziyao.cfx.mpusher.api.Agreement;
-import com.ziyao.cfx.mpusher.api.Message;
-import com.ziyao.cfx.mpusher.codec.MessageEncoder;
+import com.ziyao.cfx.mpusher.api.Packet;
+import com.ziyao.cfx.mpusher.codec.PacketEncoder;
 import com.ziyao.cfx.mpusher.codec.Protostuff;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -17,7 +17,7 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  */
 public interface MetricsProcessor {
 
-    InternalLogger LOGGER = InternalLoggerFactory.getInstance(MessageEncoder.class);
+    InternalLogger LOGGER = InternalLoggerFactory.getInstance(PacketEncoder.class);
 
 
     /**
@@ -44,15 +44,15 @@ public interface MetricsProcessor {
      *
      * @param metadata 消息元数据
      * @return Return message object
-     * @see com.ziyao.cfx.mpusher.api.Message  转换
+     * @see Packet  转换
      */
-    default Message transform(Object metadata) {
+    default Packet transform(Object metadata) {
         switch (Agreement.getInstance(metadata)) {
             case WS -> {
-                return JSON.parseObject(((TextWebSocketFrame) metadata).text(), Message.class);
+                return JSON.parseObject(((TextWebSocketFrame) metadata).text(), Packet.class);
             }
             case TCP -> {
-                return Protostuff.deserializer(Protostuff.byteBufToBytes((ByteBuf) metadata), Message.class);
+                return Protostuff.deserializer(Protostuff.byteBufToBytes((ByteBuf) metadata), Packet.class);
             }
             case HTTP -> {
                 LOGGER.debug("HTTP protocol requests will not be processed temporarily!");
