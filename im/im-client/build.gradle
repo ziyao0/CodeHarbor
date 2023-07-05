@@ -1,0 +1,3 @@
+dependencies {
+    implementation(project(':im:im-core'))
+}
