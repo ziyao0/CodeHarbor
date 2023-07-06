@@ -1,6 +1,6 @@
 package com.ziyao.cfx.im.server.adapter;
 
-import com.ziyao.cfx.im.core.SessionManager;
+import com.ziyao.cfx.im.server.core.NettySessionManager;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
 import io.netty.util.internal.logging.InternalLogger;
@@ -11,9 +11,9 @@ import io.netty.util.internal.logging.InternalLoggerFactory;
  * @since 2023/6/29
  */
 @ChannelHandler.Sharable
-public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
+public class ShareHandlerAdapter extends ChannelInboundHandlerAdapter {
 
-    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(ShareInboundHandlerAdapter.class);
+    private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(ShareHandlerAdapter.class);
 
     /**
      * 用户上线时出发该方法
@@ -33,7 +33,7 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) {
         LOGGER.info("CommonHandler: User offline=====>ip：{}", ctx.channel().localAddress());
-        SessionManager.removeAndClose(ctx.channel());
+        NettySessionManager.removeAndClose(ctx.channel());
     }
 
     /**
@@ -45,7 +45,7 @@ public class ShareInboundHandlerAdapter extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         try {
-            SessionManager.removeAndClose(ctx.channel());
+            NettySessionManager.removeAndClose(ctx.channel());
             ctx.channel().close();
             LOGGER.error("CommonHandler: Message exception！", cause);
         } catch (Exception e) {

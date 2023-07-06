@@ -2,9 +2,9 @@ package com.ziyao.cfx.im.server.adapter;
 
 import com.ziyao.cfx.im.api.Agreement;
 import com.ziyao.cfx.im.api.Packet;
-import com.ziyao.cfx.im.core.SessionManager;
 import com.ziyao.cfx.im.server.core.HealthBeatProcessor;
 import com.ziyao.cfx.im.server.core.MessageDispatchHolder;
+import com.ziyao.cfx.im.server.core.NettySessionManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
@@ -43,7 +43,7 @@ public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Packet> {
         switch (packet.getEvent()) {
             case OPEN ->
                 // 请求
-                    processReadEvent(ctx, (String) packet.getData());
+                    processReadEvent(ctx, packet);
             case SEND -> {
                 // 发送消息
                 LOGGER.debug("111{}", packet.getData());
@@ -64,18 +64,19 @@ public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Packet> {
      *
      * @param ctx    Context object, containing channels{@link io.netty.channel.Channel}
      *               channel{@link io.netty.channel.ChannelPipeline}
-     * @param userId User ID
+     * @param packet 数据包
      */
-    private void processReadEvent(ChannelHandlerContext ctx, String userId) {
+    private void processReadEvent(ChannelHandlerContext ctx, Packet packet) {
         Channel channel = ctx.channel();
+        String receivedBy = packet.getReceivedBys().get(0);
         // Asynchronously process user online retransmissions
         channel.eventLoop().submit(() -> {
-            SessionManager.add("", ctx.channel());
+            NettySessionManager.add(receivedBy, ctx.channel());
             //存储管道和用户id之间的关系
             //设置用户在线
             //User connection attempt message resend
-            LOGGER.debug("[TCP]:{}", userId);
-            messageDispatchHolder.retry(userId);
+            LOGGER.debug("[TCP]:{}", receivedBy);
+            messageDispatchHolder.retry(receivedBy);
         });
     }
 }

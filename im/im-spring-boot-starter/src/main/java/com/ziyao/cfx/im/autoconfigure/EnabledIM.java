@@ -1,6 +1,5 @@
-package com.ziyao.cfx.im.api;
+package com.ziyao.cfx.im.autoconfigure;
 
-import com.ziyao.cfx.im.AutoIMConfigurationImportSelector;
 import org.springframework.context.annotation.Import;
 
 import java.lang.annotation.*;

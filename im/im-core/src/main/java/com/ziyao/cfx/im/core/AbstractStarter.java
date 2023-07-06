@@ -10,10 +10,12 @@ import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.net.SocketAddress;
+import java.net.UnknownHostException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.regex.Pattern;
 
 /**
  * @author ziyao zhang
@@ -22,6 +24,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 public abstract class AbstractStarter implements Starter {
     private static final InternalLogger LOGGER = InternalLoggerFactory.getInstance(AbstractStarter.class);
 
+    private static final Pattern PORT_PATTERN = Pattern.compile(
+            "([0-9]|[1-9]\\d{1,3}|[1-5]\\d{4}|6[0-4]\\d{4}|65[0-4]\\d{2}|655[0-2]\\d|6553[0-5])");
+    private static final Pattern IP_PATTERN = Pattern.compile(
+            "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$");
     protected final AtomicBoolean started = new AtomicBoolean();
 
     private static final AtomicInteger MISSIONS_RETRIED = new AtomicInteger(0);
@@ -134,6 +140,59 @@ public abstract class AbstractStarter implements Starter {
         return started.get();
     }
 
+
+    /**
+     * Fetch Port by default
+     *
+     * @return port
+     */
+    protected int fetchPort(String address) throws UnknownHostException {
+        String val = address.split(":")[1];
+        int port = Integer.parseInt(val);
+        if (checkPort(port)) {
+            return port;
+        }
+        throw new UnknownHostException(address);
+    }
+
+    /**
+     * Fetch Port by default
+     *
+     * @return port
+     */
+    protected String fetchIP(String address) throws UnknownHostException {
+        String ip = address.split(":")[0];
+        if (checkIP(ip)) {
+            return ip;
+        }
+        throw new UnknownHostException(address);
+    }
+
+    /**
+     * Verify port legitimacy
+     *
+     * @param port Resource port
+     * @return Return the verification result , {@link Boolean#TRUE} is legitimate
+     */
+    private boolean checkPort(Integer port) {
+        if (port != null && port > 0) {
+            return PORT_PATTERN.matcher(String.valueOf(port)).matches();
+        }
+        return false;
+    }
+
+    /**
+     * Verify IP legitimacy
+     *
+     * @param ip ip
+     * @return Return the verification result , {@link Boolean#TRUE} is legitimate
+     */
+    private boolean checkIP(String ip) {
+        if (ip != null && ip.length() > 0) {
+            return IP_PATTERN.matcher(ip).matches();
+        }
+        return false;
+    }
 
     /**
      * try start netty server.

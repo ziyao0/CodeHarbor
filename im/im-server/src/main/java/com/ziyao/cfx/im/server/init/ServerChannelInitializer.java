@@ -2,7 +2,7 @@ package com.ziyao.cfx.im.server.init;
 
 import com.ziyao.cfx.im.codec.PacketDecoder;
 import com.ziyao.cfx.im.codec.PacketEncoder;
-import com.ziyao.cfx.im.server.adapter.ShareInboundHandlerAdapter;
+import com.ziyao.cfx.im.server.adapter.ShareHandlerAdapter;
 import com.ziyao.cfx.im.server.adapter.TCPHandlerAdapter;
 import com.ziyao.cfx.im.server.core.MessageDispatchHolder;
 import io.netty.channel.ChannelInitializer;
@@ -24,7 +24,7 @@ public class ServerChannelInitializer extends ChannelInitializer<SocketChannel> 
 //        PipelineHolder.createPipeline(channel);
         pipeline.addLast(new PacketDecoder());
         pipeline.addLast(new PacketEncoder());
-        pipeline.addLast(new ShareInboundHandlerAdapter());
+        pipeline.addLast(new ShareHandlerAdapter());
         pipeline.addLast(new TCPHandlerAdapter(new MessageDispatchHolder()));
     }
 
