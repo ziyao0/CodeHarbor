@@ -25,16 +25,6 @@ public interface Starter {
     /**
      * Used for netty client startup
      *
-     * @param ip   Netty Server IP
-     * @param port Netty Server Port
-     * @throws InterruptedException The program terminal is abnormal
-     * @see io.netty.bootstrap.ServerBootstrap#bind()
-     */
-    void start(String ip, int port) throws InterruptedException;
-
-    /**
-     * Used for netty client startup
-     *
      * @param socketAddress socketAddress
      * @throws InterruptedException The program terminal is abnormal
      * @see io.netty.bootstrap.ServerBootstrap#bind()
@@ -48,26 +38,6 @@ public interface Starter {
      * @see io.netty.bootstrap.ServerBootstrap#bind()
      */
     void close() throws InterruptedException;
-
-
-    /**
-     * sync start netty server
-     *
-     * @return Whether to start successfully
-     */
-    default boolean syncStart() {
-        return false;
-    }
-
-    /**
-     * sync stop netty server
-     *
-     * @return Whether to stop successfully
-     */
-    default boolean syncStop() {
-        return false;
-    }
-
 
     /**
      * judgment netty server if running

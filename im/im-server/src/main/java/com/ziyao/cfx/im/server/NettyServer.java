@@ -25,22 +25,17 @@ public class NettyServer extends AbstractStarter {
     public NettyServer() {
         super(new ServerBootstrap(), new NioEventLoopGroup(1));
         init();
+        LOGGER.info("Netty核心配置初始化完成!");
     }
 
     @Override
     public void init() {
-        LOGGER.info("Initialize Bootstrap parameters...");
         super.getServerBootstrap().group(super.getBossGroup(), super.getWorkGroup())
                 .channel(NioServerSocketChannel.class)
-                .handler(new LoggingHandler(LogLevel.DEBUG))
+                .handler(new LoggingHandler(LogLevel.INFO))
                 //Initialize server connection queue size 初始化服务器连队大小
                 .option(ChannelOption.SO_BACKLOG, 1024)
                 /*
-                 * Used to manipulate the size of the receiving buffer and sending buffer,
-                 * the receiving buffer is used to store the data received in the network protocol station,
-                 * Until the application program reads successfully,
-                 * the sending buffer is used to save the sending data until the sending is successful.
-                 * <p>
                  * TCP层面的接收和发送缓冲区大小设置，
                  * 在Netty中分别对应ChannelOption的SO_SNDBUF和SO_RCVBUF，
                  * 需要根据推送消息的大小，合理设置，对于海量长连接，通常32K是个不错的选择。
@@ -48,14 +43,6 @@ public class NettyServer extends AbstractStarter {
                 .childOption(ChannelOption.SO_SNDBUF, 32 * 1024)
                 .childOption(ChannelOption.SO_RCVBUF, 32 * 1024)
                 /*
-                 *  <p>
-                 *  A new ByteBuf memory pool is implemented in Netty 4,
-                 *  which is a pure Java version of jemalloc (also used by Facebook). Now,
-                 *  Netty will no longer waste memory bandwidth by filling the buffer with zeros.
-                 *  However, since it does not rely on GC, developers need to be careful about memory leaks.
-                 *  If you forget to release the buffer in the handler, the memory usage will increase indefinitely.
-                 *  Netty does not use the memory pool by default, it needs to be specified when creating the client or server.
-                 * </p>
                  * 在Netty 4中实现了一个新的ByteBuf内存池，它是一个纯Java版本的 jemalloc （Facebook也在用）。
                  * 现在，Netty不会再因为用零填充缓冲区而浪费内存带宽了。不过，由于它不依赖于GC，开发人员需要小心内存泄漏。
                  * 如果忘记在处理程序中释放缓冲区，那么内存使用率会无限地增长。
@@ -64,35 +51,6 @@ public class NettyServer extends AbstractStarter {
                 .option(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 .childOption(ChannelOption.ALLOCATOR, PooledByteBufAllocator.DEFAULT)
                 /*
-                 * <p>
-                 *  Generally speaking, if our business is relatively small, we use synchronous processing.
-                 *  When the business reaches a certain scale, an optimization method is asynchronous.
-                 *  Async is a good way to improve throughput. However, compared with asynchronous,
-                 *  synchronization has a natural negative feedback mechanism, that is, if the back end is slow,
-                 *  the front will also slow down and can be adjusted automatically. But async is different.
-                 *  Async is like a dam bursting a bank. The flood is unimpeded.
-                 *  If effective current limiting measures are not taken at this time, it is easy to overwhelm the back end.
-                 *  It is not the worst situation if the back end is rushed down all of a sudden,
-                 *  for fear of rushing the back end to death. At this time, the back end will become particularly slow.
-                 *  If the previous application uses some unbounded resources at this time, it may kill itself.
-                 *  So the pit to be introduced now is about the ChannelOutboundBuffer in Netty.
-                 *  This buffer is used when netty writes data to the channel.
-                 *  There is a buffer buffer, which can improve the throughput of the network (each channel has one such buffer).
-                 *  The initial size is 32 (32 elements, not bytes), but if it exceeds 32, it will double and keep growing.
-                 *  Most of the time there is no problem, but it is very slow when it comes to the opposite
-                 *  end (the slowness of the opposite end refers to the slowness of the opposite end to process TCP packets,
-                 *  for example, this may be the case when the opposite end has a particularly high load) There will be a problem at that time.
-                 *  If you continue to write data at this time, the buffer will continue to grow,
-                 *  and finally there may be a problem (in our case, we started to eat swap, and finally the process was killed by the linux killer).
-                 *  Why is this place a pit? Because most of the time we write data to a channel to determine whether the channel is active,
-                 *  but we often ignore this slow situation. How to solve this problem? Although ChannelOutboundBuffer is unbounded,
-                 *  it can be configured with a high-water mark and low-water mark. When the size of the buffer exceeds the high-water mark,
-                 *  the isWritable of the corresponding channel will become false.
-                 *  When the size of the buffer is lower than the low-water mark ,
-                 *  IsWritable will become true. So the application should judge isWritable, if it is false, don't write data anymore.
-                 *  The high-water mark and low-water mark are the number of bytes. The default high-water mark is 64K and the low-water mark is 32K.
-                 *  We can make a reasonable plan based on how many connections and system resources our application needs to support.
-                 * </p>
                  * <p>
                  * 这个坑其实也不算坑，只是因为懒，该做的事情没做。一般来讲我们的业务如果比较小的时候我们用同步处理，等业务到一定规模的时候，一个优化手段就是异步化。
                  * 异步化是提高吞吐量的一个很好的手段。但是，与异步相比，同步有天然的负反馈机制，也就是如果后端慢了，前面也会跟着慢起来，可以自动的调节。

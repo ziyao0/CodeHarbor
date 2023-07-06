@@ -53,12 +53,40 @@ public abstract class AbstractStarter implements Starter {
 
     /**
      * Start the netty service
+     * <p>
+     * 设置Netty的ResourceLeakDetector级别为PARANOID（极度谨慎）级别。ResourceLeakDetector是Netty框架中用于检测资源泄漏的工具。
+     * 资源泄漏是指在使用完资源后没有及时释放或关闭资源，导致资源无法回收和释放的情况。在网络编程中，资源泄漏可能会导致内存泄漏和性能问题。
+     * ResourceLeakDetector的级别用于控制资源泄漏检测的严格程度，有以下几个级别可供选择：
+     * <p>
+     * DISABLED：禁用资源泄漏检测。
+     * SIMPLE：简单模式，只检测少数关键资源。
+     * ADVANCED：进一步增加了检测的资源类型。
+     * PARANOID：极度谨慎模式，对所有可能的资源进行检测。
+     * <p>
+     * 需要注意的是，设置ResourceLeakDetector的级别是一个全局设置，将影响整个Netty应用程序的资源泄漏检测。在开发和调试阶段，
+     * 将级别设置为PARANOID可以帮助发现潜在的资源泄漏问题，但在生产环境中可能会带来性能开销，因此应根据实际情况进行选择。
+     * <p>
+     * 在生产环境中，为了平衡性能和资源泄漏检测的需要，通常建议将Netty的ResourceLeakDetector级别设置为SIMPLE或ADVANCED。
+     * 这样可以在一定程度上检测资源泄漏问题，同时减少对性能的影响。
+     * <p>
+     * 以下是一些建议的配置：
+     * <p>
+     * {@code  ResourceLeakDetector#setLevel(ResourceLeakDetector.Level.SIMPLE)}
+     * 这将设置ResourceLeakDetector的级别为SIMPLE。它会检测一些关键资源的泄漏，对于大多数生产环境而言是一个合理的折中选择。
+     * <p>
+     * {@code  ResourceLeakDetector#setLevel(ResourceLeakDetector.Level.ADVANCED)}
+     * 这将设置ResourceLeakDetector的级别为ADVANCED。它会进一步增加对资源泄漏的检测范围，但相应地可能会对性能产生一些额外的开销。在需要更严格的资源泄漏检测的生产环境中，可以选择这个级别。
+     * <p>
+     * 同时，需要注意以下几点：
+     * <p>
+     * ResourceLeakDetector的级别设置是全局的，对整个Netty应用程序生效。
+     * 在生产环境中，通常建议将日志级别设置为适当的水平（例如INFO或WARN），以避免日志过于冗长，同时仍然能够在需要时记录重要的错误和警告信息。
+     * 此外，还应该确保代码中没有明显的资源泄漏问题，并进行合理的资源管理和释放，以最大程度地减少潜在的泄漏风险。
      *
      * @param port The port number
      */
     @Override
     public void start(final int port) {
-        LOGGER.info("netty core args Initialization complete!");
         ResourceLeakDetector.setLevel(ResourceLeakDetector.Level.PARANOID);
         LOGGER.info("netty server is starting ...");
         final ChannelFuture future = this.serverBootstrap.bind(port);
@@ -73,37 +101,23 @@ public abstract class AbstractStarter implements Starter {
     }
 
     @Override
-    public void start(String host, int port) {
-        ChannelFuture future = bootstrap.connect(host, port);
-        future.addListener((ChannelFutureListener) future1 -> {
-            if (future1.isSuccess()) {
-                LOGGER.info("Netty Client SUCCESS!");
-                LOGGER.info("Netty Server Address：{}:{}!", host, port);
-            } else {
-                LOGGER.error("Netty Client FAIL!");
-            }
-        });
-    }
-
-    @Override
     public void start(SocketAddress socketAddress) {
         ChannelFuture channelFuture = bootstrap.connect(socketAddress);
         channelFuture.addListener((ChannelFutureListener) future -> {
             if (future.isSuccess()) {
-                LOGGER.info("Netty Server Address：{}!", socketAddress);
+                LOGGER.info("Netty服务端地址：{}!", socketAddress);
                 MISSIONS_RETRIED.set(0);
-                LOGGER.info("Netty Client Shake Hands SUCCESS! Reset retries!");
+                LOGGER.info("Netty客户端启动成功！");
             } else {
                 future.channel().eventLoop().schedule(() -> {
                     try {
                         int retryCount = MISSIONS_RETRIED.incrementAndGet();
-                        LOGGER.error("The client reconnect! The number of current reconnections: {}", retryCount);
+                        LOGGER.error("客户端重新连接！当前重新连接次数: {}", retryCount);
                         start(socketAddress);
                     } catch (Exception e) {
-                        LOGGER.error("connect exception!", e);
+                        LOGGER.error("连接异常!", e);
                     }
                 }, getMissionsRetried(), TimeUnit.MILLISECONDS);
-                LOGGER.error("reconnect!");
             }
         });
     }
