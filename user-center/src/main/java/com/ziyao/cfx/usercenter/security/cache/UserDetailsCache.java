@@ -6,7 +6,7 @@ import java.util.function.Function;
 
 /**
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public interface UserDetailsCache<T extends UserDetails> {
 

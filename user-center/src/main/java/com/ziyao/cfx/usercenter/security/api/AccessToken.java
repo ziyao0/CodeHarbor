@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 @Data
 public class AccessToken implements Serializable {

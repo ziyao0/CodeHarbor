@@ -10,7 +10,7 @@ import org.springframework.util.ObjectUtils;
  * 检查用户状态公共类
  *
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public class UserStatusChecker implements UserDetailsChecker {
 

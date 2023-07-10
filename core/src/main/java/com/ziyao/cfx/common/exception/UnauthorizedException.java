@@ -7,7 +7,7 @@ import java.io.Serial;
 
 /**
  * @author zhangziyao
- * @date 2023/4/21
+ * @since 2023/4/21
  */
 public class UnauthorizedException extends RuntimeException implements IMessage {
     @Serial

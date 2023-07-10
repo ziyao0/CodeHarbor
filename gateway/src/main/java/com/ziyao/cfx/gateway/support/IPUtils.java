@@ -1,5 +1,6 @@
 package com.ziyao.cfx.gateway.support;
 
+import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.ObjectUtils;
@@ -7,14 +8,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.net.InetSocketAddress;
+import java.net.URL;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 public abstract class IPUtils {
 
-
+    private static final String IP2REGION_PATH = "META-INF/ip2region.xdb";
     private static final String X_FORWARDED_FOR = "X-Forwarded-For";
     private static final String X_REAL_IP = "X-Real-IP";
     private static final String UNKNOWN = "unknown";
@@ -37,5 +39,24 @@ public abstract class IPUtils {
             return UNKNOWN;
         }
         return remoteAddress.getAddress().getHostAddress();
+    }
+
+    public static String getAddr(String ip) {
+        try {
+            URL resource = IPUtils.class.getClassLoader().getResource(IP2REGION_PATH);
+            String path = null;
+            if (resource != null) {
+                path = resource.getPath();
+            }
+            byte[] bytes = Searcher.loadContentFromFile(path);
+            Searcher searcher = Searcher.newWithBuffer(bytes);
+            return searcher.search(ip);
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public static void main(String[] args) {
+        System.out.println(getAddr("61.135.215.24"));
     }
 }
