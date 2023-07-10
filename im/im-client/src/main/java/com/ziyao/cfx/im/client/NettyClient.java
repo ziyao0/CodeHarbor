@@ -18,6 +18,7 @@ import io.netty.handler.logging.LoggingHandler;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 
+import java.lang.invoke.CallSite;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.UnknownHostException;
@@ -28,8 +29,6 @@ import java.net.UnknownHostException;
  */
 @Slf4j
 public class NettyClient extends AbstractStarter {
-
-//    private static final Logger LOGGER =
 
     private final String serverAddr;
 
@@ -48,15 +47,24 @@ public class NettyClient extends AbstractStarter {
                 .option(ChannelOption.SO_KEEPALIVE, true)
                 .channel(NioSocketChannel.class)
                 .handler(new LoggingHandler(LogLevel.INFO))
-                .handler(new ChannelInitializer<SocketChannel>() {
-                    @Override
-                    protected void initChannel(@NonNull SocketChannel channel) {
-                        ChannelPipeline pipeline = channel.pipeline();
-                        pipeline.addLast(new PacketDecoder());
-                        pipeline.addLast(new PacketEncoder());
-                        pipeline.addLast(clientHandler);
-                    }
-                });
+                .handler(new SocketChannelInitializer(clientHandler));
+    }
+
+
+    private static class SocketChannelInitializer extends ChannelInitializer<SocketChannel> {
+        private final ClientHandler clientHandler;
+
+        public SocketChannelInitializer(ClientHandler clientHandler) {
+            this.clientHandler = clientHandler;
+        }
+
+        @Override
+        protected void initChannel(SocketChannel ch) {
+            ChannelPipeline pipeline = ch.pipeline();
+            pipeline.addLast(new PacketDecoder());
+            pipeline.addLast(new PacketEncoder());
+            pipeline.addLast(clientHandler);
+        }
     }
 
 
@@ -71,7 +79,7 @@ public class NettyClient extends AbstractStarter {
         new NettyClient("127.0.0.1:8888", new PacketReceiver() {
             @Override
             public void onReceive(Packet packet, Channel channel) {
-                log.info("接收到的消息：{}", packet);
+                log.info("接收到的消息：{}", packet.getData());
             }
         }).start();
     }
