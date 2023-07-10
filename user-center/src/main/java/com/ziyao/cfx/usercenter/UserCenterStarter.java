@@ -8,7 +8,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 @MapperScan("com.cfx.usercenter.mapper")
 @EnableDubbo

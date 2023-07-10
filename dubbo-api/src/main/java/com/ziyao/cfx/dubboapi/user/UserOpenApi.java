@@ -4,7 +4,7 @@ import com.ziyao.cfx.dubboapi.user.vo.UserVO;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 public interface UserOpenApi {
     /**

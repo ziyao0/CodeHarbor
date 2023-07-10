@@ -6,7 +6,7 @@ import com.ziyao.cfx.web.details.UserDetails;
  * 通过线程绑定 {@link ContextInfo} 对象的形式开放web请求信息
  *
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 public abstract class ContextManager {
 

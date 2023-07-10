@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 public abstract class CustomFileBuilder {
 

@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 public class UserVO implements Serializable {
 

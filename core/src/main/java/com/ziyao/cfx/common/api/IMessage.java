@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * @author zhangziyao
- * @date 2023/4/21
+ * @since 2023/4/21
  */
 public interface IMessage extends Serializable {
 

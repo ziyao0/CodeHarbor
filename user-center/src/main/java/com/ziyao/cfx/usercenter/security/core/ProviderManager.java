@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
  * 认证管理器
  *
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public interface ProviderManager extends Ordered {
 

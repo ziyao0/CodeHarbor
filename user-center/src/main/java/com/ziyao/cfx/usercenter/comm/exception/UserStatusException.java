@@ -5,7 +5,7 @@ import com.ziyao.cfx.common.exception.ServiceException;
 
 /**
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public class UserStatusException extends ServiceException {
     private static final long serialVersionUID = -9098359654861487617L;

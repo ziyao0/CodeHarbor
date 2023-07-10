@@ -4,7 +4,7 @@ import com.ziyao.cfx.usercenter.security.api.UserDetails;
 
 /**
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public interface UserDetailsService {
 

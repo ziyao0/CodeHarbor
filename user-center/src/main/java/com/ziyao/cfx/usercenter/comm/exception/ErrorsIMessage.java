@@ -4,7 +4,7 @@ import com.ziyao.cfx.common.api.IMessage;
 
 /**
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public enum ErrorsIMessage implements IMessage {
 

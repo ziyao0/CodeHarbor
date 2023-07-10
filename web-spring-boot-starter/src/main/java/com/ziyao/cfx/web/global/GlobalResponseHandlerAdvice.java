@@ -13,7 +13,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 @RestControllerAdvice
 public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {

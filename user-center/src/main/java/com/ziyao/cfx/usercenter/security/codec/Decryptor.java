@@ -2,7 +2,7 @@ package com.ziyao.cfx.usercenter.security.codec;
 
 /**
  * @author zhangziyao
- * @date 2023/4/24
+ * @since 2023/4/24
  */
 public interface Decryptor {
 

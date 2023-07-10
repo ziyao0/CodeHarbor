@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletResponse;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since 2023/4/23
  */
 public interface ContextInfo {
 
