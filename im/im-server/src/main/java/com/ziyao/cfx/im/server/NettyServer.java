@@ -1,6 +1,7 @@
 package com.ziyao.cfx.im.server;
 
 import com.ziyao.cfx.im.core.AbstractStarter;
+import com.ziyao.cfx.im.core.NettyConfigurationCenter;
 import com.ziyao.cfx.im.server.init.ServerChannelInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.buffer.PooledByteBufAllocator;
@@ -23,7 +24,7 @@ public class NettyServer extends AbstractStarter {
 
 
     public NettyServer() {
-        super(new ServerBootstrap(), new NioEventLoopGroup(1));
+        super(new ServerBootstrap(), new NioEventLoopGroup(NettyConfigurationCenter.Core.boss_group_threads));
         init();
         LOGGER.info("Netty核心配置初始化完成!");
     }
@@ -34,14 +35,14 @@ public class NettyServer extends AbstractStarter {
                 .channel(NioServerSocketChannel.class)
                 .handler(new LoggingHandler(LogLevel.INFO))
                 //Initialize server connection queue size 初始化服务器连队大小
-                .option(ChannelOption.SO_BACKLOG, 1024)
+                .option(ChannelOption.SO_BACKLOG, NettyConfigurationCenter.Server.so_backlog)
                 /*
                  * TCP层面的接收和发送缓冲区大小设置，
                  * 在Netty中分别对应ChannelOption的SO_SNDBUF和SO_RCVBUF，
                  * 需要根据推送消息的大小，合理设置，对于海量长连接，通常32K是个不错的选择。
                  */
-                .childOption(ChannelOption.SO_SNDBUF, 32 * 1024)
-                .childOption(ChannelOption.SO_RCVBUF, 32 * 1024)
+                .childOption(ChannelOption.SO_SNDBUF, NettyConfigurationCenter.Server.so_snd_buf)
+                .childOption(ChannelOption.SO_RCVBUF, NettyConfigurationCenter.Server.so_rcv_buf)
                 /*
                  * 在Netty 4中实现了一个新的ByteBuf内存池，它是一个纯Java版本的 jemalloc （Facebook也在用）。
                  * 现在，Netty不会再因为用零填充缓冲区而浪费内存带宽了。不过，由于它不依赖于GC，开发人员需要小心内存泄漏。
@@ -70,8 +71,9 @@ public class NettyServer extends AbstractStarter {
                  * 高水位线和低水位线是字节数，默认高水位是64K，低水位是32K，我们可以根据我们的应用需要支持多少连接数和系统资源进行合理规划。
                  * </p>
                  */
-                .childOption(ChannelOption.WRITE_BUFFER_WATER_MARK,
-                        new WriteBufferWaterMark(32 * 1024, 64 * 1024))
+                .childOption(ChannelOption.WRITE_BUFFER_WATER_MARK, new WriteBufferWaterMark(
+                        NettyConfigurationCenter.Server.write_buffer_water_mark_low,
+                        NettyConfigurationCenter.Server.write_buffer_water_mark_high))
                 // Use application layer heartbeat 使用应用层心跳
                 .childOption(ChannelOption.SO_KEEPALIVE, true)
                 .childHandler(
