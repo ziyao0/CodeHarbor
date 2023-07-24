@@ -1,0 +1,3 @@
+dependencies {
+    api(project(":im:im-spring-boot-starter"))
+}

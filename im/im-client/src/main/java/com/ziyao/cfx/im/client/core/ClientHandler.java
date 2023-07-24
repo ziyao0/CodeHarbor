@@ -12,6 +12,7 @@ import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
 import java.util.List;
+import java.util.Objects;
 
 /**
  * @author ziyao zhang
@@ -39,12 +40,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
         Packet open = new Packet();
         open.setEvent(Event.OPEN);
         open.setReceivedBys(List.of("ziyao"));
-        ctx.channel().writeAndFlush(open);
+        channel.writeAndFlush(open);
     }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) {
-        getPacketReceiver().onReceive(packet, ctx.channel());
+        if (Objects.equals(packet.getEvent(), Event.HEARTBEAT)) {
+            ctx.channel().writeAndFlush(new Packet(Event.HEARTBEAT, Live.PING));
+        } else {
+            getPacketReceiver().onReceive(packet, ctx.channel());
+        }
     }
 
     @Override

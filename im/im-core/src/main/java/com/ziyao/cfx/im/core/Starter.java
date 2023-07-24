@@ -1,7 +1,5 @@
 package com.ziyao.cfx.im.core;
 
-import java.net.SocketAddress;
-
 /**
  * @author ziyao zhang
  * @since 2023/6/29
@@ -20,16 +18,7 @@ public interface Starter {
      *
      * @throws InterruptedException netty Interrupt exception
      */
-    void start(int port) throws InterruptedException;
-
-    /**
-     * Used for netty client startup
-     *
-     * @param socketAddress socketAddress
-     * @throws InterruptedException The program terminal is abnormal
-     * @see io.netty.bootstrap.ServerBootstrap#bind()
-     */
-    void start(SocketAddress socketAddress) throws InterruptedException;
+    void start() throws InterruptedException;
 
     /**
      * to netty server close
