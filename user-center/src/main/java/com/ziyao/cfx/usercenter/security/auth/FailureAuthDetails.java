@@ -1,7 +1,7 @@
 package com.ziyao.cfx.usercenter.security.auth;
 
 import com.ziyao.cfx.common.api.IMessage;
-import com.ziyao.cfx.common.writer.ApiResponse;
+import com.ziyao.cfx.common.writer.WebResponseBuilder;
 import com.ziyao.cfx.usercenter.security.api.Authentication;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class FailureAuthDetails implements Authentication {
     }
 
     public FailureAuthDetails(Integer status, String message) {
-        this.message = ApiResponse.failed(status, message);
+        this.message = WebResponseBuilder.failed(status, message);
     }
 
     @Override

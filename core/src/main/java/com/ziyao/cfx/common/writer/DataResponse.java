@@ -5,16 +5,18 @@ import com.ziyao.cfx.common.api.IMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
  * @author zhangziyao
  * @since 2023/4/21
  */
-public final class ApiResponse<T> implements DataIMessage<T> {
+public final class DataResponse<T> implements DataIMessage<T> {
 
+    @Serial
     private static final long serialVersionUID = 4683215504590500529L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(ApiResponse.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataResponse.class);
 
     private Integer state;
 
@@ -37,68 +39,35 @@ public final class ApiResponse<T> implements DataIMessage<T> {
         return this.message;
     }
 
-    public ApiResponse() {
+    public DataResponse() {
     }
 
-    public ApiResponse(IMessage IMessage) {
+    public DataResponse(IMessage IMessage) {
         Checker.check(IMessage);
         this.state = IMessage.getStatus();
         this.message = IMessage.getMessage();
     }
 
-    public ApiResponse(IMessage IMessage, T data) {
+    public DataResponse(IMessage IMessage, T data) {
         Checker.check(IMessage, data);
         this.state = IMessage.getStatus();
         this.message = IMessage.getMessage();
         this.data = data;
     }
 
-    public ApiResponse(Integer state, String message) {
+    public DataResponse(Integer state, String message) {
         Checker.check(state, message);
         this.state = state;
         this.message = message;
 
     }
 
-    public ApiResponse(Integer state, String message, T data) {
+    public DataResponse(Integer state, String message, T data) {
         Checker.check(state, message, data);
         this.state = state;
         this.message = message;
         this.data = data;
     }
-
-    public static <T> ApiResponse<T> ok(T data) {
-        return ApiResponse.ok(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
-    }
-
-    public static <T> ApiResponse<T> ok() {
-        return new ApiResponse<>(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE());
-    }
-
-    public static <T> ApiResponse<T> ok(Integer state, String message, T data) {
-        return new ApiResponse<>(state, message, data);
-    }
-
-    public static <T> ApiResponse<T> failed() {
-        return new ApiResponse<>(IMessage.FAILED_STATE(), IMessage.FAILED_MESSAGE());
-    }
-
-    public static <T> ApiResponse<T> failed(Integer state, String message) {
-        return new ApiResponse<>(state, message);
-    }
-
-    public static <T> ApiResponse<T> failed(Integer state, String message, T data) {
-        return new ApiResponse<>(state, message, data);
-    }
-
-    public static <T> ApiResponse<T> failed(IMessage IMessage, String message) {
-        return failed(IMessage.getStatus(), message);
-    }
-
-    public static <T> ApiResponse<T> failed(IMessage IMessage) {
-        return failed(IMessage.getStatus(), IMessage.getMessage());
-    }
-
 
     protected abstract static class Checker {
 
@@ -139,7 +108,7 @@ public final class ApiResponse<T> implements DataIMessage<T> {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ApiResponse<?> that = (ApiResponse<?>) o;
+        DataResponse<?> that = (DataResponse<?>) o;
         return Objects.equals(state, that.state) && Objects.equals(message, that.message) && Objects.equals(data, that.data);
     }
 

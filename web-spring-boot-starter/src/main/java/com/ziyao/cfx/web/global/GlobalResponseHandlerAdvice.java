@@ -1,7 +1,7 @@
 package com.ziyao.cfx.web.global;
 
 import com.ziyao.cfx.common.api.IMessage;
-import com.ziyao.cfx.common.writer.ApiResponse;
+import com.ziyao.cfx.common.writer.WebResponseBuilder;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -30,6 +30,6 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof IMessage)
             return body;
 
-        return ApiResponse.ok(body);
+        return WebResponseBuilder.ok(body);
     }
 }

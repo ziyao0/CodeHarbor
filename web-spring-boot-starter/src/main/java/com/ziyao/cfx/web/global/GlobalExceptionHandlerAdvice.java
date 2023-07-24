@@ -6,8 +6,8 @@ import com.ziyao.cfx.common.api.IMessage;
 import com.ziyao.cfx.common.exception.ServiceException;
 import com.ziyao.cfx.common.exception.UnauthorizedException;
 import com.ziyao.cfx.common.utils.CommUtils;
-import com.ziyao.cfx.common.writer.ApiResponse;
 import com.ziyao.cfx.common.writer.Errors;
+import com.ziyao.cfx.common.writer.WebResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
@@ -46,7 +46,7 @@ public class GlobalExceptionHandlerAdvice {
         if (mex != null && mex.getBindingResult().hasErrors())
             return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(mex));
         else
-            return ApiResponse.failed(Errors.ILLEGAL_ARGUMENT);
+            return WebResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT);
 
     }
 
@@ -133,13 +133,13 @@ public class GlobalExceptionHandlerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public IMessage exceptionHandler(Exception e) {
-        return ApiResponse.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
+        return WebResponseBuilder.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
                 Errors.INTERNAL_SERVER_ERROR.getMessage() + e.getMessage());
     }
 
 
     private IMessage buildIllegalArgument(String message) {
-        return ApiResponse.failed(Errors.ILLEGAL_ARGUMENT, message);
+        return WebResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT, message);
     }
 
     protected static abstract class ExceptionUtils {
