@@ -1,6 +1,5 @@
 package com.ziyao.cfx.im.client.core;
 
-import com.ziyao.cfx.im.api.Connection;
 import com.ziyao.cfx.im.api.Packet;
 import io.netty.channel.Channel;
 

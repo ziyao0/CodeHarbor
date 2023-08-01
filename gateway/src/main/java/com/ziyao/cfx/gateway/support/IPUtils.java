@@ -1,10 +1,10 @@
 package com.ziyao.cfx.gateway.support;
 
+import com.ziyao.cfx.common.utils.Strings;
 import org.lionsoul.ip2region.xdb.Searcher;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.net.InetSocketAddress;
@@ -27,11 +27,11 @@ public abstract class IPUtils {
 
         String ip = headers.getFirst(X_FORWARDED_FOR);
 
-        if (StringUtils.hasLength(ip) && !UNKNOWN.equalsIgnoreCase(ip)) {
+        if (Strings.hasLength(ip) && !UNKNOWN.equalsIgnoreCase(ip)) {
             return ip;
         }
         ip = headers.getFirst(X_REAL_IP);
-        if (StringUtils.hasLength(ip) && !UNKNOWN.equalsIgnoreCase(ip)) {
+        if (Strings.hasLength(ip) && !UNKNOWN.equalsIgnoreCase(ip)) {
             return ip;
         }
         InetSocketAddress remoteAddress = request.getRemoteAddress();

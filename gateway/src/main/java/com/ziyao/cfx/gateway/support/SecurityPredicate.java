@@ -1,8 +1,8 @@
 package com.ziyao.cfx.gateway.support;
 
+import com.ziyao.cfx.common.utils.Strings;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,13 +58,13 @@ public final class SecurityPredicate implements Predicate<String> {
     @Override
     public boolean test(String callApi) {
         if (!CollectionUtils.isEmpty(skipApis)) {
-            if (StringUtils.hasLength(callApi))
+            if (Strings.hasLength(callApi))
                 return this.skipApis.stream().anyMatch(skipApi -> matcher.match(skipApi, callApi));
             else
                 return false;
         }
         if (!CollectionUtils.isEmpty(illegalApis)) {
-            if (StringUtils.hasLength(callApi))
+            if (Strings.hasLength(callApi))
                 return this.illegalApis.stream().anyMatch(skipApi -> matcher.match(skipApi, callApi));
             else
                 return false;

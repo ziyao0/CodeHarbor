@@ -7,6 +7,7 @@ import com.ziyao.cfx.common.api.IMessage;
 import com.ziyao.cfx.common.exception.UnauthorizedException;
 import com.ziyao.cfx.common.jwt.Tokens;
 import com.ziyao.cfx.common.utils.SecurityUtils;
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.common.writer.Errors;
 import com.ziyao.cfx.gateway.security.api.Authorization;
 import com.ziyao.cfx.gateway.security.api.AuthorizationProcessor;
@@ -24,7 +25,6 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.util.MultiValueMap;
-import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
@@ -55,7 +55,7 @@ public class AuthCenterFilter implements GlobalFilter {
         }
         return MonoOperator.create((Consumer<MonoSink<Authorization>>) monoSink -> {
                     String authToken = exchange.getRequest().getHeaders().getFirst(Tokens.AUTHORIZATION);
-                    if (StringUtils.hasLength(authToken) && authToken.startsWith(Tokens.BEARER))
+                    if (Strings.hasLength(authToken) && authToken.startsWith(Tokens.BEARER))
                         monoSink.success((Authorization) () -> authToken.substring(7));
                     else
                         monoSink.error(new UnauthorizedException());

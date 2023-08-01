@@ -3,14 +3,14 @@ package com.ziyao.cfx.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.cfx.common.dto.EntityDTO;
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.usercenter.entity.Menu;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -88,25 +88,25 @@ public class MenuDTO implements EntityDTO<Menu>, Serializable {
 
         return Wrappers.lambdaQuery(Menu.class)
                 // 系统id
-                .eq(!ObjectUtils.isEmpty(appId), Menu::getAppId, appId)
+                .eq(Objects.nonNull(appId), Menu::getAppId, appId)
                 // 资源名称
-                .likeRight(StringUtils.hasLength(name), Menu::getName, name)
+                .likeRight(Strings.hasLength(name), Menu::getName, name)
                 // 菜单编码
-                .likeRight(StringUtils.hasLength(code), Menu::getCode, code)
+                .likeRight(Strings.hasLength(code), Menu::getCode, code)
                 // 资源URL
-                .likeRight(StringUtils.hasLength(url), Menu::getUrl, url)
+                .likeRight(Strings.hasLength(url), Menu::getUrl, url)
                 // 资源图标
-                .likeRight(StringUtils.hasLength(icon), Menu::getIcon, icon)
+                .likeRight(Strings.hasLength(icon), Menu::getIcon, icon)
                 // 上级资源ID
-                .eq(!ObjectUtils.isEmpty(parentId), Menu::getParentId, parentId)
+                .eq(Objects.nonNull(parentId), Menu::getParentId, parentId)
                 // 资源级别
-                .eq(!ObjectUtils.isEmpty(level), Menu::getLevel, level)
+                .eq(Objects.nonNull(level), Menu::getLevel, level)
                 // 排序
-                .eq(!ObjectUtils.isEmpty(sort), Menu::getSort, sort)
+                .eq(Objects.nonNull(sort), Menu::getSort, sort)
                 // 更新人ID
-                .eq(!ObjectUtils.isEmpty(updatedBy), Menu::getUpdatedBy, updatedBy)
+                .eq(Objects.nonNull(updatedBy), Menu::getUpdatedBy, updatedBy)
                 // 更新时间
-                .eq(!ObjectUtils.isEmpty(updatedAt), Menu::getUpdatedAt, updatedAt)
+                .eq(Objects.nonNull(updatedAt), Menu::getUpdatedAt, updatedAt)
                 // 排序
                 .orderByAsc(Menu::getSort)
                 ;

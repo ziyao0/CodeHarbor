@@ -3,14 +3,14 @@ package com.ziyao.cfx.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.cfx.common.dto.EntityDTO;
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.usercenter.entity.App;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -72,13 +72,13 @@ public class AppDTO implements EntityDTO<App>, Serializable {
 
         return Wrappers.lambdaQuery(App.class)
                 // 系统名称
-                .likeRight(StringUtils.hasLength(appName), App::getAppName, appName)
+                .likeRight(Strings.hasLength(appName), App::getAppName, appName)
                 // 系统访问路径
-                .likeRight(StringUtils.hasLength(url), App::getUrl, url)
+                .likeRight(Strings.hasLength(url), App::getUrl, url)
                 // 系统介绍
-                .likeRight(StringUtils.hasLength(introduce), App::getIntroduce, introduce)
+                .likeRight(Strings.hasLength(introduce), App::getIntroduce, introduce)
                 // 删除状态 0正常 1 删除
-                .eq(!ObjectUtils.isEmpty(deleted), App::getDeleted, deleted)
+                .eq(Objects.nonNull(deleted), App::getDeleted, deleted)
                 ;
     }
 

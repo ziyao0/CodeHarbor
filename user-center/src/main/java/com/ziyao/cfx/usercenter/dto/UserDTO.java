@@ -3,14 +3,14 @@ package com.ziyao.cfx.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.cfx.common.dto.EntityDTO;
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.usercenter.entity.User;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -92,23 +92,23 @@ public class UserDTO implements EntityDTO<User>, Serializable {
 
         return Wrappers.lambdaQuery(User.class)
                 // 系统ID
-                .eq(!ObjectUtils.isEmpty(appId), User::getAppId, appId)
+                .eq(Objects.nonNull(appId), User::getAppId, appId)
                 // 用户账号
-                .likeRight(StringUtils.hasLength(accessKey), User::getAccessKey, accessKey)
+                .likeRight(Strings.hasLength(accessKey), User::getAccessKey, accessKey)
                 // 昵称
-                .likeRight(StringUtils.hasLength(nickname), User::getNickname, nickname)
+                .likeRight(Strings.hasLength(nickname), User::getNickname, nickname)
                 // 用户凭证
-                .likeRight(StringUtils.hasLength(secretKey), User::getSecretKey, secretKey)
+                .likeRight(Strings.hasLength(secretKey), User::getSecretKey, secretKey)
                 // 账号状态
-                .eq(!ObjectUtils.isEmpty(status), User::getStatus, status)
+                .eq(Objects.nonNull(status), User::getStatus, status)
                 // 部门ID
-                .eq(!ObjectUtils.isEmpty(deptId), User::getDeptId, deptId)
+                .eq(Objects.nonNull(deptId), User::getDeptId, deptId)
                 // 部门名称
-                .likeRight(StringUtils.hasLength(deptName), User::getDeptName, deptName)
+                .likeRight(Strings.hasLength(deptName), User::getDeptName, deptName)
                 // 排序
-                .eq(!ObjectUtils.isEmpty(sort), User::getSort, sort)
+                .eq(Objects.nonNull(sort), User::getSort, sort)
                 // 删除状态 0正常 1 删除
-                .eq(!ObjectUtils.isEmpty(deleted), User::getDeleted, deleted)
+                .eq(Objects.nonNull(deleted), User::getDeleted, deleted)
                 // 排序
                 .orderByAsc(User::getSort)
                 ;

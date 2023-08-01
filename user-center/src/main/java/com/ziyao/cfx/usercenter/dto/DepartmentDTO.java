@@ -3,14 +3,15 @@ package com.ziyao.cfx.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.cfx.common.dto.EntityDTO;
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.usercenter.entity.Department;
 import lombok.Data;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -70,9 +71,9 @@ public class DepartmentDTO implements EntityDTO<Department>, Serializable {
                 // 系统id
                 .eq(!ObjectUtils.isEmpty(appId), Department::getAppId, appId)
                 // 部门名称
-                .likeRight(StringUtils.hasLength(deptName), Department::getDeptName, deptName)
+                .likeRight(Strings.hasLength(deptName), Department::getDeptName, deptName)
                 // 上级部门id
-                .eq(!ObjectUtils.isEmpty(parentId), Department::getParentId, parentId)
+                .eq(Objects.nonNull(parentId), Department::getParentId, parentId)
                 ;
     }
 

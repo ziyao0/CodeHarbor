@@ -1,5 +1,7 @@
 package com.ziyao.cfx.im.autoconfigure;
 
+import com.ziyao.cfx.common.utils.Strings;
+import lombok.Getter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -11,12 +13,12 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 /**
  * @author ziyao zhang
  * @since 2023/7/5
  */
+@Getter
 public class AutoIMConfigurationImportSelector implements DeferredImportSelector, BeanFactoryAware, BeanClassLoaderAware, EnvironmentAware {
 
     private ConfigurableListableBeanFactory beanFactory;
@@ -33,7 +35,7 @@ public class AutoIMConfigurationImportSelector implements DeferredImportSelector
     public String[] selectImports(@NonNull AnnotationMetadata annotationMetadata) {
         // 加载需要导入的候选bean
         ImportCandidatesLoader importCandidates = ImportCandidatesLoader.load(IMAutoConfiguration.class, getClassLoader());
-        return StringUtils.toStringArray(importCandidates.getCandidates());
+        return Strings.toStringArray(importCandidates.getCandidates());
     }
 
     @Override
@@ -42,25 +44,13 @@ public class AutoIMConfigurationImportSelector implements DeferredImportSelector
         this.beanFactory = (ConfigurableListableBeanFactory) beanFactory;
     }
 
-    public ConfigurableListableBeanFactory getBeanFactory() {
-        return beanFactory;
-    }
-
     public void setBeanFactory(ConfigurableListableBeanFactory beanFactory) {
         this.beanFactory = beanFactory;
-    }
-
-    public Environment getEnvironment() {
-        return environment;
     }
 
     @Override
     public void setBeanClassLoader(@NonNull ClassLoader classLoader) {
         this.classLoader = classLoader;
-    }
-
-    public ClassLoader getClassLoader() {
-        return classLoader;
     }
 
     public void setClassLoader(ClassLoader classLoader) {

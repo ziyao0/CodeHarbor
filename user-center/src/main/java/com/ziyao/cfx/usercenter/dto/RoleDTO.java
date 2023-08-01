@@ -3,14 +3,14 @@ package com.ziyao.cfx.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.cfx.common.dto.EntityDTO;
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.usercenter.entity.Role;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 /**
  * <p>
@@ -72,13 +72,13 @@ public class RoleDTO implements EntityDTO<Role>, Serializable {
 
         return Wrappers.lambdaQuery(Role.class)
                 // 系统id
-                .eq(!ObjectUtils.isEmpty(appId), Role::getAppId, appId)
+                .eq(Objects.nonNull(appId), Role::getAppId, appId)
                 // 角色名称
-                .likeRight(StringUtils.hasLength(roleName), Role::getRoleName, roleName)
+                .likeRight(Strings.hasLength(roleName), Role::getRoleName, roleName)
                 // 角色编码
-                .likeRight(StringUtils.hasLength(roleCode), Role::getRoleCode, roleCode)
+                .likeRight(Strings.hasLength(roleCode), Role::getRoleCode, roleCode)
                 // 角色描述
-                .likeRight(StringUtils.hasLength(description), Role::getDescription, description)
+                .likeRight(Strings.hasLength(description), Role::getDescription, description)
                 ;
     }
 

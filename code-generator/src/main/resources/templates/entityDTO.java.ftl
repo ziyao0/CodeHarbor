@@ -5,8 +5,8 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.cfx.common.dto.EntityDTO;
 import ${package.Entity}.${entity};
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import java.util.Objects;
+import com.ziyao.cfx.common.utils.Strings;
 
 <#--<#list table.importPackages as pkg>-->
 <#--import ${pkg};-->
@@ -64,9 +64,9 @@ public class ${entity}DTO implements EntityDTO<${entity}>, Serializable {
             <#if !field.keyFlag>
                 // ${field.comment}
                 <#if field.propertyType == "String">
-                .likeRight(StringUtils.hasLength(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
+                .likeRight(Strings.hasLength(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
                 <#else>
-                .eq(!ObjectUtils.isEmpty(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
+                .eq(Objects.nonNull(${field.propertyName}), ${entity}::${getprefix}${field.capitalName}, ${field.propertyName})
                 </#if>
             </#if>
         </#if>

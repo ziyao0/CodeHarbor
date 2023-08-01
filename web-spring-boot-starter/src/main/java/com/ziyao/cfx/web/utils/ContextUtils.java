@@ -1,8 +1,9 @@
 package com.ziyao.cfx.web.utils;
 
+import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.web.details.UserDetails;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+
+import java.util.Objects;
 
 /**
  * @author zhangziyao
@@ -14,6 +15,6 @@ public abstract class ContextUtils {
     }
 
     public static boolean isLegal(UserDetails userDetails) {
-        return !ObjectUtils.isEmpty(userDetails) && StringUtils.hasLength(userDetails.getUsername());
+        return Objects.nonNull(userDetails) && Strings.hasLength(userDetails.getUsername());
     }
 }

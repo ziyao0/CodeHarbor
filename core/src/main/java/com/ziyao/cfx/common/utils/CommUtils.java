@@ -7,5 +7,6 @@ package com.ziyao.cfx.common.utils;
 public abstract class CommUtils {
     private CommUtils() {
     }
+
     public static final String EMPTY_CHAR = "";
 }
