@@ -46,7 +46,7 @@ public abstract class Strings {
      * @see #hasText(CharSequence)
      */
     public static boolean hasLength(@Nullable CharSequence str) {
-        return (str != null && str.length() > 0);
+        return (str != null && !str.isEmpty());
     }
 
     /**
@@ -60,7 +60,7 @@ public abstract class Strings {
      * @see #hasText(String)
      */
     public static boolean hasLength(@Nullable String str) {
-        return (str != null && !str.isEmpty());
+        return (str != null && !str.trim().isEmpty());
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class Strings {
      * @see Character#isWhitespace
      */
     public static boolean hasText(@Nullable CharSequence str) {
-        return (str != null && str.length() > 0 && containsText(str));
+        return (str != null && !str.isEmpty() && containsText(str));
     }
 
     /**
@@ -101,7 +101,7 @@ public abstract class Strings {
      * @see Character#isWhitespace
      */
     public static boolean hasText(@Nullable String str) {
-        return (str != null && !str.isEmpty() && containsText(str));
+        return (str != null && !str.trim().isEmpty() && containsText(str));
     }
 
     private static boolean containsText(CharSequence str) {
