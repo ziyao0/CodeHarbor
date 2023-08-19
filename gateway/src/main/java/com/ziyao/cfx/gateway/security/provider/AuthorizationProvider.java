@@ -2,7 +2,7 @@ package com.ziyao.cfx.gateway.security.provider;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
-import com.ziyao.cfx.common.jwt.Tokens;
+import com.ziyao.cfx.common.token.Tokens;
 import com.ziyao.cfx.common.utils.SecurityUtils;
 import com.ziyao.cfx.gateway.security.api.Authorization;
 import com.ziyao.cfx.gateway.security.api.Provider;

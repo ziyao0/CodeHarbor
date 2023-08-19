@@ -5,7 +5,7 @@ import com.auth0.jwt.interfaces.Claim;
 import com.google.common.base.Function;
 import com.ziyao.cfx.common.api.IMessage;
 import com.ziyao.cfx.common.exception.UnauthorizedException;
-import com.ziyao.cfx.common.jwt.Tokens;
+import com.ziyao.cfx.common.token.Tokens;
 import com.ziyao.cfx.common.utils.SecurityUtils;
 import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.common.writer.Errors;

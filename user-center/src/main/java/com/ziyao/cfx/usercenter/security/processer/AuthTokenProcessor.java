@@ -1,6 +1,6 @@
 package com.ziyao.cfx.usercenter.security.processer;
 
-import com.ziyao.cfx.common.jwt.Tokens;
+import com.ziyao.cfx.common.token.Tokens;
 import com.ziyao.cfx.common.utils.SecurityUtils;
 import com.ziyao.cfx.usercenter.security.api.AccessToken;
 import com.ziyao.cfx.usercenter.security.auth.SuccessAuthDetails;
