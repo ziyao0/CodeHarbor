@@ -11,7 +11,7 @@ allprojects {
     apply plugin: "io.spring.dependency-management"
     apply plugin: "org.springframework.boot"
 
-    group 'com.ziyao.cfx'
+    group 'com.ziyao.harbor'
     version "${projectVersion}"
     sourceCompatibility = "${sourceCompatibilityVersion}"
     compileJava.options.encoding = "UTF-8"

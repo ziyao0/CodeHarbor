@@ -1,16 +1,16 @@
 package ${package.Controller};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.cfx.common.exception.ServiceException;
-import com.cfx.common.writer.Errors;
+import com.ziyao.harbor.common.exception.ServiceException;
+import com.ziyao.harbor.common.writer.Errors;
 import ${dto}.${entity}DTO;
 <#if superControllerClassPackage??>
     import ${package.Entity}.${entity};
     import ${package.Service}.${table.serviceName};
     import ${superControllerClassPackage};
 </#if>
-import com.cfx.web.orm.PageQuery;
-import com.cfx.web.orm.PageUtils;
+import com.ziyao.harbor.web.orm.PageQuery;
+import com.ziyao.harbor.web.orm.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;

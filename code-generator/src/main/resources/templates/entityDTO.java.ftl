@@ -2,11 +2,11 @@ package ${dto};
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
-import com.cfx.common.dto.EntityDTO;
+import com.ziyao.harbor.common.dto.EntityDTO;
 import ${package.Entity}.${entity};
 import lombok.Data;
 import java.util.Objects;
-import com.ziyao.cfx.common.utils.Strings;
+import com.ziyao.harbor.common.utils.Strings;
 
 <#--<#list table.importPackages as pkg>-->
 <#--import ${pkg};-->
