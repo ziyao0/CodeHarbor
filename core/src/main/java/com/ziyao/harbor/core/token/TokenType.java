@@ -1,4 +1,4 @@
-package com.ziyao.harbor.common.token;
+package com.ziyao.harbor.core.token;
 
 import lombok.Getter;
 

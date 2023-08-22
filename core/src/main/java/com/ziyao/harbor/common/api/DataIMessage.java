@@ -1,5 +1,6 @@
 package com.ziyao.harbor.common.api;
 
+import java.io.Serial;
 import java.util.Objects;
 
 /**
@@ -17,6 +18,7 @@ public interface DataIMessage<T> extends IMessage {
 
     static <T> DataIMessage<T> getInstance(int state, String message, T data) {
         return new DataIMessage<T>() {
+            @Serial
             private static final long serialVersionUID = 60363046931488050L;
 
             @Override

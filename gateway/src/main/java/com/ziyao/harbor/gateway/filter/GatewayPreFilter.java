@@ -1,7 +1,7 @@
 package com.ziyao.harbor.gateway.filter;
 
 import com.alibaba.fastjson2.JSON;
-import com.ziyao.harbor.common.token.Tokens;
+import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.common.writer.Errors;
 import com.ziyao.harbor.gateway.common.config.GatewayConfig;
 import com.ziyao.harbor.gateway.support.IPUtils;

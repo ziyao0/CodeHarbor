@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.security.processer;
 
-import com.ziyao.harbor.common.token.Tokens;
-import com.ziyao.harbor.common.utils.SecurityUtils;
+import com.ziyao.harbor.core.token.Tokens;
+import com.ziyao.harbor.core.utils.SecurityUtils;
 import com.ziyao.harbor.usercenter.security.api.AccessToken;
 import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.harbor.usercenter.security.core.LoginPostProcessor;

@@ -1,4 +1,4 @@
-package com.ziyao.harbor.common.utils;
+package com.ziyao.harbor.core.utils;
 
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.Charset;

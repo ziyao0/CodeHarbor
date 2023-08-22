@@ -1,4 +1,4 @@
-package com.ziyao.harbor.common.jwt;
+package com.ziyao.harbor.core.jwt;
 
 import lombok.Data;
 

@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.harbor.common.dto.EntityDTO;
-import com.ziyao.harbor.common.utils.Strings;
+import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.entity.Department;
 import lombok.Data;
 import org.springframework.util.ObjectUtils;

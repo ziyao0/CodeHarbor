@@ -5,9 +5,9 @@ import com.ziyao.harbor.common.api.DataIMessage;
 import com.ziyao.harbor.common.api.IMessage;
 import com.ziyao.harbor.common.exception.ServiceException;
 import com.ziyao.harbor.common.exception.UnauthorizedException;
-import com.ziyao.harbor.common.utils.CommUtils;
+import com.ziyao.harbor.core.utils.CommUtils;
 import com.ziyao.harbor.common.writer.Errors;
-import com.ziyao.harbor.common.writer.WebResponseBuilder;
+import com.ziyao.harbor.common.writer.ResponseBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
@@ -46,7 +46,7 @@ public class GlobalExceptionHandlerAdvice {
         if (mex != null && mex.getBindingResult().hasErrors())
             return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(mex));
         else
-            return WebResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT);
+            return ResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT);
 
     }
 
@@ -133,13 +133,13 @@ public class GlobalExceptionHandlerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public IMessage exceptionHandler(Exception e) {
-        return WebResponseBuilder.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
+        return ResponseBuilder.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
                 Errors.INTERNAL_SERVER_ERROR.getMessage() + e.getMessage());
     }
 
 
     private IMessage buildIllegalArgument(String message) {
-        return WebResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT, message);
+        return ResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT, message);
     }
 
     protected static abstract class ExceptionUtils {

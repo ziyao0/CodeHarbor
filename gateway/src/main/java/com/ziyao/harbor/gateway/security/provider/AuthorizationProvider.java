@@ -2,8 +2,8 @@ package com.ziyao.harbor.gateway.security.provider;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
-import com.ziyao.harbor.common.token.Tokens;
-import com.ziyao.harbor.common.utils.SecurityUtils;
+import com.ziyao.harbor.core.token.Tokens;
+import com.ziyao.harbor.core.utils.SecurityUtils;
 import com.ziyao.harbor.gateway.security.api.Authorization;
 import com.ziyao.harbor.gateway.security.api.Provider;
 import com.ziyao.harbor.gateway.security.core.FailureAuthorization;

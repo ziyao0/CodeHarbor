@@ -1,7 +1,7 @@
 package com.ziyao.harbor.web.global;
 
 import com.ziyao.harbor.common.api.IMessage;
-import com.ziyao.harbor.common.writer.WebResponseBuilder;
+import com.ziyao.harbor.common.writer.ResponseBuilder;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -30,6 +30,6 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
         if (body instanceof IMessage)
             return body;
 
-        return WebResponseBuilder.ok(body);
+        return ResponseBuilder.ok(body);
     }
 }

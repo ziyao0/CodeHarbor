@@ -1,6 +1,6 @@
 package com.ziyao.harbor.web.utils;
 
-import com.ziyao.harbor.common.utils.Strings;
+import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.web.details.UserDetails;
 
 import java.util.Objects;

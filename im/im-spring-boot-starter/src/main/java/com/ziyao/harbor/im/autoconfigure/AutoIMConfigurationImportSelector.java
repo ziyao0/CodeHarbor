@@ -1,6 +1,6 @@
 package com.ziyao.harbor.im.autoconfigure;
 
-import com.ziyao.harbor.common.utils.Strings;
+import com.ziyao.harbor.core.utils.Strings;
 import lombok.Getter;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;

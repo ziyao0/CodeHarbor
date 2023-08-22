@@ -1,4 +1,4 @@
-package com.ziyao.harbor.common.utils;
+package com.ziyao.harbor.core.utils;
 
 import com.ziyao.harbor.common.api.AbstractTreeNode;
 

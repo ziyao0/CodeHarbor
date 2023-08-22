@@ -1,6 +1,6 @@
 package com.ziyao.harbor.gateway.support;
 
-import com.ziyao.harbor.common.utils.Strings;
+import com.ziyao.harbor.core.utils.Strings;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.CollectionUtils;
 

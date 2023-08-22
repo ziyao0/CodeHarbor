@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.security.auth;
 
 import com.ziyao.harbor.common.api.IMessage;
-import com.ziyao.harbor.common.writer.WebResponseBuilder;
+import com.ziyao.harbor.common.writer.ResponseBuilder;
 import com.ziyao.harbor.usercenter.security.api.Authentication;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ public class FailureAuthDetails implements Authentication {
     }
 
     public FailureAuthDetails(Integer status, String message) {
-        this.message = WebResponseBuilder.failed(status, message);
+        this.message = ResponseBuilder.failed(status, message);
     }
 
     @Override

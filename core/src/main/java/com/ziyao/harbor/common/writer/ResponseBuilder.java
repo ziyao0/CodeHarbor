@@ -6,10 +6,10 @@ import com.ziyao.harbor.common.api.IMessage;
  * @author ziyao zhang
  * @since 2023/7/24
  */
-public abstract class WebResponseBuilder {
+public abstract class ResponseBuilder {
 
     public static <T> DataResponse<T> ok(T data) {
-        return WebResponseBuilder.ok(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
+        return ResponseBuilder.ok(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
     }
 
     public static <T> DataResponse<T> ok() {
