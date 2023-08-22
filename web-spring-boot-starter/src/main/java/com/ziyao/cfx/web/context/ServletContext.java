@@ -1,7 +1,7 @@
 package com.ziyao.cfx.web.context;
 
 import com.ziyao.cfx.common.exception.UnauthorizedException;
-import com.ziyao.cfx.common.jwt.Tokens;
+import com.ziyao.cfx.common.token.Tokens;
 import com.ziyao.cfx.common.utils.Strings;
 import com.ziyao.cfx.web.details.UserDetails;
 import com.ziyao.cfx.web.utils.ContextUtils;
