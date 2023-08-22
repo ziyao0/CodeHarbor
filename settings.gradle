@@ -53,4 +53,5 @@ include 'im:im-spring-boot-starter'
 findProject(':im:im-spring-boot-starter')?.name = 'im-spring-boot-starter'
 include 'im:im-spring-boot-starter-discovery'
 findProject(':im:im-spring-boot-starter-discovery')?.name = 'im-spring-boot-starter-discovery'
+include 'xxl-job'
 
