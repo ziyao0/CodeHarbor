@@ -1,11 +1,9 @@
 spring:
   datasource:
     driverClassName: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://124.222.42.249:33306/cfx
+    url: jdbc:mysql://124.222.42.249:33306/harbor
     username: root
     password: root
-#    url: jdbc:mysql://localhost:3306/cfx ?useUnicode=true&useSSL=false&characterEncoding=utf8
-#    password: root
 
 mybatis-plus:
   global-config:
@@ -14,7 +12,7 @@ mybatis-plus:
       logic-delete-value: 1 # 逻辑已删除值(默认为 1)
       logic-not-delete-value: 0 # 逻辑未删除值(默认为 0)
   mapper-locations: classpath:mapper/usercenter/*Mapper.xml
-#  type-aliases-super-type: com.cfx.usercenter.entity
+#  type-aliases-super-type: com.harbor.usercenter.entity
 logging:
   level:
     org:

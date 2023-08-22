@@ -2,31 +2,31 @@
   "groups": [
     {
       "name": "config.mq",
-      "type": "com.ziyao.cfx.mq.config.MQConfig",
-      "sourceType": "com.ziyao.cfx.mq.config.MQConfig"
+      "type": "com.ziyao.harbor.mq.config.MQConfig",
+      "sourceType": "com.ziyao.harbor.mq.config.MQConfig"
     },
     {
       "name": "config.mq.rocketMQ",
-      "type": "com.ziyao.cfx.mq.config.RocketMQConfig",
-      "sourceType": "com.ziyao.cfx.mq.config.RocketMQConfig"
+      "type": "com.ziyao.harbor.mq.config.RocketMQConfig",
+      "sourceType": "com.ziyao.harbor.mq.config.RocketMQConfig"
     },
     {
       "name": "config.mq.rabbitMQ",
-      "type": "com.ziyao.cfx.mq.config.RabbitMQConfig",
-      "sourceType": "com.ziyao.cfx.mq.config.RabbitMQConfig"
+      "type": "com.ziyao.harbor.mq.config.RabbitMQConfig",
+      "sourceType": "com.ziyao.harbor.mq.config.RabbitMQConfig"
     },
     {
       "name": "config.mq.kafka",
-      "type": "com.ziyao.cfx.mq.config.KafkaConfig",
-      "sourceType": "com.ziyao.cfx.mq.config.KafkaConfig"
+      "type": "com.ziyao.harbor.mq.config.KafkaConfig",
+      "sourceType": "com.ziyao.harbor.mq.config.KafkaConfig"
     }
   ],
   "properties": [
     {
       "name": "config.mq.type",
-      "type": "com.ziyao.cfx.mq.api.MQType",
+      "type": "com.ziyao.harbor.mq.api.MQType",
       "description": "MQ type.",
-      "sourceType": "com.ziyao.cfx.mq.config.MQConfig",
+      "sourceType": "com.ziyao.harbor.mq.config.MQConfig",
       "defaultValue": "ROCKET_MQ"
     }
   ]

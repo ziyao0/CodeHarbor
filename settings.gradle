@@ -27,7 +27,7 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = 'CloudFoundationX'
+rootProject.name = 'CodeHarbor'
 include 'core', 'gateway', 'user-center', 'web-spring-boot-starter'
 include 'code-generator'
 include 'open-api'
