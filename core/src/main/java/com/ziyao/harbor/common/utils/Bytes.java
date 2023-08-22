@@ -6,5 +6,6 @@ package com.ziyao.harbor.common.utils;
  */
 public abstract class Bytes {
 
-    private Bytes(){}
+    private Bytes() {
+    }
 }
