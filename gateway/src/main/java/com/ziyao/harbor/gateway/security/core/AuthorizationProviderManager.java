@@ -3,6 +3,7 @@ package com.ziyao.harbor.gateway.security.core;
 import com.ziyao.harbor.gateway.security.api.Authorization;
 import com.ziyao.harbor.gateway.security.api.Provider;
 import com.ziyao.harbor.gateway.security.api.ProviderManager;
+import lombok.Getter;
 import org.springframework.lang.NonNull;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.List;
  * @author ziyao zhang
  * @since 2023/5/16
  */
+@Getter
 public class AuthorizationProviderManager implements ProviderManager {
 
     private List<Provider> providers;
@@ -39,10 +41,6 @@ public class AuthorizationProviderManager implements ProviderManager {
             authorize = provider.authorize(authorization);
         }
         return authorize;
-    }
-
-    public List<Provider> getProviders() {
-        return providers;
     }
 
     public void setProviders(List<Provider> providers) {

@@ -4,6 +4,7 @@ import com.ziyao.harbor.gateway.security.api.Authorization;
 import com.ziyao.harbor.gateway.security.api.AuthorizationProcessor;
 import com.ziyao.harbor.gateway.security.api.Provider;
 import com.ziyao.harbor.gateway.security.api.ProviderManager;
+import lombok.Getter;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +24,7 @@ import org.springframework.stereotype.Component;
  * @author ziyao zhang
  * @since 2023/5/16
  */
+@Getter
 @Component
 public class DefaultAuthorizationProcessor implements AuthorizationProcessor {
 
@@ -39,10 +41,6 @@ public class DefaultAuthorizationProcessor implements AuthorizationProcessor {
             return new SuccessAuthorization();
         else
             return getProviderManager().authorize(authorization);
-    }
-
-    public ProviderManager getProviderManager() {
-        return providerManager;
     }
 
     public void setProviderManager(ProviderManager providerManager) {

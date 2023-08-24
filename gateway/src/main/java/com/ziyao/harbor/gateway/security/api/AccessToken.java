@@ -22,7 +22,7 @@ public interface AccessToken extends Serializable {
     /**
      * 获取时间戳
      */
-    long getTimestamp();
+    String getTimestamp();
 
     /**
      * 授权范围
