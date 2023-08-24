@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gateway.support;
+package com.ziyao.harbor.gateway.core;
 
 import com.ziyao.harbor.core.utils.Strings;
 import org.springframework.util.AntPathMatcher;

@@ -27,7 +27,6 @@ public enum TokenType {
     App("App "),
     ;
 
-
     public final String type;
 
     TokenType(String type) {
@@ -42,5 +41,20 @@ public enum TokenType {
 
     public static List<TokenType> getTokens() {
         return list;
+    }
+
+    /**
+     * 提取token
+     *
+     * @param token token值
+     * @return token
+     */
+    public static String extract(String token) {
+        for (TokenType tokenType : list) {
+            if (token.startsWith(tokenType.getType())) {
+                return token.replace(tokenType.getType(), "");
+            }
+        }
+        return null;
     }
 }

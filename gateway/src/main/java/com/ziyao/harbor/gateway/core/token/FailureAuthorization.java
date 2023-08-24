@@ -1,6 +1,6 @@
-package com.ziyao.harbor.gateway.security.core;
+package com.ziyao.harbor.gateway.core.token;
 
-import com.ziyao.harbor.gateway.security.api.Authorization;
+import com.ziyao.harbor.gateway.core.token.Authorization;
 import lombok.Data;
 
 /**

@@ -1,7 +1,7 @@
-package com.ziyao.harbor.gateway.security.core;
+package com.ziyao.harbor.gateway.core.token;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.ziyao.harbor.gateway.security.api.Authorization;
+import com.ziyao.harbor.gateway.core.token.Authorization;
 import lombok.Data;
 
 import java.util.Map;

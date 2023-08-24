@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gateway.common.config;
+package com.ziyao.harbor.gateway.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

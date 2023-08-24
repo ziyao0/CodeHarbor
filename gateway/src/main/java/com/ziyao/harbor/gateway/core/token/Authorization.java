@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gateway.security.api;
+package com.ziyao.harbor.gateway.core.token;
 
 import java.io.Serializable;
 

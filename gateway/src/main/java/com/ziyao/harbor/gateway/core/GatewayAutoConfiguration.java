@@ -1,8 +1,8 @@
-package com.ziyao.harbor.gateway.common;
+package com.ziyao.harbor.gateway.core;
 
-import com.ziyao.harbor.gateway.security.api.Provider;
-import com.ziyao.harbor.gateway.security.api.ProviderManager;
-import com.ziyao.harbor.gateway.security.core.AuthorizationProviderManager;
+import com.ziyao.harbor.gateway.core.Provider;
+import com.ziyao.harbor.gateway.core.ProviderManager;
+import com.ziyao.harbor.gateway.core.AuthorizationProviderManager;
 import com.ziyao.harbor.gateway.support.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -93,21 +93,6 @@ public class GatewayAutoConfiguration implements ApplicationContextAware {
     public void setApplicationContext(@Nullable ApplicationContext applicationContext) throws BeansException {
         ApplicationContextUtils.setApplicationContext(applicationContext);
     }
-
-//    @Bean
-//    public RouteLocator routeLocator(RouteLocatorBuilder builder) {
-////        return builder.routes()
-////                .route("example_route", r -> r.path("/example")
-//////                        .filters(f -> f.filter(customGatewayFilter1()).filter(customGatewayFilter2()))
-////                        /*.uri("http://example.com")*/)
-////                .build();
-//
-//        return builder.routes().route("route", r -> r.path("/**").filters(
-//                f -> f.filter(ApplicationContextUtils.getBean(GatewayPreFilter.class))
-//                        .filter(ApplicationContextUtils.getBean(AuthCenterFilter.class))
-//                        .filter(ApplicationContextUtils.getBean(GatewayPostFilter.class))
-//        ).uri("http://127.0.0.1:8888")).build();
-//    }
 
     @Bean
     public CorsWebFilter corsFilter() {

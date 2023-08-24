@@ -1,13 +1,12 @@
-package com.ziyao.harbor.gateway.security.provider;
+package com.ziyao.harbor.gateway.core;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.core.utils.SecurityUtils;
-import com.ziyao.harbor.gateway.security.api.Authorization;
-import com.ziyao.harbor.gateway.security.api.Provider;
-import com.ziyao.harbor.gateway.security.core.FailureAuthorization;
-import com.ziyao.harbor.gateway.security.core.SuccessAuthorization;
+import com.ziyao.harbor.gateway.core.token.Authorization;
+import com.ziyao.harbor.gateway.core.token.FailureAuthorization;
+import com.ziyao.harbor.gateway.core.token.SuccessAuthorization;
 import org.springframework.stereotype.Component;
 
 import java.util.Map;

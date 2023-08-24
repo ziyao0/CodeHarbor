@@ -1,5 +1,6 @@
-package com.ziyao.harbor.gateway.security.api;
+package com.ziyao.harbor.gateway.core;
 
+import com.ziyao.harbor.gateway.core.token.Authorization;
 import org.springframework.lang.NonNull;
 
 /**

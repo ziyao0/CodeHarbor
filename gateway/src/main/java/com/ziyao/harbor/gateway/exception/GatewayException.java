@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gateway.common.exception;
+package com.ziyao.harbor.gateway.exception;
 
 /**
  * @author ziyao zhang

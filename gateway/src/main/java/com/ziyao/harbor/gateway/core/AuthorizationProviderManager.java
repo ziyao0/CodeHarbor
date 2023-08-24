@@ -1,8 +1,7 @@
-package com.ziyao.harbor.gateway.security.core;
+package com.ziyao.harbor.gateway.core;
 
-import com.ziyao.harbor.gateway.security.api.Authorization;
-import com.ziyao.harbor.gateway.security.api.Provider;
-import com.ziyao.harbor.gateway.security.api.ProviderManager;
+import com.ziyao.harbor.gateway.core.token.Authorization;
+import com.ziyao.harbor.gateway.core.token.FailureAuthorization;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
 

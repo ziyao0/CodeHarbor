@@ -1,8 +1,8 @@
-package com.ziyao.harbor.gateway.security.core;
+package com.ziyao.harbor.gateway.core;
 
 import com.ziyao.harbor.core.Assert;
 import com.ziyao.harbor.core.Validator;
-import com.ziyao.harbor.gateway.security.api.AccessToken;
+import com.ziyao.harbor.gateway.core.token.AccessToken;
 
 /**
  * @author ziyao zhang
