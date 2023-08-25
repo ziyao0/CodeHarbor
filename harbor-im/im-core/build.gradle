@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":core"))
+    api(project(":harbor-core"))
     api 'com.dyuproject.protostuff:protostuff-api:1.0.10'
     api 'com.dyuproject.protostuff:protostuff-core:1.0.10'
     api 'com.dyuproject.protostuff:protostuff-runtime:1.0.10'

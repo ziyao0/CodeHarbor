@@ -1,5 +1,5 @@
 dependencies {
-    api(project(":core"))
+    api(project(":harbor-core"))
     api 'org.springframework:spring-webmvc'
     api 'org.springframework:spring-context'
     api 'javax.validation:validation-api'

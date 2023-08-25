@@ -83,8 +83,9 @@ allprojects {
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
     // 需要排除的文件路径
-    def exclude = ['code-generator', 'dubbo-api', 'core', 'web-spring-boot-starter', 'samples', 'mq-api',
-                   'im', "im-client", "im-core", "im-server", "im-spring-boot-starter", "im-spring-boot-starter-discovery"]
+    def exclude = ['code-generator', 'dubbo-api', 'harbor-core', 'web-spring-boot-starter', 'samples', 'mq-api',
+                   'harbor-im', "im-client", "im-core", "im-server", "im-spring-boot-starter", "im-spring-boot-starter-discovery"
+                   , "harbor-spring-boot"]
     // 需要二次拼接的模块
     def joint = ['samples']
 

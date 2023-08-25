@@ -1,6 +1,6 @@
 dependencies {
-    api(project(":core"))
-    api(project(":im:im-client"))
+    api(project(":harbor-core"))
+    api(project(":harbor-im:im-client"))
     api('org.springframework.boot:spring-boot-autoconfigure')
     annotationProcessor('org.springframework.boot:spring-boot-autoconfigure-processor')
 }
