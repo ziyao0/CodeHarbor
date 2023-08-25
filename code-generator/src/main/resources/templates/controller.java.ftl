@@ -2,7 +2,7 @@ package ${package.Controller};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.common.exception.ServiceException;
-import com.ziyao.harbor.common.writer.Errors;
+import com.ziyao.harbor.web.response.Errors;
 import ${dto}.${entity}DTO;
 <#if superControllerClassPackage??>
     import ${package.Entity}.${entity};

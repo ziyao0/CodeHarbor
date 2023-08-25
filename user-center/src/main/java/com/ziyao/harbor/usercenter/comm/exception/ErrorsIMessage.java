@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.comm.exception;
 
-import com.ziyao.harbor.common.api.IMessage;
+import com.ziyao.harbor.web.response.IMessage;
 
 /**
  * @author zhangziyao

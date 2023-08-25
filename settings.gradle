@@ -55,4 +55,6 @@ include 'harbor-im:im-spring-boot-starter-discovery'
 findProject(':harbor-im:im-spring-boot-starter-discovery')?.name = 'im-spring-boot-starter-discovery'
 include 'harbor-xxl-job'
 include 'harbor-spring-boot'
+include 'harbor-spring-boot:harbor-spring-web'
+findProject(':harbor-spring-boot:harbor-spring-web')?.name = 'harbor-spring-web'
 

@@ -3,7 +3,6 @@ package com.ziyao.harbor.core.token;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.google.common.collect.Maps;
-import com.ziyao.harbor.common.exception.ServiceException;
 import com.ziyao.harbor.core.jwt.Jwts;
 import com.ziyao.harbor.core.utils.Dates;
 
@@ -58,7 +57,7 @@ public abstract class Tokens {
                 return token.replace(tokenType.getType(), "");
             }
         }
-        throw new ServiceException();
+        throw new IllegalArgumentException(token);
     }
 
     public static String create(Map<String, Object> payload, String secret) {

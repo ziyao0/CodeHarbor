@@ -1,13 +1,12 @@
 package com.ziyao.harbor.web.global;
 
 
-import com.ziyao.harbor.common.api.DataIMessage;
-import com.ziyao.harbor.common.api.IMessage;
-import com.ziyao.harbor.common.exception.ServiceException;
-import com.ziyao.harbor.common.exception.UnauthorizedException;
 import com.ziyao.harbor.core.utils.CommUtils;
-import com.ziyao.harbor.common.writer.Errors;
-import com.ziyao.harbor.common.writer.ResponseBuilder;
+import com.ziyao.harbor.web.ResponseBuilder;
+import com.ziyao.harbor.web.exception.ServiceException;
+import com.ziyao.harbor.web.exception.UnauthorizedException;
+import com.ziyao.harbor.web.response.Errors;
+import com.ziyao.harbor.web.response.IMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
@@ -38,7 +37,7 @@ public class GlobalExceptionHandlerAdvice {
      * 方法参数校验失败异常处理.
      *
      * @param mex {@link org.springframework.web.bind.MethodArgumentNotValidException}
-     * @return 参数校验失败统一响应处理 {@link IMessage}
+     * @return 参数校验失败统一响应处理 {@link com.ziyao.harbor.web.response.IMessage}
      * @see MethodArgumentNotValidException#getBindingResult()
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -87,7 +86,7 @@ public class GlobalExceptionHandlerAdvice {
     /**
      * 自定义业务异常处理.
      *
-     * @param e {@link ServiceException}
+     * @param e {@link com.ziyao.harbor.web.exception.ServiceException}
      * @return 包含业务异常信息的 {@link IMessage}
      */
     @ExceptionHandler(value = ServiceException.class)
@@ -96,7 +95,7 @@ public class GlobalExceptionHandlerAdvice {
         if (causeThrowable != null) {
             LOGGER.error("发生由其他异常导致的业务异常", causeThrowable);
         }
-        return DataIMessage.getInstance(e.getStatus(), e.getMessage());
+        return IMessage.getInstance(e.getStatus(), e.getMessage());
     }
 
     /**

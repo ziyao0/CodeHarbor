@@ -1,6 +1,5 @@
 package com.ziyao.harbor.usercenter.security.provider;
 
-import com.ziyao.harbor.common.exception.ServiceException;
 import com.ziyao.harbor.usercenter.comm.exception.ErrorsIMessage;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.security.UserStatusChecker;
@@ -15,6 +14,7 @@ import com.ziyao.harbor.usercenter.security.codec.Encryptor;
 import com.ziyao.harbor.usercenter.security.core.PrimaryAuthProvider;
 import com.ziyao.harbor.usercenter.security.core.UserDetailsChecker;
 import com.ziyao.harbor.usercenter.service.UserService;
+import com.ziyao.harbor.web.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

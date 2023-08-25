@@ -1,33 +1,26 @@
-package com.ziyao.harbor.common.writer;
+package com.ziyao.harbor.web.response;
 
-import com.ziyao.harbor.common.api.DataIMessage;
-import com.ziyao.harbor.common.api.IMessage;
+import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Serial;
-import java.util.Objects;
 
 /**
- * @author zhangziyao
- * @since 2023/4/21
+ * @author ziyao zhang
+ * @since 2023/8/25
  */
-public final class DataResponse<T> implements DataIMessage<T> {
+public class MessageResponse<T> implements IMessage {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageResponse.class);
     @Serial
-    private static final long serialVersionUID = 4683215504590500529L;
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataResponse.class);
+    private static final long serialVersionUID = 7273085408208781818L;
 
     private Integer state;
 
     private String message;
-
+    @Getter
     private T data;
-
-    @Override
-    public T getData() {
-        return this.data;
-    }
 
     @Override
     public Integer getStatus() {
@@ -39,30 +32,30 @@ public final class DataResponse<T> implements DataIMessage<T> {
         return this.message;
     }
 
-    public DataResponse() {
+    public MessageResponse() {
     }
 
-    public DataResponse(IMessage IMessage) {
+    public MessageResponse(IMessage IMessage) {
         Checker.check(IMessage);
         this.state = IMessage.getStatus();
         this.message = IMessage.getMessage();
     }
 
-    public DataResponse(IMessage IMessage, T data) {
+    public MessageResponse(IMessage IMessage, T data) {
         Checker.check(IMessage, data);
         this.state = IMessage.getStatus();
         this.message = IMessage.getMessage();
         this.data = data;
     }
 
-    public DataResponse(Integer state, String message) {
+    public MessageResponse(Integer state, String message) {
         Checker.check(state, message);
         this.state = state;
         this.message = message;
 
     }
 
-    public DataResponse(Integer state, String message, T data) {
+    public MessageResponse(Integer state, String message, T data) {
         Checker.check(state, message, data);
         this.state = state;
         this.message = message;
@@ -102,18 +95,5 @@ public final class DataResponse<T> implements DataIMessage<T> {
         public static void check(IMessage IMessage, Object data) {
             check(IMessage.getStatus(), IMessage.getMessage(), data);
         }
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        DataResponse<?> that = (DataResponse<?>) o;
-        return Objects.equals(state, that.state) && Objects.equals(message, that.message) && Objects.equals(data, that.data);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(state, message, data);
     }
 }

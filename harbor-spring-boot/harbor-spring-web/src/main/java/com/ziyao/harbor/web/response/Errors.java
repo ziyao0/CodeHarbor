@@ -1,6 +1,4 @@
-package com.ziyao.harbor.common.writer;
-
-import com.ziyao.harbor.common.api.IMessage;
+package com.ziyao.harbor.web.response;
 
 /**
  * @author zhangziyao

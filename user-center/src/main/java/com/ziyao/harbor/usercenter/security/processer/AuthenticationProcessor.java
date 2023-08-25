@@ -1,7 +1,5 @@
 package com.ziyao.harbor.usercenter.security.processer;
 
-import com.ziyao.harbor.common.exception.ServiceException;
-import com.ziyao.harbor.common.writer.Errors;
 import com.ziyao.harbor.usercenter.dto.LoginDTO;
 import com.ziyao.harbor.usercenter.security.PrimaryAuthProviderManager;
 import com.ziyao.harbor.usercenter.security.api.AccessToken;
@@ -11,6 +9,8 @@ import com.ziyao.harbor.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.harbor.usercenter.security.core.GlobalProcessor;
 import com.ziyao.harbor.usercenter.security.handle.AuthenticationSuccessHandler;
+import com.ziyao.harbor.web.exception.ServiceException;
+import com.ziyao.harbor.web.response.Errors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

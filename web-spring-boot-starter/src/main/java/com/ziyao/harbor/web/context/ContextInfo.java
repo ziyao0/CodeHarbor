@@ -1,6 +1,5 @@
 package com.ziyao.harbor.web.context;
 
-import com.ziyao.harbor.common.exception.UnauthorizedException;
 import com.ziyao.harbor.web.details.UserDetails;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -33,7 +32,7 @@ public interface ContextInfo {
     boolean isAuthentication();
 
     /**
-     * 断言当前请求是否认证，未认证会抛出异常{@link UnauthorizedException}.
+     * 断言当前请求是否认证，未认证会抛出异常{@link com.ziyao.harbor.web.exception.UnauthorizedException}.
      */
     void assertAuthentication();
 

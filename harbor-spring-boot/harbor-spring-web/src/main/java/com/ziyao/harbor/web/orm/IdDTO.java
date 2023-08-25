@@ -1,4 +1,4 @@
-package com.ziyao.harbor.common.dto;
+package com.ziyao.harbor.web.orm;
 
 import lombok.Data;
 

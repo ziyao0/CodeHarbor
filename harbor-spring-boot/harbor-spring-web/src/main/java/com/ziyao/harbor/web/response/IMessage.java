@@ -1,4 +1,4 @@
-package com.ziyao.harbor.common.api;
+package com.ziyao.harbor.web.response;
 
 import java.io.Serializable;
 
