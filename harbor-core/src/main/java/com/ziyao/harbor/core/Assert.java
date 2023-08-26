@@ -39,6 +39,18 @@ public abstract class Assert {
     }
 
     /**
+     * 断言字符串是否为空
+     *
+     * @param text    给定字符串
+     * @param message 断言失败后返回信息
+     */
+    public static void hasLength(@Nullable String text, String message) {
+        if (!Strings.hasLength(text)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
      * Assert that a string is  {@code null}.
      *
      * @param value   要检查的字符串
