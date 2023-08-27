@@ -6,17 +6,18 @@ import java.util.Map;
 
 /**
  * @author zhangziyao
- * @date 2023/4/23
+ * @since  2023/4/23
  */
 @Data
-public class JwtData {
+public class JwtInfo {
 
     private Header header;
 
-    private Map<String, ?> payload;
+    private Map<String, Object> payload;
 
     @Data
     static class Header {
+
         private String issuer;
 
         private String subject;

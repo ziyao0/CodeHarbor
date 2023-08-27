@@ -1,6 +1,6 @@
 package com.ziyao.harbor.gateway.core;
 
-import com.ziyao.harbor.core.Assert;
+import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
 

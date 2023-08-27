@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gateway.core;
+package com.ziyao.harbor.core;
 
 /**
  * @author ziyao
