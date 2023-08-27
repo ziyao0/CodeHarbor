@@ -79,43 +79,27 @@ allprojects {
         }
     }
 }
-
+// 获取所有模块名称rootProject.subprojects
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
-    // 需要排除的文件路径
-    def exclude = ['code-generator', 'dubbo-api', 'harbor-core', 'web-spring-boot-starter', 'samples', 'mq-api',
-                   'harbor-im', "im-client", "im-core", "im-server", "im-spring-boot-starter", "im-spring-boot-starter-discovery"
-                   , "harbor-springframework","harbor-spring-web"]
-    // 需要二次拼接的模块
-    def joint = ['samples']
 
-    def sources_path = '/src/main/resources'
-    def separator = '/'
-    // 需要拷贝的源文件
-    def source_files = ['resources/config/bootstrap-register.yml']
-
-    //获取所有模块信息
-    def dirs = []
-    rootProject.subprojects.each { subproject ->
-        // 处理要拷贝的模块
-        if (!exclude.contains(subproject.name)) {
-
-            joint.each { val ->
-                if (subproject.name.contains(val)) {
-                    dirs.add(val + separator + subproject.name + sources_path)
-                } else {
-                    dirs.add(subproject.name + sources_path)
-                }
-            }
+    def inputFile = file("${projectDir}/subprojects.txt") // 使用 projectDir 获取项目根目录
+    // 需要拷贝的文件夹
+    def subprojects = []
+    if (inputFile.exists()) {
+        inputFile.eachLine { line ->
+            subprojects.add(line.trim())
         }
-    }
-// 拷贝文件
-    dirs.each { dir ->
-        //处理要拷贝的文件
-        source_files.each { source_file ->
-            copy {
-                from source_file
-                into dir
+        // 需要拷贝的源文件
+        def source_files = ['resources/config/bootstrap-register.yml']
+        // 拷贝文件
+        subprojects.each { dir ->
+            //处理要拷贝的文件
+            source_files.each { source_file ->
+                copy {
+                    from source_file
+                    into dir + '/src/main/resources'
+                }
             }
         }
     }
