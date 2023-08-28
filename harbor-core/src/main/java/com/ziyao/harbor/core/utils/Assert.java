@@ -1,9 +1,5 @@
 package com.ziyao.harbor.core.utils;
 
-import com.ziyao.harbor.core.utils.Strings;
-import org.springframework.lang.Nullable;
-import org.springframework.util.ObjectUtils;
-
 import java.util.Objects;
 
 /**
@@ -20,7 +16,7 @@ public abstract class Assert {
      * @param value   要检查的字符串
      * @param message 断言失败后返回的异常信息
      */
-    public static void notNull(@Nullable String value, String message) {
+    public static void notNull(String value, String message) {
         if (Strings.isEmpty(value)) {
             throw new IllegalArgumentException(message);
         }
@@ -32,8 +28,8 @@ public abstract class Assert {
      * @param object  要断言的对象
      * @param message 断言失败后返回的异常信息
      */
-    public static void notNull(@Nullable Object object, String message) {
-        if (ObjectUtils.isEmpty(object)) {
+    public static void notNull(Object object, String message) {
+        if (Objects.isNull(object)) {
             throw new IllegalArgumentException(message);
         }
     }
@@ -44,7 +40,7 @@ public abstract class Assert {
      * @param text    给定字符串
      * @param message 断言失败后返回信息
      */
-    public static void hasLength(@Nullable String text, String message) {
+    public static void hasLength(String text, String message) {
         if (!Strings.hasLength(text)) {
             throw new IllegalArgumentException(message);
         }
@@ -56,7 +52,7 @@ public abstract class Assert {
      * @param value   要检查的字符串
      * @param message 断言失败后返回的异常信息
      */
-    public static void isNull(@Nullable String value, String message) {
+    public static void isNull(String value, String message) {
         if (Strings.hasLength(value)) {
             throw new IllegalArgumentException(message);
         }
@@ -68,8 +64,8 @@ public abstract class Assert {
      * @param object  要断言的对象
      * @param message 断言失败后返回的异常信息
      */
-    public static void isNull(@Nullable Object object, String message) {
-        if (!Objects.isNull(object)) {
+    public static void isNull(Object object, String message) {
+        if (Objects.nonNull(object)) {
             throw new IllegalArgumentException(message);
         }
     }

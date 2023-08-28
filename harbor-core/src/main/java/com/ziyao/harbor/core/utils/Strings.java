@@ -1,9 +1,6 @@
 package com.ziyao.harbor.core.utils;
 
 
-import org.springframework.lang.Nullable;
-import org.springframework.util.CollectionUtils;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -24,7 +21,7 @@ public abstract class Strings {
      *
      * @param str 候选对象（可能是 {@code String}）
      */
-    public static boolean isEmpty(@Nullable Object str) {
+    public static boolean isEmpty(Object str) {
         return (str == null || "".equals(str));
     }
 
@@ -45,7 +42,7 @@ public abstract class Strings {
      * @see #hasLength(String)
      * @see #hasText(CharSequence)
      */
-    public static boolean hasLength(@Nullable CharSequence str) {
+    public static boolean hasLength(CharSequence str) {
         return (str != null && !str.isEmpty());
     }
 
@@ -59,7 +56,7 @@ public abstract class Strings {
      * @see #hasLength(CharSequence)
      * @see #hasText(String)
      */
-    public static boolean hasLength(@Nullable String str) {
+    public static boolean hasLength(String str) {
         return (str != null && !str.trim().isEmpty());
     }
 
@@ -83,7 +80,7 @@ public abstract class Strings {
      * @see #hasLength(CharSequence)
      * @see Character#isWhitespace
      */
-    public static boolean hasText(@Nullable CharSequence str) {
+    public static boolean hasText(CharSequence str) {
         return (str != null && !str.isEmpty() && containsText(str));
     }
 
@@ -100,7 +97,7 @@ public abstract class Strings {
      * @see #hasLength(String)
      * @see Character#isWhitespace
      */
-    public static boolean hasText(@Nullable String str) {
+    public static boolean hasText(String str) {
         return (str != null && !str.trim().isEmpty() && containsText(str));
     }
 
@@ -122,7 +119,7 @@ public abstract class Strings {
      *                   (potentially {@code null} or empty)
      * @return the resulting {@code String} array
      */
-    public static String[] toStringArray(@Nullable Collection<String> collection) {
+    public static String[] toStringArray(Collection<String> collection) {
         return (collection != null ? collection.toArray(new String[0]) : new String[0]);
     }
 
@@ -134,7 +131,7 @@ public abstract class Strings {
      *                    (potentially {@code null} or empty)
      * @return the resulting {@code String} array
      */
-    public static String[] toStringArray(@Nullable Enumeration<String> enumeration) {
+    public static String[] toStringArray(Enumeration<String> enumeration) {
         return (enumeration != null ? toStringArray(Collections.list(enumeration)) : new String[0]);
     }
 
@@ -145,7 +142,7 @@ public abstract class Strings {
      * @param coll the {@code Collection} to convert (potentially {@code null} or empty)
      * @return the delimited {@code String}
      */
-    public static String collectionToCommaDelimitedString(@Nullable Collection<?> coll) {
+    public static String collectionToCommaDelimitedString(Collection<?> coll) {
         return collectionToDelimitedString(coll, ",");
     }
 
@@ -157,7 +154,7 @@ public abstract class Strings {
      * @param delim the delimiter to use (typically a ",")
      * @return the delimited {@code String}
      */
-    public static String collectionToDelimitedString(@Nullable Collection<?> coll, String delim) {
+    public static String collectionToDelimitedString(Collection<?> coll, String delim) {
         return collectionToDelimitedString(coll, delim, "", "");
     }
 
@@ -171,10 +168,9 @@ public abstract class Strings {
      * @param suffix the {@code String} to end each element with
      * @return the delimited {@code String}
      */
-    public static String collectionToDelimitedString(
-            @Nullable Collection<?> coll, String delim, String prefix, String suffix) {
+    public static String collectionToDelimitedString(Collection<?> coll, String delim, String prefix, String suffix) {
 
-        if (CollectionUtils.isEmpty(coll)) {
+        if (com.ziyao.harbor.core.utils.Collections.isEmpty(coll)) {
             return "";
         }
 

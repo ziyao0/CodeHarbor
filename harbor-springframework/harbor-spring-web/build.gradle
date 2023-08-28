@@ -2,10 +2,12 @@ plugins {
     id 'java-library'
 }
 dependencies {
-    api('com.google.guava:guava:31.1-jre')
-    api('jakarta.servlet:jakarta.servlet-api')
-    api('org.springframework:spring-beans')
-    api('com.alibaba:fastjson')
-    api('org.slf4j:slf4j-api')
-    api('com.auth0:java-jwt:3.19.0')
+    api(project(":harbor-core"))
+    api('com.baomidou:mybatis-plus-annotation')
+    api('com.baomidou:mybatis-plus-extension')
+    api('javax.validation:validation-api')
+    api('org.springframework:spring-webmvc')
+    api('org.springframework:spring-context')
+    api('org.springframework.boot:spring-boot-autoconfigure')
+    api('com.fasterxml.jackson.core:jackson-databind:2.12.7.1')
 }

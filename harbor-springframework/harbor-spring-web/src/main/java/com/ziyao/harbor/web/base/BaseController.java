@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.mvc;
+package com.ziyao.harbor.web.base;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;

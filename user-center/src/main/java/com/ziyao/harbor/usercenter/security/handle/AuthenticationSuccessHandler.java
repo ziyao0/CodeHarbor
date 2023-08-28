@@ -5,7 +5,7 @@ import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.harbor.usercenter.security.core.LoginPostProcessor;
 import com.ziyao.harbor.usercenter.security.core.SuccessHandler;
 import com.ziyao.harbor.usercenter.security.core.TokenEnhancer;
-import com.ziyao.harbor.web.utils.ApplicationContextUtils;
+import com.ziyao.harbor.web.ApplicationContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;

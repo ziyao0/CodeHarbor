@@ -1,6 +1,6 @@
 package com.ziyao.harbor.web.context;
 
-import com.ziyao.harbor.web.details.UserDetails;
+import com.ziyao.harbor.web.UserDetails;
 
 /**
  * 通过线程绑定 {@link ContextInfo} 对象的形式开放web请求信息

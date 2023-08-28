@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.orm;
+package com.ziyao.harbor.web.base;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import org.apache.ibatis.reflection.MetaObject;

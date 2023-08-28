@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.utils;
+package com.ziyao.harbor.web;
 
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.ObjectUtils;

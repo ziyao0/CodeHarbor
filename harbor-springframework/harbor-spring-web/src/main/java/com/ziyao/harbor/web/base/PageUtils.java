@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.orm;
+package com.ziyao.harbor.web.base;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 

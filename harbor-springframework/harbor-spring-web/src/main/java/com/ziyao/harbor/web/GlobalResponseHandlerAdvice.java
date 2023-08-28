@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.global;
+package com.ziyao.harbor.web;
 
 import com.ziyao.harbor.web.ResponseBuilder;
 import com.ziyao.harbor.web.response.IMessage;

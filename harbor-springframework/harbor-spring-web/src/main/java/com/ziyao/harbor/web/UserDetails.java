@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.details;
+package com.ziyao.harbor.web;
 
 import lombok.Builder;
 import lombok.Data;

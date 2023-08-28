@@ -1,0 +1,3 @@
+dependencies{
+    api(project(":harbor-springframework:harbor-spring-web"))
+}

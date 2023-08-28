@@ -1,8 +1,7 @@
-package com.ziyao.harbor.web.global;
+package com.ziyao.harbor.web;
 
 
 import com.ziyao.harbor.core.utils.CommUtils;
-import com.ziyao.harbor.web.ResponseBuilder;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
 import com.ziyao.harbor.web.response.Errors;

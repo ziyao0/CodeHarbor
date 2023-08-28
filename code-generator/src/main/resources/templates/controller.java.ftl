@@ -9,8 +9,8 @@ import ${dto}.${entity}DTO;
     import ${package.Service}.${table.serviceName};
     import ${superControllerClassPackage};
 </#if>
-import com.ziyao.harbor.web.orm.PageQuery;
-import com.ziyao.harbor.web.orm.PageUtils;
+import com.ziyao.harbor.web.base.PageQuery;
+import com.ziyao.harbor.web.base.PageUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;

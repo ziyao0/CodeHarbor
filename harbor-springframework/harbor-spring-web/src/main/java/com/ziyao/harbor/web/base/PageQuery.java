@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.orm;
+package com.ziyao.harbor.web.base;
 
 /**
  * @author ziyao zhang

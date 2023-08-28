@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.security;
 
 import com.ziyao.harbor.usercenter.security.core.PrimaryAuthProvider;
-import com.ziyao.harbor.web.utils.ApplicationContextUtils;
+import com.ziyao.harbor.web.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

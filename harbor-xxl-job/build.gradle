@@ -1,5 +1,5 @@
 dependencies{
-    implementation(project(":web-spring-boot-starter"))
+    implementation(project(":harbor-springframework:harbor-web-spring-boot-starter"))
     implementation('org.springframework.boot:spring-boot-starter-web')
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'

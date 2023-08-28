@@ -28,7 +28,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'CodeHarbor'
-include 'harbor-core', 'harbor-gateway', 'user-center', 'web-spring-boot-starter'
+include 'harbor-core', 'harbor-gateway', 'user-center'
 include 'code-generator'
 include 'harbor-openapi'
 include 'dubbo-api'

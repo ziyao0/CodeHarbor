@@ -2,10 +2,9 @@ plugins {
     id 'java-library'
 }
 dependencies {
-    api('com.google.guava:guava:31.1-jre')
-    api('jakarta.servlet:jakarta.servlet-api')
-    api('org.springframework:spring-beans')
     api('com.alibaba:fastjson')
     api('org.slf4j:slf4j-api')
     api('com.auth0:java-jwt:3.19.0')
+    api('com.google.guava:guava:31.1-jre')
+    api('jakarta.servlet:jakarta.servlet-api')
 }

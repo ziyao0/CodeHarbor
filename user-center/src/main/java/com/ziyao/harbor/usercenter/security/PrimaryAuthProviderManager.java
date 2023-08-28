@@ -6,7 +6,7 @@ import com.ziyao.harbor.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.harbor.usercenter.security.core.AuthenticationProvider;
 import com.ziyao.harbor.usercenter.security.core.PrimaryAuthProvider;
 import com.ziyao.harbor.usercenter.security.core.ProviderManager;
-import com.ziyao.harbor.web.utils.ApplicationContextUtils;
+import com.ziyao.harbor.web.ApplicationContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.Assert;
 
