@@ -1,6 +1,5 @@
 package com.ziyao.harbor.web;
 
-import com.ziyao.harbor.web.ResponseBuilder;
 import com.ziyao.harbor.web.response.IMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

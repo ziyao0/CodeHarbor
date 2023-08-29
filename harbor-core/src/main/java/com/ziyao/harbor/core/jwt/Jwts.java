@@ -1,13 +1,17 @@
 package com.ziyao.harbor.core.jwt;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTCreator;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.*;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.ziyao.harbor.core.token.TokenDetails;
 import com.ziyao.harbor.core.utils.Dates;
 
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author zhangziyao
@@ -27,18 +31,25 @@ public abstract class Jwts {
     /**
      * 创建token
      *
-     * @param secret 密钥
-     */
-    public static String create(Map<String, ?> payload, String secret) {
-        return create(payload, secret, Dates.skip(30));
-    }
-
-    /**
-     * 创建token
-     *
-     * @param secret 密钥
+     * @param details Token详情
      * @return token
      */
+    public static String create(TokenDetails details) {
+        JWTCreator.Builder builder = JWT.create();
+        // 填充头部信息
+        // @formatter:off
+        TokenDetails.Header header = details.getHeader();
+        if (Objects.nonNull(header)) {
+            builder.withIssuer(header.getIssuer())
+                    .withSubject(header.getSubject())
+                    .withAudience(header.getAudience());
+        }
+        return builder.withPayload(details.getPayload())
+                .withExpiresAt(details.getExpiresAt())
+                .sign(Algorithm.HMAC256(details.getSecret()));
+        // @formatter:on
+    }
+
     public static String create(Map<String, ?> payload, String secret, Date expr) {
         return com.auth0.jwt.JWT.create()
                 .withIssuer("ISSUER")
@@ -47,6 +58,9 @@ public abstract class Jwts {
                 .sign(Algorithm.HMAC256(secret));
     }
 
+    public static String create(Map<String, ?> payload, String secret) {
+        return create(payload, secret, Dates.skip(30));
+    }
 
     /**
      * 验证token
@@ -58,6 +72,7 @@ public abstract class Jwts {
     public static Map<String, Claim> getClaims(String token, String secret) {
         return verify(token, secret).getClaims();
     }
+
 
     /**
      * 验证token
@@ -89,8 +104,6 @@ public abstract class Jwts {
                 // 其他异常
                 throw new JWTVerificationException(ERROR);
             }
-
-
         }
     }
 

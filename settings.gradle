@@ -28,7 +28,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'CodeHarbor'
-include 'harbor-core', 'harbor-gateway', 'user-center'
+include 'harbor-core',
+        'harbor-gateway',
+        'harbor-user-center'
 include 'code-generator'
 include 'harbor-openapi'
 include 'dubbo-api'
@@ -57,6 +59,8 @@ include 'harbor-xxl-job'
 include 'harbor-springframework'
 include 'harbor-springframework:harbor-spring-web'
 findProject(':harbor-springframework:harbor-spring-web')?.name = 'harbor-spring-web'
-include 'harbor-springframework:harbor-web-spring-boot-starter'
-findProject(':harbor-springframework:harbor-web-spring-boot-starter')?.name = 'harbor-web-spring-boot-starter'
+include 'harbor-springframework:harbor-spring-boot-autoconfigure'
+findProject(':harbor-springframework:harbor-spring-boot-autoconfigure')?.name = 'harbor-spring-boot-autoconfigure'
+include 'harbor-springframework:harbor-spring-reboot'
+findProject(':harbor-springframework:harbor-spring-reboot')?.name = 'harbor-spring-reboot'
 

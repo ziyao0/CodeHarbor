@@ -1,17 +1,23 @@
-package com.ziyao.harbor.web;
+package com.harbor.boot.autoconfigure.servlet;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
+import com.ziyao.harbor.web.ApplicationContextUtils;
 import com.ziyao.harbor.web.base.MetaFillDataHandler;
+import jakarta.servlet.Servlet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.lang.Nullable;
+import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 /**
  * <p>
@@ -27,7 +33,9 @@ import org.springframework.lang.Nullable;
  */
 @Slf4j
 @Configuration
-public class AutoWebConfiguration implements ApplicationContextAware, InitializingBean {
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+@ConditionalOnClass({ Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class })
+public class WebMvcAutoConfiguration implements ApplicationContextAware, InitializingBean {
 
     @Bean
     public MetaFillDataHandler metaFillDataHandler() {

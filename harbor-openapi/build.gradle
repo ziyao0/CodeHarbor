@@ -1,5 +1,5 @@
 dependencies {
-    implementation(project(":harbor-springframework:harbor-web-spring-boot-starter"))
+    implementation(project(":harbor-springframework:harbor-spring-boot-autoconfigure"))
     implementation(project(':dubbo-api'))
     implementation('org.springframework.cloud:spring-cloud-starter-bootstrap')
     implementation('org.springframework.boot:spring-boot-starter-web')
