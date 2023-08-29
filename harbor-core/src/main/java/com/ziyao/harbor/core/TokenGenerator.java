@@ -9,7 +9,7 @@ import java.util.Map;
  * @author ziyao zhang
  * @since 2023/8/29
  */
-public interface TokenGenerator<T extends TokenDetails> {
+public interface TokenGenerator<T extends TokenDetails,R> {
 
     /**
      * 根据指定令牌类型生成对应令牌.
@@ -33,9 +33,9 @@ public interface TokenGenerator<T extends TokenDetails> {
      *
      * @param text   给定字符串
      * @param secret 秘钥信息，jwt校验时需要
-     * @return {@link Map} 返回令牌携带的信息
+     * @return {@link R} 返回令牌携带的信息
      */
-    default Map<String, Claim> getTokenDetails(String text, String secret) {
+    default R getTokenDetails(String text, String secret) {
         return null;
     }
 }

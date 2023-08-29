@@ -14,7 +14,7 @@ import java.util.Map;
  * @author ziyao zhang
  * @since 2023/8/29
  */
-public class JwtTokenGenerator implements TokenGenerator<JwtInfo> {
+public class JwtTokenGenerator implements TokenGenerator<JwtInfo, Map<String, Claim>> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(JwtTokenGenerator.class);
 
