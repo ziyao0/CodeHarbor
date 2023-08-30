@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
  */
 @Configuration
 @Import({MQConfig.class, RocketMQConfig.class, KafkaConfig.class, RabbitMQConfig.class})
-public class AutoMQConfiguration {
+public class MQAutoConfiguration {
 
     @Bean
     public MQClient rocketMQClient(MQConfig config) {
