@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.comm.exception;
 
 import com.ziyao.harbor.web.exception.ServiceException;
-import com.ziyao.harbor.web.response.IMessage;
+import com.ziyao.harbor.core.error.IMessage;
 
 import java.io.Serial;
 

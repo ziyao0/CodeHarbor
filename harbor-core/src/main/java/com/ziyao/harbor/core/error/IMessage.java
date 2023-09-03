@@ -1,5 +1,6 @@
-package com.ziyao.harbor.web.response;
+package com.ziyao.harbor.core.error;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -61,6 +62,7 @@ public interface IMessage extends Serializable {
 
     static IMessage getInstance(Integer status, String message) {
         return new IMessage() {
+            @Serial
             private static final long serialVersionUID = 8562177041789091450L;
 
             @Override

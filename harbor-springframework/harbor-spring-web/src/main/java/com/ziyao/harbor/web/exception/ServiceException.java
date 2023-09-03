@@ -1,7 +1,7 @@
 package com.ziyao.harbor.web.exception;
 
-import com.ziyao.harbor.web.response.Errors;
-import com.ziyao.harbor.web.response.IMessage;
+import com.ziyao.harbor.core.error.Errors;
+import com.ziyao.harbor.core.error.IMessage;
 
 import java.io.Serial;
 

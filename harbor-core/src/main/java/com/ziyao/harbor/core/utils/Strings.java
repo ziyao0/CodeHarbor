@@ -1,6 +1,9 @@
 package com.ziyao.harbor.core.utils;
 
 
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
@@ -13,6 +16,9 @@ import java.util.Iterator;
  * @since 2023/7/31
  */
 public abstract class Strings {
+
+    private static final Charset default_charset = StandardCharsets.UTF_8;
+
     private Strings() {
     }
 
@@ -183,5 +189,18 @@ public abstract class Strings {
             }
         }
         return sb.toString();
+    }
+
+    /**
+     * 对给定的字符串进行url{@link StandardCharsets#UTF_8}编码，
+     *
+     * @param str 给定字符串
+     * @return 返回编码后的值
+     */
+    public static String encodeURLUTF8(String str) {
+        if (hasLength(str)) {
+            return URLEncoder.encode(str, default_charset);
+        }
+        return null;
     }
 }

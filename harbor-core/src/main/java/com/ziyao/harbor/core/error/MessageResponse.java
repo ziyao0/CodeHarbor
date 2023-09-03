@@ -1,4 +1,4 @@
-package com.ziyao.harbor.web.response;
+package com.ziyao.harbor.core.error;
 
 import lombok.Getter;
 import org.slf4j.Logger;
