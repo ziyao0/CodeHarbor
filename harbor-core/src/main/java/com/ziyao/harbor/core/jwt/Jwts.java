@@ -11,12 +11,10 @@ import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.core.error.exception.HarborException;
-import com.ziyao.harbor.core.token.JwtInfo;
 import com.ziyao.harbor.core.token.TokenDetails;
 import com.ziyao.harbor.core.utils.Dates;
 
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
@@ -51,46 +49,13 @@ public abstract class Jwts {
         // @formatter:on
     }
 
-    public static String refresh(String jwt, String secret) {
+    /**
+     * 判断是否要进行token刷新
+     */
+    public static boolean refresh(String jwt, String secret) {
         DecodedJWT decodedJWT = verify(jwt, secret);
         Date expiresAt = decodedJWT.getExpiresAt();
-        if (Dates.isExpired(expiresAt, 5)) {
-            String header = decodedJWT.getHeader();
-            System.out.println(header);
-            Map<String, Claim> claims = new HashMap<>(decodedJWT.getClaims());
-
-            claims.remove("key");
-           claims.remove("exp");
-            String sign = JWT.create().withPayload(claims).withExpiresAt(Dates.skip(20)).sign(Algorithm.HMAC256(secret));
-            System.out.println(sign);
-            return sign;
-        }
-        return jwt;
-    }
-
-
-    public static void main(String[] args) {
-        JwtInfo build = JwtInfo.builder().payload(new HashMap<>() {
-            {
-                put("key", "value");
-                put("key1", "value1");
-            }
-        }).expiresAt(Dates.skip(3)).secret("zhangziyao").jwtHeader(new JwtInfo.JwtHeader("1","2","1")).build();
-        String s = create(build);
-
-        String zhangziyao = refresh(s, "zhangziyao");
-        System.out.println(zhangziyao);
-    }
-    public static String create(Map<String, ?> payload, String secret, Date expr) {
-        return com.auth0.jwt.JWT.create()
-                .withIssuer("ISSUER")
-                .withPayload(payload)
-                .withExpiresAt(expr)
-                .sign(Algorithm.HMAC256(secret));
-    }
-
-    public static String create(Map<String, ?> payload, String secret) {
-        return create(payload, secret, Dates.skip(30));
+        return Dates.isExpired(expiresAt, 5);
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.ziyao.harbor.gateway.filter;
 
 import com.google.common.base.Function;
+import com.ziyao.harbor.core.token.TokenType;
 import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.gateway.core.*;
@@ -53,13 +54,13 @@ public class AuthCenterFilter implements GlobalFilter {
         AccessTokenValidator.validateToken(accessToken);
 
 
-        Boolean isSecurity = exchange.getAttributeOrDefault(Tokens.SECURITY, false);
+        Boolean isSecurity = exchange.getAttributeOrDefault("SECURITY", false);
         if (isSecurity) {
             return chain.filter(exchange);
         }
         return MonoOperator.create((Consumer<MonoSink<Authorization>>) monoSink -> {
                     String authToken = exchange.getRequest().getHeaders().getFirst(Tokens.AUTHORIZATION);
-                    if (Strings.hasLength(authToken) && authToken.startsWith(Tokens.BEARER))
+                    if (Strings.hasLength(authToken) && authToken.startsWith(TokenType.Bearer.getType()))
                         monoSink.success((Authorization) () -> authToken.substring(7));
                     else
                         monoSink.error(new UnauthorizedException());

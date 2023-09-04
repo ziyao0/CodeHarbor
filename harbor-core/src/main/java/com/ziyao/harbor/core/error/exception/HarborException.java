@@ -15,7 +15,7 @@ public class HarborException extends RuntimeException implements IMessage {
     private final Integer status;
 
 
-    public HarborException(String message, Integer status) {
+    public HarborException(Integer status, String message) {
         super(message);
         this.status = status;
     }

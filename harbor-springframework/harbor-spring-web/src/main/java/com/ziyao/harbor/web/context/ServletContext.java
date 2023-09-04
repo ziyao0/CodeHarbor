@@ -1,6 +1,5 @@
 package com.ziyao.harbor.web.context;
 
-import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.web.ContextUtils;
 import com.ziyao.harbor.web.UserDetails;
@@ -87,14 +86,14 @@ public final class ServletContext implements ContextInfo {
     final static class UserDetailsConstructor {
 
         private static UserDetails build(HttpServletRequest request) {
-            String appid = getValue(request, Tokens.TokenConverter.APP_ID);
-            String userId = getValue(request, Tokens.TokenConverter.USER_ID);
-            String username = getValue(request, Tokens.TokenConverter.USERNAME);
-            String nickname = getValue(request, Tokens.TokenConverter.NICKNAME);
-            String phone = getValue(request, Tokens.TokenConverter.PHONE);
-            String email = getValue(request, Tokens.TokenConverter.EMAIL);
-            String deptId = getValue(request, Tokens.TokenConverter.DEPT_ID);
-            String deptName = getValue(request, Tokens.TokenConverter.DEPT_NAME);
+            String appid = getValue(request, "appid");
+            String userId = getValue(request, "userId");
+            String username = getValue(request, "username");
+            String nickname = getValue(request, "nickname");
+            String phone = getValue(request, "phone");
+            String email = getValue(request, "email");
+            String deptId = getValue(request, "deptId");
+            String deptName = getValue(request, "deptName");
 
             return UserDetails.builder()
                     .appid(Strings.hasLength(appid) ? Long.parseLong(appid) : null)
@@ -118,10 +117,10 @@ public final class ServletContext implements ContextInfo {
         }
 
         private static Map<String, Object> getAdditionalInformation(HttpServletRequest request) {
-            String ip = request.getHeader(Tokens.IP);
+            String ip = request.getHeader("ip");
 
             HashMap<String, Object> additionalInformation = new HashMap<>();
-            additionalInformation.put(Tokens.IP, ip);
+            additionalInformation.put("ip", ip);
             return additionalInformation;
         }
     }

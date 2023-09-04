@@ -21,6 +21,8 @@ public class JwtInfo implements TokenDetails {
 
     public static class JwtHeader implements Header {
         public JwtHeader() {
+            this.issuer = "ziyao";
+            this.subject = "harbor";
         }
 
         public JwtHeader(String issuer, String subject, String... audience) {

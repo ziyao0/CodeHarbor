@@ -38,4 +38,6 @@ public interface TokenGenerator<T extends TokenDetails,R> {
     default R getTokenDetails(String text, String secret) {
         return null;
     }
+
+
 }

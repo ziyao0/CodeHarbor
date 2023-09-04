@@ -2,6 +2,7 @@ package com.ziyao.harbor.gateway.core;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
+import com.ziyao.harbor.core.jwt.Jwts;
 import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.core.utils.SecurityUtils;
 import com.ziyao.harbor.gateway.core.token.Authorization;
@@ -23,7 +24,7 @@ public class AuthorizationProvider implements Provider {
 
         String token = authorization.getToken();
         try {
-            Map<String, Claim> claims = Tokens.getClaims(token, SecurityUtils.loadJwtTokenSecret());
+            Map<String, Claim> claims = Jwts.getClaims(token, SecurityUtils.loadJwtTokenSecret());
             return new SuccessAuthorization(claims, token);
         } catch (JWTVerificationException e) {
             return new FailureAuthorization(e.getMessage());

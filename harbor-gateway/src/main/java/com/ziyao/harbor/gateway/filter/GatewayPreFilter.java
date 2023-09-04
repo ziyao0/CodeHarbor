@@ -1,11 +1,10 @@
 package com.ziyao.harbor.gateway.filter;
 
 import com.alibaba.fastjson2.JSON;
-import com.ziyao.harbor.core.token.Tokens;
+import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.SecurityPredicate;
 import com.ziyao.harbor.gateway.support.IPUtils;
-import com.ziyao.harbor.core.error.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -54,7 +53,7 @@ public class GatewayPreFilter implements GlobalFilter {
                 })
                 .flatMap(res -> {
                     if (res) {
-                        exchange.getAttributes().put(Tokens.SECURITY, true);
+                        exchange.getAttributes().put("SECURITY", true);
                     }
                     return chain.filter(exchange);
                 })
@@ -69,7 +68,7 @@ public class GatewayPreFilter implements GlobalFilter {
                     return response.writeWith(MonoOperator.just(dataBuffer));
                 })
                 .doFirst(() -> exchange.getRequest().mutate()
-                        .header(Tokens.IP, IPUtils.getIP(exchange))
+                        .header("ip", IPUtils.getIP(exchange))
                         .build());
     }
 }
