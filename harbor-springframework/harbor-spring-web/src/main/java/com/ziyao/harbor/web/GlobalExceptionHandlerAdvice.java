@@ -4,8 +4,8 @@ package com.ziyao.harbor.web;
 import com.ziyao.harbor.core.utils.CommUtils;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
-import com.ziyao.harbor.web.response.Errors;
-import com.ziyao.harbor.web.response.IMessage;
+import com.ziyao.harbor.core.error.Errors;
+import com.ziyao.harbor.core.error.IMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
@@ -36,7 +36,7 @@ public class GlobalExceptionHandlerAdvice {
      * 方法参数校验失败异常处理.
      *
      * @param mex {@link org.springframework.web.bind.MethodArgumentNotValidException}
-     * @return 参数校验失败统一响应处理 {@link com.ziyao.harbor.web.response.IMessage}
+     * @return 参数校验失败统一响应处理 {@link IMessage}
      * @see MethodArgumentNotValidException#getBindingResult()
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)

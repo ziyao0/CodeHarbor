@@ -1,38 +1,28 @@
 package com.ziyao.harbor.gateway.filter;
 
-import com.alibaba.fastjson2.JSON;
-import com.auth0.jwt.interfaces.Claim;
 import com.google.common.base.Function;
 import com.ziyao.harbor.core.token.Tokens;
-import com.ziyao.harbor.core.utils.SecurityUtils;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.gateway.core.AuthorizationProcessor;
-import com.ziyao.harbor.gateway.core.FailureHandler;
-import com.ziyao.harbor.gateway.core.SuccessfulHandler;
+import com.ziyao.harbor.gateway.core.*;
+import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.core.token.SuccessAuthorization;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
-import com.ziyao.harbor.web.response.Errors;
-import com.ziyao.harbor.web.response.IMessage;
+import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatusCode;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
 import reactor.core.publisher.MonoSink;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Map;
 import java.util.function.Consumer;
 
 /**
@@ -44,11 +34,25 @@ import java.util.function.Consumer;
 @Order(0)
 public class AuthCenterFilter implements GlobalFilter {
 
+
     @Autowired
     private AuthorizationProcessor authorizationProcessor;
+    @Autowired
+    private SuccessfulHandler<SuccessAuthorization> successfulHandler;
+    @Autowired
+    private FailureHandler failureHandler;
+    @Resource
+    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+
+        // 从请求头提取认证token
+        AccessToken accessToken = AccessTokenExtractor.extractForHeaders(exchange);
+        // 快速校验认证token
+        AccessTokenValidator.validateToken(accessToken);
+
+
         Boolean isSecurity = exchange.getAttributeOrDefault(Tokens.SECURITY, false);
         if (isSecurity) {
             return chain.filter(exchange);
@@ -75,41 +79,4 @@ public class AuthCenterFilter implements GlobalFilter {
                 });
     }
 
-    /**
-     * 鉴权成功处理
-     */
-    private final SuccessfulHandler<SuccessAuthorization> successfulHandler =
-            (exchange, information) -> {
-                exchange.getRequest().mutate()
-                        .headers(httpHeaders -> {
-                            MultiValueMap<String, String> headers = new HttpHeaders();
-                            for (Map.Entry<String, Claim> entry : information.getClaims().entrySet()) {
-                                String encode = URLEncoder.encode(entry.getValue().as(Object.class).toString(), StandardCharsets.UTF_8);
-                                headers.add(entry.getKey(), encode);
-                            }
-                            httpHeaders.addAll(headers);
-                        })
-                        .build();
-                String refreshToken = Tokens.refresh(information.getToken(), SecurityUtils.loadJwtTokenSecret(), false);
-                exchange.getResponse().getHeaders().add(Tokens.AUTHORIZATION, Tokens.getBearerToken(refreshToken));
-            };
-
-
-    /**
-     * 鉴权失败异常处理
-     */
-    private final FailureHandler failureHandler =
-            (exchange, throwable) -> {
-                IMessage iMessage = Errors.INTERNAL_SERVER_ERROR;
-                if (throwable instanceof UnauthorizedException) {
-                    iMessage = IMessage.getInstance(Errors.E_401, throwable.getMessage());
-                } else {
-                    log.error("认证异常：{}", throwable.getMessage(), throwable);
-                }
-
-                exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(iMessage.getStatus()));
-                return exchange.getResponse()
-                        .bufferFactory()
-                        .wrap(JSON.toJSONString(iMessage).getBytes());
-            };
 }

@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.comm.exception;
 
-import com.ziyao.harbor.web.response.IMessage;
+import com.ziyao.harbor.core.error.IMessage;
 
 /**
  * @author zhangziyao
@@ -15,6 +15,7 @@ public enum ErrorsIMessage implements IMessage {
     ACCOUNT_NULL(100005, "认证失败,账号密码错误"),
     ACCOUNT_PD_NULL(100006, "认证失败,账号密码错误"),
     UN_SUPPORTS(100007, "当前认证处理器不支持"),
+
     ;
 
 

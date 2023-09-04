@@ -10,7 +10,7 @@ import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageQuery;
 import com.ziyao.harbor.web.base.PageUtils;
-import com.ziyao.harbor.web.response.Errors;
+import com.ziyao.harbor.core.error.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;

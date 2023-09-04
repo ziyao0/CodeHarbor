@@ -20,6 +20,14 @@ public class JwtInfo implements TokenDetails {
     }
 
     public static class JwtHeader implements Header {
+        public JwtHeader() {
+        }
+
+        public JwtHeader(String issuer, String subject, String... audience) {
+            this.issuer = issuer;
+            this.subject = subject;
+            this.audience = audience;
+        }
 
         private String issuer;
 
@@ -115,7 +123,7 @@ public class JwtInfo implements TokenDetails {
             return this;
         }
 
-        public Builder String(String secret) {
+        public Builder secret(String secret) {
             this.secret = secret;
             return this;
         }

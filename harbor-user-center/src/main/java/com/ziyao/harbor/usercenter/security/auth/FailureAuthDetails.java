@@ -2,7 +2,7 @@ package com.ziyao.harbor.usercenter.security.auth;
 
 import com.ziyao.harbor.usercenter.security.api.Authentication;
 import com.ziyao.harbor.web.ResponseBuilder;
-import com.ziyao.harbor.web.response.IMessage;
+import com.ziyao.harbor.core.error.IMessage;
 import lombok.Data;
 
 /**

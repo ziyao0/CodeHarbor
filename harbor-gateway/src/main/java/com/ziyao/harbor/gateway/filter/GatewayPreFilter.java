@@ -5,7 +5,7 @@ import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.SecurityPredicate;
 import com.ziyao.harbor.gateway.support.IPUtils;
-import com.ziyao.harbor.web.response.Errors;
+import com.ziyao.harbor.core.error.Errors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;

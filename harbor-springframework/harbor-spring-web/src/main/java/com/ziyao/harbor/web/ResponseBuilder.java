@@ -1,7 +1,7 @@
 package com.ziyao.harbor.web;
 
-import com.ziyao.harbor.web.response.IMessage;
-import com.ziyao.harbor.web.response.MessageResponse;
+import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.MessageResponse;
 
 /**
  * @author ziyao zhang
