@@ -1,8 +1,8 @@
 package com.ziyao.harbor.gateway.filter;
 
-import com.alibaba.fastjson2.JSON;
 import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
+import com.ziyao.harbor.gateway.core.DataBuffers;
 import com.ziyao.harbor.gateway.core.SecurityPredicate;
 import com.ziyao.harbor.gateway.support.IPUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,17 +10,13 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.core.annotation.Order;
-import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.MonoOperator;
 import reactor.core.publisher.MonoSink;
 
 import java.util.function.Consumer;
-import java.util.function.Function;
 
 /**
  * @author zhangziyao
@@ -58,15 +54,7 @@ public class GatewayPreFilter implements GlobalFilter {
                     return chain.filter(exchange);
                 })
                 // 处理异常
-                .onErrorResume((Function<Throwable, Mono<Void>>) throwable -> {
-                    ServerHttpResponse response = exchange.getResponse();
-                    response.setStatusCode(HttpStatus.FORBIDDEN);
-
-                    DataBuffer dataBuffer = exchange.getResponse()
-                            .bufferFactory()
-                            .wrap(JSON.toJSONString(Errors.FORBIDDEN).getBytes());
-                    return response.writeWith(MonoOperator.just(dataBuffer));
-                })
+                .onErrorResume(throwable -> DataBuffers.writeWith(exchange.getResponse(), Errors.FORBIDDEN, HttpStatus.FORBIDDEN))
                 .doFirst(() -> exchange.getRequest().mutate()
                         .header("ip", IPUtils.getIP(exchange))
                         .build());
