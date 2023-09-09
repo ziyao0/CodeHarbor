@@ -1,7 +1,6 @@
 package com.ziyao.harbor.gateway.core;
 
 import com.alibaba.fastjson2.JSON;
-import com.ziyao.harbor.web.exception.UnauthorizedException;
 import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.core.error.IMessage;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +19,11 @@ public class AccessFailureHandler implements FailureHandler {
     @Override
     public DataBuffer onFailureResume(ServerWebExchange exchange, Throwable throwable) {
         IMessage iMessage = Errors.INTERNAL_SERVER_ERROR;
-        if (throwable instanceof UnauthorizedException) {
-            iMessage = IMessage.getInstance(Errors.E_401, throwable.getMessage());
-        } else {
-            log.error("认证异常：{}", throwable.getMessage(), throwable);
-        }
+//        if (throwable instanceof UnauthorizedException) {
+//            iMessage = IMessage.getInstance(Errors.E_401, throwable.getMessage());
+//        } else {
+//            log.error("认证异常：{}", throwable.getMessage(), throwable);
+//        }
 
         exchange.getResponse().setStatusCode(HttpStatusCode.valueOf(iMessage.getStatus()));
         return exchange.getResponse()

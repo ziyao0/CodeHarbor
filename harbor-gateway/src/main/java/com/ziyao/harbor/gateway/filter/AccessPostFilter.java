@@ -13,7 +13,7 @@ import reactor.core.publisher.Mono;
  */
 @Component
 @Order()
-public class GatewayPostFilter implements GlobalFilter {
+public class AccessPostFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {

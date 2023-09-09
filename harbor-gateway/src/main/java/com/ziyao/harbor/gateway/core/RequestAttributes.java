@@ -12,9 +12,9 @@ public abstract class RequestAttributes {
     }
 
     public static final String AUTHORIZATION = ParameterNames.AUTHORIZATION;
-
     public static final String TIMESTAMP = ParameterNames.TIMESTAMP;
-
     public static final String REFRESH_TOKEN = ParameterNames.REFRESH_TOKEN;
+    public static final String RESOURCE = ParameterNames.RESOURCE;
+    public static final String DIGEST = ParameterNames.DIGEST;
 
 }

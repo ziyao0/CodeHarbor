@@ -30,4 +30,14 @@ public abstract class HarborExceptions {
     public static HarborException createForbiddenException(String message) {
         return new HarborException(403, message);
     }
+
+    /**
+     * 创建非法访问
+     *
+     * @param message 异常信息
+     * @return {@link HarborException}
+     */
+    public static HarborException createIllegalAccessException(String message) {
+        return new HarborException(403, message);
+    }
 }

@@ -2,17 +2,17 @@ package com.ziyao.harbor.gateway.core;
 
 import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.core.token.TokenType;
+import com.ziyao.harbor.gateway.core.token.AccessControl;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
-import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
+import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
  * @author zhangziyao
  * @since 2023/4/23
  */
-public abstract class AccessTokenExtractor implements Extractor<ServerHttpRequest, AccessToken> {
+public abstract class AccessTokenExtractor implements Extractor<ServerWebExchange, AccessControl> {
 
 
     private static final AccessTokenExtractor EXTRACTOR;
@@ -20,22 +20,25 @@ public abstract class AccessTokenExtractor implements Extractor<ServerHttpReques
     static {
         EXTRACTOR = new AccessTokenExtractor() {
             @Override
-            public AccessToken extract(ServerHttpRequest request) {
+            public AccessControl extract(ServerWebExchange request) {
                 return super.extract(request);
             }
         };
     }
 
     @Override
-    public AccessToken extract(ServerHttpRequest request) {
-        HttpHeaders headers = request.getHeaders();
+    public AccessControl extract(ServerWebExchange exchange) {
+        HttpHeaders headers = exchange.getRequest().getHeaders();
         String Token = headers.getFirst(RequestAttributes.AUTHORIZATION);
 
         // @formatter:off
-        return DefaultAccessToken.builder()
+        return AccessControl.builder()
                 .token(TokenType.extract(Token))
                 .refreshToken(headers.getFirst(RequestAttributes.REFRESH_TOKEN))
                 .timestamp(headers.getFirst(RequestAttributes.TIMESTAMP))
+                .digest(RequestAttributes.DIGEST)
+                .resource(RequestAttributes.RESOURCE)
+                .api(exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString())
                 .build();
         // @formatter:on
     }
@@ -47,7 +50,7 @@ public abstract class AccessTokenExtractor implements Extractor<ServerHttpReques
      * @return 返回认证token
      * @see AccessToken
      */
-    public static AccessToken extractForHeaders(ServerWebExchange exchange) {
-        return EXTRACTOR.extract(exchange.getRequest());
+    public static AccessControl extractForHeaders(ServerWebExchange exchange) {
+        return EXTRACTOR.extract(exchange);
     }
 }

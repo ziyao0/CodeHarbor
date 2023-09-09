@@ -24,8 +24,4 @@ public interface AccessToken extends Serializable {
      */
     String getTimestamp();
 
-    /**
-     * 授权范围
-     */
-    Set<String> getScope();
 }

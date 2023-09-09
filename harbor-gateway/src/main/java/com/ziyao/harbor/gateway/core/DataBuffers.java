@@ -50,5 +50,14 @@ public abstract class DataBuffers {
                 JSON.toJSONString(iMessage).getBytes(StandardCharsets.UTF_8));
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(MonoOperator.just(dataBuffer));
+    }    /**
+     * 组装响应对象
+     */
+    public static Mono<Void> writeWith(ServerHttpResponse response, HttpStatusCode statusCode) {
+        response.setStatusCode(statusCode);
+        DataBuffer dataBuffer = response.bufferFactory().wrap(
+                JSON.toJSONString(statusCode).getBytes(StandardCharsets.UTF_8));
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        return response.writeWith(MonoOperator.just(dataBuffer));
     }
 }

@@ -1,14 +1,15 @@
 package com.ziyao.harbor.gateway.filter;
 
 import com.google.common.base.Function;
+import com.ziyao.harbor.core.error.HarborExceptions;
 import com.ziyao.harbor.core.token.TokenType;
 import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.gateway.core.*;
+import com.ziyao.harbor.gateway.core.token.AccessControl;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.core.token.SuccessAuthorization;
-import com.ziyao.harbor.web.exception.UnauthorizedException;
 import jakarta.annotation.Resource;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ import java.util.function.Consumer;
 @Slf4j
 @Component
 @Order(0)
-public class AuthCenterFilter implements GlobalFilter {
+public class AccessFilter implements GlobalFilter {
 
 
     @Autowired
@@ -49,9 +50,9 @@ public class AuthCenterFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         // 从请求头提取认证token
-        AccessToken accessToken = AccessTokenExtractor.extractForHeaders(exchange);
+        AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
         // 快速校验认证token
-        AccessTokenValidator.validateToken(accessToken);
+        AccessTokenValidator.validateToken(accessControl);
 
 
         Boolean isSecurity = exchange.getAttributeOrDefault("SECURITY", false);
@@ -63,14 +64,14 @@ public class AuthCenterFilter implements GlobalFilter {
                     if (Strings.hasLength(authToken) && authToken.startsWith(TokenType.Bearer.getType()))
                         monoSink.success((Authorization) () -> authToken.substring(7));
                     else
-                        monoSink.error(new UnauthorizedException());
+                        monoSink.error(HarborExceptions.createUnauthorizedException(""));
                 }).flatMap(authorization -> {
                     Authorization author = authorizationProcessor.process(authorization);
                     if (author.isAuthorized()) {
                         successfulHandler.onSuccessful(exchange, (SuccessAuthorization) author);
                         return chain.filter(exchange);
                     } else {
-                        return MonoOperator.error(new UnauthorizedException(author.getMessage()));
+                        return MonoOperator.error(HarborExceptions.createUnauthorizedException(author.getMessage()));
                     }
                 })
                 .onErrorResume((Function<Throwable, Mono<Void>>) throwable -> {

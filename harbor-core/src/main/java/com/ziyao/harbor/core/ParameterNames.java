@@ -6,13 +6,17 @@ package com.ziyao.harbor.core;
  */
 public abstract class ParameterNames {
 
-    private ParameterNames(){}
+    private ParameterNames() {
+    }
 
     public static final String AUTHORIZATION = "Authorization";
 
     public static final String TIMESTAMP = "Timestamp";
 
     public static final String REFRESH_TOKEN = "Refresh";
+
+    public static final String RESOURCE = "Resource";
+    public static final String DIGEST = "Digest";
 
 
 }
