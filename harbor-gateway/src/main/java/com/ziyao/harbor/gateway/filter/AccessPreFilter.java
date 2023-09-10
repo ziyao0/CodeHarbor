@@ -15,6 +15,8 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 /**
+ * 前置访问控制过滤器
+ *
  * @author zhangziyao
  * @since 2023/4/23
  */

@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
+ * 请求路径黑名单
  * @author ziyao
  * @since 2023/4/23
  */
 @Component
-public class IllegalApiHandler extends AbstractSecurityHandler {
+public class ApiBlacklistHandler extends AbstractSecurityHandler {
     @Autowired
     private GatewayConfig gatewayConfig;
 
