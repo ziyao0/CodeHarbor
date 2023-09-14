@@ -1,7 +1,7 @@
 package com.ziyao.harbor.web.exception;
 
 import com.ziyao.harbor.core.error.Errors;
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 
 import java.io.Serial;
 
@@ -9,7 +9,7 @@ import java.io.Serial;
  * @author zhangziyao
  * @since 2023/4/21
  */
-public class UnauthorizedException extends RuntimeException implements IMessage {
+public class UnauthorizedException extends RuntimeException implements StatusMessage {
     @Serial
     private static final long serialVersionUID = 1350454124169036151L;
 
@@ -29,7 +29,7 @@ public class UnauthorizedException extends RuntimeException implements IMessage 
     }
 
     public UnauthorizedException(String message) {
-        this.status = Errors.E_401;
+        this.status = Errors.UNAUTHORIZED.getStatus();
         this.message = message;
     }
 

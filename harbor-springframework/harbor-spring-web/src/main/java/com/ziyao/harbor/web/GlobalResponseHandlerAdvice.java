@@ -1,6 +1,6 @@
 package com.ziyao.harbor.web;
 
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -26,7 +26,7 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
     @Override
     public Object beforeBodyWrite(Object body, @Nullable MethodParameter parameter, @Nullable MediaType mediaType,
                                   @Nullable Class<? extends HttpMessageConverter<?>> converter, @Nullable ServerHttpRequest request, @Nullable ServerHttpResponse response) {
-        if (body instanceof IMessage)
+        if (body instanceof StatusMessage)
             return body;
 
         return ResponseBuilder.ok(body);

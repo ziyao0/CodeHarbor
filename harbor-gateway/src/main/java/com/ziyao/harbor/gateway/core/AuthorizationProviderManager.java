@@ -1,11 +1,15 @@
 package com.ziyao.harbor.gateway.core;
 
+import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
-import com.ziyao.harbor.gateway.core.token.FailureAuthorization;
 import lombok.Getter;
 import org.springframework.lang.NonNull;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -25,24 +29,18 @@ import java.util.List;
 @Getter
 public class AuthorizationProviderManager implements ProviderManager {
 
-    private List<Provider> providers;
+    private final Map<String, Provider> providers;
 
 
     public AuthorizationProviderManager(List<Provider> providers) {
-        this.providers = providers;
+        // 初始化所有鉴权提供者
+        this.providers = providers.stream().collect(Collectors.toMap(Provider::getName, Function.identity()));
     }
 
 
     @Override
-    public Authorization authorize(@NonNull Authorization authorization) {
-        Authorization authorize = new FailureAuthorization();
-        for (Provider provider : getProviders()) {
-            authorize = provider.authorize(authorization);
-        }
-        return authorize;
-    }
-
-    public void setProviders(List<Provider> providers) {
-        this.providers = providers;
+    public Mono<Authorization> authorize(@NonNull AccessToken accessToken) {
+        Provider provider = getProviders().get(accessToken.getName());
+        return provider.authorize(accessToken);
     }
 }

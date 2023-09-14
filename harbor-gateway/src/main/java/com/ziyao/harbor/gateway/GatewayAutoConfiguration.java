@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gateway.core;
+package com.ziyao.harbor.gateway;
 
 import com.ziyao.harbor.gateway.core.Provider;
 import com.ziyao.harbor.gateway.core.ProviderManager;

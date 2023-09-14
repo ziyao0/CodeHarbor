@@ -5,7 +5,7 @@ import com.ziyao.harbor.core.utils.CommUtils;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
 import com.ziyao.harbor.core.error.Errors;
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
@@ -36,11 +36,11 @@ public class GlobalExceptionHandlerAdvice {
      * 方法参数校验失败异常处理.
      *
      * @param mex {@link org.springframework.web.bind.MethodArgumentNotValidException}
-     * @return 参数校验失败统一响应处理 {@link IMessage}
+     * @return 参数校验失败统一响应处理 {@link StatusMessage}
      * @see MethodArgumentNotValidException#getBindingResult()
      */
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public IMessage methodArgumentNotValidException(MethodArgumentNotValidException mex) {
+    public StatusMessage methodArgumentNotValidException(MethodArgumentNotValidException mex) {
         if (mex != null && mex.getBindingResult().hasErrors())
             return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(mex));
         else
@@ -52,10 +52,10 @@ public class GlobalExceptionHandlerAdvice {
      * 参数绑定错误异常处理.
      *
      * @param be {@link org.springframework.validation.BindException}
-     * @return 包含参数绑定错误信息的 {@link IMessage}
+     * @return 包含参数绑定错误信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = org.springframework.validation.BindException.class)
-    public IMessage bindExceptionHandler(org.springframework.validation.BindException be) {
+    public StatusMessage bindExceptionHandler(org.springframework.validation.BindException be) {
         return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(be));
     }
 
@@ -64,10 +64,10 @@ public class GlobalExceptionHandlerAdvice {
      * 单参数校验错误异常处理.
      *
      * @param e {@link ConstraintViolationException}
-     * @return 包含单参数校验失败信息的 {@link IMessage}
+     * @return 包含单参数校验失败信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = ConstraintViolationException.class)
-    public IMessage constraintViolationExceptionHandler(ConstraintViolationException e) {
+    public StatusMessage constraintViolationExceptionHandler(ConstraintViolationException e) {
         return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(e));
     }
 
@@ -75,10 +75,10 @@ public class GlobalExceptionHandlerAdvice {
      * 参数类型错误异常处理.
      *
      * @param e {@link MethodArgumentTypeMismatchException}
-     * @return 包含参数类型错误信息的 {@link IMessage}
+     * @return 包含参数类型错误信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = MethodArgumentTypeMismatchException.class)
-    public IMessage methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
+    public StatusMessage methodArgumentTypeMismatchExceptionHandler(MethodArgumentTypeMismatchException e) {
         return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(e));
     }
 
@@ -86,40 +86,40 @@ public class GlobalExceptionHandlerAdvice {
      * 自定义业务异常处理.
      *
      * @param e {@link com.ziyao.harbor.web.exception.ServiceException}
-     * @return 包含业务异常信息的 {@link IMessage}
+     * @return 包含业务异常信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = ServiceException.class)
-    public IMessage serviceExceptionHandler(ServiceException e) {
+    public StatusMessage serviceExceptionHandler(ServiceException e) {
         Throwable causeThrowable = e.getCause();
         if (causeThrowable != null) {
             LOGGER.error("发生由其他异常导致的业务异常", causeThrowable);
         }
-        return IMessage.getInstance(e.getStatus(), e.getMessage());
+        return StatusMessage.getInstance(e.getStatus(), e.getMessage());
     }
 
     /**
      * 自定义业务异常处理.
      *
      * @param e {@link ServiceException}
-     * @return 包含业务异常信息的 {@link IMessage}
+     * @return 包含业务异常信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = UnauthorizedException.class)
-    public IMessage unauthorizedExceptionHandler(UnauthorizedException e) {
+    public StatusMessage unauthorizedExceptionHandler(UnauthorizedException e) {
         Throwable causeThrowable = e.getCause();
         if (causeThrowable != null) {
             LOGGER.error("发生由其他异常导致的业务异常", causeThrowable);
         }
-        return IMessage.getInstance(e.getStatus(), e.getMessage());
+        return StatusMessage.getInstance(e.getStatus(), e.getMessage());
     }
 
     /**
      * 处理参数错误异常.
      *
      * @param e {@link IllegalArgumentException}
-     * @return 包含异常信息的 {@link IMessage}
+     * @return 包含异常信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = IllegalArgumentException.class)
-    public IMessage illegalArgumentExceptionHandler(IllegalArgumentException e) {
+    public StatusMessage illegalArgumentExceptionHandler(IllegalArgumentException e) {
         return buildIllegalArgument(e.getMessage());
     }
 
@@ -127,16 +127,16 @@ public class GlobalExceptionHandlerAdvice {
      * 拦截 Exception
      *
      * @param e {@link Exception}
-     * @return 包含异常信息的 {@link IMessage}
+     * @return 包含异常信息的 {@link StatusMessage}
      */
     @ExceptionHandler(value = Exception.class)
-    public IMessage exceptionHandler(Exception e) {
+    public StatusMessage exceptionHandler(Exception e) {
         return ResponseBuilder.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
                 Errors.INTERNAL_SERVER_ERROR.getMessage() + e.getMessage());
     }
 
 
-    private IMessage buildIllegalArgument(String message) {
+    private StatusMessage buildIllegalArgument(String message) {
         return ResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT, message);
     }
 

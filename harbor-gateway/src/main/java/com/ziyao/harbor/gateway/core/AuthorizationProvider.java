@@ -3,12 +3,14 @@ package com.ziyao.harbor.gateway.core;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.Claim;
 import com.ziyao.harbor.core.jwt.Jwts;
-import com.ziyao.harbor.core.token.Tokens;
 import com.ziyao.harbor.core.utils.SecurityUtils;
+import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.core.token.FailureAuthorization;
 import com.ziyao.harbor.gateway.core.token.SuccessAuthorization;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoOperator;
 
 import java.util.Map;
 
@@ -20,19 +22,20 @@ import java.util.Map;
 public class AuthorizationProvider implements Provider {
 
     @Override
-    public Authorization authorize(Authorization authorization) {
+    public Mono<Authorization> authorize(AccessToken accessToken) {
 
-        String token = authorization.getToken();
+        String token = accessToken.getToken();
         try {
             Map<String, Claim> claims = Jwts.getClaims(token, SecurityUtils.loadJwtTokenSecret());
-            return new SuccessAuthorization(claims, token);
+            return MonoOperator.just(new SuccessAuthorization(claims, token));
         } catch (JWTVerificationException e) {
-            return new FailureAuthorization(e.getMessage());
+            return MonoOperator.just(new FailureAuthorization(e.getMessage()));
         }
     }
 
     @Override
-    public int getOrder() {
-        return 0;
+    public String getName() {
+        return "accessControl";
     }
+
 }

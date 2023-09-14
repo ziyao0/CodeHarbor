@@ -1,13 +1,14 @@
 package com.ziyao.harbor.gateway.core.token;
 
+import com.ziyao.harbor.core.Named;
+
 import java.io.Serializable;
-import java.util.Set;
 
 /**
  * @author ziyao
  * @since 2023/4/23
  */
-public interface AccessToken extends Serializable {
+public interface AccessToken extends Named, Serializable {
 
     /**
      * 访问令牌

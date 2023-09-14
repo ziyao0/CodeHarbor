@@ -1,12 +1,12 @@
 package com.ziyao.harbor.usercenter.comm.exception;
 
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 
 /**
  * @author zhangziyao
  * @since 2023/4/24
  */
-public enum ErrorsIMessage implements IMessage {
+public enum ErrorsIMessage implements StatusMessage {
 
     ACCOUNT_STATUS_LOCKED(100001, "认证失败,账号已锁定"),
     ACCOUNT_STATUS_DISABLED(100002, "认证失败,用户以禁用"),

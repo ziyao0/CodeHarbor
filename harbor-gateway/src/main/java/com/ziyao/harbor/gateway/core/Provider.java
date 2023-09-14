@@ -1,20 +1,21 @@
 package com.ziyao.harbor.gateway.core;
 
+import com.ziyao.harbor.core.Named;
+import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
-import org.springframework.core.Ordered;
+import reactor.core.publisher.Mono;
 
 /**
  * @author ziyao zhang
  * @since 2023/5/16
  */
-public interface Provider extends Ordered {
+public interface Provider extends Named {
 
     /**
      * 授权处理
      *
-     * @param authorization {@link Authorization}授权核心参数
+     * @param accessToken {@link AccessToken}授权核心参数
      * @return 返回认证结果
      */
-    Authorization authorize(Authorization authorization);
-
+    Mono<Authorization> authorize(AccessToken accessToken);
 }

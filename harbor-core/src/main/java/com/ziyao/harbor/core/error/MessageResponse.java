@@ -10,7 +10,7 @@ import java.io.Serial;
  * @author ziyao zhang
  * @since 2023/8/25
  */
-public class MessageResponse<T> implements IMessage {
+public class MessageResponse<T> implements StatusMessage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageResponse.class);
     @Serial
@@ -35,16 +35,16 @@ public class MessageResponse<T> implements IMessage {
     public MessageResponse() {
     }
 
-    public MessageResponse(IMessage IMessage) {
-        Checker.check(IMessage);
-        this.state = IMessage.getStatus();
-        this.message = IMessage.getMessage();
+    public MessageResponse(StatusMessage StatusMessage) {
+        Checker.check(StatusMessage);
+        this.state = StatusMessage.getStatus();
+        this.message = StatusMessage.getMessage();
     }
 
-    public MessageResponse(IMessage IMessage, T data) {
-        Checker.check(IMessage, data);
-        this.state = IMessage.getStatus();
-        this.message = IMessage.getMessage();
+    public MessageResponse(StatusMessage StatusMessage, T data) {
+        Checker.check(StatusMessage, data);
+        this.state = StatusMessage.getStatus();
+        this.message = StatusMessage.getMessage();
         this.data = data;
     }
 
@@ -88,12 +88,12 @@ public class MessageResponse<T> implements IMessage {
             }
         }
 
-        public static void check(IMessage IMessage) {
-            check(IMessage.getStatus(), IMessage.getMessage());
+        public static void check(StatusMessage StatusMessage) {
+            check(StatusMessage.getStatus(), StatusMessage.getMessage());
         }
 
-        public static void check(IMessage IMessage, Object data) {
-            check(IMessage.getStatus(), IMessage.getMessage(), data);
+        public static void check(StatusMessage StatusMessage, Object data) {
+            check(StatusMessage.getStatus(), StatusMessage.getMessage(), data);
         }
     }
 }

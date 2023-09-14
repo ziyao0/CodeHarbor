@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.comm.exception;
 
 import com.ziyao.harbor.web.exception.ServiceException;
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 
 import java.io.Serial;
 
@@ -13,7 +13,7 @@ public class UserStatusException extends ServiceException {
     @Serial
     private static final long serialVersionUID = -9098359654861487617L;
 
-    public UserStatusException(IMessage message) {
+    public UserStatusException(StatusMessage message) {
         super(message);
     }
 }

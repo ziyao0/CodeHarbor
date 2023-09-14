@@ -1,6 +1,6 @@
 package com.ziyao.harbor.core.error.exception;
 
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 
 import java.io.Serial;
 
@@ -9,7 +9,7 @@ import java.io.Serial;
  * @since 2023/4/23
  */
 
-public class HarborException extends RuntimeException implements IMessage {
+public class HarborException extends RuntimeException implements StatusMessage {
     @Serial
     private static final long serialVersionUID = -1850478101365902550L;
     private final Integer status;
@@ -20,9 +20,9 @@ public class HarborException extends RuntimeException implements IMessage {
         this.status = status;
     }
 
-    public HarborException(IMessage iMessage) {
-        super(iMessage.getMessage());
-        this.status = iMessage.getStatus();
+    public HarborException(StatusMessage statusMessage) {
+        super(statusMessage.getMessage());
+        this.status = statusMessage.getStatus();
     }
 
     public HarborException(Integer status, String message, Throwable cause) {
@@ -30,9 +30,9 @@ public class HarborException extends RuntimeException implements IMessage {
         this.status = status;
     }
 
-    public HarborException(IMessage iMessage, Throwable cause) {
-        super(iMessage.getMessage(), cause);
-        this.status = iMessage.getStatus();
+    public HarborException(StatusMessage statusMessage, Throwable cause) {
+        super(statusMessage.getMessage(), cause);
+        this.status = statusMessage.getStatus();
     }
 
     @Override

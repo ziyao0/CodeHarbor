@@ -1,15 +1,12 @@
 package com.ziyao.harbor.core;
 
-import com.auth0.jwt.interfaces.Claim;
 import com.ziyao.harbor.core.token.TokenDetails;
-
-import java.util.Map;
 
 /**
  * @author ziyao zhang
  * @since 2023/8/29
  */
-public interface TokenGenerator<T extends TokenDetails,R> {
+public interface TokenGenerator<T extends TokenDetails, R> {
 
     /**
      * 根据指定令牌类型生成对应令牌.

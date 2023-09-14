@@ -32,7 +32,6 @@ public abstract class HeadersInjector implements Injector<ServerWebExchange, Suc
     public void inject(ServerWebExchange exchange, SuccessAuthorization authorization) {
         exchange.getRequest().mutate()
                 .headers(httpHeaders -> {
-
                     MultiValueMap<String, String> headers = new HttpHeaders();
                     for (Map.Entry<String, Claim> entry : authorization.getClaims().entrySet()) {
                         String value = Strings.encodeURLUTF8(entry.getValue().as(Object.class).toString());

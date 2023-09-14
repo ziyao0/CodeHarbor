@@ -2,7 +2,7 @@ package com.ziyao.harbor.usercenter.security.auth;
 
 import com.ziyao.harbor.usercenter.security.api.Authentication;
 import com.ziyao.harbor.web.ResponseBuilder;
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 import lombok.Data;
 
 /**
@@ -13,10 +13,10 @@ import lombok.Data;
 public class FailureAuthDetails implements Authentication {
 
 
-    private IMessage message;
+    private StatusMessage message;
 
 
-    public FailureAuthDetails(IMessage message) {
+    public FailureAuthDetails(StatusMessage message) {
         this.message = message;
     }
 

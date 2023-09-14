@@ -1,7 +1,9 @@
 package com.ziyao.harbor.gateway.core;
 
+import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import org.springframework.lang.NonNull;
+import reactor.core.publisher.Mono;
 
 /**
  * @author ziyao zhang
@@ -12,8 +14,8 @@ public interface ProviderManager {
     /**
      * 授权处理
      *
-     * @param authorization {@link Authorization}授权核心参数
+     * @param accessToken {@link AccessToken}访问令牌
      * @return 返回认证结果
      */
-    Authorization authorize(@NonNull Authorization authorization);
+    Mono<Authorization> authorize(@NonNull AccessToken accessToken);
 }

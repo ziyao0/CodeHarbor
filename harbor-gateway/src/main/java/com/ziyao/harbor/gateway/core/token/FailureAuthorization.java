@@ -23,4 +23,9 @@ public class FailureAuthorization implements Authorization {
     public String getToken() {
         return null;
     }
+
+    @Override
+    public String getName() {
+        return null;
+    }
 }

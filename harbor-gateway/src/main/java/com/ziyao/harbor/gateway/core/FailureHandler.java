@@ -2,6 +2,7 @@ package com.ziyao.harbor.gateway.core;
 
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.web.server.ServerWebExchange;
+import reactor.core.publisher.Mono;
 
 /**
  * @author ziyao zhang
@@ -12,9 +13,9 @@ public interface FailureHandler {
     /**
      * 失败时调用
      * <p>
-     * {@link Throwable}              异常信息
+     * {@link Throwable}异常信息
      * T 返回类型
      */
-    DataBuffer onFailureResume(ServerWebExchange exchange, Throwable throwable);
+    Mono<Void> onFailureResume(ServerWebExchange exchange, Throwable throwable);
 
 }

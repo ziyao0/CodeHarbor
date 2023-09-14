@@ -1,6 +1,6 @@
 package com.ziyao.harbor.web;
 
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.core.error.MessageResponse;
 
 /**
@@ -10,11 +10,11 @@ import com.ziyao.harbor.core.error.MessageResponse;
 public abstract class ResponseBuilder {
 
     public static <T> MessageResponse<T> ok(T data) {
-        return ResponseBuilder.ok(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE(), data);
+        return ResponseBuilder.ok(StatusMessage.SUCCESS_STATE(), StatusMessage.SUCCESS_MESSAGE(), data);
     }
 
     public static <T> MessageResponse<T> ok() {
-        return new MessageResponse<>(IMessage.SUCCESS_STATE(), IMessage.SUCCESS_MESSAGE());
+        return new MessageResponse<>(StatusMessage.SUCCESS_STATE(), StatusMessage.SUCCESS_MESSAGE());
     }
 
     public static <T> MessageResponse<T> ok(Integer state, String message, T data) {
@@ -22,7 +22,7 @@ public abstract class ResponseBuilder {
     }
 
     public static <T> MessageResponse<T> failed() {
-        return new MessageResponse<>(IMessage.FAILED_STATE(), IMessage.FAILED_MESSAGE());
+        return new MessageResponse<>(StatusMessage.FAILED_STATE(), StatusMessage.FAILED_MESSAGE());
     }
 
     public static <T> MessageResponse<T> failed(Integer state, String message) {
@@ -33,11 +33,11 @@ public abstract class ResponseBuilder {
         return new MessageResponse<>(state, message, data);
     }
 
-    public static <T> MessageResponse<T> failed(IMessage IMessage, String message) {
-        return failed(IMessage.getStatus(), message);
+    public static <T> MessageResponse<T> failed(StatusMessage StatusMessage, String message) {
+        return failed(StatusMessage.getStatus(), message);
     }
 
-    public static <T> MessageResponse<T> failed(IMessage IMessage) {
-        return failed(IMessage.getStatus(), IMessage.getMessage());
+    public static <T> MessageResponse<T> failed(StatusMessage StatusMessage) {
+        return failed(StatusMessage.getStatus(), StatusMessage.getMessage());
     }
 }

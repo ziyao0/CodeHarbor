@@ -1,7 +1,6 @@
 package com.ziyao.harbor.gateway.core.token;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.ziyao.harbor.gateway.core.token.Authorization;
 import lombok.Data;
 
 import java.io.Serial;
@@ -19,7 +18,8 @@ public class SuccessAuthorization implements Authorization {
     Map<String, Claim> claims;
     private String token;
 
-    public SuccessAuthorization() {
+    public SuccessAuthorization(String token) {
+        this.token = token;
     }
 
     public SuccessAuthorization(Map<String, Claim> claims, String token) {
@@ -35,5 +35,10 @@ public class SuccessAuthorization implements Authorization {
     @Override
     public boolean isAuthorized() {
         return true;
+    }
+
+    @Override
+    public String getName() {
+        return null;
     }
 }

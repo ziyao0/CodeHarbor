@@ -1,7 +1,7 @@
 package com.ziyao.harbor.gateway.core;
 
 import com.alibaba.fastjson.JSON;
-import com.ziyao.harbor.core.error.IMessage;
+import com.ziyao.harbor.core.error.StatusMessage;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatusCode;
@@ -26,7 +26,7 @@ public abstract class DataBuffers {
      */
     public static Mono<Void> writeWith(ServerHttpResponse response, int status, String message) {
         DataBuffer dataBuffer = response.bufferFactory().wrap(
-                JSON.toJSONString(IMessage.getInstance(status, message)).getBytes(StandardCharsets.UTF_8));
+                JSON.toJSONString(StatusMessage.getInstance(status, message)).getBytes(StandardCharsets.UTF_8));
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(MonoOperator.just(dataBuffer));
     }
@@ -34,9 +34,10 @@ public abstract class DataBuffers {
     /**
      * 组装响应对象
      */
-    public static Mono<Void> writeWith(ServerHttpResponse response, IMessage iMessage) {
+    public static Mono<Void> writeWith(ServerHttpResponse response, StatusMessage message) {
+        response.setStatusCode(HttpStatusCode.valueOf(message.getStatus()));
         DataBuffer dataBuffer = response.bufferFactory().wrap(
-                JSON.toJSONString(iMessage).getBytes(StandardCharsets.UTF_8));
+                JSON.toJSONString(message).getBytes(StandardCharsets.UTF_8));
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(MonoOperator.just(dataBuffer));
     }
@@ -44,10 +45,10 @@ public abstract class DataBuffers {
     /**
      * 组装响应对象
      */
-    public static Mono<Void> writeWith(ServerHttpResponse response, IMessage iMessage, HttpStatusCode statusCode) {
+    public static Mono<Void> writeWith(ServerHttpResponse response, StatusMessage statusMessage, HttpStatusCode statusCode) {
         response.setStatusCode(statusCode);
         DataBuffer dataBuffer = response.bufferFactory().wrap(
-                JSON.toJSONString(iMessage).getBytes(StandardCharsets.UTF_8));
+                JSON.toJSONString(statusMessage).getBytes(StandardCharsets.UTF_8));
         response.getHeaders().add(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         return response.writeWith(MonoOperator.just(dataBuffer));
     }    /**

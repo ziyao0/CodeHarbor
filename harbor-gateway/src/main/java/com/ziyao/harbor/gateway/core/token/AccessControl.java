@@ -19,6 +19,7 @@ public class AccessControl implements AccessToken {
     private String digest;
     private String token;
     private String refreshToken;
+    private String name;
 
     public static Builder builder() {
         return new Builder();
@@ -32,6 +33,7 @@ public class AccessControl implements AccessToken {
         private String digest;
         private String token;
         private String refreshToken;
+        private String name;
 
         public Builder ip(String ip) {
             this.ip = ip;
@@ -68,6 +70,11 @@ public class AccessControl implements AccessToken {
             return this;
         }
 
+        public Builder name(String name) {
+            this.name = name;
+            return this;
+        }
+
         public AccessControl build() {
             AccessControl accessControl = new AccessControl();
             accessControl.setToken(token);
@@ -77,6 +84,7 @@ public class AccessControl implements AccessToken {
             accessControl.setTimestamp(timestamp);
             accessControl.setDigest(digest);
             accessControl.setResource(resource);
+            accessControl.setName(name);
             return accessControl;
         }
     }
