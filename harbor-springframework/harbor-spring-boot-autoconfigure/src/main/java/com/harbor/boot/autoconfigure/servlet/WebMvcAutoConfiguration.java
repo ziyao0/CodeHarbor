@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.ziyao.harbor.web.ApplicationContextUtils;
-import com.ziyao.harbor.web.base.MetaFillDataHandler;
+import com.ziyao.harbor.web.base.MetaFillHandler;
 import jakarta.servlet.Servlet;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
@@ -38,8 +38,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebMvcAutoConfiguration implements ApplicationContextAware, InitializingBean {
 
     @Bean
-    public MetaFillDataHandler metaFillDataHandler() {
-        return new MetaFillDataHandler();
+    public MetaFillHandler metaFillHandler() {
+        return new MetaFillHandler();
     }
 
     @Bean

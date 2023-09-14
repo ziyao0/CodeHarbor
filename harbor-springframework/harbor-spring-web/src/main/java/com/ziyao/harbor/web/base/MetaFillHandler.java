@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  * @author ziyao zhang
  * @since 2023/5/5
  */
-public class MetaFillDataHandler implements MetaObjectHandler {
+public class MetaFillHandler implements MetaObjectHandler {
     @Override
     public void insertFill(MetaObject metaObject) {
         // 新增时自动填充
