@@ -13,5 +13,5 @@ public interface Validator<T> {
      *
      * @param t 需要校验的参数对象
      */
-    void validate(T t);
+    void validate(T t) throws Exception;
 }

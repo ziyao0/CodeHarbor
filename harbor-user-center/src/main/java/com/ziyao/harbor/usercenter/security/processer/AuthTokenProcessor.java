@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.security.processer;
 
-import com.ziyao.harbor.core.JwtTokenGenerator;
+import com.ziyao.harbor.core.jwt.JwtTokenGenerator;
 import com.ziyao.harbor.core.token.JwtInfo;
 import com.ziyao.harbor.core.utils.BeanMaps;
 import com.ziyao.harbor.core.utils.Dates;
