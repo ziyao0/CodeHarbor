@@ -9,10 +9,13 @@ import jakarta.annotation.Resource;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoOperator;
+import reactor.core.publisher.MonoSink;
+
+import java.util.function.Consumer;
 
 /**
  * 前置访问控制过滤器
@@ -29,20 +32,13 @@ public class AccessPreFilter implements GlobalFilter {
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        //处理请求api
-        // TODO: 2023/9/9 从请求头提取请求路径，请求ip等相关信息，进行前置校验   快速失败
-        // 从请求头提取认证token
-        AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
 
-        try {
+        return MonoOperator.create((Consumer<MonoSink<Void>>) monoSink -> {
+            // 2023/9/9 从请求头提取请求路径，请求ip等相关信息，进行前置校验   快速失败
+            AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
             accessChainFactory.handle(accessControl);
-        } catch (Exception e) {
-            return DataBuffers.writeWith(exchange.getResponse(), Errors.FORBIDDEN, HttpStatus.FORBIDDEN);
-        }
-
-        return chain.filter(exchange);
-
-
+            monoSink.success();
+        }).onErrorResume(throwable -> DataBuffers.writeWith(exchange.getResponse(), Errors.FORBIDDEN));
     }
 
 

@@ -3,10 +3,8 @@ package com.ziyao.harbor.gateway.filter;
 import com.ziyao.harbor.core.error.HarborExceptions;
 import com.ziyao.harbor.gateway.core.*;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
-import com.ziyao.harbor.gateway.core.token.SuccessAuthorization;
-import jakarta.annotation.Resource;
+import com.ziyao.harbor.gateway.core.token.Authorization;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
@@ -25,12 +23,18 @@ import reactor.core.publisher.MonoOperator;
 public class AccessControlFilter implements GlobalFilter {
 
 
-    @Autowired
-    private SuccessfulHandler<SuccessAuthorization> successfulHandler;
-    @Autowired
-    private FailureHandler failureHandler;
-    @Resource
-    private ProviderManager providerManager;
+    private final SuccessfulHandler<Authorization> successfulHandler;
+    private final FailureHandler failureHandler;
+    private final ProviderManager providerManager;
+
+    public AccessControlFilter(
+            SuccessfulHandler<Authorization> successfulHandler,
+            FailureHandler failureHandler,
+            ProviderManager providerManager) {
+        this.successfulHandler = successfulHandler;
+        this.failureHandler = failureHandler;
+        this.providerManager = providerManager;
+    }
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -40,16 +44,14 @@ public class AccessControlFilter implements GlobalFilter {
         // 快速校验认证token
         AccessTokenValidator.validateToken(accessControl);
 
-
         return providerManager.authorize(accessControl).flatMap(author -> {
-                    if (author.isAuthorized()) {
-                        successfulHandler.onSuccessful(exchange, (SuccessAuthorization) author);
-                        return chain.filter(exchange);
-                    } else {
-                        return MonoOperator.error(HarborExceptions.createUnauthorizedException(author.getMessage()));
-                    }
-                })
-                .onErrorResume(throwable -> failureHandler.onFailureResume(exchange, throwable));
+            if (author.isAuthorized()) {
+                successfulHandler.onSuccessful(exchange, author);
+                return chain.filter(exchange);
+            } else {
+                return MonoOperator.error(HarborExceptions.createUnauthorizedException(author.getMessage()));
+            }
+        }).onErrorResume(throwable -> failureHandler.onFailureResume(exchange, throwable));
     }
 
 }

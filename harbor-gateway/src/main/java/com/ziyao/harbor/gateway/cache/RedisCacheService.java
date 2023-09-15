@@ -5,4 +5,6 @@ package com.ziyao.harbor.gateway.cache;
  * @since 2023/9/7
  */
 public class RedisCacheService implements CacheService {
+
+
 }

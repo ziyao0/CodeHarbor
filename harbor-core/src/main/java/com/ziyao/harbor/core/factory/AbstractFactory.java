@@ -11,7 +11,7 @@ public abstract class AbstractFactory<T> {
 
     private AbstractHandler<T> abstractHandler;
 
-    public void handle(T t) throws Exception {
+    public void handle(T t) {
 
         abstractHandler.handle(t);
         // 抛出异常执行下一个

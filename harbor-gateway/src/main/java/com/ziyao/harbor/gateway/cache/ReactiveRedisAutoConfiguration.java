@@ -1,11 +1,13 @@
 package com.ziyao.harbor.gateway.cache;
 
 import com.ziyao.harbor.core.CacheBeanNames;
+import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.ReactiveRedisConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -19,6 +21,8 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @ConditionalOnClass({ReactiveRedisConnectionFactory.class, ReactiveRedisTemplate.class})
 public class ReactiveRedisAutoConfiguration {
 
+    @Resource
+    private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
 
     @Bean(CacheBeanNames.REACTIVE_REDIS_TEMPLATE)
     public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
@@ -33,6 +37,9 @@ public class ReactiveRedisAutoConfiguration {
                 .hashValue(valueSerializer)
                 .build();
         // @formatter:on
-        return new ReactiveRedisTemplate<>(reactiveRedisConnectionFactory, context);
+        ReactiveRedisTemplate<String, Object> reactiveRedisTemplate = new ReactiveRedisTemplate<>(reactiveRedisConnectionFactory, context);
+        ReactiveCacheBeans.setRedis(reactiveRedisTemplate);
+        ReactiveCacheBeans.setStringRedis(reactiveStringRedisTemplate);
+        return reactiveRedisTemplate;
     }
 }

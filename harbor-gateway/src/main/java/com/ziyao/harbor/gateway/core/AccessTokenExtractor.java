@@ -1,7 +1,6 @@
 package com.ziyao.harbor.gateway.core;
 
 import com.ziyao.harbor.core.Extractor;
-import com.ziyao.harbor.core.token.TokenType;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
 import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
@@ -29,16 +28,17 @@ public abstract class AccessTokenExtractor implements Extractor<ServerWebExchang
     @Override
     public AccessControl extract(ServerWebExchange exchange) {
         HttpHeaders headers = exchange.getRequest().getHeaders();
-        String Token = headers.getFirst(RequestAttributes.AUTHORIZATION);
+        String token = headers.getFirst(RequestAttributes.AUTHORIZATION);
 
         // @formatter:off
         return AccessControl.builder()
-                .token(TokenType.extract(Token))
+                .token(token)
                 .refreshToken(headers.getFirst(RequestAttributes.REFRESH_TOKEN))
                 .timestamp(headers.getFirst(RequestAttributes.TIMESTAMP))
                 .digest(RequestAttributes.DIGEST)
                 .resource(RequestAttributes.RESOURCE)
                 .api(exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString())
+                .ip(exchange.getRequest().getRemoteAddress().getAddress().getHostAddress())
                 .build();
         // @formatter:on
     }

@@ -8,7 +8,6 @@ import org.springframework.web.server.ServerWebExchange;
  */
 public interface SuccessfulHandler<T> {
 
-
     /**
      * 成功时调用方法
      */

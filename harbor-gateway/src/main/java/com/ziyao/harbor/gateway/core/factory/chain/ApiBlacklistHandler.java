@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 /**
  * 请求路径黑名单
+ *
  * @author ziyao
  * @since 2023/4/23
  */
@@ -18,7 +19,7 @@ public class ApiBlacklistHandler extends AbstractSecurityHandler {
     private GatewayConfig gatewayConfig;
 
     @Override
-    protected void handle(AccessControl accessControl) throws Exception {
+    protected void handle(AccessControl accessControl) {
         if (getIllegalApis().isIllegal(accessControl.getApi())) {
             throw HarborExceptions.createIllegalAccessException(accessControl.getApi());
         }
