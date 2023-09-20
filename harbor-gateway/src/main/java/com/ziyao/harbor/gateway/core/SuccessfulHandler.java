@@ -11,5 +11,5 @@ public interface SuccessfulHandler<T> {
     /**
      * 成功时调用方法
      */
-    void onSuccessful(ServerWebExchange exchange, T t);
+    ServerWebExchange onSuccessful(ServerWebExchange exchange, T t);
 }

@@ -1,9 +1,10 @@
 package com.ziyao.harbor.gateway.filter;
 
-import com.ziyao.harbor.core.error.HarborExceptions;
+import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.*;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
 import com.ziyao.harbor.gateway.core.token.Authorization;
+import com.ziyao.harbor.gateway.error.GatewayErrors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
+
+import java.util.Set;
 
 /**
  * @author ziyao zhang
@@ -26,14 +29,16 @@ public class AccessControlFilter implements GlobalFilter {
     private final SuccessfulHandler<Authorization> successfulHandler;
     private final FailureHandler failureHandler;
     private final ProviderManager providerManager;
+    private final GatewayConfig gatewayConfig;
 
     public AccessControlFilter(
             SuccessfulHandler<Authorization> successfulHandler,
             FailureHandler failureHandler,
-            ProviderManager providerManager) {
+            ProviderManager providerManager, GatewayConfig gatewayConfig) {
         this.successfulHandler = successfulHandler;
         this.failureHandler = failureHandler;
         this.providerManager = providerManager;
+        this.gatewayConfig = gatewayConfig;
     }
 
     @Override
@@ -41,16 +46,27 @@ public class AccessControlFilter implements GlobalFilter {
 
         // 从请求头提取认证token
         AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
-        // 快速校验认证token
-        AccessTokenValidator.validateToken(accessControl);
-
-        return providerManager.authorize(accessControl).flatMap(author -> {
-            if (author.isAuthorized()) {
-                successfulHandler.onSuccessful(exchange, author);
+        return MonoOperator.just(accessControl).flatMap(access -> {
+            boolean skip = SecurityPredicate.initSecurityApis(getSecurityApis()).skip(access.getApi());
+            if (skip) {
                 return chain.filter(exchange);
             } else {
-                return MonoOperator.error(HarborExceptions.createUnauthorizedException(author.getMessage()));
+                // 快速校验认证token
+                AccessTokenValidator.validateToken(access);
+                return providerManager.authorize(access).flatMap(author -> {
+                    if (author.isAuthorized()) {
+                        return chain.filter(successfulHandler.onSuccessful(exchange, author));
+                    } else {
+                        return GatewayErrors.createUnauthorizedException(author.getMessage());
+                    }
+                }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
             }
         }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
+    }
+
+    private Set<String> getSecurityApis() {
+        Set<String> skipApis = gatewayConfig.getDefaultSkipApis();
+        skipApis.addAll(gatewayConfig.getSkipApis());
+        return skipApis;
     }
 }

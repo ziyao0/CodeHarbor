@@ -1,5 +1,6 @@
 package com.ziyao.harbor.gateway.config;
 
+import com.google.common.collect.Sets;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
@@ -21,18 +22,18 @@ public class GatewayConfig {
     /**
      * 默认跳过授权api集合
      */
-    private Set<String> defaultSkipApis;
+    private Set<String> defaultSkipApis = Sets.newHashSet();
     /**
      * 跳过授权
      */
-    private Set<String> skipApis;
+    private Set<String> skipApis = Sets.newHashSet();
     /**
      * 禁止访问api集合
      */
-    private Set<String> disallowApis;
+    private Set<String> disallowApis = Sets.newHashSet();
     /**
      * 默认禁止访问api集合
      */
-    private Set<String> defaultDisallowApis;
+    private Set<String> defaultDisallowApis = Sets.newHashSet();
 
 }
