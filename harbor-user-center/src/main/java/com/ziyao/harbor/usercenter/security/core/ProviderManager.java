@@ -1,10 +1,10 @@
 package com.ziyao.harbor.usercenter.security.core;
 
 import com.ziyao.harbor.usercenter.security.api.Authentication;
-import org.springframework.core.Ordered;
 
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 /**
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
  * @author zhangziyao
  * @since 2023/4/24
  */
-public interface ProviderManager extends Ordered {
+public interface ProviderManager {
 
 
     /**
@@ -30,9 +30,9 @@ public interface ProviderManager extends Ordered {
      * @param providers 认证bean
      * @return name to beanName
      */
-    default Map<String, String> initBeanMapping(List<? extends AuthenticationProvider> providers) {
+    default Map<String, PrimaryProvider> initBeanMapping(List<? extends PrimaryProvider> providers) {
         return providers.stream().collect(
-                Collectors.toMap(auth -> auth.getProviderName().name(), AuthenticationProvider::getBeanName)
+                Collectors.toMap(PrimaryProvider::getProviderName, Function.identity())
         );
     }
 }

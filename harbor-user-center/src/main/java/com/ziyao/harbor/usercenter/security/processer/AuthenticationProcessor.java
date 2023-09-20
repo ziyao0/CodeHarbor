@@ -1,7 +1,8 @@
 package com.ziyao.harbor.usercenter.security.processer;
 
+import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.usercenter.dto.LoginDTO;
-import com.ziyao.harbor.usercenter.security.PrimaryAuthProviderManager;
+import com.ziyao.harbor.usercenter.security.PrimaryProviderManager;
 import com.ziyao.harbor.usercenter.security.api.AccessToken;
 import com.ziyao.harbor.usercenter.security.api.Authentication;
 import com.ziyao.harbor.usercenter.security.auth.AuthenticationDetails;
@@ -10,9 +11,7 @@ import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.harbor.usercenter.security.core.GlobalProcessor;
 import com.ziyao.harbor.usercenter.security.handle.AuthenticationSuccessHandler;
 import com.ziyao.harbor.web.exception.ServiceException;
-import com.ziyao.harbor.core.error.Errors;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 
@@ -24,10 +23,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, AccessToken> {
 
-    @Autowired
-    private PrimaryAuthProviderManager providerManager;
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
+    private final PrimaryProviderManager providerManager;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
+
+    public AuthenticationProcessor(PrimaryProviderManager providerManager, AuthenticationSuccessHandler authenticationSuccessHandler) {
+        this.providerManager = providerManager;
+        this.authenticationSuccessHandler = authenticationSuccessHandler;
+    }
 
     @Override
     public void preProcessBefore(LoginDTO loginDTO) {

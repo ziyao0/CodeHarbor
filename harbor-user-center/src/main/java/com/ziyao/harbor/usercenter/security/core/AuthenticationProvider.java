@@ -3,15 +3,12 @@ package com.ziyao.harbor.usercenter.security.core;
 import com.ziyao.harbor.usercenter.comm.exception.AuthenticationException;
 import com.ziyao.harbor.usercenter.security.api.Authentication;
 import com.ziyao.harbor.usercenter.security.api.ProviderName;
-import org.springframework.beans.factory.BeanNameAware;
-import org.springframework.core.Ordered;
-import org.springframework.lang.Nullable;
 
 /**
  * @author zhangziyao
  * @since 2023/4/24
  */
-public interface AuthenticationProvider extends Ordered, BeanNameAware {
+public interface AuthenticationProvider {
 
     /**
      * 认证处理
@@ -37,25 +34,5 @@ public interface AuthenticationProvider extends Ordered, BeanNameAware {
      *
      * @return {@link ProviderName}
      */
-    ProviderName getProviderName();
-
-    /**
-     * 获取beanName
-     *
-     * @return 返回bean名称
-     */
-    String getBeanName();
-
-    /**
-     * 回调设置BeanName
-     *
-     * @param beanName the name of the bean in the factory.
-     *                 Note that this name is the actual bean name used in the factory, which may
-     *                 differ from the originally specified name: in particular for inner bean
-     *                 names, the actual bean name might have been made unique through appending
-     *                 "#..." suffixes. Use the {@link org.springframework.beans.factory.BeanFactoryUtils#originalBeanName(String)}
-     *                 method to extract the original bean name (without suffix), if desired.
-     */
-    @Override
-    void setBeanName(@Nullable String beanName);
+    String getProviderName();
 }

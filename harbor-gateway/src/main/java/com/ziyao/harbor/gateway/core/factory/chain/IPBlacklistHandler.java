@@ -12,11 +12,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class IPBlacklistHandler extends AbstractSecurityHandler {
     @Override
-    protected void handle(AccessControl accessControl) {
+    public void handle(AccessControl accessControl) {
         String ip = accessControl.getIp();
-        if ("192.168.70.4".equals(ip)) {
+        if ("127.0.0.1".equals(ip)) {
             throw HarborExceptions.createIllegalAccessException(ip);
         }
+        this.checkedNextHandler(accessControl);
     }
 
     @Override

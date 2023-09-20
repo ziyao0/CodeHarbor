@@ -10,6 +10,6 @@ public interface SecurityService {
     /**
      * 下线
      */
-    void offLine(String token);
+    void offline(String token);
 
 }

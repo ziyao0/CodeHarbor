@@ -4,10 +4,8 @@ package com.ziyao.harbor.core.utils;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
+import java.util.*;
 
 /**
  * 字符串操作工具类
@@ -202,5 +200,12 @@ public abstract class Strings {
             return URLEncoder.encode(str, default_charset);
         }
         return null;
+    }
+
+    public static byte[] toBytes(Object object) {
+        if (Objects.nonNull(object)) {
+            return object.toString().getBytes(default_charset);
+        }
+        return new byte[0];
     }
 }

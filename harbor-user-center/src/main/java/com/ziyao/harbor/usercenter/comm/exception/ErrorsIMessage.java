@@ -15,6 +15,7 @@ public enum ErrorsIMessage implements StatusMessage {
     ACCOUNT_NULL(100005, "认证失败,账号密码错误"),
     ACCOUNT_PD_NULL(100006, "认证失败,账号密码错误"),
     UN_SUPPORTS(100007, "当前认证处理器不支持"),
+    ERROR_100008(100008, "认证失败，非法认证参数"),
 
     ;
 

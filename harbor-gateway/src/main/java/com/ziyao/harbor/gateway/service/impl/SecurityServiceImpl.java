@@ -18,7 +18,7 @@ public class SecurityServiceImpl implements SecurityService {
     private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
 
     @Override
-    public void offLine(String token) {
+    public void offline(String token) {
         reactiveStringRedisTemplate.delete(token).subscribe(
                 size -> log.debug("退出成功！")
         );

@@ -51,7 +51,6 @@ public class AccessControlFilter implements GlobalFilter {
             } else {
                 return MonoOperator.error(HarborExceptions.createUnauthorizedException(author.getMessage()));
             }
-        }).onErrorResume(throwable -> failureHandler.onFailureResume(exchange, throwable));
+        }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
     }
-
 }

@@ -74,6 +74,14 @@ public interface StatusMessage extends Serializable {
             public String getMessage() {
                 return message;
             }
+
+            @Override
+            public String toString() {
+                return "{\n" +
+                        "    \"status\":" + this.getStatus() + ",\n" +
+                        "    \"message:\":\"" + this.getMessage() + "\"\n" +
+                        "}";
+            }
         };
     }
 }

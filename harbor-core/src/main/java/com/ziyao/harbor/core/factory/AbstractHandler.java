@@ -44,7 +44,7 @@ public abstract class AbstractHandler<T> implements Ordered {
      *
      * @param t 入参对象
      */
-    protected abstract void handle(T t);
+    public abstract void handle(T t);
 
 
 }

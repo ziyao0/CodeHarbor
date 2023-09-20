@@ -1,7 +1,6 @@
 package com.ziyao.harbor.gateway.core.factory;
 
 import com.ziyao.harbor.core.factory.AbstractFactory;
-import com.ziyao.harbor.core.factory.AbstractHandler;
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.gateway.core.factory.chain.AbstractSecurityHandler;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
@@ -21,6 +20,14 @@ import java.util.Objects;
 public class AccessChainFactory extends AbstractFactory<AccessControl> {
 
 
+    private AbstractSecurityHandler abstractSecurityHandler;
+
+
+    public void filter(AccessControl accessControl) {
+        abstractSecurityHandler.handle(accessControl);
+    }
+
+
     @PostConstruct
     @Override
     protected void init() {
@@ -28,11 +35,10 @@ public class AccessChainFactory extends AbstractFactory<AccessControl> {
         if (!Collections.isEmpty(abstractSecurityHandlers)) {
             abstractSecurityHandlers.stream().sorted(Comparator.comparing(AbstractSecurityHandler::getOrder))
                     .forEach(abstractSecurityHandler -> {
-                                AbstractHandler<AccessControl> abstractHandler = getAbstractHandler();
-                                if (Objects.isNull(abstractHandler)) {
-                                    super.setAbstractHandler(abstractSecurityHandler);
+                                if (Objects.isNull(this.abstractSecurityHandler)) {
+                                    this.abstractSecurityHandler = abstractSecurityHandler;
                                 } else {
-                                    abstractHandler.linkWith(abstractSecurityHandler);
+                                    this.abstractSecurityHandler.linkWith(abstractSecurityHandler);
                                 }
                             }
                     );

@@ -1,5 +1,6 @@
 package com.ziyao.harbor.usercenter.security;
 
+import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.comm.exception.ErrorsIMessage;
 import com.ziyao.harbor.usercenter.comm.exception.UserStatusException;
 import com.ziyao.harbor.usercenter.security.api.UserDetails;
@@ -23,11 +24,11 @@ public class UserStatusChecker implements UserDetailsChecker {
     @Override
     public void check(UserDetails userDetails) {
         // 账号
-        if (ObjectUtils.isEmpty(userDetails.getAccessKey())) {
+        if (Strings.isEmpty(userDetails.getAccessKey())) {
             throw new UserStatusException(ErrorsIMessage.ACCOUNT_NULL);
         }
         // 密码
-        if (ObjectUtils.isEmpty(userDetails.getSecretKey())) {
+        if (Strings.isEmpty(userDetails.getSecretKey())) {
             throw new UserStatusException(ErrorsIMessage.ACCOUNT_PD_NULL);
         }
 

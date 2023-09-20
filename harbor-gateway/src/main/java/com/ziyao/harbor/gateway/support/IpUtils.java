@@ -14,7 +14,7 @@ import java.net.URL;
  * @author zhangziyao
  * @since 2023/4/23
  */
-public abstract class IPUtils {
+public abstract class IpUtils {
 
     private static final String IP2REGION_PATH = "META-INF/ip2region.xdb";
     private static final String X_FORWARDED_FOR = "X-Forwarded-For";
@@ -43,7 +43,7 @@ public abstract class IPUtils {
 
     public static String getAddr(String ip) {
         try {
-            URL resource = IPUtils.class.getClassLoader().getResource(IP2REGION_PATH);
+            URL resource = IpUtils.class.getClassLoader().getResource(IP2REGION_PATH);
             String path = null;
             if (resource != null) {
                 path = resource.getPath();

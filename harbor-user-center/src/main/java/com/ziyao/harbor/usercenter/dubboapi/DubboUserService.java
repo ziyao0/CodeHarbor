@@ -19,8 +19,11 @@ import org.springframework.util.ObjectUtils;
 @DubboService(version = "1.0.0")
 public class DubboUserService implements UserOpenApi {
 
-    @Autowired
-    private UserMapper userMapper;
+    private final UserMapper userMapper;
+
+    public DubboUserService(UserMapper userMapper) {
+        this.userMapper = userMapper;
+    }
 
     @Override
     public UserVO getUser(Long appid, String username) {

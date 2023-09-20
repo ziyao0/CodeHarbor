@@ -11,12 +11,11 @@ import com.ziyao.harbor.usercenter.security.cache.MemoryUserDetailsCache;
 import com.ziyao.harbor.usercenter.security.cache.UserDetailsCache;
 import com.ziyao.harbor.usercenter.security.codec.BCEncryptor;
 import com.ziyao.harbor.usercenter.security.codec.Encryptor;
-import com.ziyao.harbor.usercenter.security.core.PrimaryAuthProvider;
+import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
 import com.ziyao.harbor.usercenter.security.core.UserDetailsChecker;
 import com.ziyao.harbor.usercenter.service.UserService;
 import com.ziyao.harbor.web.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 
@@ -27,17 +26,19 @@ import org.springframework.util.ObjectUtils;
  */
 @Slf4j
 @Component
-public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
+public class UserDetailsPrimaryProvider implements PrimaryProvider {
 
-    private String beanName;
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
     private final UserDetailsCache<User> userDetailsCache = new MemoryUserDetailsCache();
 
     private final Encryptor encryptor = new BCEncryptor();
 
     private final UserDetailsChecker checker = new UserStatusChecker();
+
+    public UserDetailsPrimaryProvider(UserService userService) {
+        this.userService = userService;
+    }
 
 
     @Override
@@ -72,23 +73,7 @@ public class UserDetailsPrimaryAuthProvider implements PrimaryAuthProvider {
     }
 
     @Override
-    public ProviderName getProviderName() {
-        return ProviderName.PASSWD;
-    }
-
-
-    @Override
-    public String getBeanName() {
-        return beanName;
-    }
-
-    @Override
-    public void setBeanName(String beanName) {
-        this.beanName = beanName;
-    }
-
-    @Override
-    public int getOrder() {
-        return 0;
+    public String getProviderName() {
+        return ProviderName.PASSWD.name();
     }
 }

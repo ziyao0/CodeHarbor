@@ -17,6 +17,7 @@ public abstract class ParameterNames {
 
     public static final String RESOURCE = "Resource";
     public static final String DIGEST = "Digest";
+    public static final String X_FORWARDED_FOR = "X-Forwarded-For";
 
 
 }

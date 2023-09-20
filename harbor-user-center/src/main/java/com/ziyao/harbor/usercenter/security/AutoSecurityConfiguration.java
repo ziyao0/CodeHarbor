@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.security;
 
-import com.ziyao.harbor.usercenter.security.core.PrimaryAuthProvider;
+import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -19,9 +19,9 @@ import java.util.List;
 public class AutoSecurityConfiguration implements ApplicationContextAware {
 
     @Bean
-    public PrimaryAuthProviderManager primaryAuthProviderManager() {
-        List<PrimaryAuthProvider> beans = ApplicationContextUtils.getBeansOfType(PrimaryAuthProvider.class);
-        return new PrimaryAuthProviderManager(beans, null);
+    public PrimaryProviderManager primaryAuthProviderManager() {
+        List<PrimaryProvider> beans = ApplicationContextUtils.getBeansOfType(PrimaryProvider.class);
+        return new PrimaryProviderManager(beans);
     }
 
     @Override

@@ -11,5 +11,5 @@ package com.ziyao.harbor.usercenter.security.core;
  * @author zhangziyao
  * @since 2023/4/24
  */
-public interface MultiFactorAuthProvider extends AuthenticationProvider {
+public interface MultifactorialProvider extends AuthenticationProvider {
 }

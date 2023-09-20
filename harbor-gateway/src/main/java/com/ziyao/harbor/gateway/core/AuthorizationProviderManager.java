@@ -34,7 +34,8 @@ public class AuthorizationProviderManager implements ProviderManager {
 
     public AuthorizationProviderManager(List<Provider> providers) {
         // 初始化所有鉴权提供者
-        this.providers = providers.stream().collect(Collectors.toMap(Provider::getName, Function.identity()));
+        this.providers = providers.stream().collect(
+                Collectors.toMap(Provider::getName, Function.identity()));
     }
 
 

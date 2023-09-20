@@ -5,6 +5,7 @@ import com.ziyao.harbor.gateway.core.AccessTokenExtractor;
 import com.ziyao.harbor.gateway.core.DataBuffers;
 import com.ziyao.harbor.gateway.core.factory.AccessChainFactory;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
+import com.ziyao.harbor.gateway.support.IpUtils;
 import jakarta.annotation.Resource;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -13,9 +14,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
-import reactor.core.publisher.MonoSink;
-
-import java.util.function.Consumer;
 
 /**
  * 前置访问控制过滤器
@@ -33,12 +31,14 @@ public class AccessPreFilter implements GlobalFilter {
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
-        return MonoOperator.create((Consumer<MonoSink<Void>>) monoSink -> {
-            // 2023/9/9 从请求头提取请求路径，请求ip等相关信息，进行前置校验   快速失败
-            AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
-            accessChainFactory.handle(accessControl);
-            monoSink.success();
-        }).onErrorResume(throwable -> DataBuffers.writeWith(exchange.getResponse(), Errors.FORBIDDEN));
+        // 2023/9/9 从请求头提取请求路径，请求ip等相关信息，进行前置校验   快速失败
+        AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
+        System.out.println(IpUtils.getAddr(accessControl.getIp()));
+        return MonoOperator.just(accessControl)
+                 .flatMap(access -> {
+                    accessChainFactory.filter(access);
+                    return chain.filter(exchange);
+                }).onErrorResume(t -> DataBuffers.writeWith(exchange, Errors.FORBIDDEN));
     }
 
 
