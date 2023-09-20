@@ -1,10 +1,9 @@
 package com.ziyao.harbor.core.utils;
 
-import com.alibaba.fastjson2.JSON;
-import com.alibaba.fastjson2.JSONObject;
-
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author ziyao zhang
@@ -15,9 +14,18 @@ public abstract class BeanMaps {
     private BeanMaps() {
     }
 
-    public static Map<String, Object> tomap(Object object) {
-        JSONObject jsonObject = JSON.parseObject(JSON.toJSONString(object));
-        return new HashMap<>(jsonObject);
-    }
+    public static Map<String, Object> tomap(Object object) throws IllegalAccessException {
+        Map<String, Object> map = new HashMap<>();
 
+        if (Objects.nonNull(object)) {
+            Class<?> clazz = object.getClass();
+            for (Field field : clazz.getDeclaredFields()) {
+                field.setAccessible(true);
+                String fieldName = field.getName();
+                Object value = field.get(object);
+                map.put(fieldName, value);
+            }
+        }
+        return map;
+    }
 }
