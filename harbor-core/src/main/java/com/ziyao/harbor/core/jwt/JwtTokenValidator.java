@@ -2,7 +2,7 @@ package com.ziyao.harbor.core.jwt;
 
 import com.auth0.jwt.interfaces.Claim;
 import com.ziyao.harbor.core.TokenValidator;
-import com.ziyao.harbor.core.error.HarborExceptions;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.core.token.TokenType;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
@@ -32,7 +32,7 @@ public class JwtTokenValidator implements TokenValidator<Map<String, Claim>> {
         if (Strings.hasLength(text)) {
             doValidate(extract, secret);
         } else {
-            throw HarborExceptions.createIllegalArgumentException("缺少Token认证信息");
+            throw Exceptions.createIllegalArgumentException("缺少Token认证信息");
         }
     }
 

@@ -1,7 +1,8 @@
 package com.ziyao.harbor.web.exception;
 
-import com.ziyao.harbor.core.error.Errors;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.core.error.StatusMessage;
+import com.ziyao.harbor.core.error.exception.HarborException;
 
 import java.io.Serial;
 
@@ -19,8 +20,9 @@ public class UnauthorizedException extends RuntimeException implements StatusMes
     private String message;
 
     public UnauthorizedException() {
-        this.status = Errors.UNAUTHORIZED.getStatus();
-        this.message = Errors.UNAUTHORIZED.getMessage();
+        HarborException unauthorizedException = Exceptions.createUnauthorizedException(null);
+        this.status = unauthorizedException.getStatus();
+        this.message = unauthorizedException.getMessage();
     }
 
     public UnauthorizedException(int status, String message) {
@@ -29,7 +31,7 @@ public class UnauthorizedException extends RuntimeException implements StatusMes
     }
 
     public UnauthorizedException(String message) {
-        this.status = Errors.UNAUTHORIZED.getStatus();
+        this.status = 403;
         this.message = message;
     }
 

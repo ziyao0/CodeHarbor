@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.security.processer;
 
-import com.ziyao.harbor.core.error.Errors;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.usercenter.dto.LoginDTO;
 import com.ziyao.harbor.usercenter.security.PrimaryProviderManager;
 import com.ziyao.harbor.usercenter.security.api.AccessToken;
@@ -58,7 +58,7 @@ public class AuthenticationProcessor implements GlobalProcessor<LoginDTO, Access
             throw serviceException;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            throw new ServiceException(Errors.INTERNAL_SERVER_ERROR);
+            throw Exceptions.createInternalServerErrorException(e.getMessage());
         }
     }
 

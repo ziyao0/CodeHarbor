@@ -9,7 +9,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.Claim;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.ziyao.harbor.core.error.Errors;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.core.error.exception.HarborException;
 import com.ziyao.harbor.core.token.TokenDetails;
 import com.ziyao.harbor.core.utils.Dates;
@@ -85,19 +85,19 @@ public abstract class Jwts {
         } catch (Exception e) {
             if (e instanceof AlgorithmMismatchException) {
                 // 解析token算法不匹配
-                throw new HarborException(Errors.ALGORITHM_MISMATCH);
+                throw new HarborException(Exceptions.ALGORITHM_MISMATCH);
             } else if (e instanceof SignatureVerificationException) {
                 // 签名异常
-                throw new HarborException(Errors.SIGNATURE_VERIFICATION);
+                throw new HarborException(Exceptions.SIGNATURE_VERIFICATION);
             } else if (e instanceof TokenExpiredException) {
                 // token过期
-                throw new HarborException(Errors.TOKEN_EXPIRED);
+                throw new HarborException(Exceptions.TOKEN_EXPIRED);
             } else if (e instanceof JWTDecodeException) {
                 // token 非法
-                throw new HarborException(Errors.JWT_DECODE);
+                throw new HarborException(Exceptions.JWT_DECODE);
             } else {
                 // 解析token异常
-                throw new HarborException(Errors.TOKEN_ERROR);
+                throw new HarborException(Exceptions.TOKEN_ERROR);
             }
         }
     }

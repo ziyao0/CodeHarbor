@@ -4,13 +4,13 @@ package com.ziyao.harbor.web;
 import com.ziyao.harbor.core.utils.CommUtils;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
-import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.core.error.StatusMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,7 +44,8 @@ public class GlobalExceptionHandlerAdvice {
         if (mex != null && mex.getBindingResult().hasErrors())
             return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(mex));
         else
-            return ResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT);
+            // TODO: 2023/9/24 400异常
+            return ResponseBuilder.failed();
 
     }
 
@@ -131,13 +132,13 @@ public class GlobalExceptionHandlerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public StatusMessage exceptionHandler(Exception e) {
-        return ResponseBuilder.failed(Errors.INTERNAL_SERVER_ERROR.getStatus(), e.getClass().getName(),
-                Errors.INTERNAL_SERVER_ERROR.getMessage() + e.getMessage());
+        return ResponseBuilder.failed(500, e.getClass().getName(),
+                "服务器内部异常" + e.getMessage());
     }
 
 
     private StatusMessage buildIllegalArgument(String message) {
-        return ResponseBuilder.failed(Errors.ILLEGAL_ARGUMENT, message);
+        return ResponseBuilder.failed(400, message);
     }
 
     protected static abstract class ExceptionUtils {
