@@ -1,8 +1,7 @@
 package ${package.Controller};
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.ziyao.harbor.web.exception.ServiceException;
-import ccom.ziyao.harbor.web.response.Errors;
+import com.ziyao.harbor.core.error.Exceptions;
 import ${dto}.${entity}DTO;
 <#if superControllerClassPackage??>
     import ${package.Entity}.${entity};
@@ -64,7 +63,7 @@ private ${table.serviceName} ${table.serviceName?uncap_first};
     @PostMapping("/updateById")
     public void updateById(@RequestBody ${entity}DTO entityDTO) {
 if (ObjectUtils.isEmpty(entityDTO.getId())) {
-throw new ServiceException(Errors.ILLEGAL_ARGUMENT);
+throw Exceptions.createIllegalArgumentException(null);
 }
 super.iService.updateById(entityDTO.getInstance());
 }

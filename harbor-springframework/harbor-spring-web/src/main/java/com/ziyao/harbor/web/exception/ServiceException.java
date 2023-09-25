@@ -1,6 +1,5 @@
 package com.ziyao.harbor.web.exception;
 
-import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.core.error.StatusMessage;
 
 import java.io.Serial;
@@ -17,7 +16,8 @@ public class ServiceException extends RuntimeException implements StatusMessage 
     private final StatusMessage statusMessage;
 
     public ServiceException() {
-        this.statusMessage = Errors.INTERNAL_SERVER_ERROR;
+        // TODO: 2023/9/24 业务异常
+        this.statusMessage = null;
     }
 
     public ServiceException(StatusMessage StatusMessage) {

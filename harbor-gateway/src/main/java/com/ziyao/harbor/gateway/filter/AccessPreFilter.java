@@ -1,6 +1,5 @@
 package com.ziyao.harbor.gateway.filter;
 
-import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.gateway.core.AccessTokenExtractor;
 import com.ziyao.harbor.gateway.core.DataBuffers;
 import com.ziyao.harbor.gateway.core.factory.AccessChainFactory;
@@ -36,7 +35,8 @@ public class AccessPreFilter implements GlobalFilter {
                 .flatMap(access -> {
                     accessChainFactory.filter(access);
                     return chain.filter(exchange);
-                }).onErrorResume(t -> DataBuffers.writeWith(exchange, Errors.FORBIDDEN));
+                    // TODO: 2023/9/24 403 禁止访问
+                }).onErrorResume(t -> DataBuffers.writeWith(exchange, null));
     }
 
 

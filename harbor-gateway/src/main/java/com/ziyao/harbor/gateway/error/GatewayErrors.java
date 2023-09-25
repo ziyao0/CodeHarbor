@@ -1,6 +1,6 @@
 package com.ziyao.harbor.gateway.error;
 
-import com.ziyao.harbor.core.error.HarborExceptions;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.core.error.exception.HarborException;
 import reactor.core.publisher.Mono;
 
@@ -14,7 +14,7 @@ public abstract class GatewayErrors {
     }
 
     public static Mono<Void> createUnauthorizedException(String message) {
-        return Mono.error(HarborExceptions.createUnauthorizedException(message));
+        return Mono.error(Exceptions.createUnauthorizedException(message));
     }
 
     /**
@@ -24,7 +24,7 @@ public abstract class GatewayErrors {
      * @return {@link HarborException}
      */
     public static Mono<Void> createForbiddenException(String message) {
-        return Mono.error(HarborExceptions.createForbiddenException(message));
+        return Mono.error(Exceptions.createForbiddenException(message));
     }
 
     /**
@@ -34,7 +34,7 @@ public abstract class GatewayErrors {
      * @return {@link HarborException}
      */
     public static Mono<Void> createIllegalAccessException(String message) {
-        return Mono.error(HarborExceptions.createIllegalAccessException(message));
+        return Mono.error(Exceptions.createIllegalAccessException(message));
     }
 
     /**
@@ -44,6 +44,6 @@ public abstract class GatewayErrors {
      * @return {@link HarborException}
      */
     public static Mono<Void> createIllegalArgumentException(String message) {
-        return Mono.error(HarborExceptions.createIllegalArgumentException(message));
+        return Mono.error(Exceptions.createIllegalArgumentException(message));
     }
 }

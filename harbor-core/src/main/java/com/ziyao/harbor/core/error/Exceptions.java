@@ -1,49 +1,60 @@
 package com.ziyao.harbor.core.error;
 
+import com.ziyao.harbor.core.error.exception.HarborException;
+
 /**
- * @author zhangziyao
- * @since 2023/4/21
+ * @author ziyao zhang
+ * @since 2023/9/4
  */
-public abstract class Errors {
+public abstract class Exceptions {
+
+    public Exceptions() {
+    }
 
 
     /**
      * 通用: 请求成功.
      */
     public static final StatusMessage SUCCESS = StatusMessage.getInstance(StatusMessage.SUCCESS_STATE(), "请求成功");
-    /**
-     * 通用: 参数错误.
-     */
-    public static final StatusMessage ILLEGAL_ARGUMENT = StatusMessage.getInstance(400, "参数错误");
 
     /**
-     * 通用请求未认证.
+     * 创建非法访问
+     *
+     * @param message 异常信息
+     * @return {@link HarborException}
      */
-    public static final StatusMessage UNAUTHORIZED = StatusMessage.getInstance(401, "请求未认证");
+    public static HarborException createIllegalArgumentException(String message) {
+        return new HarborException(400, "参数错误：" + message);
+    }
 
     /**
      * 登录失败
      */
-    public static final StatusMessage LOGIN_FAILED = StatusMessage.getInstance(4011, "登录失败");
-
-    /**
-     * 禁止访问
-     */
-    public static final StatusMessage FORBIDDEN = StatusMessage.getInstance(403, "禁止访问");
+    public static HarborException createLoginFailedException(String message) {
+        return new HarborException(4011, "登录失败：" + message);
+    }
 
     /**
      * 资源不存在
      */
-    public static final StatusMessage NOT_FOUND_ERROR = StatusMessage.getInstance(404, "资源不存在");
+    public static HarborException createNotFoundException(String message) {
+        return new HarborException(404, "资源不存在：" + message);
+    }
+
     /**
      * 请求超时
      */
-    public static final StatusMessage REQUEST_TIMEOUT_ERROR = StatusMessage.getInstance(408, "请求超时");
+
+    public static HarborException createRequestTimeoutException(String message) {
+        return new HarborException(408, "请求超时：" + message);
+    }
 
     /**
      * 通用: 服务器内部错误.
      */
-    public static final StatusMessage INTERNAL_SERVER_ERROR = StatusMessage.getInstance(500, "服务器内部错误");
+    public static HarborException createInternalServerErrorException(String message) {
+        return new HarborException(500, "服务器内部错误：" + message);
+    }
 
     /**
      * 通用: 用户未登录.
@@ -90,6 +101,34 @@ public abstract class Errors {
      */
     public static final StatusMessage TOKEN_ERROR = StatusMessage.getInstance(401, "解析Token异常");
 
-    private Errors() {
+
+    /**
+     * 创建请求未认证异常
+     *
+     * @param message 异常信息
+     * @return {@link HarborException}
+     */
+    public static HarborException createUnauthorizedException(String message) {
+        return new HarborException(401, message);
+    }
+
+    /**
+     * 创建越权访问异常
+     *
+     * @param message 异常信息
+     * @return {@link HarborException}
+     */
+    public static HarborException createForbiddenException(String message) {
+        return new HarborException(403, message);
+    }
+
+    /**
+     * 创建非法访问
+     *
+     * @param message 异常信息
+     * @return {@link HarborException}
+     */
+    public static HarborException createIllegalAccessException(String message) {
+        return new HarborException(403, message);
     }
 }

@@ -1,6 +1,6 @@
 package com.ziyao.harbor.gateway.core.factory.chain;
 
-import com.ziyao.harbor.core.error.HarborExceptions;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.SecurityPredicate;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
@@ -23,7 +23,7 @@ public class ApiBlacklistHandler extends AbstractSecurityHandler {
     @Override
     public void handle(AccessControl accessControl) {
         if (getIllegalApis().isIllegal(accessControl.getApi())) {
-            throw HarborExceptions.createIllegalAccessException(accessControl.getApi());
+            throw Exceptions.createIllegalAccessException(accessControl.getApi());
         }
         this.checkedNextHandler(accessControl);
     }

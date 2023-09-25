@@ -1,6 +1,5 @@
 package com.ziyao.harbor.gateway.core;
 
-import com.ziyao.harbor.core.error.Errors;
 import com.ziyao.harbor.core.error.StatusMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -17,7 +16,7 @@ public class AccessFailureHandler implements FailureHandler {
 
     @Override
     public Mono<Void> onFailureResume(ServerWebExchange exchange, Throwable throwable) {
-        StatusMessage statusMessage = Errors.INTERNAL_SERVER_ERROR;
+        StatusMessage statusMessage = null;
         // TODO: 2023/9/14 异常处理
         return DataBuffers.writeWith(exchange.getResponse(), statusMessage);
 
