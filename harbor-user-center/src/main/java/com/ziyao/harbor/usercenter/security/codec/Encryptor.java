@@ -11,26 +11,10 @@ public interface Encryptor {
      * 对初始密码进行加密 该方法是对参数进行加密
      * </p>
      *
-     * @param pubKey    在sm3中该参数为登录名
      * @param plaintext 原始明文
      * @return 加密后的密码
      */
-    default String encode(CharSequence pubKey, CharSequence plaintext) {
-        return null;
-    }
-
-    /**
-     * <p>
-     * 对初始密码进行加密 该方法是对参数进行加密
-     * </p>
-     *
-     * @param plaintext 原始明文
-     * @return 加密后的密码
-     */
-    default String encode(CharSequence plaintext) {
-        return null;
-    }
-
+    String encrypt(CharSequence plaintext);
 
     /**
      * <p>

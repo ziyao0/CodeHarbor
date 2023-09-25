@@ -6,10 +6,10 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author ziyao zhang
  * @since 2023/5/8
  */
-public class BCEncryptor implements Encryptor {
+public class PasswordAuthenticator implements Encryptor {
 
     @Override
-    public String encode(CharSequence plaintext) {
+    public String encrypt(CharSequence plaintext) {
         return BCrypt.hashpw(plaintext.toString(), BCrypt.gensalt());
     }
 
@@ -19,6 +19,11 @@ public class BCEncryptor implements Encryptor {
     }
 
     public static void main(String[] args) {
-        System.out.println(new BCEncryptor().encode("admin"));
+        PasswordAuthenticator passwordAuthenticator = new PasswordAuthenticator();
+        System.out.println(passwordAuthenticator.encrypt("admin"));
+
+        String pd = "$2a$10$VlNsaSfV6KTFadxJ3BkSo.wPvkdblhAWdX9ymJhJ6D2k7PLVbcEnC";
+
+        System.out.println(passwordAuthenticator.matches("admin", pd));
     }
 }

@@ -9,8 +9,8 @@ import com.ziyao.harbor.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.harbor.usercenter.security.cache.MemoryUserDetailsCache;
 import com.ziyao.harbor.usercenter.security.cache.UserDetailsCache;
-import com.ziyao.harbor.usercenter.security.codec.BCEncryptor;
 import com.ziyao.harbor.usercenter.security.codec.Encryptor;
+import com.ziyao.harbor.usercenter.security.codec.PasswordAuthenticator;
 import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
 import com.ziyao.harbor.usercenter.security.core.UserDetailsChecker;
 import com.ziyao.harbor.usercenter.service.UserService;
@@ -32,7 +32,7 @@ public class UserDetailsPrimaryProvider implements PrimaryProvider {
 
     private final UserDetailsCache<User> userDetailsCache = new MemoryUserDetailsCache();
 
-    private final Encryptor encryptor = new BCEncryptor();
+    private final Encryptor encryptor = new PasswordAuthenticator();
 
     private final UserDetailsChecker checker = new UserStatusChecker();
 
