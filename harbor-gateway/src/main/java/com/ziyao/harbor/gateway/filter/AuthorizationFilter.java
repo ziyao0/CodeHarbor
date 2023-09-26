@@ -3,7 +3,7 @@ package com.ziyao.harbor.gateway.filter;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.*;
 import com.ziyao.harbor.gateway.core.support.SecurityPredicate;
-import com.ziyao.harbor.gateway.core.token.AccessControl;
+import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.error.GatewayErrors;
 import lombok.extern.slf4j.Slf4j;
@@ -18,13 +18,15 @@ import reactor.core.publisher.MonoOperator;
 import java.util.Set;
 
 /**
+ * grant
+ *
  * @author ziyao zhang
  * @since 2023/5/17
  */
 @Slf4j
 @Component
 @Order(0)
-public class AccessControlFilter implements GlobalFilter {
+public class AuthorizationFilter implements GlobalFilter {
 
 
     private final SuccessfulHandler<Authorization> successfulHandler;
@@ -32,7 +34,7 @@ public class AccessControlFilter implements GlobalFilter {
     private final AuthorizerManager authorizerManager;
     private final GatewayConfig gatewayConfig;
 
-    public AccessControlFilter(
+    public AuthorizationFilter(
             SuccessfulHandler<Authorization> successfulHandler,
             FailureHandler failureHandler,
             AuthorizerManager authorizerManager, GatewayConfig gatewayConfig) {
@@ -46,21 +48,22 @@ public class AccessControlFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         // 从请求头提取认证token
-        AccessControl accessControl = AccessTokenExtractor.extractForHeaders(exchange);
-        return MonoOperator.just(accessControl).flatMap(access -> {
+        DefaultAccessToken defaultAccessToken = AccessTokenExtractor.extractForHeaders(exchange);
+        return MonoOperator.just(defaultAccessToken).flatMap(access -> {
             boolean skip = SecurityPredicate.initSecurityApis(getSecurityApis()).skip(access.getApi());
             if (skip) {
                 return chain.filter(exchange);
             } else {
                 // 快速校验认证token
                 AccessTokenValidator.validateToken(access);
-                return authorizerManager.authorize(access).flatMap(author -> {
-                    if (author.isAuthorized()) {
-                        return chain.filter(successfulHandler.onSuccessful(exchange, author));
-                    } else {
-                        return GatewayErrors.createUnauthorizedException(author.getMessage());
-                    }
-                }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
+                return authorizerManager.getAuthorizer(access.getName()).authorize(access)
+                        .flatMap(author -> {
+                            if (author.isAuthorized()) {
+                                return chain.filter(successfulHandler.onSuccessful(exchange, author));
+                            } else {
+                                return GatewayErrors.createUnauthorizedException(author.getMessage());
+                            }
+                        }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
             }
         }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
     }

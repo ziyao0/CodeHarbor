@@ -6,6 +6,7 @@ package com.ziyao.harbor.core;
  * @author ziyao zhang
  * @since 2023/8/22
  */
+@FunctionalInterface
 public interface Validator<T> {
 
     /**

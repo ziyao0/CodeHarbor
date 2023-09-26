@@ -1,16 +1,21 @@
-package com.ziyao.harbor.gateway.filter;
+package com.ziyao.harbor.gateway.filter.header;
 
 import com.ziyao.harbor.gateway.core.support.RequestAttributes;
 import org.springframework.cloud.gateway.filter.headers.HttpHeadersFilter;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpHeaders;
+import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 
 /**
+ * 重置请求头
+ *
  * @author ziyao zhang
  * @since 2023/9/26
  */
-public class CleanAuthHttpHeadersFilter implements HttpHeadersFilter, Ordered {
+@Component
+public class RevokeAuthHttpHeadersFilter implements HttpHeadersFilter, Ordered {
+
     @Override
     public HttpHeaders filter(HttpHeaders input, ServerWebExchange exchange) {
 

@@ -1,13 +1,12 @@
 package com.ziyao.harbor.gateway.core;
 
-import com.ziyao.harbor.gateway.core.token.AccessToken;
+import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import lombok.Getter;
-import org.springframework.lang.NonNull;
-import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -29,19 +28,21 @@ import java.util.stream.Collectors;
 @Getter
 public class DefaultAuthorizerManager implements AuthorizerManager {
 
-    private final Map<String, Authorizer> providers;
+    private final Map<String, Authorizer> authorizerMap;
 
 
     public DefaultAuthorizerManager(List<Authorizer> authorizers) {
         // 初始化所有鉴权提供者
-        this.providers = authorizers.stream().collect(
+        this.authorizerMap = authorizers.stream().collect(
                 Collectors.toMap(Authorizer::getName, Function.identity()));
     }
 
-
     @Override
-    public Mono<Authorization> authorize(@NonNull AccessToken accessToken) {
-        Authorizer authorizer = getProviders().get(accessToken.getName());
-        return authorizer.authorize(accessToken);
+    public Authorizer getAuthorizer(String name) {
+        Authorizer authorizer = getAuthorizerMap().get(name);
+        if (Objects.isNull(authorizer)) {
+            throw Exceptions.createIllegalAccessException("未获取到对应的授权方，name：" + name);
+        }
+        return authorizer;
     }
 }

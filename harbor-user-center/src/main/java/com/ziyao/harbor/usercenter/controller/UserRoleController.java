@@ -5,7 +5,6 @@ import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.usercenter.dto.UserRoleDTO;
 import com.ziyao.harbor.usercenter.entity.UserRole;
 import com.ziyao.harbor.usercenter.service.UserRoleService;
-import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageQuery;
 import com.ziyao.harbor.web.base.PageUtils;

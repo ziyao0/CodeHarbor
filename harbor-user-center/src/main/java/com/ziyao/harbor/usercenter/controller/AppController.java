@@ -5,7 +5,6 @@ import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.usercenter.dto.AppDTO;
 import com.ziyao.harbor.usercenter.entity.App;
 import com.ziyao.harbor.usercenter.service.AppService;
-import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageQuery;
 import com.ziyao.harbor.web.base.PageUtils;

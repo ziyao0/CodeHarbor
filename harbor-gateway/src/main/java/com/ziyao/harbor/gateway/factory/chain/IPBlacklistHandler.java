@@ -1,8 +1,7 @@
-package com.ziyao.harbor.gateway.core.factory.chain;
+package com.ziyao.harbor.gateway.factory.chain;
 
-import com.ziyao.harbor.core.Ordered;
 import com.ziyao.harbor.core.error.Exceptions;
-import com.ziyao.harbor.gateway.core.token.AccessControl;
+import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,16 +11,16 @@ import org.springframework.stereotype.Component;
 @Component
 public class IPBlacklistHandler extends AbstractSecurityHandler {
     @Override
-    public void handle(AccessControl accessControl) {
-        String ip = accessControl.getIp();
+    public void handle(DefaultAccessToken defaultAccessToken) {
+        String ip = defaultAccessToken.getIp();
         if ("127.0.0.1".equals(ip)) {
             throw Exceptions.createIllegalAccessException(ip);
         }
-        this.checkedNextHandler(accessControl);
+        this.checkedNextHandler(defaultAccessToken);
     }
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE;
+        return HIGHEST_PRECEDENCE;
     }
 }

@@ -4,6 +4,7 @@ package com.ziyao.harbor.core;
  * @author ziyao zhang
  * @since 2023/8/31
  */
+@FunctionalInterface
 public interface Ordered {
     /**
      * 最高优先级值的有用常量。

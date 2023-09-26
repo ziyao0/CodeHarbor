@@ -1,6 +1,7 @@
-package com.ziyao.harbor.gateway.core;
+package com.ziyao.harbor.gateway.handler;
 
 import com.ziyao.harbor.core.error.StatusMessage;
+import com.ziyao.harbor.gateway.core.FailureHandler;
 import com.ziyao.harbor.gateway.core.support.DataBuffers;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

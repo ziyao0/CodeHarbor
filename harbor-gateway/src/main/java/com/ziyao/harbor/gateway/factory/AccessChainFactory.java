@@ -1,9 +1,9 @@
-package com.ziyao.harbor.gateway.core.factory;
+package com.ziyao.harbor.gateway.factory;
 
 import com.ziyao.harbor.core.factory.AbstractFactory;
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.harbor.gateway.core.factory.chain.AbstractSecurityHandler;
-import com.ziyao.harbor.gateway.core.token.AccessControl;
+import com.ziyao.harbor.gateway.factory.chain.AbstractSecurityHandler;
+import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.support.ApplicationContextUtils;
 import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
@@ -17,14 +17,14 @@ import java.util.Objects;
  * @since 2023/4/23
  */
 @Component
-public class AccessChainFactory extends AbstractFactory<AccessControl> {
+public class AccessChainFactory extends AbstractFactory<DefaultAccessToken> {
 
 
     private AbstractSecurityHandler abstractSecurityHandler;
 
 
-    public void filter(AccessControl accessControl) {
-        abstractSecurityHandler.handle(accessControl);
+    public void filter(DefaultAccessToken defaultAccessToken) {
+        abstractSecurityHandler.handle(defaultAccessToken);
     }
 
 

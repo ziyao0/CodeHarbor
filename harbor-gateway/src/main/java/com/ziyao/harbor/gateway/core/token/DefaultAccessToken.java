@@ -9,7 +9,7 @@ import java.io.Serial;
  * @since 2023/4/23
  */
 @Data
-public class AccessControl implements AccessToken {
+public class DefaultAccessToken implements AccessToken {
     @Serial
     private static final long serialVersionUID = -3447048378569999827L;
     private String ip;
@@ -75,17 +75,17 @@ public class AccessControl implements AccessToken {
             return this;
         }
 
-        public AccessControl build() {
-            AccessControl accessControl = new AccessControl();
-            accessControl.setToken(token);
-            accessControl.setApi(api);
-            accessControl.setIp(ip);
-            accessControl.setRefreshToken(refreshToken);
-            accessControl.setTimestamp(timestamp);
-            accessControl.setDigest(digest);
-            accessControl.setResource(resource);
-            accessControl.setName(name);
-            return accessControl;
+        public DefaultAccessToken build() {
+            DefaultAccessToken defaultAccessToken = new DefaultAccessToken();
+            defaultAccessToken.setToken(token);
+            defaultAccessToken.setApi(api);
+            defaultAccessToken.setIp(ip);
+            defaultAccessToken.setRefreshToken(refreshToken);
+            defaultAccessToken.setTimestamp(timestamp);
+            defaultAccessToken.setDigest(digest);
+            defaultAccessToken.setResource(resource);
+            defaultAccessToken.setName(name);
+            return defaultAccessToken;
         }
     }
 }

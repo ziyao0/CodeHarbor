@@ -6,6 +6,7 @@ import org.springframework.web.server.ServerWebExchange;
  * @author ziyao zhang
  * @since 2023/5/16
  */
+@FunctionalInterface
 public interface SuccessfulHandler<T> {
 
     /**
