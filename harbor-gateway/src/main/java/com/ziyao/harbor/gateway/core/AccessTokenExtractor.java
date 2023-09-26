@@ -1,6 +1,7 @@
 package com.ziyao.harbor.gateway.core;
 
 import com.ziyao.harbor.core.Extractor;
+import com.ziyao.harbor.gateway.core.support.RequestAttributes;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
 import com.ziyao.harbor.gateway.support.IpUtils;

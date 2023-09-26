@@ -1,6 +1,9 @@
-package com.ziyao.harbor.gateway.core;
+package com.ziyao.harbor.gateway.core.support;
 
+import com.google.common.collect.ImmutableSet;
 import com.ziyao.harbor.core.ParameterNames;
+
+import java.util.Set;
 
 /**
  * @author ziyao
@@ -17,4 +20,7 @@ public abstract class RequestAttributes {
     public static final String RESOURCE = ParameterNames.RESOURCE;
     public static final String DIGEST = ParameterNames.DIGEST;
 
+
+    public static final Set<String> AUTHORIZATION_HEADERS =
+            ImmutableSet.of(AUTHORIZATION, TIMESTAMP, REFRESH_TOKEN, DIGEST);
 }

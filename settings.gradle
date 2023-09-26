@@ -32,7 +32,7 @@ include 'harbor-core',
         'harbor-gateway',
         'harbor-user-center'
 include 'code-generator'
-include 'harbor-openapi'
+include 'harbor-openplatform'
 include 'dubbo-api'
 include 'samples'
 include 'samples:dubbo-samples'

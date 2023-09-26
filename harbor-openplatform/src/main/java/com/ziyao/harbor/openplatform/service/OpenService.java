@@ -1,4 +1,4 @@
-package com.ziyao.harbor.openapi.service;
+package com.ziyao.harbor.openplatform.service;
 
 /**
  * @author zhangziyao

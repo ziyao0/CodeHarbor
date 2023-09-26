@@ -1,6 +1,6 @@
-package com.ziyao.harbor.openapi.service.impl;
+package com.ziyao.harbor.openplatform.service.impl;
 
-import com.ziyao.harbor.openapi.service.OpenService;
+import com.ziyao.harbor.openplatform.service.OpenService;
 import org.apache.dubbo.config.annotation.DubboService;
 
 /**

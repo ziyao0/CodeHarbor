@@ -6,6 +6,7 @@ import com.ziyao.harbor.usercenter.security.core.LoginPostProcessor;
 import com.ziyao.harbor.usercenter.security.core.SuccessHandler;
 import com.ziyao.harbor.usercenter.security.core.TokenEnhancer;
 import com.ziyao.harbor.web.ApplicationContextUtils;
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,7 @@ import java.util.List;
 @Component
 public class AuthenticationSuccessHandler implements SuccessHandler<SuccessAuthDetails, AccessToken>, InitializingBean {
 
+    @Getter
     private List<LoginPostProcessor> processors;
 
     private TokenEnhancer tokenEnhancer;
@@ -40,10 +42,6 @@ public class AuthenticationSuccessHandler implements SuccessHandler<SuccessAuthD
         return success;
     }
 
-    public List<LoginPostProcessor> getProcessors() {
-        return processors;
-    }
-
     public void setProcessors(List<LoginPostProcessor> processors) {
         this.processors = processors;
     }
@@ -55,7 +53,7 @@ public class AuthenticationSuccessHandler implements SuccessHandler<SuccessAuthD
         try {
             this.tokenEnhancer = ApplicationContextUtils.getBean(TokenEnhancer.class);
         } catch (Exception e) {
-            log.debug("为获取到令牌增强器。error:{}", e.getMessage());
+            log.debug("未获取到令牌增强器。error:{}", e.getMessage());
         }
     }
 }

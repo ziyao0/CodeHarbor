@@ -1,5 +1,6 @@
-package com.ziyao.harbor.usercenter.security;
+package com.ziyao.harbor.usercenter;
 
+import com.ziyao.harbor.usercenter.security.PrimaryProviderManager;
 import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
@@ -16,7 +17,7 @@ import java.util.List;
  * @since 2023/4/23
  */
 @Configuration
-public class AutoSecurityConfiguration implements ApplicationContextAware {
+public class SecurityAutoConfiguration implements ApplicationContextAware {
 
     @Bean
     public PrimaryProviderManager primaryAuthProviderManager() {

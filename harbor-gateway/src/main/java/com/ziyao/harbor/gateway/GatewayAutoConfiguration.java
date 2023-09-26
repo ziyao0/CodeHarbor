@@ -1,8 +1,8 @@
 package com.ziyao.harbor.gateway;
 
-import com.ziyao.harbor.gateway.core.Provider;
-import com.ziyao.harbor.gateway.core.ProviderManager;
-import com.ziyao.harbor.gateway.core.AuthorizationProviderManager;
+import com.ziyao.harbor.gateway.core.Authorizer;
+import com.ziyao.harbor.gateway.core.AuthorizerManager;
+import com.ziyao.harbor.gateway.core.DefaultAuthorizerManager;
 import com.ziyao.harbor.gateway.support.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -84,9 +84,9 @@ public class GatewayAutoConfiguration implements ApplicationContextAware {
     }
 
     @Bean
-    public ProviderManager providerManager() {
-        List<Provider> providers = ApplicationContextUtils.getBeansOfType(Provider.class);
-        return new AuthorizationProviderManager(providers);
+    public AuthorizerManager providerManager() {
+        List<Authorizer> authorizers = ApplicationContextUtils.getBeansOfType(Authorizer.class);
+        return new DefaultAuthorizerManager(authorizers);
     }
 
     @Override

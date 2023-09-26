@@ -1,4 +1,4 @@
-package com.ziyao.harbor.openapi.controller;
+package com.ziyao.harbor.openplatform.controller;
 
 import com.ziyao.harbor.dubboapi.user.UserOpenApi;
 import com.ziyao.harbor.dubboapi.user.vo.UserVO;

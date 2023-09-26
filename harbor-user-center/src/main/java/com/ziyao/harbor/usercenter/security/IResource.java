@@ -9,41 +9,35 @@ import java.util.Set;
 public interface IResource {
 
     /**
-     * @return printable name of the resource.
+     * @return 资源名称
      */
     String getName();
 
     /**
-     * Gets next resource in the hierarchy. Call hasParent first to make sure there is one.
+     * 获取层次结构中的下一个资源。 Call {@link IResource#hasParent()} first to make sure there is one.
      *
      * @return Resource parent (or IllegalStateException if there is none). Never a null.
      */
     IResource getParent();
 
     /**
-     * Indicates whether or not this resource has a parent in the hierarchy.
+     * 指示此资源在层次结构中是否具有父资源。
      * <p>
-     * Please perform this check before calling getParent() method.
+     * 请在调用 {@link IResource#getParent()}方法之前执行此检查。
      *
-     * @return Whether or not the resource has a parent.
+     * @return 资源是否具有父级。
      */
     boolean hasParent();
 
     /**
-     * @return Whether or not this resource exists in Cassandra.
+     * @return 资源是否存在
      */
     boolean exists();
 
     /**
-     * Returns the set of Permissions that may be applied to this resource
-     * <p>
-     * Certain permissions are not applicable to particular types of resources.
-     * For instance, it makes no sense to talk about CREATE permission on table, or SELECT on a Role.
-     * Here we filter a set of permissions depending on the specific resource they're being applied to.
-     * This is necessary because the CQL syntax supports ALL as wildcard, but the set of permissions that
-     * should resolve to varies by IResource.
+     * 返回可能应用于此资源的权限集
      *
-     * @return the permissions that may be granted on the specific resource
+     * @return 可以授予对特定资源的权限
      */
     Set<Permission> applicablePermissions();
 }

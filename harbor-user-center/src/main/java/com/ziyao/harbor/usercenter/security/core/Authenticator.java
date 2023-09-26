@@ -1,4 +1,6 @@
-package com.ziyao.harbor.usercenter.security;
+package com.ziyao.harbor.usercenter.security.core;
+
+import com.ziyao.harbor.usercenter.security.IResource;
 
 import java.util.Set;
 
@@ -14,13 +16,26 @@ public interface Authenticator {
     boolean requireAuthentication();
 
     /**
+     * 设置相关信息
+     */
+    void setup();
+
+    /**
+     * 验证
+     */
+    void validate();
+
+    /**
      * 应使用户无法访问且只能在内部访问的资源集。
      *
      * @return 键空间，用户无法修改的列族;其他资源。
      */
     Set<? extends IResource> protectedResources();
 
-    public boolean isComplete();
-
-//    public AuthenticatedUser getAuthenticatedUser() throws AuthenticationException;
+    /**
+     * 获取授权后用户
+     *
+     * @return AuthenticatedUser
+     */
+    AuthenticatedUser getAuthenticatedUser();
 }

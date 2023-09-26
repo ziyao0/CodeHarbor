@@ -2,6 +2,7 @@ package com.ziyao.harbor.gateway.filter;
 
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.*;
+import com.ziyao.harbor.gateway.core.support.SecurityPredicate;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.error.GatewayErrors;
@@ -28,16 +29,16 @@ public class AccessControlFilter implements GlobalFilter {
 
     private final SuccessfulHandler<Authorization> successfulHandler;
     private final FailureHandler failureHandler;
-    private final ProviderManager providerManager;
+    private final AuthorizerManager authorizerManager;
     private final GatewayConfig gatewayConfig;
 
     public AccessControlFilter(
             SuccessfulHandler<Authorization> successfulHandler,
             FailureHandler failureHandler,
-            ProviderManager providerManager, GatewayConfig gatewayConfig) {
+            AuthorizerManager authorizerManager, GatewayConfig gatewayConfig) {
         this.successfulHandler = successfulHandler;
         this.failureHandler = failureHandler;
-        this.providerManager = providerManager;
+        this.authorizerManager = authorizerManager;
         this.gatewayConfig = gatewayConfig;
     }
 
@@ -53,7 +54,7 @@ public class AccessControlFilter implements GlobalFilter {
             } else {
                 // 快速校验认证token
                 AccessTokenValidator.validateToken(access);
-                return providerManager.authorize(access).flatMap(author -> {
+                return authorizerManager.authorize(access).flatMap(author -> {
                     if (author.isAuthorized()) {
                         return chain.filter(successfulHandler.onSuccessful(exchange, author));
                     } else {

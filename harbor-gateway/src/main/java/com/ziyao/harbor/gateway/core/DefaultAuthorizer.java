@@ -19,7 +19,7 @@ import java.util.Map;
  * @since 2023/5/16
  */
 @Component
-public class AuthorizationProvider implements Provider {
+public class DefaultAuthorizer implements Authorizer {
 
     @Override
     public Mono<Authorization> authorize(AccessToken accessToken) {

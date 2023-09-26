@@ -2,7 +2,7 @@ package com.ziyao.harbor.gateway.core.factory.chain;
 
 import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
-import com.ziyao.harbor.gateway.core.SecurityPredicate;
+import com.ziyao.harbor.gateway.core.support.SecurityPredicate;
 import com.ziyao.harbor.gateway.core.token.AccessControl;
 import org.springframework.stereotype.Component;
 
