@@ -20,6 +20,10 @@ public abstract class Collections {
         return (collection == null || collection.isEmpty());
     }
 
+    public static boolean nonNull(Collection<?> collection) {
+        return (collection != null && !collection.isEmpty());
+    }
+
     /**
      * Return {@code true} if the supplied Map is {@code null} or empty.
      * Otherwise, return {@code false}.
