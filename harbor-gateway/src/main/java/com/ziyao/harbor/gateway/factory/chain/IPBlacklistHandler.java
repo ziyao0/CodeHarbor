@@ -13,9 +13,9 @@ public class IPBlacklistHandler extends AbstractSecurityHandler {
     @Override
     public void handle(DefaultAccessToken defaultAccessToken) {
         String ip = defaultAccessToken.getIp();
-        if ("127.0.0.1".equals(ip)) {
-            throw Exceptions.createIllegalAccessException(ip);
-        }
+//        if ("127.0.0.1".equals(ip)) {
+//            throw Exceptions.createIllegalAccessException(ip);
+//        }
         this.checkedNextHandler(defaultAccessToken);
     }
 

@@ -66,9 +66,9 @@ public abstract class GatewayStopWatches {
         Boolean enabled = exchange.getAttribute(STOP_WATCH_ENABLED);
         if (enabled == null) {
             enabled = LOGGER.isDebugEnabled();
-            exchange.getAttributes().put(STOP_WATCH_ENABLED, enabled);
+            exchange.getAttributes().put(STOP_WATCH_ENABLED, true);
         }
-        return enabled;
+        return true;
     }
 
     private GatewayStopWatches() {

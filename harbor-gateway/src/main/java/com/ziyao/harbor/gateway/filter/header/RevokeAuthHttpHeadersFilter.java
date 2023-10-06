@@ -20,7 +20,7 @@ public class RevokeAuthHttpHeadersFilter implements HttpHeadersFilter, Ordered {
     public HttpHeaders filter(HttpHeaders input, ServerWebExchange exchange) {
 
         HttpHeaders httpHeaders = new HttpHeaders();
-
+        // @formatter:off
         input.entrySet().stream()
                 .filter(entry -> !RequestAttributes.AUTHORIZATION_HEADERS.contains(entry.getKey()))
                 .forEach(entry -> httpHeaders.addAll(entry.getKey(), entry.getValue()));

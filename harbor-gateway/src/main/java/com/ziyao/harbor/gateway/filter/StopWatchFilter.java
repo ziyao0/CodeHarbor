@@ -5,7 +5,6 @@ import com.ziyao.harbor.core.StopWatch;
 import com.ziyao.harbor.gateway.core.GatewayStopWatches;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -20,15 +19,19 @@ import java.util.Objects;
  */
 @Slf4j
 @Component
-public class StopWatchFilter implements GlobalFilter, Ordered {
+public class StopWatchFilter extends AbstractGlobalFilter {
+
+    protected StopWatchFilter() {
+        super(StopWatchFilter.class.getSimpleName());
+    }
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
+    protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // @formatter:off
         return chain.filter(exchange).doFinally(signalType -> {
             StopWatch stopWatch = GatewayStopWatches.getStopWatch(exchange);
             if (Objects.nonNull(stopWatch)){
-                log.debug(stopWatch.prettyPrint());
+                log.info(stopWatch.prettyPrint());
             }
         });
         // @formatter:on
@@ -36,6 +39,6 @@ public class StopWatchFilter implements GlobalFilter, Ordered {
 
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
+        return Ordered.HIGHEST_PRECEDENCE;
     }
 }

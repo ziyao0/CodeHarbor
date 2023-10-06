@@ -3,17 +3,17 @@ package com.ziyao.harbor.gateway.filter;
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.*;
 import com.ziyao.harbor.gateway.core.support.SecurityPredicate;
-import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.core.token.Authorization;
+import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.error.GatewayErrors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
+import reactor.core.scheduler.Schedulers;
 
 import java.util.Set;
 
@@ -26,7 +26,7 @@ import java.util.Set;
 @Slf4j
 @Component
 @Order(0)
-public class AuthorizationFilter implements GlobalFilter {
+public class AuthorizationFilter extends AbstractGlobalFilter {
 
 
     private final SuccessfulHandler<Authorization> successfulHandler;
@@ -38,6 +38,7 @@ public class AuthorizationFilter implements GlobalFilter {
             SuccessfulHandler<Authorization> successfulHandler,
             FailureHandler failureHandler,
             AuthorizerManager authorizerManager, GatewayConfig gatewayConfig) {
+        super(AuthorizationFilter.class.getSimpleName());
         this.successfulHandler = successfulHandler;
         this.failureHandler = failureHandler;
         this.authorizerManager = authorizerManager;
@@ -45,11 +46,15 @@ public class AuthorizationFilter implements GlobalFilter {
     }
 
     @Override
-    public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-
+    protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 从请求头提取认证token
         DefaultAccessToken defaultAccessToken = AccessTokenExtractor.extractForHeaders(exchange);
-        return MonoOperator.just(defaultAccessToken).flatMap(access -> {
+        return MonoOperator.just(defaultAccessToken).publishOn(Schedulers.boundedElastic()).flatMap(access -> {
+            try {
+                Thread.sleep(2000L);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
             boolean skip = SecurityPredicate.initSecurityApis(getSecurityApis()).skip(access.getApi());
             if (skip) {
                 return chain.filter(exchange);
@@ -72,5 +77,10 @@ public class AuthorizationFilter implements GlobalFilter {
         Set<String> skipApis = gatewayConfig.getDefaultSkipApis();
         skipApis.addAll(gatewayConfig.getSkipApis());
         return skipApis;
+    }
+
+    @Override
+    public int getOrder() {
+        return 0;
     }
 }

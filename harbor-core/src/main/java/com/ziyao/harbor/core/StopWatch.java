@@ -30,6 +30,10 @@ public final class StopWatch {
      * 任务总耗时
      */
     private long totalTimeNanos;
+    /**
+     * 任务开始时间
+     */
+    private long startTimeNanos;
     // 任务总数
     private int taskCount;
     // 正在执行任务数
@@ -52,7 +56,7 @@ public final class StopWatch {
         if (getWatches().containsKey(this.taskId)) {
             throw new IllegalStateException("Can't start StopWatch: it's already running");
         }
-        this.totalTimeNanos = System.nanoTime();
+        this.startTimeNanos = System.nanoTime();
         watches.put(this.taskId, new Task(this.taskId));
         statistics();
     }
@@ -67,8 +71,8 @@ public final class StopWatch {
         if (getWatches().containsKey(taskId)) {
             throw new IllegalStateException("Can't start StopWatch: it's already running");
         }
-        if (this.totalTimeNanos == 0) {
-            this.totalTimeNanos = System.nanoTime();
+        if (this.startTimeNanos == 0) {
+            this.startTimeNanos = System.nanoTime();
         }
         watches.put(taskId, new Task(taskId));
         statistics();
@@ -101,7 +105,7 @@ public final class StopWatch {
             }
         }
         this.runningTaskCount = 0;
-        this.totalTimeNanos = System.nanoTime() - this.totalTimeNanos;
+        this.totalTimeNanos = System.nanoTime() - this.startTimeNanos;
     }
 
     /**
@@ -116,8 +120,8 @@ public final class StopWatch {
         task.stop();
         watches.put(taskId, task);
         this.runningTaskCount = this.runningTaskCount - 1;
-        if (Collections.isEmpty(this.watches)) {
-            this.totalTimeNanos = System.nanoTime() - this.totalTimeNanos;
+        if (this.startTimeNanos != 0) {
+            this.totalTimeNanos = System.nanoTime() - this.startTimeNanos;
         }
     }
 
