@@ -26,10 +26,6 @@ public class AccessPreFilter extends AbstractGlobalFilter {
     @Resource
     private AccessChainFactory accessChainFactory;
 
-    protected AccessPreFilter() {
-        super(AccessPreFilter.class.getSimpleName());
-    }
-
     @Override
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 2023/9/9 从请求头提取请求路径，请求ip等相关信息，进行前置校验   快速失败

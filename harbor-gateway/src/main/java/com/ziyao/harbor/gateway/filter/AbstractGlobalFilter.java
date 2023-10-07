@@ -1,9 +1,11 @@
 package com.ziyao.harbor.gateway.filter;
 
+import com.ziyao.harbor.core.lang.NonNull;
 import com.ziyao.harbor.gateway.core.FailureHandler;
 import com.ziyao.harbor.gateway.core.GatewayStopWatches;
 import com.ziyao.harbor.gateway.core.support.RequestAttributes;
 import com.ziyao.harbor.gateway.support.ApplicationContextUtils;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
@@ -18,13 +20,9 @@ import java.util.function.Function;
  * @author ziyao
  * @since 2023/4/23
  */
-public abstract class AbstractGlobalFilter implements GlobalFilter, Ordered {
+public abstract class AbstractGlobalFilter implements GlobalFilter, BeanNameAware, Ordered {
 
-    private final String id;
-
-    protected AbstractGlobalFilter(String id) {
-        this.id = id;
-    }
+    private String beanName;
 
     /**
      * 处理 Web 请求并（可选）通过给定的 {@code GatewayFilterChain} 委托给下一个 {@link org.springframework.cloud.gateway.filter.GatewayFilter}。
@@ -37,7 +35,7 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, Ordered {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
 
         // @formatter:off
-        GatewayStopWatches.start(this.id, exchange);
+        GatewayStopWatches.start(this.beanName, exchange);
         return doFilter(exchange, chain)
                 .onErrorResume(throwable -> onError(exchange, throwable));
         // @formatter:on
@@ -62,7 +60,7 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, Ordered {
     protected Mono<Void> onError(ServerWebExchange exchange, Throwable throwable) {
         FailureHandler failureHandler = ApplicationContextUtils.getBean(FailureHandler.class);
         Mono<Void> resume = failureHandler.onFailureResume(exchange, throwable);
-        GatewayStopWatches.stop(id, exchange);
+        GatewayStopWatches.stop(this.beanName, exchange);
         return resume;
     }
 
@@ -74,5 +72,10 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, Ordered {
      */
     protected boolean isAuthenticated(ServerWebExchange exchange) {
         return RequestAttributes.isAuthenticated(exchange);
+    }
+
+    @Override
+    public void setBeanName(@NonNull String beanName) {
+        this.beanName = beanName;
     }
 }

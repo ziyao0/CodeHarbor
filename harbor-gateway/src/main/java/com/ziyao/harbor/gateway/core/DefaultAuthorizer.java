@@ -15,6 +15,8 @@ import reactor.core.publisher.MonoOperator;
 import java.util.Map;
 
 /**
+ * 默认授权方
+ *
  * @author ziyao zhang
  * @since 2023/5/16
  */

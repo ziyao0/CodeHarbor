@@ -13,10 +13,6 @@ import reactor.core.publisher.Mono;
  */
 public abstract class AbstractAfterAuthenticationFilter extends AbstractGlobalFilter {
 
-    protected AbstractAfterAuthenticationFilter(String id) {
-        super(id);
-    }
-
     @Override
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         if (isAuthenticated(exchange)) {

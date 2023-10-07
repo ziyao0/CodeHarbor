@@ -21,10 +21,6 @@ import java.util.Objects;
 @Component
 public class StopWatchFilter extends AbstractGlobalFilter {
 
-    protected StopWatchFilter() {
-        super(StopWatchFilter.class.getSimpleName());
-    }
-
     @Override
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // @formatter:off

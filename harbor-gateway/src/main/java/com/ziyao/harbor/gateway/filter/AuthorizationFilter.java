@@ -8,7 +8,6 @@ import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.error.GatewayErrors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
@@ -25,7 +24,6 @@ import java.util.Set;
  */
 @Slf4j
 @Component
-@Order(0)
 public class AuthorizationFilter extends AbstractGlobalFilter {
 
 
@@ -38,7 +36,6 @@ public class AuthorizationFilter extends AbstractGlobalFilter {
             SuccessfulHandler<Authorization> successfulHandler,
             FailureHandler failureHandler,
             AuthorizerManager authorizerManager, GatewayConfig gatewayConfig) {
-        super(AuthorizationFilter.class.getSimpleName());
         this.successfulHandler = successfulHandler;
         this.failureHandler = failureHandler;
         this.authorizerManager = authorizerManager;
