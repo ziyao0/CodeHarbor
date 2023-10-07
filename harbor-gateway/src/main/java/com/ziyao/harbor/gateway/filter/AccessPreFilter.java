@@ -37,14 +37,8 @@ public class AccessPreFilter extends AbstractGlobalFilter {
         return MonoOperator.just(defaultAccessToken)
                 .publishOn(Schedulers.boundedElastic())
                 .flatMap(access -> {
-                    try {
-                        Thread.sleep(1000L);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
-                    }
                     accessChainFactory.filter(access);
                     return chain.filter(exchange);
-                    // TODO: 2023/9/24 403 禁止访问
                 })
                 .onErrorResume(t -> DataBuffers.writeWith(exchange, StatusMessage.getInstance(403, "禁止访问")));
     }

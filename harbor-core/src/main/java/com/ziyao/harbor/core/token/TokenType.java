@@ -62,27 +62,12 @@ public enum TokenType {
      * @return token
      */
     public static String extract(String token) {
-        for (TokenType tokenType : list) {
+        for (TokenType tokenType : getTokens()) {
             if (token.startsWith(tokenType.getType())) {
-                return token.replace(tokenType.getType(), CommUtils.EMPTY_CHAR);
+                return token.replace(tokenType.getType(), CommUtils.EMPTY_CHAR).trim();
             }
         }
         return null;
-    }
-
-    /**
-     * 提取token
-     *
-     * @param token token值
-     * @return token
-     */
-    public static TokenType extractHead(String token) {
-        for (TokenType tokenType : list) {
-            if (token.startsWith(tokenType.getType())) {
-                return tokenType;
-            }
-        }
-        throw new IllegalArgumentException("Unknown token type. token=" + token);
     }
 
     /**

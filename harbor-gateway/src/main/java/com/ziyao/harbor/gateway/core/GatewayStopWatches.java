@@ -63,12 +63,12 @@ public abstract class GatewayStopWatches {
     }
 
     public static boolean isEnabled(ServerWebExchange exchange) {
-        Boolean enabled = exchange.getAttribute(STOP_WATCH_ENABLED);
-        if (enabled == null) {
-            enabled = LOGGER.isDebugEnabled();
-            exchange.getAttributes().put(STOP_WATCH_ENABLED, true);
-        }
-        return true;
+        return Boolean.TRUE.equals(exchange.getAttribute(STOP_WATCH_ENABLED));
+
+    }
+
+    public static void enabled(ServerWebExchange exchange) {
+        exchange.getAttributes().put(STOP_WATCH_ENABLED, true);
     }
 
     private GatewayStopWatches() {
