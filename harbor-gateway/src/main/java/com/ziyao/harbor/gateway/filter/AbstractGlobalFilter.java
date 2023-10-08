@@ -5,6 +5,7 @@ import com.ziyao.harbor.gateway.core.FailureHandler;
 import com.ziyao.harbor.gateway.core.GatewayStopWatches;
 import com.ziyao.harbor.gateway.core.support.RequestAttributes;
 import com.ziyao.harbor.gateway.support.ApplicationContextUtils;
+import lombok.Getter;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
@@ -20,6 +21,7 @@ import java.util.function.Function;
  * @author ziyao
  * @since 2023/4/23
  */
+@Getter
 public abstract class AbstractGlobalFilter implements GlobalFilter, BeanNameAware, Ordered {
 
     private String beanName;
@@ -53,7 +55,7 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, BeanNameAwar
     /**
      * 发生任何错误时订阅回退发布者，使用函数根据错误选择回退。
      *
-     * @param exchange the current server exchange
+     * @param exchange HTTP 请求-响应交互的协定。提供对 HTTP 请求和响应的访问，并公开其他与服务器端处理相关的属性和功能，例如请求属性。
      * @return a {@link Mono} falling back upon source onError
      * @see reactor.core.publisher.Flux#onErrorResume(Function)
      */
@@ -67,7 +69,7 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, BeanNameAwar
     /**
      * 判断当前请求是否已经鉴权通过
      *
-     * @param exchange the current server exchange
+     * @param exchange HTTP 请求-响应交互的协定。提供对 HTTP 请求和响应的访问，并公开其他与服务器端处理相关的属性和功能，例如请求属性。
      * @return <code>true</code> 表示已经通过鉴权
      */
     protected boolean isAuthenticated(ServerWebExchange exchange) {
@@ -78,4 +80,5 @@ public abstract class AbstractGlobalFilter implements GlobalFilter, BeanNameAwar
     public void setBeanName(@NonNull String beanName) {
         this.beanName = beanName;
     }
+
 }

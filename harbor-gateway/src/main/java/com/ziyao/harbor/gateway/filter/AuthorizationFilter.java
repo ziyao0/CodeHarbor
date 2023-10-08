@@ -2,6 +2,7 @@ package com.ziyao.harbor.gateway.filter;
 
 import com.ziyao.harbor.gateway.config.GatewayConfig;
 import com.ziyao.harbor.gateway.core.*;
+import com.ziyao.harbor.gateway.core.support.RequestAttributes;
 import com.ziyao.harbor.gateway.core.support.SecurityPredicate;
 import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
-import reactor.core.scheduler.Schedulers;
 
 import java.util.Set;
 
@@ -27,17 +27,13 @@ import java.util.Set;
 public class AuthorizationFilter extends AbstractGlobalFilter {
 
 
-    private final SuccessfulHandler<Authorization> successfulHandler;
-    private final FailureHandler failureHandler;
     private final AuthorizerManager authorizerManager;
     private final GatewayConfig gatewayConfig;
 
     public AuthorizationFilter(
             SuccessfulHandler<Authorization> successfulHandler,
-            FailureHandler failureHandler,
-            AuthorizerManager authorizerManager, GatewayConfig gatewayConfig) {
-        this.successfulHandler = successfulHandler;
-        this.failureHandler = failureHandler;
+            AuthorizerManager authorizerManager,
+            GatewayConfig gatewayConfig) {
         this.authorizerManager = authorizerManager;
         this.gatewayConfig = gatewayConfig;
     }
@@ -46,28 +42,28 @@ public class AuthorizationFilter extends AbstractGlobalFilter {
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 从请求头提取认证token
         DefaultAccessToken defaultAccessToken = AccessTokenExtractor.extractForHeaders(exchange);
-        return MonoOperator.just(defaultAccessToken).publishOn(Schedulers.boundedElastic()).flatMap(access -> {
-            try {
-                Thread.sleep(2000L);
-            } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
+        return MonoOperator.just(defaultAccessToken).flatMap(access -> {
             boolean skip = SecurityPredicate.initSecurityApis(getSecurityApis()).skip(access.getApi());
+            Mono<Void> filter;
             if (skip) {
-                return chain.filter(exchange);
+                filter = chain.filter(exchange);
             } else {
                 // 快速校验认证token
                 AccessTokenValidator.validateToken(access);
-                return authorizerManager.getAuthorizer(access.getName()).authorize(access)
+                filter = authorizerManager.getAuthorizer(access.getName()).authorize(access)
                         .flatMap(author -> {
                             if (author.isAuthorized()) {
-                                return chain.filter(successfulHandler.onSuccessful(exchange, author));
+                                // TODO: 2023/10/8 成功后向exchange存储认证成功信息
+                                RequestAttributes.storeAuthorizerContext(exchange, null);
+                                return chain.filter(exchange);
                             } else {
                                 return GatewayErrors.createUnauthorizedException(author.getMessage());
                             }
-                        }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
+                        });
             }
-        }).onErrorResume(t -> failureHandler.onFailureResume(exchange, t));
+            GatewayStopWatches.stop(getBeanName(), exchange);
+            return filter;
+        });
     }
 
     private Set<String> getSecurityApis() {

@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
+import java.io.Serial;
+
 /**
  * @author ziyao
  * @since 2023/4/23
@@ -18,7 +20,21 @@ public class AccessFailureHandler implements FailureHandler {
 
     @Override
     public Mono<Void> onFailureResume(ServerWebExchange exchange, Throwable throwable) {
-        StatusMessage statusMessage = null;
+        log.error(throwable.getMessage(), throwable);
+        StatusMessage statusMessage = new StatusMessage() {
+            @Serial
+            private static final long serialVersionUID = -2545416176368395645L;
+
+            @Override
+            public Integer getStatus() {
+                return 403;
+            }
+
+            @Override
+            public String getMessage() {
+                return "越权访问拦截";
+            }
+        };
         // TODO: 2023/9/14 异常处理
         return DataBuffers.writeWith(exchange.getResponse(), statusMessage);
 

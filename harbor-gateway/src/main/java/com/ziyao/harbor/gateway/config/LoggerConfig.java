@@ -15,5 +15,5 @@ public class LoggerConfig {
 
     private String root;
 
-    private boolean filterWatch;
+    private boolean filterWatch = true;
 }
