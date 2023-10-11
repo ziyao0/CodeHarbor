@@ -202,10 +202,48 @@ public abstract class Strings {
         return null;
     }
 
+    /**
+     * toBytes
+     *
+     * @param object target
+     * @return <code>byte[]</code>
+     */
     public static byte[] toBytes(Object object) {
         if (Objects.nonNull(object)) {
             return object.toString().getBytes(default_charset);
         }
         return new byte[0];
+    }
+
+    /**
+     * 返回一个新的 {@code String}，该字符串由 {@code CharSequence 元素} 的副本与指定的 {@code 分隔符} 的副本连接在一起。
+     *
+     * @param delimiter 用于分隔生成的 {@code 字符串} 中的每个 { 元素} 的字符序列
+     * @param elements  一个 {@code 可迭代}，它将将其 {@code 元素} 连接在一起。
+     * @return 由 {@code 元素} 参数组成的新 {@code 字符串}
+     */
+    public static String join(CharSequence delimiter,
+                              Iterable<? extends CharSequence> elements) {
+        Assert.notNull(delimiter, "");
+        Assert.notNull(elements, "");
+        StringJoiner joiner = new StringJoiner(delimiter);
+        for (CharSequence cs : elements) {
+            joiner.add(cs);
+        }
+        return joiner.toString();
+    }
+
+    public boolean startsWith(String value, String prefix) {
+        if (hasLength(value)) {
+            return value.startsWith(prefix);
+        }
+        return false;
+    }
+
+    public boolean endsWith(String value, String suffix) {
+        if (hasLength(value)) {
+            return value.endsWith(suffix);
+        }
+        return false;
     }
 }

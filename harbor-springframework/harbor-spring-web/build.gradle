@@ -3,6 +3,7 @@ plugins {
 }
 dependencies {
     api(project(":harbor-core"))
+    api('jakarta.servlet:jakarta.servlet-api')
     api('com.baomidou:mybatis-plus-annotation')
     api('com.baomidou:mybatis-plus-extension')
     api('javax.validation:validation-api')

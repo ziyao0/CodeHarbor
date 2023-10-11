@@ -10,6 +10,7 @@ allprojects {
     apply plugin: 'java-library'
     apply plugin: "io.spring.dependency-management"
     apply plugin: "org.springframework.boot"
+    apply plugin: 'maven-publish'
 
     group 'com.ziyao.harbor'
     version "${projectVersion}"

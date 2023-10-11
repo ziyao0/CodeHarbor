@@ -25,7 +25,7 @@ public final class StopWatch {
     /**
      * 任务列表
      */
-    public final Map<String, Task> watches;
+    private final Map<String, Task> watches;
     /**
      * 任务总耗时
      */
@@ -131,7 +131,7 @@ public final class StopWatch {
      * @return 返回String类型的任务列表信息
      */
     public String prettyPrint() {
-        StringBuilder sb = new StringBuilder("《执行时长详情》");
+        StringBuilder sb = new StringBuilder("\n《执行时长详情》");
         sb.append("\n");
         List<Task> tasks = filterRunning();
         if (Collections.isEmpty(tasks)) {
