@@ -33,6 +33,10 @@ allprojects {
     }
     // 仓库地址
     repositories {
+        // 阿里云镜像地址
+        maven { url 'https://maven.aliyun.com/repository/public/' }
+        // 阿里云spring仓库地址
+        maven { url 'https://maven.aliyun.com/repository/spring/' }
         mavenLocal()
         mavenCentral()
     }
@@ -53,13 +57,16 @@ allprojects {
     }
 
     dependencies {
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
+        compileOnly "org.projectlombok:lombok:${lombokVersion}"
+        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     }
 }
 subprojects {
     def excludes = ["harbor-core"];
-    if (!excludes.contains(project.name)) {
+
+    def projectName = project.name;
+
+    if (!excludes.contains(projectName)) {
         dependencyManagement {
             imports {
                 mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
@@ -67,15 +74,44 @@ subprojects {
                 mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
                 mavenBom "org.springframework:spring-framework-bom:${springVersion}"
             }
-            dependencies {
-
-            }
         }
         bootRun {
 
         }
     }
+
+    if (projectName == 'harbor-core') {
+
+    }
+
 }
+
+
+//def publish() {
+//    //发布
+//    publishing {
+//        publications {
+//            maven(MavenPublication) {
+//                //如果是war包填写components.web，如果是jar包填写components.java
+//                from components.java
+//            }
+//        }
+//        repositories {
+//            maven {
+//                // 允许http访问
+//                allowInsecureProtocol = true
+//                // 私服仓库地址
+//                url 'http://私服仓库地址'
+//                credentials {
+//                    username '用户名'
+//                    password '密码'
+//                }
+//            }
+//        }
+//    }
+//}
+
+
 // 获取所有模块名称rootProject.subprojects
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
