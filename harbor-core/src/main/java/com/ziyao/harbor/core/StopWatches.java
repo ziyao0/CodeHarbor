@@ -30,30 +30,37 @@ public abstract class StopWatches {
         if (isEnabled()) {
             StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
             if (stopWatch == null) {
-                LOGGER.error("当前没有任务正在执行！");
+                LOGGER.error("任务 " + taskId + " 没有正在执行！");
             } else {
                 stopWatch.stop(taskId);
             }
         }
     }
 
+    public static void stop() {
+        if (isEnabled()) {
+            StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
+            if (stopWatch == null) {
+                LOGGER.error("没有执行的任务");
+            } else {
+                stopWatch.stop();
+            }
+        }
+    }
+
     public static void consolePrettyPrint() {
         StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
-        if (stopWatch == null) {
-            LOGGER.error("当前没有任务正在执行！");
-        } else {
+        if (stopWatch != null) {
             LOGGER.info(stopWatch.prettyPrint());
         }
     }
 
     public static String prettyPrint() {
         StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
-        if (stopWatch == null) {
-            return "当前没有任务正在执行！";
-
-        } else {
+        if (stopWatch != null) {
             return stopWatch.prettyPrint();
         }
+        return null;
     }
 
     public static void enabled() {
@@ -86,5 +93,30 @@ public abstract class StopWatches {
 
     private StopWatches() {
         throw new IllegalArgumentException();
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        StopWatches.enabled();
+        StopWatches.start("task1");
+        StopWatches.start("task2");
+        StopWatches.start("task3");
+        StopWatches.start("task4");
+        Thread.sleep(1000);
+        StopWatches.start("task5");
+        StopWatches.start("task6");
+        StopWatches.start("task7");
+        StopWatches.start("task8");
+        StopWatches.start("task9");
+        Thread.sleep(1000);
+        StopWatches.start("task10");
+        StopWatches.start("task11");
+        StopWatches.start("task12");
+        StopWatches.start("task13");
+        Thread.sleep(20000);
+        StopWatches.start("task14");
+        StopWatches.start("task15");
+        StopWatches.start("task16");
+        StopWatches.stop();
+        System.out.println(StopWatches.prettyPrint());
     }
 }
