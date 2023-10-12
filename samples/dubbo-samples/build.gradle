@@ -1,25 +1,25 @@
 dependencies {
 
-    implementation 'com.alibaba.nacos:nacos-client'
+    implementation "com.alibaba.nacos:nacos-client"
     implementation "org.apache.dubbo:dubbo-spring-boot-starter"
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-configuration-processor'
-    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    implementation "org.springframework.boot:spring-boot-starter-webflux"
+    implementation "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
     // 集成sentinel
-    implementation 'com.alibaba.csp:sentinel-apache-dubbo3-adapter'
-    implementation 'com.alibaba.csp:sentinel-transport-simple-http'
+    implementation "com.alibaba.csp:sentinel-apache-dubbo3-adapter:${sentinelVersion}"
+    implementation "com.alibaba.csp:sentinel-transport-simple-http:${sentinelVersion}"
     // 集成skywalking
-    implementation 'org.apache.dubbo:dubbo-metrics-api'
-//    implementation 'org.apache.skywalking:apm-toolkit-micrometer-1.10:8.14.0'
+    implementation "org.apache.dubbo:dubbo-metrics-api"
+//    implementation "org.apache.skywalking:apm-toolkit-micrometer-1.10:8.14.0"
 
-    implementation 'org.apache.dubbo:dubbo-spring-boot-actuator'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
-//    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'io.micrometer:micrometer-core:1.11.0'
-    implementation 'io.micrometer:micrometer-observation:1.10.3'
-    implementation 'io.micrometer:micrometer-registry-prometheus:1.11.0'
+    implementation "org.apache.dubbo:dubbo-spring-boot-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+//    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "io.micrometer:micrometer-core:1.11.0"
+    implementation "io.micrometer:micrometer-observation:1.10.3"
+    implementation "io.micrometer:micrometer-registry-prometheus:1.11.0"
 
-    implementation 'org.apache.dubbo:dubbo-spring-boot-observability-starter'
+    implementation "org.apache.dubbo:dubbo-spring-boot-observability-starter"
 
 }

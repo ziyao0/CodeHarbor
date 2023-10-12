@@ -1,13 +1,13 @@
 dependencies {
     implementation(project(":harbor-core"))
-    implementation 'org.freemarker:freemarker'
-    implementation 'com.baomidou:mybatis-plus'
-    implementation 'com.baomidou:mybatis-plus-generator'
-    implementation('mysql:mysql-connector-java')
-    implementation 'javax:javaee-api:8.0'
-    implementation('org.apache.cassandra:cassandra-all:3.0.26') {
-        exclude group: 'org.slf4j', module: 'slf4j-log4j12'
-        exclude group: 'log4j', module: 'log4j'
+    implementation "org.freemarker:freemarker:${freemarkerVersion}"
+    implementation "com.baomidou:mybatis-plus:${mybatisplusVersion}"
+    implementation "com.baomidou:mybatis-plus-generator:${mybatisplusVersion}"
+    implementation "mysql:mysql-connector-java:${mysqlconnectorjavaVersion}"
+    implementation "javax:javaee-api:8.0"
+    implementation("org.apache.cassandra:cassandra-all:3.0.26") {
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+        exclude group: "log4j", module: "log4j"
     }
-    implementation('org.jetbrains:annotations:13.0')
+    implementation("org.jetbrains:annotations:13.0")
 }

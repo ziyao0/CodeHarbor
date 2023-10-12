@@ -1,8 +1,8 @@
 plugins {
-    id 'java-library'
+    id "java-library"
 }
 dependencies {
-    api('org.slf4j:slf4j-api')
-    api('com.auth0:java-jwt:3.19.0')
-    api('com.google.guava:guava:31.1-jre')
+    api("org.slf4j:slf4j-api:${slf4japiVersion}")
+    api("com.auth0:java-jwt:${jwtVersion}")
+    api("com.google.guava:guava:${guavaVersion}")
 }
