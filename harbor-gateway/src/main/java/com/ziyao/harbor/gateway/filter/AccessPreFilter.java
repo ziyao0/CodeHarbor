@@ -4,13 +4,14 @@ import com.ziyao.harbor.gateway.core.AccessTokenExtractor;
 import com.ziyao.harbor.gateway.core.GatewayStopWatches;
 import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.factory.AccessChainFactory;
-import jakarta.annotation.Resource;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.MonoOperator;
+
+import javax.annotation.Resource;
 
 /**
  * 前置访问控制过滤器

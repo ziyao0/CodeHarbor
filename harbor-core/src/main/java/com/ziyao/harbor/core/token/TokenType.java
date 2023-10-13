@@ -47,7 +47,7 @@ public enum TokenType {
     private static final Map<String, TokenType> TOKEN_TYPE_MAP;
 
     static {
-        list = Arrays.stream(values()).toList();
+        list = Arrays.stream(values()).collect(Collectors.toList());
         TOKEN_TYPE_MAP = Arrays.stream(values()).collect(Collectors.toMap(TokenType::getType, Function.identity()));
     }
 

@@ -2,14 +2,11 @@ package com.ziyao.harbor.web.exception;
 
 import com.ziyao.harbor.core.error.StatusMessage;
 
-import java.io.Serial;
-
 /**
  * @author zhangziyao
  * @since 2023/4/21
  */
 public class ServiceException extends RuntimeException implements StatusMessage {
-    @Serial
     private static final long serialVersionUID = -3435528093859682944L;
 
 

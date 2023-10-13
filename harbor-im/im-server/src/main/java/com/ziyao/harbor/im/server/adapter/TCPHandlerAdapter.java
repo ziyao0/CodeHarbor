@@ -41,20 +41,22 @@ public class TCPHandlerAdapter extends SimpleChannelInboundHandler<Packet> {
     protected void channelRead0(ChannelHandlerContext ctx, Packet packet) {
         LOGGER.info("TCP Server send to message is {}", packet.getData());
         switch (packet.getEvent()) {
-            case OPEN ->
+            case OPEN:
                 // 请求
-                    processReadEvent(ctx, packet);
-            case SEND -> {
+                processReadEvent(ctx, packet);
+            case SEND: {
                 // 发送消息
                 LOGGER.debug("111{}", packet.getData());
             }
-            case HEARTBEAT -> {
+            case HEARTBEAT: {
                 LOGGER.debug("Received heartbeat parameters:{}", packet);
                 //健康检查pong
                 new HealthBeatProcessor().process(ctx, Agreement.TCP);
             }
-            case ACK -> messageDispatchHolder.ack((String) packet.getData());
-            default -> LOGGER.error("Unknown processing status {}!", packet.getEvent());
+            case ACK:
+                messageDispatchHolder.ack((String) packet.getData());
+            default:
+                LOGGER.error("Unknown processing status {}!", packet.getEvent());
         }
     }
 

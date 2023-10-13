@@ -72,7 +72,7 @@ subprojects {
                 mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
                 mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
                 mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
-                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+//                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
             }
         }
         bootRun {
@@ -81,35 +81,28 @@ subprojects {
     }
 
     if (projectName == 'harbor-core') {
-
+        publishing {
+            publications {
+                maven(MavenPublication) {
+                    //如果是war包填写components.web，如果是jar包填写components.java
+                    from components.java
+                }
+            }
+            repositories {
+                maven {
+                    // 允许http访问
+                    allowInsecureProtocol = true
+                    // 私服仓库地址
+                    url ''
+                    credentials {
+                        username ''
+                        password ''
+                    }
+                }
+            }
+        }
     }
-
 }
-
-
-//def publish() {
-//    //发布
-//    publishing {
-//        publications {
-//            maven(MavenPublication) {
-//                //如果是war包填写components.web，如果是jar包填写components.java
-//                from components.java
-//            }
-//        }
-//        repositories {
-//            maven {
-//                // 允许http访问
-//                allowInsecureProtocol = true
-//                // 私服仓库地址
-//                url 'http://私服仓库地址'
-//                credentials {
-//                    username '用户名'
-//                    password '密码'
-//                }
-//            }
-//        }
-//    }
-//}
 
 
 // 获取所有模块名称rootProject.subprojects

@@ -8,7 +8,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import java.io.Serial;
 
 /**
  * @author ziyao
@@ -22,7 +21,6 @@ public class AccessFailureHandler implements FailureHandler {
     public Mono<Void> onFailureResume(ServerWebExchange exchange, Throwable throwable) {
         log.error(throwable.getMessage(), throwable);
         StatusMessage statusMessage = new StatusMessage() {
-            @Serial
             private static final long serialVersionUID = -2545416176368395645L;
 
             @Override

@@ -48,21 +48,21 @@ public interface MetricsProcessor {
      */
     default Packet transform(Object metadata) {
         switch (Agreement.getInstance(metadata)) {
-            case WS -> {
+            case WS: {
                 return JSON.parseObject(((TextWebSocketFrame) metadata).text(), Packet.class);
             }
-            case TCP -> {
+            case TCP: {
                 return Protostuff.deserializer(Protostuff.byteBufToBytes((ByteBuf) metadata), Packet.class);
             }
-            case HTTP -> {
+            case HTTP: {
                 LOGGER.debug("HTTP protocol requests will not be processed temporarily!");
                 return null;
             }
-            case UNKNOWN -> {
+            case UNKNOWN: {
                 LOGGER.error("Unrecognized protocol request!");
                 return null;
             }
-            default -> {
+            default: {
                 return null;
             }
         }

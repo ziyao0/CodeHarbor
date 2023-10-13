@@ -4,7 +4,6 @@ import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.Serial;
 
 /**
  * @author ziyao zhang
@@ -13,7 +12,6 @@ import java.io.Serial;
 public class MessageResponse<T> implements StatusMessage {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageResponse.class);
-    @Serial
     private static final long serialVersionUID = 7273085408208781818L;
 
     private Integer state;

@@ -7,7 +7,6 @@ import com.ziyao.harbor.web.orm.EntityDTO;
 import lombok.Data;
 import org.springframework.util.ObjectUtils;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -22,7 +21,7 @@ import java.time.LocalDateTime;
 @Data
 public class UserRoleDTO implements EntityDTO<UserRole>, Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 1L;
 
     /**

@@ -74,6 +74,20 @@ public abstract class StopWatches {
         }
     }
 
+    public static void enabled(String taskName) {
+        if (!isEnabled()) {
+            AtomicBoolean enabled = ATOMIC_BOOLEAN_THREAD_LOCAL.get();
+            if (null == enabled) {
+                enabled = new AtomicBoolean();
+            }
+            enabled.compareAndSet(false, true);
+            ATOMIC_BOOLEAN_THREAD_LOCAL.set(enabled);
+            // 设置任务名称
+            StopWatch stopWatch = new StopWatch(taskName);
+            STOP_WATCH_THREAD_LOCAL.set(stopWatch);
+        }
+    }
+
     public static void disabled() {
         if (isEnabled()) {
             AtomicBoolean enabled = ATOMIC_BOOLEAN_THREAD_LOCAL.get();
@@ -93,30 +107,5 @@ public abstract class StopWatches {
 
     private StopWatches() {
         throw new IllegalArgumentException();
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        StopWatches.enabled();
-        StopWatches.start("task1");
-        StopWatches.start("task2");
-        StopWatches.start("task3");
-        StopWatches.start("task4");
-        Thread.sleep(1000);
-        StopWatches.start("task5");
-        StopWatches.start("task6");
-        StopWatches.start("task7");
-        StopWatches.start("task8");
-        StopWatches.start("task9");
-        Thread.sleep(1000);
-        StopWatches.start("task10");
-        StopWatches.start("task11");
-        StopWatches.start("task12");
-        StopWatches.start("task13");
-        Thread.sleep(20000);
-        StopWatches.start("task14");
-        StopWatches.start("task15");
-        StopWatches.start("task16");
-        StopWatches.stop();
-        System.out.println(StopWatches.prettyPrint());
     }
 }

@@ -1,6 +1,7 @@
 package com.ziyao.harbor.core.utils;
 
 
+import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -47,7 +48,7 @@ public abstract class Strings {
      * @see #hasText(CharSequence)
      */
     public static boolean hasLength(CharSequence str) {
-        return (str != null && !str.isEmpty());
+        return (str != null && str.length() == 0);
     }
 
     /**
@@ -85,7 +86,7 @@ public abstract class Strings {
      * @see Character#isWhitespace
      */
     public static boolean hasText(CharSequence str) {
-        return (str != null && !str.isEmpty() && containsText(str));
+        return (str != null && str.length() == 0 && containsText(str));
     }
 
     /**
@@ -197,7 +198,11 @@ public abstract class Strings {
      */
     public static String encodeURLUTF8(String str) {
         if (hasLength(str)) {
-            return URLEncoder.encode(str, default_charset);
+            try {
+                return URLEncoder.encode(str, default_charset.toString());
+            } catch (UnsupportedEncodingException e) {
+                return null;
+            }
         }
         return null;
     }

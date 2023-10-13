@@ -14,14 +14,15 @@ public class MessageDispatchHolder implements DispatchHolder {
 
     public void send(Packet packet) {
         switch (packet.getType()) {
-            case BROADCAST -> {
+            case BROADCAST: {
                 NettySessionManager.getAll().writeAndFlush(packet);
             }
-            case UNICAST -> {
+            case UNICAST: {
                 ChannelGroup channels = NettySessionManager.get("");
                 channels.writeAndFlush(packet);
             }
-            default -> throw new IllegalStateException("Unexpected value: " + packet.getType());
+            default:
+                throw new IllegalStateException("Unexpected value: " + packet.getType());
         }
     }
 

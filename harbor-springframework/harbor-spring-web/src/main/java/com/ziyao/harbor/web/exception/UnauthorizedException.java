@@ -4,14 +4,12 @@ import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.core.error.exception.HarborException;
 
-import java.io.Serial;
 
 /**
  * @author zhangziyao
  * @since 2023/4/21
  */
 public class UnauthorizedException extends RuntimeException implements StatusMessage {
-    @Serial
     private static final long serialVersionUID = 1350454124169036151L;
 
 

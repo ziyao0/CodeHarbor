@@ -3,7 +3,6 @@ package com.ziyao.harbor.web;
 import lombok.Builder;
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -14,9 +13,7 @@ import java.util.Map;
 @Data
 @Builder
 public class UserDetails implements Serializable {
-    @Serial
     private static final long serialVersionUID = 8891009175629512495L;
-
     private Long appid;
 
     private Long userId;

@@ -2,10 +2,10 @@ package com.ziyao.harbor.gateway.factory;
 
 import com.ziyao.harbor.core.factory.AbstractFactory;
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.harbor.gateway.factory.chain.AbstractSecurityHandler;
 import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
+import com.ziyao.harbor.gateway.factory.chain.AbstractSecurityHandler;
 import com.ziyao.harbor.gateway.support.ApplicationContextUtils;
-import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.stereotype.Component;
 
 import java.util.Comparator;
@@ -17,7 +17,7 @@ import java.util.Objects;
  * @since 2023/4/23
  */
 @Component
-public class AccessChainFactory extends AbstractFactory<DefaultAccessToken> {
+public class AccessChainFactory extends AbstractFactory<DefaultAccessToken> implements InitializingBean {
 
 
     private AbstractSecurityHandler abstractSecurityHandler;
@@ -28,7 +28,6 @@ public class AccessChainFactory extends AbstractFactory<DefaultAccessToken> {
     }
 
 
-    @PostConstruct
     @Override
     protected void init() {
         List<AbstractSecurityHandler> abstractSecurityHandlers = ApplicationContextUtils.getBeansOfType(AbstractSecurityHandler.class);
@@ -43,5 +42,10 @@ public class AccessChainFactory extends AbstractFactory<DefaultAccessToken> {
                             }
                     );
         }
+    }
+
+    @Override
+    public void afterPropertiesSet() {
+        init();
     }
 }

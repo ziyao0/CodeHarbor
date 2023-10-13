@@ -1,6 +1,5 @@
 package com.ziyao.harbor.core.error;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -62,7 +61,6 @@ public interface StatusMessage extends Serializable {
 
     static StatusMessage getInstance(Integer status, String message) {
         return new StatusMessage() {
-            @Serial
             private static final long serialVersionUID = 8562177041789091450L;
 
             @Override

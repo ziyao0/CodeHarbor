@@ -24,18 +24,18 @@ public class MQAutoConfiguration {
     public MQClient rocketMQClient(MQConfig config) {
         switch (config.getMqType()) {
             // 初始化rocketmq client
-            case ROCKET_MQ -> {
+            case ROCKET_MQ: {
                 return new RocketMQClient();
             }
             // 初始化kafka client
-            case KAFKA -> {
+            case KAFKA: {
                 return new KafkaClient();
             }
             // 初始化 rabbit client
-            case RABBIT_MQ -> {
+            case RABBIT_MQ: {
                 return new RabbitMQClient();
             }
-            default -> {
+            default: {
                 return null;
             }
         }

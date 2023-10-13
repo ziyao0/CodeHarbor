@@ -8,7 +8,6 @@ import com.ziyao.harbor.web.orm.EntityDTO;
 import lombok.Data;
 import org.springframework.util.ObjectUtils;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -24,7 +23,7 @@ import java.util.Objects;
 @Data
 public class DepartmentDTO implements EntityDTO<Department>, Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 1L;
 
     /**

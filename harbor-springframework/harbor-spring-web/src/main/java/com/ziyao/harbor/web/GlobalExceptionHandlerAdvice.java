@@ -1,16 +1,15 @@
 package com.ziyao.harbor.web;
 
 
+import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.core.utils.CommUtils;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
-import com.ziyao.harbor.core.error.StatusMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -181,8 +180,8 @@ public class GlobalExceptionHandlerAdvice {
             sb.append("参数校验失败: ");
             violations.forEach(error -> {
                 sb.append("[");
-                if (error instanceof FieldError fieldError) {
-                    sb.append(fieldError.getField()).append(":");
+                if (error instanceof FieldError) {
+                    sb.append(((FieldError) error).getField()).append(":");
                 }
                 sb.append(error.getMessage());
                 sb.append("] ");

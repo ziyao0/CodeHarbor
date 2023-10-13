@@ -3,7 +3,6 @@ package com.ziyao.harbor.gateway.core.token;
 import com.auth0.jwt.interfaces.Claim;
 import lombok.Data;
 
-import java.io.Serial;
 import java.util.Map;
 
 /**
@@ -13,7 +12,6 @@ import java.util.Map;
 @Data
 public class SuccessAuthorization implements Authorization {
 
-    @Serial
     private static final long serialVersionUID = 1906018666555325676L;
     Map<String, Claim> claims;
     private String token;

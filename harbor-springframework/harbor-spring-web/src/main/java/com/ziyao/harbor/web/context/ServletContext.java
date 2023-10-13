@@ -4,9 +4,10 @@ import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.web.ContextUtils;
 import com.ziyao.harbor.web.UserDetails;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
@@ -47,7 +48,7 @@ public final class ServletContext implements ContextInfo {
     public boolean equals(Object obj) {
         if (obj == this) return true;
         if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (ServletContext) obj;
+        ServletContext that = (ServletContext) obj;
         return Objects.equals(this.request, that.request) &&
                 Objects.equals(this.response, that.response);
     }
@@ -111,7 +112,11 @@ public final class ServletContext implements ContextInfo {
         private static String getValue(HttpServletRequest request, String key) {
             String value = request.getHeader(key);
             if (Strings.hasLength(value)) {
-                return URLDecoder.decode(value, StandardCharsets.UTF_8);
+                try {
+                    return URLDecoder.decode(value, StandardCharsets.UTF_8.name());
+                } catch (UnsupportedEncodingException e) {
+                    return value;
+                }
             }
             return value;
         }

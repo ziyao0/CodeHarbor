@@ -2,7 +2,6 @@ package com.ziyao.harbor.core.error.exception;
 
 import com.ziyao.harbor.core.error.StatusMessage;
 
-import java.io.Serial;
 
 /**
  * @author ziyao
@@ -10,7 +9,6 @@ import java.io.Serial;
  */
 
 public class HarborException extends RuntimeException implements StatusMessage {
-    @Serial
     private static final long serialVersionUID = -1850478101365902550L;
     private final Integer status;
 

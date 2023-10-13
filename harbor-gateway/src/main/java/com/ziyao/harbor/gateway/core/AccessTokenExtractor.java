@@ -2,10 +2,9 @@ package com.ziyao.harbor.gateway.core;
 
 import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.gateway.core.support.RequestAttributes;
-import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
+import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.support.IpUtils;
-import org.springframework.cloud.gateway.support.ServerWebExchangeUtils;
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.server.ServerWebExchange;
 
@@ -39,7 +38,8 @@ public abstract class AccessTokenExtractor implements Extractor<ServerWebExchang
                 .timestamp(headers.getFirst(RequestAttributes.TIMESTAMP))
                 .digest(RequestAttributes.DIGEST)
                 .resource(RequestAttributes.RESOURCE)
-                .api(exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString())
+                // TODO: 2023/10/13  
+                .api(exchange.getAttributes().get("接口地址").toString())
                 .ip(IpUtils.getIP(exchange))
                 .build();
         // @formatter:on

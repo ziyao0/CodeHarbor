@@ -2,7 +2,6 @@ package com.ziyao.harbor.gateway.core.token;
 
 import lombok.Data;
 
-import java.io.Serial;
 
 /**
  * @author ziyao
@@ -10,7 +9,6 @@ import java.io.Serial;
  */
 @Data
 public class DefaultAccessToken implements AccessToken {
-    @Serial
     private static final long serialVersionUID = -3447048378569999827L;
     private String ip;
     private String resource;

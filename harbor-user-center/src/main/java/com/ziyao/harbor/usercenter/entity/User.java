@@ -8,7 +8,6 @@ import com.ziyao.harbor.usercenter.security.api.UserDetails;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -24,7 +23,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 public class User implements UserDetails, Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 1L;
 
     /**

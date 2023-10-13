@@ -2,7 +2,6 @@ package com.ziyao.harbor.usercenter.security.api;
 
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -13,7 +12,6 @@ import java.io.Serializable;
 public class AccessToken implements Serializable {
 
 
-    @Serial
     private static final long serialVersionUID = 183398883755769022L;
 
     private String token;

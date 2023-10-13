@@ -1,5 +1,6 @@
 package com.ziyao.harbor.im.client.core;
 
+import com.google.common.collect.Lists;
 import com.ziyao.harbor.im.api.Event;
 import com.ziyao.harbor.im.api.Live;
 import com.ziyao.harbor.im.api.Packet;
@@ -11,7 +12,6 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -39,7 +39,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
         channel.writeAndFlush(new Packet(Event.HEARTBEAT, Live.PING));
         Packet open = new Packet();
         open.setEvent(Event.OPEN);
-        open.setReceivedBys(List.of("ziyao"));
+        open.setReceivedBys(Lists.newArrayList("ziyao"));
         channel.writeAndFlush(open);
     }
 

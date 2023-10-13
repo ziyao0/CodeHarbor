@@ -20,6 +20,6 @@ dependencies {
     implementation "io.micrometer:micrometer-observation:1.10.3"
     implementation "io.micrometer:micrometer-registry-prometheus:1.11.0"
 
-    implementation "org.apache.dubbo:dubbo-spring-boot-observability-starter"
+//    implementation "org.apache.dubbo:dubbo-spring-boot-observability-starter:3.1.11"
 
 }
