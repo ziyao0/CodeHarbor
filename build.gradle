@@ -72,7 +72,7 @@ subprojects {
                 mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
                 mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
                 mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
-//                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
             }
         }
         bootRun {
