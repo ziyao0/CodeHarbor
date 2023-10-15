@@ -60,15 +60,15 @@ public abstract class StopWatches {
 
         }
 
-        private final ThreadLocal<StopWatch> STOP_WATCH_THREAD_LOCAL = new ThreadLocal<>();
-        private final ThreadLocal<AtomicBoolean> ATOMIC_BOOLEAN_THREAD_LOCAL = new ThreadLocal<>();
+        private final ThreadLocal<StopWatch> stopWatchThreadLocal = new ThreadLocal<>();
+        private final ThreadLocal<AtomicBoolean> enabledThreadLocal = new ThreadLocal<>();
 
         public void start(final String taskId) {
             if (isEnabled()) {
-                StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
+                StopWatch stopWatch = stopWatchThreadLocal.get();
                 if (null == stopWatch) {
                     stopWatch = new StopWatch();
-                    STOP_WATCH_THREAD_LOCAL.set(stopWatch);
+                    stopWatchThreadLocal.set(stopWatch);
                 }
                 stopWatch.start(taskId);
             }
@@ -76,7 +76,7 @@ public abstract class StopWatches {
 
         public void stop(final String taskId) {
             if (isEnabled()) {
-                StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
+                StopWatch stopWatch = stopWatchThreadLocal.get();
                 if (stopWatch == null) {
                     LOGGER.error("任务 " + taskId + " 没有正在执行！");
                 } else {
@@ -87,7 +87,7 @@ public abstract class StopWatches {
 
         public void stop() {
             if (isEnabled()) {
-                StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
+                StopWatch stopWatch = stopWatchThreadLocal.get();
                 if (stopWatch == null) {
                     LOGGER.error("没有执行的任务");
                 } else {
@@ -97,14 +97,14 @@ public abstract class StopWatches {
         }
 
         public void consolePrettyPrint() {
-            StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
+            StopWatch stopWatch = stopWatchThreadLocal.get();
             if (stopWatch != null) {
                 LOGGER.info(stopWatch.prettyPrint());
             }
         }
 
         public String prettyPrint() {
-            StopWatch stopWatch = STOP_WATCH_THREAD_LOCAL.get();
+            StopWatch stopWatch = stopWatchThreadLocal.get();
             if (stopWatch != null) {
                 return stopWatch.prettyPrint();
             }
@@ -113,31 +113,31 @@ public abstract class StopWatches {
 
         public void enabled() {
             if (!isEnabled()) {
-                AtomicBoolean enabled = ATOMIC_BOOLEAN_THREAD_LOCAL.get();
+                AtomicBoolean enabled = enabledThreadLocal.get();
                 if (null == enabled) {
                     enabled = new AtomicBoolean();
                 }
                 enabled.compareAndSet(false, true);
-                ATOMIC_BOOLEAN_THREAD_LOCAL.set(enabled);
+                enabledThreadLocal.set(enabled);
             }
         }
 
         public void enabled(String taskName) {
             if (!isEnabled()) {
-                AtomicBoolean enabled = ATOMIC_BOOLEAN_THREAD_LOCAL.get();
+                AtomicBoolean enabled = enabledThreadLocal.get();
                 if (null == enabled) {
                     enabled = new AtomicBoolean();
                 }
                 enabled.compareAndSet(false, true);
-                ATOMIC_BOOLEAN_THREAD_LOCAL.set(enabled);
+                enabledThreadLocal.set(enabled);
                 StopWatch stopWatch = new StopWatch(taskName);
-                STOP_WATCH_THREAD_LOCAL.set(stopWatch);
+                stopWatchThreadLocal.set(stopWatch);
             }
         }
 
         public void disabled() {
             if (isEnabled()) {
-                AtomicBoolean enabled = ATOMIC_BOOLEAN_THREAD_LOCAL.get();
+                AtomicBoolean enabled = enabledThreadLocal.get();
                 if (enabled != null) {
                     enabled.compareAndSet(true, false);
                 }
@@ -145,7 +145,7 @@ public abstract class StopWatches {
         }
 
         private boolean isEnabled() {
-            AtomicBoolean enabled = ATOMIC_BOOLEAN_THREAD_LOCAL.get();
+            AtomicBoolean enabled = enabledThreadLocal.get();
             if (null == enabled) {
                 return false;
             }
