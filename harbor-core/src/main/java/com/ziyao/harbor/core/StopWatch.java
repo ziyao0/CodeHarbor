@@ -77,7 +77,7 @@ public final class StopWatch {
     public void start() {
         Assert.notNull(this.taskId, "任务id不能为空！");
         if (getWatches().containsKey(this.taskId)) {
-            throw new IllegalStateException("Can't start StopWatch: it's already running");
+            throw new IllegalStateException("Can't start StopWatch: it's already running. taskId=" + taskId);
         }
         if (this.startTimeMillis == 0) {
             this.startTimeMillis = System.currentTimeMillis();
@@ -94,7 +94,7 @@ public final class StopWatch {
     public void start(final String taskId) {
         Assert.notNull(taskId, "任务id不能为空！");
         if (getWatches().containsKey(taskId)) {
-            throw new IllegalStateException("Can't start StopWatch: it's already running");
+            throw new IllegalStateException("Can't start StopWatch: it's already running. taskId=" + taskId);
         }
         if (this.startTimeMillis == 0) {
             this.startTimeMillis = System.currentTimeMillis();
