@@ -140,6 +140,8 @@ public abstract class StopWatches {
                 AtomicBoolean enabled = enabledThreadLocal.get();
                 if (enabled != null) {
                     enabled.compareAndSet(true, false);
+                    stopWatchThreadLocal.remove();
+                    enabledThreadLocal.remove();
                 }
             }
         }
