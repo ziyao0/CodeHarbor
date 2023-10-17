@@ -86,7 +86,7 @@ public void saveBatch(@RequestBody List
     @PostMapping("/page/get")
     public Page<${entity}> getPage(@RequestBody PageQuery<${entity}DTO> pageQuery) {
         Page<${entity}> page = PageUtils.initPage(pageQuery, ${entity}.class);
-        return ${table.serviceName?uncap_first}.page(page, pageQuery.getQuery());
+        return ${table.serviceName?uncap_first}.page(page, pageQuery.getParams());
     }
 }
 </#if>

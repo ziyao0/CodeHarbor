@@ -7,8 +7,8 @@ import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.service.UserService;
 import com.ziyao.harbor.web.UserDetails;
 import com.ziyao.harbor.web.base.BaseController;
-import com.ziyao.harbor.web.base.PageQuery;
-import com.ziyao.harbor.web.base.PageUtils;
+import com.ziyao.harbor.web.base.PageParams;
+import com.ziyao.harbor.web.base.Pages;
 import com.ziyao.harbor.web.context.ContextManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
@@ -61,13 +61,13 @@ public class UserController extends BaseController<UserService, User> {
     /**
      * 条件分页查询
      *
-     * @param pageQuery 分页参数
+     * @param pageParams 分页参数
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<User> getPage(@RequestBody PageQuery<UserDTO> pageQuery) {
-        Page<User> page = PageUtils.initPage(pageQuery, User.class);
-        return userService.page(page, pageQuery.getQuery());
+    public Page<User> getPage(@RequestBody PageParams<UserDTO> pageParams) {
+        Page<User> page = Pages.initPage(pageParams, User.class);
+        return userService.page(page, pageParams.getParams());
     }
 
     @GetMapping("/current")

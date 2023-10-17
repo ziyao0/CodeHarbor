@@ -6,8 +6,8 @@ import com.ziyao.harbor.usercenter.dto.DepartmentDTO;
 import com.ziyao.harbor.usercenter.entity.Department;
 import com.ziyao.harbor.usercenter.service.DepartmentService;
 import com.ziyao.harbor.web.base.BaseController;
-import com.ziyao.harbor.web.base.PageQuery;
-import com.ziyao.harbor.web.base.PageUtils;
+import com.ziyao.harbor.web.base.PageParams;
+import com.ziyao.harbor.web.base.Pages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,12 +62,12 @@ public class DepartmentController extends BaseController<DepartmentService, Depa
     /**
      * 条件分页查询
      *
-     * @param pageQuery 分页参数
+     * @param pageParams 分页参数
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Department> getPage(@RequestBody PageQuery<DepartmentDTO> pageQuery) {
-        Page<Department> page = PageUtils.initPage(pageQuery, Department.class);
-        return departmentService.page(page, pageQuery.getQuery());
+    public Page<Department> getPage(@RequestBody PageParams<DepartmentDTO> pageParams) {
+        Page<Department> page = Pages.initPage(pageParams, Department.class);
+        return departmentService.page(page, pageParams.getParams());
     }
 }

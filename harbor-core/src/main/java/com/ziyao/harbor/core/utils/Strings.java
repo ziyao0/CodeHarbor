@@ -1,6 +1,7 @@
 package com.ziyao.harbor.core.utils;
 
 
+import java.io.*;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
@@ -205,14 +206,48 @@ public abstract class Strings {
     /**
      * toBytes
      *
-     * @param object target
+     * @param value target
      * @return <code>byte[]</code>
      */
-    public static byte[] toBytes(Object object) {
-        if (Objects.nonNull(object)) {
-            return object.toString().getBytes(default_charset);
+    public static byte[] toBytes(String value) {
+        if (Strings.hasLength(value)) {
+            return value.getBytes(default_charset);
         }
         return new byte[0];
+    }
+
+    /**
+     * toBytes
+     *
+     * @param obj target
+     * @return <code>byte[]</code>
+     */
+    public static byte[] toBytes(Object obj) {
+        if (Objects.nonNull(obj)) {
+            ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+            ObjectOutputStream objOut = null;
+            try {
+                objOut = new ObjectOutputStream(byteOut);
+                objOut.writeObject(obj);
+                return byteOut.toByteArray();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return new byte[0];
+    }
+
+    public static <T> T toObject(byte[] bytes) {
+        if (bytes.length != 0) {
+            ByteArrayInputStream byteIn = new ByteArrayInputStream(bytes);
+            try {
+                ObjectInputStream objIn = new ObjectInputStream(byteIn);
+                return (T) objIn.readObject();
+            } catch (IOException | ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return null;
     }
 
     /**

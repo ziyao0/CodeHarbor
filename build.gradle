@@ -58,7 +58,7 @@ allprojects {
     }
 }
 subprojects {
-    def excludes = ["harbor-core"];
+    def excludes = ['harbor-core']
     if (!excludes.contains(project.name)) {
         dependencyManagement {
             imports {
