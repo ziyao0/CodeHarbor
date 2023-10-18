@@ -1,4 +1,4 @@
-package com.ziyao.harbor.crypto.asym;
+package com.ziyao.harbor.crypto.asymmetric;
 
 /**
  * 国密SM2非对称算法实现，基于BC库<br>
