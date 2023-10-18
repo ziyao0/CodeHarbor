@@ -31,7 +31,6 @@ public class AuthorizationFilter extends AbstractGlobalFilter {
     private final GatewayConfig gatewayConfig;
 
     public AuthorizationFilter(
-            SuccessfulHandler<Authorization> successfulHandler,
             AuthorizerManager authorizerManager,
             GatewayConfig gatewayConfig) {
         this.authorizerManager = authorizerManager;
