@@ -1,9 +1,9 @@
 package com.ziyao.harbor.crypto.asymmetric;
 
-import cn.hutool.crypto.KeyUtil;
+import com.ziyao.harbor.core.codec.Base64;
 import com.ziyao.harbor.core.utils.Assert;
-import com.ziyao.harbor.crypto.Base64;
 import com.ziyao.harbor.crypto.exception.CryptoException;
+import com.ziyao.harbor.crypto.utils.Keys;
 import lombok.Getter;
 
 import java.io.Serial;
@@ -85,7 +85,7 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
      * 生成公钥和私钥
      */
     public void initKeys() {
-        KeyPair keyPair = KeyUtil.generateKeyPair(this.algorithm);
+        KeyPair keyPair = Keys.generateKeyPair(this.algorithm);
         this.publicKey = keyPair.getPublic();
         this.privateKey = keyPair.getPrivate();
     }

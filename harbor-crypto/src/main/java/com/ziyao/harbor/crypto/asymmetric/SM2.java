@@ -1,11 +1,12 @@
 package com.ziyao.harbor.crypto.asymmetric;
 
-import cn.hutool.core.util.HexUtil;
-import cn.hutool.crypto.BCUtil;
-import cn.hutool.crypto.ECKeyUtil;
-import cn.hutool.crypto.SecureUtil;
+
 import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.core.utils.Hexes;
 import com.ziyao.harbor.crypto.exception.CryptoException;
+import com.ziyao.harbor.crypto.utils.BCUtils;
+import com.ziyao.harbor.crypto.utils.ECKeys;
+import com.ziyao.harbor.crypto.utils.Secures;
 import org.bouncycastle.crypto.CipherParameters;
 import org.bouncycastle.crypto.Digest;
 import org.bouncycastle.crypto.InvalidCipherTextException;
@@ -80,7 +81,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @param publicKeyStr  公钥Hex或Base64表示，必须使用X509规范
      */
     public SM2(String privateKeyStr, String publicKeyStr) {
-        this(SecureUtil.decode(privateKeyStr), SecureUtil.decode(publicKeyStr));
+        this(Secures.decode(privateKeyStr), Secures.decode(publicKeyStr));
     }
 
     /**
@@ -93,8 +94,8 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      */
     public SM2(byte[] privateKey, byte[] publicKey) {
         this(
-                ECKeyUtil.decodePrivateKeyParams(privateKey),
-                ECKeyUtil.decodePublicKeyParams(publicKey)
+                ECKeys.decodePrivateKeyParams(privateKey),
+                ECKeys.decodePublicKeyParams(publicKey)
         );
     }
 
@@ -107,7 +108,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @param publicKey  公钥
      */
     public SM2(PrivateKey privateKey, PublicKey publicKey) {
-        this(BCUtil.toParams(privateKey), BCUtil.toParams(publicKey));
+        this(BCUtils.toParams(privateKey), BCUtils.toParams(publicKey));
         if (null != privateKey) {
             this.privateKey = privateKey;
         }
@@ -127,7 +128,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @since 5.2.0
      */
     public SM2(String privateKeyHex, String publicKeyPointXHex, String publicKeyPointYHex) {
-        this(BCUtil.toSm2Params(privateKeyHex), BCUtil.toSm2Params(publicKeyPointXHex, publicKeyPointYHex));
+        this(BCUtils.toSm2Params(privateKeyHex), BCUtils.toSm2Params(publicKeyPointXHex, publicKeyPointYHex));
     }
 
     /**
@@ -141,7 +142,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @since 5.2.0
      */
     public SM2(byte[] privateKey, byte[] publicKeyPointX, byte[] publicKeyPointY) {
-        this(BCUtil.toSm2Params(privateKey), BCUtil.toSm2Params(publicKeyPointX, publicKeyPointY));
+        this(BCUtils.toSm2Params(privateKey), BCUtils.toSm2Params(publicKeyPointX, publicKeyPointY));
     }
 
     /**
@@ -171,8 +172,8 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
     public SM2 init() {
         if (null == this.privateKeyParams && null == this.publicKeyParams) {
             super.initKeys();
-            this.privateKeyParams = BCUtil.toParams(this.privateKey);
-            this.publicKeyParams = BCUtil.toParams(this.publicKey);
+            this.privateKeyParams = BCUtils.toParams(this.privateKey);
+            this.publicKeyParams = BCUtils.toParams(this.publicKey);
         }
         return this;
     }
@@ -312,7 +313,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 
     /**
      * 用私钥对信息生成数字签名，签名格式为ASN1<br>
-     * * 在硬件签名中，返回结果为R+S，可以通过调用{@link cn.hutool.crypto.SmUtil#rsAsn1ToPlain(byte[])}方法转换之。
+     * * 在硬件签名中，返回结果为R+S，可以通过调用{@link com.ziyao.harbor.crypto.utils.SmUtils#rsAsn1ToPlain(byte[])}方法转换之。
      *
      * @param data 加密数据
      * @return 签名
@@ -329,12 +330,12 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @return 签名
      */
     public String signHex(String dataHex, String idHex) {
-        return HexUtil.encodeHexStr(sign(HexUtil.decodeHex(dataHex), HexUtil.decodeHex(idHex)));
+        return Hexes.encodeHexStr(sign(Hexes.decodeHex(dataHex), Hexes.decodeHex(idHex)));
     }
 
     /**
      * 用私钥对信息生成数字签名，签名格式为ASN1<br>
-     * 在硬件签名中，返回结果为R+S，可以通过调用{@link cn.hutool.crypto.SmUtil#rsAsn1ToPlain(byte[])}方法转换之。
+     * 在硬件签名中，返回结果为R+S，可以通过调用{@link com.ziyao.harbor.crypto.utils.SmUtils#rsAsn1ToPlain(byte[])}方法转换之。
      *
      * @param data 被签名的数据数据
      * @param id   可以为null，若为null，则默认withId为字节数组:"1234567812345678".getBytes()
@@ -391,7 +392,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @since 5.2.0
      */
     public boolean verifyHex(String dataHex, String signHex, String idHex) {
-        return verify(HexUtil.decodeHex(dataHex), HexUtil.decodeHex(signHex), HexUtil.decodeHex(idHex));
+        return verify(Hexes.decodeHex(dataHex), Hexes.decodeHex(signHex), Hexes.decodeHex(idHex));
     }
 
     /**
@@ -423,7 +424,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         super.setPrivateKey(privateKey);
 
         // 重新初始化密钥参数，防止重新设置密钥时导致密钥无法更新
-        this.privateKeyParams = BCUtil.toParams(privateKey);
+        this.privateKeyParams = BCUtils.toParams(privateKey);
 
         return this;
     }
@@ -445,7 +446,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         super.setPublicKey(publicKey);
 
         // 重新初始化密钥参数，防止重新设置密钥时导致密钥无法更新
-        this.publicKeyParams = BCUtil.toParams(publicKey);
+        this.publicKeyParams = BCUtils.toParams(publicKey);
 
         return this;
     }
@@ -551,7 +552,6 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         return this.publicKeyParams.getQ().getEncoded(isCompressed);
     }
 
-    // ------------------------------------------------------------------------------------------------------------------------- Private method start
 
     /**
      * 获取密钥类型对应的加密参数对象{@link CipherParameters}
@@ -601,6 +601,4 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         this.digest.reset();
         return this.signer;
     }
-    // ------------------------------------------------------------------------------------------------------------------------- Private method end
-
 }

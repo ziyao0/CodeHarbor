@@ -1,8 +1,11 @@
 package com.ziyao.harbor.core.utils;
 
 
+import com.ziyao.harbor.core.Filter;
+
 import java.io.*;
 import java.net.URLEncoder;
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Collections;
@@ -16,7 +19,8 @@ import java.util.*;
  */
 public abstract class Strings {
 
-    private static final Charset default_charset = StandardCharsets.UTF_8;
+    public static final int INDEX_NOT_FOUND = -1;
+    public static final String EMPTY = "";
 
     private Strings() {
     }
@@ -198,7 +202,7 @@ public abstract class Strings {
      */
     public static String encodeURLUTF8(String str) {
         if (hasLength(str)) {
-            return URLEncoder.encode(str, default_charset);
+            return URLEncoder.encode(str, Charsets.CHARSET_UTF_8);
         }
         return null;
     }
@@ -209,11 +213,37 @@ public abstract class Strings {
      * @param value target
      * @return <code>byte[]</code>
      */
-    public static byte[] toBytes(String value) {
+    public static byte[] toBytes(CharSequence value) {
         if (Strings.hasLength(value)) {
-            return value.getBytes(default_charset);
+            return value.toString().getBytes(Charsets.CHARSET_UTF_8);
         }
-        return new byte[0];
+        return null;
+    }
+
+    /**
+     * toBytes
+     *
+     * @param value target
+     * @return <code>byte[]</code>
+     */
+    public static byte[] toBytes(CharSequence value, Charset charset) {
+        if (Strings.isEmpty(value)) {
+            return null;
+        }
+        if (null == charset) {
+            return value.toString().getBytes();
+        }
+        return value.toString().getBytes(charset);
+    }
+
+    /**
+     * toBytes
+     *
+     * @param value target
+     * @return <code>byte[]</code>
+     */
+    public static byte[] toBytes(CharSequence value, String charsetName) {
+        return toBytes(value, Charsets.forName(charsetName));
     }
 
     /**
@@ -237,6 +267,7 @@ public abstract class Strings {
         return new byte[0];
     }
 
+    @SuppressWarnings("unchecked")
     public static <T> T toObject(byte[] bytes) {
         if (bytes.length != 0) {
             ByteArrayInputStream byteIn = new ByteArrayInputStream(bytes);
@@ -248,6 +279,102 @@ public abstract class Strings {
             }
         }
         return null;
+    }
+
+    /**
+     * 将对象转为字符串
+     * <pre>
+     * 	 1、Byte数组和ByteBuffer会被转换为对应字符串的数组
+     * 	 2、对象数组会调用Arrays.toString方法
+     * </pre>
+     *
+     * @param obj     对象
+     * @param charset 字符集
+     * @return 字符串
+     */
+    public static String toString(Object obj, Charset charset) {
+        if (null == obj) {
+            return null;
+        }
+
+        if (obj instanceof String) {
+            return (String) obj;
+        } else if (obj instanceof byte[]) {
+            return toString((byte[]) obj, charset);
+        } else if (obj instanceof Byte[]) {
+            return toString((Byte[]) obj, charset);
+        } else if (obj instanceof ByteBuffer) {
+            return toString((ByteBuffer) obj, charset);
+        } else if (Arrays.isArray(obj)) {
+            return Arrays.toString(obj);
+        }
+
+        return obj.toString();
+    }
+
+    /**
+     * {@link CharSequence} 转为字符串，null安全
+     *
+     * @param cs {@link CharSequence}
+     * @return 字符串
+     */
+    public static String toString(CharSequence cs) {
+        return null == cs ? null : cs.toString();
+    }
+
+
+    /**
+     * 解码字节码
+     *
+     * @param data    字符串
+     * @param charset 字符集，如果此字段为空，则解码的结果取决于平台
+     * @return 解码后的字符串
+     */
+    public static String toString(byte[] data, Charset charset) {
+        if (data == null) {
+            return null;
+        }
+
+        if (null == charset) {
+            return new String(data);
+        }
+        return new String(data, charset);
+    }
+
+    /**
+     * 将编码的byteBuffer数据转换为字符串
+     *
+     * @param data    数据
+     * @param charset 字符集，如果为空使用当前系统字符集
+     * @return 字符串
+     */
+    public static String toString(ByteBuffer data, Charset charset) {
+        if (null == charset) {
+            charset = Charset.defaultCharset();
+        }
+        return charset.decode(data).toString();
+    }
+
+    /**
+     * 解码字节码
+     *
+     * @param data    字符串
+     * @param charset 字符集，如果此字段为空，则解码的结果取决于平台
+     * @return 解码后的字符串
+     */
+    public static String toString(Byte[] data, Charset charset) {
+        if (data == null) {
+            return null;
+        }
+
+        byte[] bytes = new byte[data.length];
+        Byte dataByte;
+        for (int i = 0; i < data.length; i++) {
+            dataByte = data[i];
+            bytes[i] = (null == dataByte) ? -1 : dataByte;
+        }
+
+        return toString(bytes, charset);
     }
 
     /**
@@ -268,17 +395,346 @@ public abstract class Strings {
         return joiner.toString();
     }
 
-    public boolean startsWith(String value, String prefix) {
+    /**
+     * 创建StringBuilder对象
+     *
+     * @param capacity 初始大小
+     * @return StringBuilder对象
+     */
+    public static StringBuilder builder(int capacity) {
+        return new StringBuilder(capacity);
+    }
+
+    /**
+     * 清理空白字符
+     *
+     * @param str 被清理的字符串
+     * @return 清理后的字符串
+     */
+    public static String trim(CharSequence str) {
+        return filter(str, c -> !Chars.isBlankChar(c));
+    }
+
+    /**
+     * 调用对象的toString方法，null会返回{@code null}
+     *
+     * @param obj 对象
+     * @return 字符串 or {@code null}
+     * @since 5.7.17
+     */
+    public static String toStringOrNull(Object obj) {
+        return null == obj ? null : obj.toString();
+    }
+
+    public static boolean startsWith(String value, String prefix) {
         if (hasLength(value)) {
             return value.startsWith(prefix);
         }
         return false;
     }
 
-    public boolean endsWith(String value, String suffix) {
+    /**
+     * 字符串是否以给定字符开始
+     *
+     * @param str 字符串
+     * @param c   字符
+     * @return 是否开始
+     */
+    public static boolean startsWith(CharSequence str, char c) {
+        if (isEmpty(str)) {
+            return false;
+        }
+        return c == str.charAt(0);
+    }
+
+
+    public static boolean endsWith(String value, String suffix) {
         if (hasLength(value)) {
             return value.endsWith(suffix);
         }
         return false;
     }
+
+    /**
+     * 过滤字符串
+     *
+     * @param str    字符串
+     * @param filter 过滤器，{@link Filter#accept(Object)}返回为{@code true}的保留字符
+     * @return 过滤后的字符串
+     * @since 5.4.0
+     */
+    public static String filter(CharSequence str, final Filter<Character> filter) {
+        if (str == null || filter == null) {
+            return Strings.toString(str);
+        }
+
+        int len = str.length();
+        final StringBuilder sb = new StringBuilder(len);
+        char c;
+        for (int i = 0; i < len; i++) {
+            c = str.charAt(i);
+            if (filter.accept(c)) {
+                sb.append(c);
+            }
+        }
+        return sb.toString();
+    }
+
+    /**
+     * 切割指定位置之后部分的字符串
+     *
+     * @param string    字符串
+     * @param fromIndex 切割开始的位置（包括）
+     * @return 切割后后剩余的后半部分字符串
+     */
+    public static String subSuf(CharSequence string, int fromIndex) {
+        if (isEmpty(string)) {
+            return null;
+        }
+        return sub(string, fromIndex, string.length());
+    }
+
+    /**
+     * 改进JDK subString<br>
+     * index从0开始计算，最后一个字符为-1<br>
+     * 如果from和to位置一样，返回 "" <br>
+     * 如果from或to为负数，则按照length从后向前数位置，如果绝对值大于字符串长度，则from归到0，to归到length<br>
+     * 如果经过修正的index中from大于to，则互换from和to example: <br>
+     * abcdefgh 2 3 =》 c <br>
+     * abcdefgh 2 -3 =》 cde <br>
+     *
+     * @param str              String
+     * @param fromIndexInclude 开始的index（包括）
+     * @param toIndexExclude   结束的index（不包括）
+     * @return 字串
+     */
+    public static String sub(CharSequence str, int fromIndexInclude, int toIndexExclude) {
+        if (isEmpty(str)) {
+            return toString(str);
+        }
+        int len = str.length();
+
+        if (fromIndexInclude < 0) {
+            fromIndexInclude = len + fromIndexInclude;
+            if (fromIndexInclude < 0) {
+                fromIndexInclude = 0;
+            }
+        } else if (fromIndexInclude > len) {
+            fromIndexInclude = len;
+        }
+
+        if (toIndexExclude < 0) {
+            toIndexExclude = len + toIndexExclude;
+            if (toIndexExclude < 0) {
+                toIndexExclude = len;
+            }
+        } else if (toIndexExclude > len) {
+            toIndexExclude = len;
+        }
+
+        if (toIndexExclude < fromIndexInclude) {
+            int tmp = fromIndexInclude;
+            fromIndexInclude = toIndexExclude;
+            toIndexExclude = tmp;
+        }
+
+        if (fromIndexInclude == toIndexExclude) {
+            return EMPTY;
+        }
+
+        return str.toString().substring(fromIndexInclude, toIndexExclude);
+    }
+
+    /**
+     * 编码字符串，编码为UTF-8
+     *
+     * @param str 字符串
+     * @return 编码后的字节码
+     */
+    public static byte[] utf8Bytes(CharSequence str) {
+        return toBytes(str, Charsets.CHARSET_UTF_8);
+    }
+
+    /**
+     * 指定范围内查找字符串，忽略大小写
+     *
+     * @param str       字符串
+     * @param searchStr 需要查找位置的字符串
+     * @return 位置
+     * @since 3.2.1
+     */
+    public static int lastIndexOfIgnoreCase(CharSequence str, CharSequence searchStr) {
+        return lastIndexOfIgnoreCase(str, searchStr, str.length());
+    }
+
+    /**
+     * 指定范围内查找字符串，忽略大小写<br>
+     * fromIndex 为搜索起始位置，从后往前计数
+     *
+     * @param str       字符串
+     * @param searchStr 需要查找位置的字符串
+     * @param fromIndex 起始位置，从后往前计数
+     * @return 位置
+     * @since 3.2.1
+     */
+    public static int lastIndexOfIgnoreCase(CharSequence str, CharSequence searchStr, int fromIndex) {
+        return lastIndexOf(str, searchStr, fromIndex, true);
+    }
+
+    /**
+     * 指定范围内查找字符串<br>
+     * fromIndex 为搜索起始位置，从后往前计数
+     *
+     * @param text       字符串
+     * @param searchStr  需要查找位置的字符串
+     * @param from       起始位置，从后往前计数
+     * @param ignoreCase 是否忽略大小写
+     * @return 位置
+     * @since 3.2.1
+     */
+    public static int lastIndexOf(CharSequence text, CharSequence searchStr, int from, boolean ignoreCase) {
+        if (isEmpty(text) || isEmpty(searchStr)) {
+            if (Strings.equals(text, searchStr)) {
+                return 0;
+            } else {
+                return INDEX_NOT_FOUND;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * 比较两个字符串（大小写敏感）。
+     *
+     * <pre>
+     * equals(null, null)   = true
+     * equals(null, &quot;abc&quot;)  = false
+     * equals(&quot;abc&quot;, null)  = false
+     * equals(&quot;abc&quot;, &quot;abc&quot;) = true
+     * equals(&quot;abc&quot;, &quot;ABC&quot;) = false
+     * </pre>
+     *
+     * @param str1 要比较的字符串1
+     * @param str2 要比较的字符串2
+     * @return 如果两个字符串相同，或者都是{@code null}，则返回{@code true}
+     */
+    public static boolean equals(CharSequence str1, CharSequence str2) {
+        return equals(str1, str2, false);
+    }
+
+    /**
+     * 比较两个字符串是否相等，规则如下
+     * <ul>
+     *     <li>str1和str2都为{@code null}</li>
+     *     <li>忽略大小写使用{@link String#equalsIgnoreCase(String)}判断相等</li>
+     *     <li>不忽略大小写使用{@link String#contentEquals(CharSequence)}判断相等</li>
+     * </ul>
+     *
+     * @param str1       要比较的字符串1
+     * @param str2       要比较的字符串2
+     * @param ignoreCase 是否忽略大小写
+     * @return 如果两个字符串相同，或者都是{@code null}，则返回{@code true}
+     * @since 3.2.0
+     */
+    public static boolean equals(CharSequence str1, CharSequence str2, boolean ignoreCase) {
+        if (null == str1) {
+            // 只有两个都为null才判断相等
+            return str2 == null;
+        }
+        if (null == str2) {
+            // 字符串2空，字符串1非空，直接false
+            return false;
+        }
+
+        if (ignoreCase) {
+            return str1.toString().equalsIgnoreCase(str2.toString());
+        } else {
+            return str1.toString().contentEquals(str2);
+        }
+    }
+
+    /**
+     * 替换字符串中的指定字符串
+     *
+     * @param str         字符串
+     * @param searchStr   被查找的字符串
+     * @param replacement 被替换的字符串
+     * @return 替换后的字符串
+     */
+    public static String replace(CharSequence str, CharSequence searchStr, CharSequence replacement) {
+        return replace(str, 0, searchStr, replacement, false);
+    }
+
+    /**
+     * 替换字符串中的指定字符串
+     *
+     * @param str         字符串
+     * @param fromIndex   开始位置（包括）
+     * @param searchStr   被查找的字符串
+     * @param replacement 被替换的字符串
+     * @param ignoreCase  是否忽略大小写
+     * @return 替换后的字符串
+     */
+    public static String replace(CharSequence str, int fromIndex, CharSequence searchStr, CharSequence replacement, boolean ignoreCase) {
+        if (isEmpty(str) || isEmpty(searchStr)) {
+            return toString(str);
+        }
+        if (null == replacement) {
+            replacement = EMPTY;
+        }
+
+        final int strLength = str.length();
+        final int searchStrLength = searchStr.length();
+        if (strLength < searchStrLength) {
+            // issue#I4M16G@Gitee
+            return toString(str);
+        }
+
+        if (fromIndex > strLength) {
+            return toString(str);
+        } else if (fromIndex < 0) {
+            fromIndex = 0;
+        }
+
+        final StringBuilder result = new StringBuilder(strLength - searchStrLength + replacement.length());
+        if (0 != fromIndex) {
+            result.append(str.subSequence(0, fromIndex));
+        }
+
+        int preIndex = fromIndex;
+        int index;
+        while ((index = indexOf(str, searchStr, preIndex, ignoreCase)) > -1) {
+            result.append(str.subSequence(preIndex, index));
+            result.append(replacement);
+            preIndex = index + searchStrLength;
+        }
+
+        if (preIndex < strLength) {
+            // 结尾部分
+            result.append(str.subSequence(preIndex, strLength));
+        }
+        return result.toString();
+    }
+
+    /**
+     * 指定范围内查找字符串
+     *
+     * @param text       字符串，空则返回-1
+     * @param searchStr  需要查找位置的字符串，空则返回-1
+     * @param from       起始位置（包含）
+     * @param ignoreCase 是否忽略大小写
+     * @return 位置
+     */
+    public static int indexOf(CharSequence text, CharSequence searchStr, int from, boolean ignoreCase) {
+        if (isEmpty(text) || isEmpty(searchStr)) {
+            if (Strings.equals(text, searchStr)) {
+                return 0;
+            } else {
+                return INDEX_NOT_FOUND;
+            }
+        }
+        return new StrFinder(searchStr, ignoreCase).setText(text).start(from);
+    }
+
+
 }

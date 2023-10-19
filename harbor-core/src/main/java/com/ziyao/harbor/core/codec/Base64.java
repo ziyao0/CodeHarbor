@@ -1,24 +1,20 @@
-package com.ziyao.harbor.crypto;
+package com.ziyao.harbor.core.codec;
 
-import cn.hutool.core.codec.Base64Decoder;
-import cn.hutool.core.codec.Base64Encoder;
-import cn.hutool.core.io.FileUtil;
-import cn.hutool.core.io.IoUtil;
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.core.util.StrUtil;
 
-import java.io.File;
+import com.ziyao.harbor.core.io.IOUtils;
+import com.ziyao.harbor.core.utils.Charsets;
+import com.ziyao.harbor.core.utils.Strings;
+
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
 
 /**
  * @author ziyao
  * @since 2023/4/23
  */
 public class Base64 {
-    private static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
+    private static final Charset DEFAULT_CHARSET = Charsets.CHARSET_UTF_8;
 
     // -------------------------------------------------------------------- encode
 
@@ -78,7 +74,7 @@ public class Base64 {
      * @return 被加密后的字符串
      */
     public static String encode(CharSequence source, String charset) {
-        return encode(source, CharsetUtil.charset(charset));
+        return encode(source, Charsets.forName(charset));
     }
 
     /**
@@ -90,7 +86,7 @@ public class Base64 {
      * @since 5.5.2
      */
     public static String encodeWithoutPadding(CharSequence source, String charset) {
-        return encodeWithoutPadding(StrUtil.bytes(source, charset));
+        return encodeWithoutPadding(Strings.toBytes(source, charset));
     }
 
     /**
@@ -104,7 +100,7 @@ public class Base64 {
      */
     @Deprecated
     public static String encodeUrlSafe(CharSequence source, String charset) {
-        return encodeUrlSafe(source, CharsetUtil.charset(charset));
+        return encodeUrlSafe(source, Charsets.forName(charset));
     }
 
     /**
@@ -115,7 +111,7 @@ public class Base64 {
      * @return 被编码后的字符串
      */
     public static String encode(CharSequence source, Charset charset) {
-        return encode(StrUtil.bytes(source, charset));
+        return encode(Strings.toBytes(source, charset));
     }
 
     /**
@@ -127,7 +123,7 @@ public class Base64 {
      * @since 3.0.6
      */
     public static String encodeUrlSafe(CharSequence source, Charset charset) {
-        return encodeUrlSafe(StrUtil.bytes(source, charset));
+        return encodeUrlSafe(Strings.toBytes(source, charset));
     }
 
     /**
@@ -170,7 +166,7 @@ public class Base64 {
      * @since 4.0.9
      */
     public static String encode(InputStream in) {
-        return encode(IoUtil.readBytes(in));
+        return encode(IOUtils.readBytes(in));
     }
 
     /**
@@ -181,44 +177,9 @@ public class Base64 {
      * @since 4.0.9
      */
     public static String encodeUrlSafe(InputStream in) {
-        return encodeUrlSafe(IoUtil.readBytes(in));
+        return encodeUrlSafe(IOUtils.readBytes(in));
     }
 
-    /**
-     * base64编码
-     *
-     * @param file 被编码base64的文件
-     * @return 被加密后的字符串
-     * @since 4.0.9
-     */
-    public static String encode(File file) {
-        return encode(FileUtil.readBytes(file));
-    }
-
-    /**
-     * base64编码,URL安全的
-     *
-     * @param file 被编码base64的文件
-     * @return 被加密后的字符串
-     * @since 4.0.9
-     */
-    public static String encodeUrlSafe(File file) {
-        return encodeUrlSafe(FileUtil.readBytes(file));
-    }
-
-    /**
-     * 编码为Base64字符串<br>
-     * 如果isMultiLine为{@code true}，则每76个字符一个换行符，否则在一行显示
-     *
-     * @param arr         被编码的数组
-     * @param isMultiLine 在76个char之后是CRLF还是EOF
-     * @param isUrlSafe   是否使用URL安全字符，一般为{@code false}
-     * @return 编码后的bytes
-     * @since 5.7.2
-     */
-    public static String encodeStr(byte[] arr, boolean isMultiLine, boolean isUrlSafe) {
-        return StrUtil.str(encode(arr, isMultiLine, isUrlSafe), DEFAULT_CHARSET);
-    }
 
     /**
      * 编码为Base64<br>
@@ -243,7 +204,7 @@ public class Base64 {
      * @since 4.3.2
      */
     public static String decodeStrGbk(CharSequence source) {
-        return Base64Decoder.decodeStr(source, CharsetUtil.CHARSET_GBK);
+        return Base64Decoder.decodeStr(source, Charsets.CHARSET_GBK);
     }
 
     /**
@@ -264,7 +225,7 @@ public class Base64 {
      * @return 被加密后的字符串
      */
     public static String decodeStr(CharSequence source, String charset) {
-        return decodeStr(source, CharsetUtil.charset(charset));
+        return decodeStr(source, Charsets.forName(charset));
     }
 
     /**
@@ -278,17 +239,6 @@ public class Base64 {
         return Base64Decoder.decodeStr(source, charset);
     }
 
-    /**
-     * base64解码
-     *
-     * @param base64   被解码的base64字符串
-     * @param destFile 目标文件
-     * @return 目标文件
-     * @since 4.0.9
-     */
-    public static File decodeToFile(CharSequence base64, File destFile) {
-        return FileUtil.writeBytes(Base64Decoder.decode(base64), destFile);
-    }
 
     /**
      * base64解码
@@ -299,7 +249,7 @@ public class Base64 {
      * @since 4.0.9
      */
     public static void decodeToStream(CharSequence base64, OutputStream out, boolean isCloseOut) {
-        IoUtil.write(out, isCloseOut, Base64Decoder.decode(base64));
+        IOUtils.write(out, isCloseOut, Base64Decoder.decode(base64));
     }
 
     /**
@@ -334,7 +284,7 @@ public class Base64 {
             return false;
         }
 
-        final byte[] bytes = StrUtil.utf8Bytes(base64);
+        final byte[] bytes = Strings.utf8Bytes(base64);
 
         if (bytes.length != base64.length()) {
             // 如果长度不相等，说明存在双字节字符，肯定不是Base64，直接返回false
