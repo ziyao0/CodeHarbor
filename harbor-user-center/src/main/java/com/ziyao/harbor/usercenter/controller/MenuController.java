@@ -6,8 +6,8 @@ import com.ziyao.harbor.usercenter.dto.MenuDTO;
 import com.ziyao.harbor.usercenter.entity.Menu;
 import com.ziyao.harbor.usercenter.service.MenuService;
 import com.ziyao.harbor.web.base.BaseController;
-import com.ziyao.harbor.web.base.PageQuery;
-import com.ziyao.harbor.web.base.PageUtils;
+import com.ziyao.harbor.web.base.PageParams;
+import com.ziyao.harbor.web.base.Pages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,12 +62,12 @@ public class MenuController extends BaseController<MenuService, Menu> {
     /**
      * 条件分页查询
      *
-     * @param pageQuery 分页参数
+     * @param pageParams 分页参数
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Menu> getPage(@RequestBody PageQuery<MenuDTO> pageQuery) {
-        Page<Menu> page = PageUtils.initPage(pageQuery, Menu.class);
-        return menuService.page(page, pageQuery.getQuery());
+    public Page<Menu> getPage(@RequestBody PageParams<MenuDTO> pageParams) {
+        Page<Menu> page = Pages.initPage(pageParams, Menu.class);
+        return menuService.page(page, pageParams.getParams());
     }
 }

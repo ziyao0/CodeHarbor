@@ -24,6 +24,17 @@ public abstract class Assert {
         }
     }
 
+    public static <T> void notNull(T value) {
+        if (value instanceof String) {
+            if (Strings.isEmpty(value)) {
+                throw new IllegalArgumentException("传入不能为空");
+            }
+        }
+        if (Objects.isNull(value)) {
+            throw new IllegalArgumentException("传入不能为空");
+        }
+    }
+
     /**
      * Assert that a Collection is not {@code null}.
      *
@@ -113,6 +124,12 @@ public abstract class Assert {
             }
         } catch (NumberFormatException e) {
             throw new IllegalArgumentException("时间戳格式错误");
+        }
+    }
+
+    public static void isTrue(boolean value, String message) {
+        if (!value) {
+            throw new IllegalArgumentException(message);
         }
     }
 }

@@ -1,0 +1,7 @@
+dependencies {
+    api(project(':harbor-core'))
+//    api 'cn.hutool:hutool-crypto:5.8.20'
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk18on
+    implementation 'org.bouncycastle:bcprov-jdk18on:1.72'
+
+}

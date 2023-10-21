@@ -63,4 +63,7 @@ include 'harbor-springframework:harbor-spring-boot-autoconfigure'
 findProject(':harbor-springframework:harbor-spring-boot-autoconfigure')?.name = 'harbor-spring-boot-autoconfigure'
 include 'harbor-springframework:harbor-spring-reboot'
 findProject(':harbor-springframework:harbor-spring-reboot')?.name = 'harbor-spring-reboot'
+include 'harbor-springframework:harbor-spring-crypto'
+findProject(':harbor-springframework:harbor-spring-crypto')?.name = 'harbor-spring-crypto'
+include 'harbor-crypto'
 

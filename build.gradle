@@ -60,13 +60,13 @@ allprojects {
         compileOnly "org.projectlombok:lombok:${lombokVersion}"
         annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
     }
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs << "-Xlint:unchecked"
+    }
 }
 subprojects {
-    def excludes = ["harbor-core"];
-
-    def projectName = project.name;
-
-    if (!excludes.contains(projectName)) {
+    def excludes = ['harbor-core']
+    if (!excludes.contains(project.name)) {
         dependencyManagement {
             imports {
                 mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"

@@ -6,8 +6,8 @@ import com.ziyao.harbor.usercenter.dto.RoleDTO;
 import com.ziyao.harbor.usercenter.entity.Role;
 import com.ziyao.harbor.usercenter.service.RoleService;
 import com.ziyao.harbor.web.base.BaseController;
-import com.ziyao.harbor.web.base.PageQuery;
-import com.ziyao.harbor.web.base.PageUtils;
+import com.ziyao.harbor.web.base.PageParams;
+import com.ziyao.harbor.web.base.Pages;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -62,12 +62,12 @@ public class RoleController extends BaseController<RoleService, Role> {
     /**
      * 条件分页查询
      *
-     * @param pageQuery 分页参数
+     * @param pageParams 分页参数
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Role> getPage(@RequestBody PageQuery<RoleDTO> pageQuery) {
-        Page<Role> page = PageUtils.initPage(pageQuery, Role.class);
-        return roleService.page(page, pageQuery.getQuery());
+    public Page<Role> getPage(@RequestBody PageParams<RoleDTO> pageParams) {
+        Page<Role> page = Pages.initPage(pageParams, Role.class);
+        return roleService.page(page, pageParams.getParams());
     }
 }

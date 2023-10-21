@@ -11,4 +11,7 @@ dependencies {
     api("org.springframework:spring-context")
     api("org.springframework.boot:spring-boot-autoconfigure")
     api("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
+    api('com.squareup.okhttp3:okhttp:4.9.3')
+    api('com.squareup.okhttp3:logging-interceptor:4.9.3')
+    api('com.alibaba:fastjson:2.0.32')
 }

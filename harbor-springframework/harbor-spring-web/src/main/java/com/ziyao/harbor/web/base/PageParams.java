@@ -1,32 +1,28 @@
 package com.ziyao.harbor.web.base;
 
+import lombok.Getter;
+
 /**
  * @author ziyao zhang
  * @since 2023/5/6
  */
-public class PageQuery<T> {
+@Getter
+public class PageParams<T> {
 
-    private T query;
+    private T params;
 
     private PageI page = new PageI();
 
 
-    public T getQuery() {
-        return query;
-    }
-
-    public void setQuery(T query) {
-        this.query = query;
-    }
-
-    public PageI getPage() {
-        return page;
+    public void setParams(T params) {
+        this.params = params;
     }
 
     public void setPage(PageI page) {
         this.page = page;
     }
 
+    @Getter
     public static class PageI {
 
         /**
@@ -39,16 +35,8 @@ public class PageQuery<T> {
          */
         private long current = 1;
 
-        public long getSize() {
-            return size;
-        }
-
         public void setSize(long size) {
             this.size = size;
-        }
-
-        public long getCurrent() {
-            return current;
         }
 
         public void setCurrent(long current) {
