@@ -1,4 +1,4 @@
-package com.ziyao.harbor.crypto.asymmetric;
+package com.ziyao.harbor.crypto.digest;
 
 import com.ziyao.harbor.crypto.Algorithm;
 
@@ -16,7 +16,6 @@ public class SM3 extends Digester {
      * 创建SM3实例
      *
      * @return SM3
-     * @since 4.6.0
      */
     public static SM3 create() {
         return new SM3();

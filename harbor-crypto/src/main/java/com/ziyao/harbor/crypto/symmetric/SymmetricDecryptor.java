@@ -2,7 +2,7 @@ package com.ziyao.harbor.crypto.symmetric;
 
 import com.ziyao.harbor.core.utils.Charsets;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.crypto.utils.Secures;
+import com.ziyao.harbor.crypto.utils.SecureUtils;
 
 import java.nio.charset.Charset;
 
@@ -48,7 +48,7 @@ public interface SymmetricDecryptor {
      * @return 解密后的bytes
      */
     default byte[] decrypt(String data) {
-        return decrypt(Secures.decode(data));
+        return decrypt(SecureUtils.decode(data));
     }
 
     /**

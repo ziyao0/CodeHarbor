@@ -1,6 +1,6 @@
 package com.ziyao.harbor.crypto;
 
-import com.ziyao.harbor.core.codec.Decoder;
+import com.ziyao.harbor.core.utils.HexUtils;
 import lombok.Getter;
 
 /**
@@ -21,22 +21,9 @@ public class KeyPair extends AbstractAlgorithm {
     private final String privateKey;
 
 
-    public KeyPair(String algorithm, Decoder<CharSequence, byte[]> decoder, String publicKey, String privateKey) {
-        super(algorithm, decoder);
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
-    }
-
-    public byte[] getDecodePublicKey() {
-        return decode(getPublicKey());
-    }
-
-
-    public byte[] getDecodePrivateKey() {
-        return decode(getPrivateKey());
-    }
-
-    private byte[] decode(String data) {
-        return super.decoder.decode(data);
+    public KeyPair(String algorithm, byte[] publicKey, byte[] privateKey) {
+        super(algorithm);
+        this.publicKey = HexUtils.encodeHexStr(publicKey);
+        this.privateKey = HexUtils.encodeHexStr(privateKey);
     }
 }

@@ -2,7 +2,7 @@ package com.ziyao.harbor.crypto.symmetric;
 
 import com.ziyao.harbor.core.codec.Base64;
 import com.ziyao.harbor.core.utils.Charsets;
-import com.ziyao.harbor.core.utils.Hexes;
+import com.ziyao.harbor.core.utils.HexUtils;
 import com.ziyao.harbor.core.utils.Strings;
 
 import java.nio.charset.Charset;
@@ -29,7 +29,7 @@ public interface SymmetricEncryptor {
      * @return 加密后的Hex
      */
     default String encryptHex(byte[] data) {
-        return Hexes.encodeHexStr(encrypt(data));
+        return HexUtils.encodeHexStr(encrypt(data));
     }
 
     /**
@@ -72,7 +72,7 @@ public interface SymmetricEncryptor {
      * @return 加密后的Hex
      */
     default String encryptHex(String data, String charset) {
-        return Hexes.encodeHexStr(encrypt(data, charset));
+        return HexUtils.encodeHexStr(encrypt(data, charset));
     }
 
     /**
@@ -83,7 +83,7 @@ public interface SymmetricEncryptor {
      * @return 加密后的Hex
      */
     default String encryptHex(String data, Charset charset) {
-        return Hexes.encodeHexStr(encrypt(data, charset));
+        return HexUtils.encodeHexStr(encrypt(data, charset));
     }
 
     /**
@@ -103,7 +103,6 @@ public interface SymmetricEncryptor {
      * @param data    被加密的字符串
      * @param charset 编码
      * @return 加密后的Base64
-     * @since 4.5.12
      */
     default String encryptBase64(String data, Charset charset) {
         return Base64.encode(encrypt(data, charset));
@@ -126,7 +125,7 @@ public interface SymmetricEncryptor {
      * @return 加密后的Hex
      */
     default String encryptHex(String data) {
-        return Hexes.encodeHexStr(encrypt(data));
+        return HexUtils.encodeHexStr(encrypt(data));
     }
 
     /**

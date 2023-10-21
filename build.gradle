@@ -56,6 +56,9 @@ allprojects {
         compileOnly 'org.projectlombok:lombok'
         annotationProcessor 'org.projectlombok:lombok'
     }
+    tasks.withType(JavaCompile).configureEach {
+        options.compilerArgs << "-Xlint:unchecked"
+    }
 }
 subprojects {
     def excludes = ['harbor-core']

@@ -90,7 +90,6 @@ public abstract class Chars {
      * @return 是否空白符
      * @see Character#isWhitespace(int)
      * @see Character#isSpaceChar(int)
-     * @since 4.0.10
      */
     public static boolean isBlankChar(char c) {
         return isBlankChar((int) c);
@@ -104,7 +103,6 @@ public abstract class Chars {
      * @return 是否空白符
      * @see Character#isWhitespace(int)
      * @see Character#isSpaceChar(int)
-     * @since 4.0.10
      */
     public static boolean isBlankChar(int c) {
         return Character.isWhitespace(c)

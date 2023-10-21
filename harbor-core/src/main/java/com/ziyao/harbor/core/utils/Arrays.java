@@ -83,7 +83,6 @@ public abstract class Arrays {
      * @param <T>   数组元素类型
      * @param array 被检查的数组
      * @return 是否包含{@code null}元素
-     * @since 3.0.7
      */
     @SuppressWarnings("unchecked")
     public static <T> boolean hasNull(T... array) {
@@ -159,7 +158,6 @@ public abstract class Arrays {
      * @param index1 位置1
      * @param index2 位置2
      * @return 交换后的数组，与传入数组为同一对象
-     * @since 4.0.7
      */
     public static int[] swap(int[] array, int index1, int index2) {
         if (isEmpty(array)) {
@@ -226,4 +224,24 @@ public abstract class Arrays {
         }
         return result;
     }
+
+    /**
+     * 生成一个新的重新设置大小的数组<br>
+     * 调整大小后拷贝原数组到新数组下。扩大则占位前N个位置，其它位置补充0，缩小则截断
+     *
+     * @param bytes   原数组
+     * @param newSize 新的数组大小
+     * @return 调整后的新数组
+     */
+    public static byte[] resize(byte[] bytes, int newSize) {
+        if (newSize < 0) {
+            return bytes;
+        }
+        final byte[] newArray = new byte[newSize];
+        if (newSize > 0 && !isEmpty(bytes)) {
+            System.arraycopy(bytes, 0, newArray, 0, Math.min(bytes.length, newSize));
+        }
+        return newArray;
+    }
+
 }

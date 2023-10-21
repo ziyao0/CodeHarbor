@@ -77,7 +77,6 @@ public abstract class Numbers {
      * @param v1 被加数
      * @param v2 加数
      * @return 和
-     * @since 3.1.1
      */
     public static double add(Double v1, Double v2) {
         //noinspection RedundantCast
@@ -114,7 +113,6 @@ public abstract class Numbers {
      *
      * @param values 多个被加值
      * @return 和
-     * @since 4.0.0
      */
     public static BigDecimal add(Number... values) {
         if (Arrays.isEmpty(values)) {
@@ -138,7 +136,6 @@ public abstract class Numbers {
      *
      * @param values 多个被加值
      * @return 和
-     * @since 4.0.0
      */
     public static BigDecimal add(String... values) {
         if (Arrays.isEmpty(values)) {
@@ -162,7 +159,6 @@ public abstract class Numbers {
      *
      * @param values 多个被加值
      * @return 和
-     * @since 4.0.0
      */
     public static BigDecimal add(BigDecimal... values) {
         if (Arrays.isEmpty(values)) {
@@ -254,7 +250,6 @@ public abstract class Numbers {
      *
      * @param values 多个被减值
      * @return 差
-     * @since 4.0.0
      */
     public static BigDecimal sub(Number... values) {
         if (Arrays.isEmpty(values)) {
@@ -278,7 +273,6 @@ public abstract class Numbers {
      *
      * @param values 多个被减值
      * @return 差
-     * @since 4.0.0
      */
     public static BigDecimal sub(String... values) {
         if (Arrays.isEmpty(values)) {
@@ -302,7 +296,6 @@ public abstract class Numbers {
      *
      * @param values 多个被减值
      * @return 差
-     * @since 4.0.0
      */
     public static BigDecimal sub(BigDecimal... values) {
         if (Arrays.isEmpty(values)) {
@@ -395,7 +388,6 @@ public abstract class Numbers {
      *
      * @param values 多个被乘值
      * @return 积
-     * @since 4.0.0
      */
     public static BigDecimal mul(Number... values) {
         if (Arrays.isEmpty(values) || Arrays.hasNull(values)) {
@@ -417,7 +409,6 @@ public abstract class Numbers {
      * @param v1 被乘数
      * @param v2 乘数
      * @return 积
-     * @since 3.0.8
      */
     public static BigDecimal mul(String v1, String v2) {
         return mul(toBigDecimal(v1), toBigDecimal(v2));
@@ -429,7 +420,6 @@ public abstract class Numbers {
      *
      * @param values 多个被乘值
      * @return 积
-     * @since 4.0.0
      */
     public static BigDecimal mul(String... values) {
         if (Arrays.isEmpty(values) || Arrays.hasNull(values)) {
@@ -450,7 +440,6 @@ public abstract class Numbers {
      *
      * @param values 多个被乘值
      * @return 积
-     * @since 4.0.0
      */
     public static BigDecimal mul(BigDecimal... values) {
         if (Arrays.isEmpty(values) || Arrays.hasNull(values)) {
@@ -525,7 +514,6 @@ public abstract class Numbers {
      * @param v1 被除数
      * @param v2 除数
      * @return 两个参数的商
-     * @since 3.1.0
      */
     public static BigDecimal div(Number v1, Number v2) {
         return div(v1, v2, DEFAULT_DIV_SCALE);
@@ -609,7 +597,6 @@ public abstract class Numbers {
      * @param v2    除数
      * @param scale 精确度，如果为负值，取绝对值
      * @return 两个参数的商
-     * @since 3.1.0
      */
     public static BigDecimal div(Number v1, Number v2, int scale) {
         return div(v1, v2, scale, RoundingMode.HALF_UP);
@@ -701,7 +688,6 @@ public abstract class Numbers {
      * @param scale        精确度，如果为负值，取绝对值
      * @param roundingMode 保留小数的模式 {@link RoundingMode}
      * @return 两个参数的商
-     * @since 3.1.0
      */
     public static BigDecimal div(Number v1, Number v2, int scale, RoundingMode roundingMode) {
         if (v1 instanceof BigDecimal && v2 instanceof BigDecimal) {
@@ -731,7 +717,6 @@ public abstract class Numbers {
      * @param scale        精确度，如果为负值，取绝对值
      * @param roundingMode 保留小数的模式 {@link RoundingMode}
      * @return 两个参数的商
-     * @since 3.0.9
      */
     public static BigDecimal div(BigDecimal v1, BigDecimal v2, int scale, RoundingMode roundingMode) {
         Assert.notNull(v2, "Divisor must be not null !");
@@ -750,7 +735,6 @@ public abstract class Numbers {
      * @param v1 被除数
      * @param v2 除数
      * @return 两个参数的商
-     * @since 5.3.3
      */
     public static int ceilDiv(int v1, int v2) {
         return (int) Math.ceil((double) v1 / v2);
@@ -805,7 +789,6 @@ public abstract class Numbers {
      * @param number 数字值
      * @param scale  保留小数位数
      * @return 新值
-     * @since 4.1.0
      */
     public static BigDecimal round(BigDecimal number, int scale) {
         return round(number, scale, RoundingMode.HALF_UP);
@@ -819,7 +802,6 @@ public abstract class Numbers {
      * @param numberStr 数字值的字符串表现形式
      * @param scale     保留小数位数
      * @return 新值
-     * @since 3.2.2
      */
     public static String roundStr(String numberStr, int scale) {
         return round(numberStr, scale).toPlainString();
@@ -846,7 +828,6 @@ public abstract class Numbers {
      * @param scale        保留小数位数
      * @param roundingMode 保留小数的模式 {@link RoundingMode}
      * @return 新值
-     * @since 3.2.2
      */
     public static String roundStr(double v, int scale, RoundingMode roundingMode) {
         return round(v, scale, roundingMode).toPlainString();
@@ -900,7 +881,6 @@ public abstract class Numbers {
      * @param scale        保留小数位数
      * @param roundingMode 保留小数的模式 {@link RoundingMode}
      * @return 新值
-     * @since 3.2.2
      */
     public static String roundStr(String numberStr, int scale, RoundingMode roundingMode) {
         return round(numberStr, scale, roundingMode).toPlainString();
@@ -924,7 +904,6 @@ public abstract class Numbers {
      * @param number 需要科学计算的数据
      * @param scale  保留的小数位
      * @return 结果
-     * @since 4.1.0
      */
     public static BigDecimal roundHalfEven(Number number, int scale) {
         return roundHalfEven(toBigDecimal(number), scale);
@@ -948,7 +927,6 @@ public abstract class Numbers {
      * @param value 需要科学计算的数据
      * @param scale 保留的小数位
      * @return 结果
-     * @since 4.1.0
      */
     public static BigDecimal roundHalfEven(BigDecimal value, int scale) {
         return round(value, scale, RoundingMode.HALF_EVEN);
@@ -960,7 +938,6 @@ public abstract class Numbers {
      * @param number 需要科学计算的数据
      * @param scale  保留的小数位
      * @return 结果
-     * @since 4.1.0
      */
     public static BigDecimal roundDown(Number number, int scale) {
         return roundDown(toBigDecimal(number), scale);
@@ -972,7 +949,6 @@ public abstract class Numbers {
      * @param value 需要科学计算的数据
      * @param scale 保留的小数位
      * @return 结果
-     * @since 4.1.0
      */
     public static BigDecimal roundDown(BigDecimal value, int scale) {
         return round(value, scale, RoundingMode.DOWN);
@@ -1020,7 +996,6 @@ public abstract class Numbers {
      *                </ul>
      * @param value   值
      * @return 格式化后的值
-     * @since 3.0.5
      */
     public static String decimalFormat(String pattern, long value) {
         return new DecimalFormat(pattern).format(value);
@@ -1043,7 +1018,6 @@ public abstract class Numbers {
      *                </ul>
      * @param value   值，支持BigDecimal、BigInteger、Number等类型
      * @return 格式化后的值
-     * @since 5.1.6
      */
     public static String decimalFormat(String pattern, Object value) {
         return decimalFormat(pattern, value, null);
@@ -1067,7 +1041,6 @@ public abstract class Numbers {
      * @param value        值，支持BigDecimal、BigInteger、Number等类型
      * @param roundingMode 保留小数的方式枚举
      * @return 格式化后的值
-     * @since 5.6.5
      */
     public static String decimalFormat(String pattern, Object value, RoundingMode roundingMode) {
         if (value instanceof Number) {
@@ -1085,7 +1058,6 @@ public abstract class Numbers {
      *
      * @param value 金额
      * @return 格式化后的值
-     * @since 3.0.9
      */
     public static String decimalFormatMoney(double value) {
         return decimalFormat(",##0.00", value);
@@ -1097,7 +1069,6 @@ public abstract class Numbers {
      * @param number 值
      * @param scale  保留小数位数
      * @return 百分比
-     * @since 3.2.3
      */
     public static String formatPercent(double number, int scale) {
         final NumberFormat format = NumberFormat.getPercentInstance();
@@ -1243,7 +1214,6 @@ public abstract class Numbers {
      *
      * @param s String
      * @return 是否为{@link Long}类型
-     * @since 4.0.0
      */
     public static boolean isLong(String s) {
         if (Strings.isEmpty(s)) {
@@ -1316,7 +1286,6 @@ public abstract class Numbers {
      * @param size  指定产生随机数的个数
      * @param seed  种子，用于取随机数的int池
      * @return 随机int数组
-     * @since 5.4.5
      */
     public static int[] generateRandomNumber(int begin, int end, int size, int[] seed) {
         if (begin > end) {
@@ -1349,7 +1318,6 @@ public abstract class Numbers {
      *
      * @param stop 结束（包含）
      * @return 整数列表
-     * @since 3.3.1
      */
     public static int[] range(int stop) {
         return range(0, stop);
@@ -1437,7 +1405,6 @@ public abstract class Numbers {
      *
      * @param number 数字
      * @return {@link BigDecimal}
-     * @since 4.0.9
      */
     public static BigDecimal toBigDecimal(Number number) {
         if (null == number) {
@@ -1464,7 +1431,6 @@ public abstract class Numbers {
      *
      * @param numberStr 数字字符串
      * @return {@link BigDecimal}
-     * @since 4.0.9
      */
     public static BigDecimal toBigDecimal(String numberStr) {
         if (Strings.isEmpty(numberStr)) {
@@ -1499,7 +1465,6 @@ public abstract class Numbers {
      * @param numberStr Number字符串
      * @return Number对象
      * @throws NumberFormatException 包装了{@link ParseException}，当给定的数字字符串无法解析时抛出
-     * @since 4.1.15
      */
     public static Number parseNumber(String numberStr) throws NumberFormatException {
         if (Strings.startsWith(numberStr, "0x")) {
@@ -1531,7 +1496,6 @@ public abstract class Numbers {
      *
      * @param number 被检查double
      * @return 检查结果
-     * @since 5.7.0
      */
     public static boolean isValid(double number) {
         return !(Double.isNaN(number) || Double.isInfinite(number));
@@ -1544,7 +1508,6 @@ public abstract class Numbers {
      *
      * @param number 被检查类型
      * @return 检查结果，非数字类型和Null将返回true
-     * @since 4.6.7
      */
     public static boolean isValidNumber(Number number) {
         if (null == number) {
@@ -1565,7 +1528,6 @@ public abstract class Numbers {
      * @param y 第二个值
      * @return x==y返回0，x&lt;y返回小于0的数，x&gt;y返回大于0的数
      * @see Character#compare(char, char)
-     * @since 3.0.1
      */
     public static int compare(char x, char y) {
         return Character.compare(x, y);
@@ -1578,7 +1540,6 @@ public abstract class Numbers {
      * @param y 第二个值
      * @return x==y返回0，x&lt;y返回小于0的数，x&gt;y返回大于0的数
      * @see Integer#compare(int, int)
-     * @since 3.0.1
      */
     public static int compare(int x, int y) {
         return Integer.compare(x, y);

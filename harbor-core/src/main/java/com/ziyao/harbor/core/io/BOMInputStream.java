@@ -17,7 +17,7 @@ public class BOMInputStream extends InputStream {
     private boolean isInited = false;
     /**
      * -- GETTER --
-     *  获取默认编码
+     * 获取默认编码
      *
      * @return 默认编码
      */
@@ -31,6 +31,7 @@ public class BOMInputStream extends InputStream {
 
     /**
      * 构造
+     *
      * @param in 流
      */
     public BOMInputStream(InputStream in) {
@@ -40,7 +41,7 @@ public class BOMInputStream extends InputStream {
     /**
      * 构造
      *
-     * @param in 流
+     * @param in             流
      * @param defaultCharset 默认编码
      */
     public BOMInputStream(InputStream in, String defaultCharset) {
@@ -80,6 +81,7 @@ public class BOMInputStream extends InputStream {
     /**
      * Read-ahead four bytes and check for BOM marks. <br>
      * Extra bytes are unread back to the stream, only BOM bytes are skipped.
+     *
      * @throws IOException 读取引起的异常
      */
     protected void init() throws IOException {

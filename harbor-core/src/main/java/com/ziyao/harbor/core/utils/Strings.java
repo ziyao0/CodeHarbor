@@ -2,6 +2,9 @@ package com.ziyao.harbor.core.utils;
 
 
 import com.ziyao.harbor.core.Filter;
+import com.ziyao.harbor.core.text.StrPool;
+import com.ziyao.harbor.core.text.StringFinder;
+import com.ziyao.harbor.core.text.StringFormatter;
 
 import java.io.*;
 import java.net.URLEncoder;
@@ -17,10 +20,23 @@ import java.util.*;
  * @author ziyao zhang
  * @since 2023/7/31
  */
-public abstract class Strings {
+public abstract class Strings implements StrPool {
 
     public static final int INDEX_NOT_FOUND = -1;
+
+    /**
+     * 字符串常量：{@code "null"} <br>
+     * 注意：{@code "null" != null}
+     */
+    public static final String NULL = "null";
+    /**
+     * 字符串常量：空字符串 {@code ""}
+     */
     public static final String EMPTY = "";
+    /**
+     * 字符串常量：空格符 {@code " "}
+     */
+    public static final String SPACE = " ";
 
     private Strings() {
     }
@@ -342,6 +358,16 @@ public abstract class Strings {
     }
 
     /**
+     * 解码字节码
+     *
+     * @param data 数组
+     * @return 解码后的字符串
+     */
+    public static String toString(byte[] data) {
+        return toString(data, Charset.defaultCharset());
+    }
+
+    /**
      * 将编码的byteBuffer数据转换为字符串
      *
      * @param data    数据
@@ -420,14 +446,25 @@ public abstract class Strings {
      *
      * @param obj 对象
      * @return 字符串 or {@code null}
-     * @since 5.7.17
      */
     public static String toStringOrNull(Object obj) {
         return null == obj ? null : obj.toString();
     }
 
     public static boolean startsWith(String value, String prefix) {
+        return startsWith(value, prefix, false);
+    }
+
+    public static boolean startWithIgnoreCase(String value, String prefix) {
+        return startsWith(value, prefix, true);
+    }
+
+    public static boolean startsWith(String value, String prefix, boolean ignoreCase) {
         if (hasLength(value)) {
+            if (ignoreCase) {
+                value = value.toLowerCase(Locale.ROOT);
+                prefix = prefix.toLowerCase(Locale.ROOT);
+            }
             return value.startsWith(prefix);
         }
         return false;
@@ -461,7 +498,6 @@ public abstract class Strings {
      * @param str    字符串
      * @param filter 过滤器，{@link Filter#accept(Object)}返回为{@code true}的保留字符
      * @return 过滤后的字符串
-     * @since 5.4.0
      */
     public static String filter(CharSequence str, final Filter<Character> filter) {
         if (str == null || filter == null) {
@@ -561,7 +597,6 @@ public abstract class Strings {
      * @param str       字符串
      * @param searchStr 需要查找位置的字符串
      * @return 位置
-     * @since 3.2.1
      */
     public static int lastIndexOfIgnoreCase(CharSequence str, CharSequence searchStr) {
         return lastIndexOfIgnoreCase(str, searchStr, str.length());
@@ -575,7 +610,6 @@ public abstract class Strings {
      * @param searchStr 需要查找位置的字符串
      * @param fromIndex 起始位置，从后往前计数
      * @return 位置
-     * @since 3.2.1
      */
     public static int lastIndexOfIgnoreCase(CharSequence str, CharSequence searchStr, int fromIndex) {
         return lastIndexOf(str, searchStr, fromIndex, true);
@@ -590,7 +624,6 @@ public abstract class Strings {
      * @param from       起始位置，从后往前计数
      * @param ignoreCase 是否忽略大小写
      * @return 位置
-     * @since 3.2.1
      */
     public static int lastIndexOf(CharSequence text, CharSequence searchStr, int from, boolean ignoreCase) {
         if (isEmpty(text) || isEmpty(searchStr)) {
@@ -634,7 +667,6 @@ public abstract class Strings {
      * @param str2       要比较的字符串2
      * @param ignoreCase 是否忽略大小写
      * @return 如果两个字符串相同，或者都是{@code null}，则返回{@code true}
-     * @since 3.2.0
      */
     public static boolean equals(CharSequence str1, CharSequence str2, boolean ignoreCase) {
         if (null == str1) {
@@ -733,8 +765,66 @@ public abstract class Strings {
                 return INDEX_NOT_FOUND;
             }
         }
-        return new StrFinder(searchStr, ignoreCase).setText(text).start(from);
+        return new StringFinder(searchStr, ignoreCase).setText(text).start(from);
     }
 
 
+    /**
+     * 将对象转为字符串<br>
+     *
+     * <pre>
+     * 1、Byte数组和ByteBuffer会被转换为对应字符串的数组
+     * 2、对象数组会调用Arrays.toString方法
+     * </pre>
+     *
+     * @param obj 对象
+     * @return 字符串
+     */
+    public static String utf8Str(Object obj) {
+        return toString(obj, Charsets.CHARSET_UTF_8);
+    }
+
+
+    /**
+     * 格式化文本, {} 表示占位符<br>
+     * 此方法只是简单将占位符 {} 按照顺序替换为参数<br>
+     * 如果想输出 {} 使用 \\转义 { 即可，如果想输出 {} 之前的 \ 使用双转义符 \\\\ 即可<br>
+     * 例：<br>
+     * 通常使用：format("this is {} for {}", "a", "b") =》 this is a for b<br>
+     * 转义{}： format("this is \\{} for {}", "a", "b") =》 this is {} for a<br>
+     * 转义\： format("this is \\\\{} for {}", "a", "b") =》 this is \a for b<br>
+     *
+     * @param template 文本模板，被替换的部分用 {} 表示，如果模板为null，返回"null"
+     * @param params   参数值
+     * @return 格式化后的文本，如果模板为null，返回"null"
+     */
+    public static String format(CharSequence template, Object... params) {
+        if (null == template) {
+            return NULL;
+        }
+        if (Arrays.isEmpty(params) || isEmpty(template)) {
+            return template.toString();
+        }
+        return StringFormatter.format(template.toString(), params);
+    }
+
+    /**
+     * 截取两个字符串的不同部分（长度一致），判断截取的子串是否相同<br>
+     * 任意一个字符串为null返回false
+     *
+     * @param str1       第一个字符串
+     * @param start1     第一个字符串开始的位置
+     * @param str2       第二个字符串
+     * @param start2     第二个字符串开始的位置
+     * @param length     截取长度
+     * @param ignoreCase 是否忽略大小写
+     * @return 子串是否相同
+     */
+    public static boolean isSubEquals(CharSequence str1, int start1, CharSequence str2, int start2, int length, boolean ignoreCase) {
+        if (null == str1 || null == str2) {
+            return false;
+        }
+
+        return str1.toString().regionMatches(ignoreCase, start1, str2.toString(), start2, length);
+    }
 }

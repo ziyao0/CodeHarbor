@@ -1,6 +1,6 @@
 package com.ziyao.harbor.crypto;
 
-import com.ziyao.harbor.crypto.utils.Secures;
+import com.ziyao.harbor.crypto.utils.SecureUtils;
 
 import java.security.Provider;
 
@@ -19,7 +19,7 @@ public class ProviderFactory {
     public static Provider createBouncyCastleProvider() {
         final org.bouncycastle.jce.provider.BouncyCastleProvider provider = new org.bouncycastle.jce.provider.BouncyCastleProvider();
         // issue#2631@Github
-        Secures.addProvider(provider);
+        SecureUtils.addProvider(provider);
         return provider;
     }
 }

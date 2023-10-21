@@ -19,7 +19,7 @@ import java.security.spec.*;
  * @author ziyao zhang
  * @since 2023/10/19
  */
-public abstract class Keys {
+public abstract class KeyUtils {
 
     /**
      * Java密钥库(Java Key Store，JKS)KEY_STORE
@@ -226,7 +226,6 @@ public abstract class Keys {
      *
      * @param algorithm 非对称加密算法
      * @return {@link KeyPairGenerator}
-     * @since 4.4.3
      */
     public static KeyPairGenerator getKeyPairGenerator(String algorithm) {
         final Provider provider = GlobalBouncyCastleProvider.INSTANCE.getProvider();
@@ -247,7 +246,6 @@ public abstract class Keys {
      *
      * @param algorithm XXXwithXXX算法
      * @return 主体算法名
-     * @since 4.5.2
      */
     public static String getMainAlgorithm(String algorithm) {
         Assert.notNull(algorithm, "Algorithm must be not blank!");
@@ -337,7 +335,6 @@ public abstract class Keys {
      * @param algorithm 算法
      * @param keySpec   {@link KeySpec}
      * @return 公钥 {@link PublicKey}
-     * @since 3.1.1
      */
     public static PublicKey generatePublicKey(String algorithm, KeySpec keySpec) {
         if (null == keySpec) {
@@ -516,7 +513,6 @@ public abstract class Keys {
      *
      * @param algorithm 对称加密算法
      * @return {@link KeyFactory}
-     * @since 4.5.2
      */
     public static SecretKeyFactory getSecretKeyFactory(String algorithm) {
         final Provider provider = GlobalBouncyCastleProvider.INSTANCE.getProvider();

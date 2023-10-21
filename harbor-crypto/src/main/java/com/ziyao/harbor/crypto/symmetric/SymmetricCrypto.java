@@ -4,7 +4,7 @@ import com.ziyao.harbor.core.utils.*;
 import com.ziyao.harbor.crypto.CipherWrapper;
 import com.ziyao.harbor.crypto.Padding;
 import com.ziyao.harbor.crypto.exception.CryptoException;
-import com.ziyao.harbor.crypto.utils.Keys;
+import com.ziyao.harbor.crypto.utils.KeyUtils;
 import lombok.Getter;
 
 import javax.crypto.Cipher;
@@ -17,10 +17,16 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.SecureRandom;
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.Optional;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 /**
+ * 对称加密算法<br>
+ * 在对称加密算法中，数据发信方将明文（原始数据）和加密密钥一起经过特殊加密算法处理后，使其变成复杂的加密密文发送出去。<br>
+ * 收信方收到密文后，若想解读原文，则需要使用加密用过的密钥及相同算法的逆算法对密文进行解密，才能使其恢复成可读明文。<br>
+ * 在对称加密算法中，使用的密钥只有一个，发收信双方都使用这个密钥对数据进行加密和解密，这就要求解密方事先必须知道加密密钥。<br>
+ *
  * @author ziyao zhang
  * @since 2023/10/19
  */
@@ -79,7 +85,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      *
      * @param algorithm 算法 {@link SymmetricAlgorithm}
      * @param key       自定义KEY
-     * @since 3.1.2
      */
     public SymmetricCrypto(SymmetricAlgorithm algorithm, SecretKey key) {
         this(algorithm.getValue(), key);
@@ -92,7 +97,7 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      * @param key       密钥
      */
     public SymmetricCrypto(String algorithm, byte[] key) {
-        this(algorithm, Keys.generateKey(algorithm, key));
+        this(algorithm, KeyUtils.generateKey(algorithm, key));
     }
 
     /**
@@ -100,7 +105,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      *
      * @param algorithm 算法
      * @param key       密钥
-     * @since 3.1.2
      */
     public SymmetricCrypto(String algorithm, SecretKey key) {
         this(algorithm, key, null);
@@ -112,7 +116,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      * @param algorithm  算法
      * @param key        密钥
      * @param paramsSpec 算法参数，例如加盐等
-     * @since 3.3.0
      */
     public SymmetricCrypto(String algorithm, SecretKey key, AlgorithmParameterSpec paramsSpec) {
         init(algorithm, key);
@@ -187,7 +190,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      *
      * @param random 随机数生成器，可自定义随机数种子
      * @return this
-     * @since 5.7.17
      */
     public SymmetricCrypto setRandom(SecureRandom random) {
         this.cipherWrapper.setRandom(random);
@@ -199,7 +201,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      *
      * @param mode 模式枚举
      * @return this
-     * @since 5.7.12
      */
     public SymmetricCrypto setMode(CipherMode mode) {
         lock.lock();
@@ -219,7 +220,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      *
      * @param data 被加密的bytes
      * @return update之后的bytes
-     * @since 5.6.8
      */
     public byte[] update(byte[] data) {
         final Cipher cipher = cipherWrapper.getCipher();
@@ -239,13 +239,11 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      *
      * @param data 被加密的bytes
      * @return update之后的hex数据
-     * @since 5.6.8
      */
     public String updateHex(byte[] data) {
-        return Hexes.encodeHexStr(update(data));
+        return HexUtils.encodeHexStr(update(data));
     }
 
-    // --------------------------------------------------------------------------------- Encrypt
 
     @Override
     public byte[] encrypt(byte[] data) {
@@ -286,12 +284,15 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      * @param algorithm  算法
      * @param paramsSpec 用户定义的{@link AlgorithmParameterSpec}
      * @return this
-     * @since 5.7.11
      */
     private SymmetricCrypto initParams(String algorithm, AlgorithmParameterSpec paramsSpec) {
         if (null == paramsSpec) {
-            byte[] iv = Opt.ofNullable(cipherWrapper)
-                    .map(CipherWrapper::getCipher).map(Cipher::getIV).get();
+            Optional<byte[]> optional = Optional.ofNullable(cipherWrapper)
+                    .map(CipherWrapper::getCipher).map(Cipher::getIV);
+            byte[] iv = null;
+            if (optional.isPresent()) {
+                iv = optional.get();
+            }
 
             // 随机IV
             if (Strings.startWithIgnoreCase(algorithm, "PBE")) {
@@ -335,7 +336,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      * @param data      数据
      * @param blockSize 块大小
      * @return 填充后的数据，如果isZeroPadding为false或长度刚好，返回原数据
-     * @since 4.6.7
      */
     private byte[] paddingDataWithZero(byte[] data, int blockSize) {
         if (this.isZeroPadding) {
@@ -359,7 +359,6 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
      * @param data      数据
      * @param blockSize 块大小，必须大于0
      * @return 去除填充后的数据，如果isZeroPadding为false或长度刚好，返回原数据
-     * @since 4.6.7
      */
     private byte[] removePadding(byte[] data, int blockSize) {
         if (this.isZeroPadding && blockSize > 0) {

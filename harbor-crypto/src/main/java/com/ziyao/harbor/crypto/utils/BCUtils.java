@@ -33,7 +33,7 @@ public abstract class BCUtils {
      * @return ECPrivateKeyParameters
      */
     public static ECPrivateKeyParameters toSm2Params(byte[] d) {
-        return ECKeys.toSm2PrivateParams(d);
+        return ECKeyUtils.toSm2PrivateParams(d);
     }
 
 
@@ -42,7 +42,6 @@ public abstract class BCUtils {
      *
      * @param x9ECParameters {@link X9ECParameters}
      * @return {@link ECDomainParameters}
-     * @since 5.2.0
      */
     public static ECDomainParameters toDomainParams(X9ECParameters x9ECParameters) {
         return new ECDomainParameters(
@@ -73,7 +72,7 @@ public abstract class BCUtils {
      * @return ECPublicKeyParameters
      */
     public static ECPublicKeyParameters toSm2Params(byte[] xBytes, byte[] yBytes) {
-        return ECKeys.toSm2PublicParams(xBytes, yBytes);
+        return ECKeyUtils.toSm2PublicParams(xBytes, yBytes);
     }
 
     /**
@@ -97,7 +96,7 @@ public abstract class BCUtils {
         if (null == d) {
             return null;
         }
-        return toPrivateParams(BigIntegers.fromUnsignedByteArray(Secures.decode(d)), domainParameters);
+        return toPrivateParams(BigIntegers.fromUnsignedByteArray(SecureUtils.decode(d)), domainParameters);
     }
 
     /**
@@ -120,7 +119,7 @@ public abstract class BCUtils {
      * @return ECPublicKeyParameters，x或y为{@code null}则返回{@code null}
      */
     public static ECPublicKeyParameters toPublicParams(String x, String y, ECDomainParameters domainParameters) {
-        return toPublicParams(Secures.decode(x), Secures.decode(y), domainParameters);
+        return toPublicParams(SecureUtils.decode(x), SecureUtils.decode(y), domainParameters);
     }
 
     /**
@@ -160,7 +159,6 @@ public abstract class BCUtils {
      * @param point            曲线坐标点
      * @param domainParameters ECDomainParameters
      * @return ECPublicKeyParameters
-     * @since 5.4.3
      */
     public static ECPublicKeyParameters toPublicParams(org.bouncycastle.math.ec.ECPoint point, ECDomainParameters domainParameters) {
         return new ECPublicKeyParameters(point, domainParameters);
@@ -187,7 +185,7 @@ public abstract class BCUtils {
      * @return {@link ECPrivateKeyParameters}或null
      */
     public static ECPrivateKeyParameters toParams(PrivateKey privateKey) {
-        return ECKeys.toPrivateParams(privateKey);
+        return ECKeyUtils.toPrivateParams(privateKey);
     }
 
     /**
@@ -197,6 +195,6 @@ public abstract class BCUtils {
      * @return {@link ECPublicKeyParameters}或null
      */
     public static ECPublicKeyParameters toParams(PublicKey publicKey) {
-        return ECKeys.toPublicParams(publicKey);
+        return ECKeyUtils.toPublicParams(publicKey);
     }
 }

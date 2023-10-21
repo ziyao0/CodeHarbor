@@ -17,7 +17,7 @@ public class NullOutputStream extends OutputStream {
     /**
      * 什么也不做，写出到<code>/dev/null</code>.
      *
-     * @param b 写出的数据
+     * @param b   写出的数据
      * @param off 开始位置
      * @param len 长度
      */

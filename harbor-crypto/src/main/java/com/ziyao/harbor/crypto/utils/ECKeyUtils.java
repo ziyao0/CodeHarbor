@@ -20,7 +20,7 @@ import java.security.spec.KeySpec;
  * @author ziyao zhang
  * @since 2023/10/19
  */
-public abstract class ECKeys {
+public abstract class ECKeyUtils {
 
     /**
      * 转换为 ECPrivateKeyParameters
@@ -105,7 +105,6 @@ public abstract class ECKeys {
      * @param point            曲线坐标点
      * @param domainParameters ECDomainParameters
      * @return ECPublicKeyParameters
-     * @since 5.4.3
      */
     public static ECPublicKeyParameters toPublicParams(org.bouncycastle.math.ec.ECPoint point, ECDomainParameters domainParameters) {
         return new ECPublicKeyParameters(point, domainParameters);
@@ -134,10 +133,10 @@ public abstract class ECKeys {
         PrivateKey privateKey;
         //尝试PKCS#8
         try {
-            privateKey = Keys.generatePrivateKey("sm2", privateKeyBytes);
+            privateKey = KeyUtils.generatePrivateKey("sm2", privateKeyBytes);
         } catch (Exception ignore) {
             // 尝试PKCS#1
-            privateKey = Keys.generatePrivateKey("sm2", createOpenSSHPrivateKeySpec(privateKeyBytes));
+            privateKey = KeyUtils.generatePrivateKey("sm2", createOpenSSHPrivateKeySpec(privateKeyBytes));
         }
 
         return toPrivateParams(privateKey);
@@ -181,7 +180,6 @@ public abstract class ECKeys {
      *
      * @param publicKeyBytes 公钥
      * @return {@link ECPublicKeyParameters}
-     * @since 5.5.9
      */
     public static ECPublicKeyParameters decodePublicKeyParams(byte[] publicKeyBytes) {
         try {
@@ -194,10 +192,10 @@ public abstract class ECKeys {
         PublicKey publicKey;
         //尝试X.509
         try {
-            publicKey = Keys.generatePublicKey("sm2", publicKeyBytes);
+            publicKey = KeyUtils.generatePublicKey("sm2", publicKeyBytes);
         } catch (Exception ignore) {
             // 尝试PKCS#1
-            publicKey = Keys.generatePublicKey("sm2", createOpenSSHPublicKeySpec(publicKeyBytes));
+            publicKey = KeyUtils.generatePublicKey("sm2", createOpenSSHPublicKeySpec(publicKeyBytes));
         }
 
         return toPublicParams(publicKey);
@@ -208,7 +206,6 @@ public abstract class ECKeys {
      *
      * @param key 公钥，需为PKCS#1格式
      * @return {@link OpenSSHPublicKeySpec}
-     * @since 5.5.9
      */
     public static KeySpec createOpenSSHPublicKeySpec(byte[] key) {
         return new OpenSSHPublicKeySpec(key);

@@ -1,6 +1,6 @@
 package com.ziyao.harbor.crypto;
 
-import com.ziyao.harbor.crypto.utils.Secures;
+import com.ziyao.harbor.crypto.utils.SecureUtils;
 import lombok.Getter;
 
 import javax.crypto.Cipher;
@@ -42,7 +42,7 @@ public class CipherWrapper {
      * @param algorithm 算法名称
      */
     public CipherWrapper(String algorithm) {
-        this(Secures.createCipher(algorithm));
+        this(SecureUtils.createCipher(algorithm));
     }
 
     /**

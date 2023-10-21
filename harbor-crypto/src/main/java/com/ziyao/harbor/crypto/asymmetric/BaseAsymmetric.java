@@ -3,7 +3,7 @@ package com.ziyao.harbor.crypto.asymmetric;
 import com.ziyao.harbor.core.codec.Base64;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.crypto.exception.CryptoException;
-import com.ziyao.harbor.crypto.utils.Keys;
+import com.ziyao.harbor.crypto.utils.KeyUtils;
 import lombok.Getter;
 
 import java.io.Serial;
@@ -50,7 +50,6 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
      * @param algorithm  算法
      * @param privateKey 私钥
      * @param publicKey  公钥
-     * @since 3.1.1
      */
     public BaseAsymmetric(String algorithm, PrivateKey privateKey, PublicKey publicKey) {
         init(algorithm, privateKey, publicKey);
@@ -85,7 +84,7 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
      * 生成公钥和私钥
      */
     public void initKeys() {
-        KeyPair keyPair = Keys.generateKeyPair(this.algorithm);
+        KeyPair keyPair = KeyUtils.generateKeyPair(this.algorithm);
         this.publicKey = keyPair.getPublic();
         this.privateKey = keyPair.getPrivate();
     }
@@ -141,7 +140,6 @@ public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable
      *
      * @param key 密钥，可以是公钥{@link PublicKey}或者私钥{@link PrivateKey}
      * @return this
-     * @since 5.2.0
      */
     public T setKey(Key key) {
         Assert.notNull(key, "key must be not null !");

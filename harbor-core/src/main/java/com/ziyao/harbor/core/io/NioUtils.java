@@ -38,7 +38,7 @@ public abstract class NioUtils {
     public static final int EOF = -1;
 
     /**
-     * 拷贝流 
+     * 拷贝流
      * 本方法不会关闭流
      *
      * @param in             输入流
@@ -60,10 +60,8 @@ public abstract class NioUtils {
      * @param bufferSize     缓存大小
      * @param count          最大长度
      * @param streamProgress 进度条
-     * @return 传输的byte数
-     * @since 5.7.8
      */
-    public static long copyByNIO(InputStream in, OutputStream out, int bufferSize, long count, StreamProgress streamProgress)  {
+    public static long copyByNIO(InputStream in, OutputStream out, int bufferSize, long count, StreamProgress streamProgress) {
         final long copySize = copy(Channels.newChannel(in), Channels.newChannel(out), bufferSize, count, streamProgress);
         IOUtils.flush(out);
         return copySize;
@@ -76,9 +74,8 @@ public abstract class NioUtils {
      * @param outChannel {@link FileChannel}
      * @return 拷贝的字节数
      * @ IO异常
-     * @since 5.5.3
      */
-    public static long copy(FileChannel inChannel, FileChannel outChannel)  {
+    public static long copy(FileChannel inChannel, FileChannel outChannel) {
         Assert.notNull(inChannel, "In channel is null!");
         Assert.notNull(outChannel, "Out channel is null!");
 
@@ -111,7 +108,6 @@ public abstract class NioUtils {
      * @return 输入通道的字节数
      * @throws IOException 发生IO错误
      * @author z8g
-     * @since 5.7.21
      */
     private static long copySafely(FileChannel inChannel, FileChannel outChannel) throws IOException {
         final long totalBytes = inChannel.size();
@@ -130,9 +126,8 @@ public abstract class NioUtils {
      * @param out {@link WritableByteChannel}
      * @return 拷贝的字节数
      * @ IO异常
-     * @since 4.5.0
      */
-    public static long copy(ReadableByteChannel in, WritableByteChannel out)  {
+    public static long copy(ReadableByteChannel in, WritableByteChannel out) {
         return copy(in, out, DEFAULT_BUFFER_SIZE);
     }
 
@@ -144,9 +139,8 @@ public abstract class NioUtils {
      * @param bufferSize 缓冲大小，如果小于等于0，使用默认
      * @return 拷贝的字节数
      * @ IO异常
-     * @since 4.5.0
      */
-    public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize)  {
+    public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize) {
         return copy(in, out, bufferSize, null);
     }
 
@@ -160,7 +154,7 @@ public abstract class NioUtils {
      * @return 拷贝的字节数
      * @ IO异常
      */
-    public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize, StreamProgress streamProgress)  {
+    public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize, StreamProgress streamProgress) {
         return copy(in, out, bufferSize, -1, streamProgress);
     }
 
@@ -174,9 +168,8 @@ public abstract class NioUtils {
      * @param streamProgress {@link StreamProgress}进度处理器
      * @return 拷贝的字节数
      * @ IO异常
-     * @since 5.7.8
      */
-    public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize, long count, StreamProgress streamProgress)  {
+    public static long copy(ReadableByteChannel in, WritableByteChannel out, int bufferSize, long count, StreamProgress streamProgress) {
         return new ChannelCopier(bufferSize, count, streamProgress).copy(in, out);
     }
 
@@ -187,9 +180,8 @@ public abstract class NioUtils {
      * @param charset 字符集
      * @return 内容
      * @ IO异常
-     * @since 4.5.0
      */
-    public static String read(ReadableByteChannel channel, Charset charset)  {
+    public static String read(ReadableByteChannel channel, Charset charset) {
         FastByteArrayOutputStream out = read(channel);
         return null == charset ? out.toString() : out.toString(charset);
     }
@@ -201,7 +193,7 @@ public abstract class NioUtils {
      * @return 输出流
      * @ IO异常
      */
-    public static FastByteArrayOutputStream read(ReadableByteChannel channel)  {
+    public static FastByteArrayOutputStream read(ReadableByteChannel channel) {
         final FastByteArrayOutputStream out = new FastByteArrayOutputStream();
         copy(channel, Channels.newChannel(out));
         return out;
@@ -214,7 +206,7 @@ public abstract class NioUtils {
      * @return 内容
      * @ IO异常
      */
-    public static String readUtf8(FileChannel fileChannel)  {
+    public static String readUtf8(FileChannel fileChannel) {
         return read(fileChannel, Charsets.CHARSET_UTF_8);
     }
 
@@ -226,7 +218,7 @@ public abstract class NioUtils {
      * @return 内容
      * @ IO异常
      */
-    public static String read(FileChannel fileChannel, String charsetName)  {
+    public static String read(FileChannel fileChannel, String charsetName) {
         return read(fileChannel, Charsets.forName(charsetName));
     }
 
@@ -238,7 +230,7 @@ public abstract class NioUtils {
      * @return 内容
      * @ IO异常
      */
-    public static String read(FileChannel fileChannel, Charset charset)  {
+    public static String read(FileChannel fileChannel, Charset charset) {
         MappedByteBuffer buffer;
         try {
             buffer = fileChannel.map(FileChannel.MapMode.READ_ONLY, 0, fileChannel.size()).load();

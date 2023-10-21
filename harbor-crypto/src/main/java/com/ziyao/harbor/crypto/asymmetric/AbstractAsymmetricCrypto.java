@@ -7,6 +7,7 @@ import java.security.PublicKey;
 
 /**
  * 抽象的非对称加密对象，包装了加密和解密为Hex和Base64的封装
+ *
  * @author ziyao
  * @since 2023/4/23
  */
@@ -15,8 +16,6 @@ public abstract class AbstractAsymmetricCrypto<T extends AbstractAsymmetricCrypt
         implements AsymmetricEncryptor, AsymmetricDecryptor {
     @Serial
     private static final long serialVersionUID = -2768384407594028709L;
-
-    // ------------------------------------------------------------------ Constructor start
 
     /**
      * 构造
@@ -27,7 +26,6 @@ public abstract class AbstractAsymmetricCrypto<T extends AbstractAsymmetricCrypt
      * @param algorithm  算法
      * @param privateKey 私钥
      * @param publicKey  公钥
-     * @since 3.1.1
      */
     public AbstractAsymmetricCrypto(String algorithm, PrivateKey privateKey, PublicKey publicKey) {
         super(algorithm, privateKey, publicKey);

@@ -13,7 +13,6 @@ public abstract class CodeValidator {
      *
      * @param value 值
      * @return 是否为Hex（16进制）字符串
-     * @since 4.3.3
      */
     public static boolean isHex(CharSequence value) {
         return isMatchRegex(Pattern.compile("^[a-fA-F0-9]+$"), value);
