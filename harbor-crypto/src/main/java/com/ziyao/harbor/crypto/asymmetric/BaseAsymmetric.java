@@ -6,7 +6,7 @@ import com.ziyao.harbor.crypto.exception.CryptoException;
 import com.ziyao.harbor.crypto.utils.KeyUtils;
 import lombok.Getter;
 
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.security.Key;
 import java.security.KeyPair;
@@ -23,7 +23,7 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class BaseAsymmetric<T extends BaseAsymmetric<T>> implements Serializable {
 
-    @Serial
+    
     private static final long serialVersionUID = 3336907590201462580L;
     /**
      * 算法

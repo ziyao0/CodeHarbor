@@ -7,14 +7,14 @@ import com.ziyao.harbor.crypto.utils.SecureUtils;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
-import java.io.Serial;
+
 
 /**
  * @author ziyao
  * @since 2023/4/23
  */
 public class SM4 extends SymmetricCrypto {
-    @Serial
+    
     private static final long serialVersionUID = 5221366140097121833L;
     public static final String ALGORITHM_NAME = "SM4";
 

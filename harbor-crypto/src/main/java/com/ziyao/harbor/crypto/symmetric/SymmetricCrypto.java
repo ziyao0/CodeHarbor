@@ -11,7 +11,7 @@ import javax.crypto.Cipher;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEParameterSpec;
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
@@ -31,7 +31,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * @since 2023/10/19
  */
 public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, Serializable {
-    @Serial
+    
     private static final long serialVersionUID = 1L;
 
     private CipherWrapper cipherWrapper;

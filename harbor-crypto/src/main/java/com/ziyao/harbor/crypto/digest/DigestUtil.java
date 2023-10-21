@@ -1,7 +1,6 @@
 package com.ziyao.harbor.crypto.digest;
 
 import com.ziyao.harbor.core.utils.Charsets;
-import com.ziyao.harbor.crypto.asymmetric.DigestAlgorithm;
 
 import java.nio.charset.Charset;
 

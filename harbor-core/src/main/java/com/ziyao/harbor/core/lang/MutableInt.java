@@ -2,14 +2,13 @@ package com.ziyao.harbor.core.lang;
 
 import com.ziyao.harbor.core.utils.Numbers;
 
-import java.io.Serial;
 
 /**
  * @author ziyao zhang
  * @since 2023/10/19
  */
 public class MutableInt extends Number implements Comparable<MutableInt>, Mutable<Number> {
-    @Serial
+
     private static final long serialVersionUID = 1L;
 
     private int value;

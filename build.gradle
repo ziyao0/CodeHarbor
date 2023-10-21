@@ -80,7 +80,7 @@ subprojects {
         }
     }
 
-    if (projectName == 'harbor-core') {
+    if (project.name == 'harbor-core') {
         publishing {
             publications {
                 maven(MavenPublication) {

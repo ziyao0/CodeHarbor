@@ -30,7 +30,7 @@ import java.nio.charset.Charset;
  */
 public class LineIter extends ComputeIter<String> implements IterableIter<String>, Closeable, Serializable {
 
-    @Serial
+    
     private static final long serialVersionUID = -2489100770629325670L;
 
     private final BufferedReader bufferedReader;

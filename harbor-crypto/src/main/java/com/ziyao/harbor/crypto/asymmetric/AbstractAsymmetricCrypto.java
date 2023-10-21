@@ -1,7 +1,7 @@
 package com.ziyao.harbor.crypto.asymmetric;
 
 
-import java.io.Serial;
+
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
@@ -14,7 +14,7 @@ import java.security.PublicKey;
 public abstract class AbstractAsymmetricCrypto<T extends AbstractAsymmetricCrypto<T>>
         extends BaseAsymmetric<T>
         implements AsymmetricEncryptor, AsymmetricDecryptor {
-    @Serial
+    
     private static final long serialVersionUID = -2768384407594028709L;
 
     /**

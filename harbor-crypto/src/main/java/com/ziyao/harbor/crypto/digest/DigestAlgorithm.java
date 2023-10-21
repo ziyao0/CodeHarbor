@@ -1,4 +1,4 @@
-package com.ziyao.harbor.crypto.asymmetric;
+package com.ziyao.harbor.crypto.digest;
 
 import lombok.Getter;
 

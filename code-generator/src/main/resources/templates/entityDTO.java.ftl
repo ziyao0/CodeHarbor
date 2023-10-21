@@ -11,7 +11,7 @@ import com.ziyao.harbor.core.utils.Strings;
 <#--<#list table.importPackages as pkg>-->
 <#--import ${pkg};-->
 <#--</#list>-->
-import java.io.Serial;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 public class ${entity}DTO implements EntityDTO<${entity}>, Serializable {
 
 <#if entitySerialVersionUID>
-    @Serial
+
     private static final long serialVersionUID = 1L;
 </#if>
 

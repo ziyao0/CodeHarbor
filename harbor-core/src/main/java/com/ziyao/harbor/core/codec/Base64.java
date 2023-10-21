@@ -310,9 +310,14 @@ public class Base64 {
     }
 
     private static boolean isWhiteSpace(byte byteToCheck) {
-        return switch (byteToCheck) {
-            case ' ', '\n', '\r', '\t' -> true;
-            default -> false;
-        };
+        switch (byteToCheck) {
+            case ' ':
+            case '\n':
+            case '\r':
+            case '\t':
+                return true;
+            default:
+                return false;
+        }
     }
 }

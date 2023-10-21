@@ -23,7 +23,6 @@ import org.bouncycastle.crypto.signers.StandardDSAEncoding;
 import org.bouncycastle.util.BigIntegers;
 import org.bouncycastle.util.encoders.Hex;
 
-import java.io.Serial;
 import java.math.BigInteger;
 import java.security.PrivateKey;
 import java.security.PublicKey;
@@ -50,7 +49,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * 算法EC
      */
     private static final String ALGORITHM_SM2 = "SM2";
-    @Serial
+
     private static final long serialVersionUID = 6994843772009338003L;
 
     protected SM2Engine engine;
@@ -63,7 +62,6 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
     private Digest digest = new SM3Digest();
     private SM2Engine.Mode mode = SM2Engine.Mode.C1C3C2;
 
-    // ------------------------------------------------------------------ Constructor start
 
     /**
      * 构造，生成新的私钥公钥对
@@ -158,7 +156,6 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         this.init();
     }
 
-    // ------------------------------------------------------------------ Constructor end
 
     /**
      * 初始化<br>
@@ -181,8 +178,6 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         // 阻断父类中自动生成密钥对的操作，此操作由本类中进行。
         // 由于用户可能传入Params而非key，因此此时key必定为null，故此不再生成
     }
-
-    // --------------------------------------------------------------------------------- Encrypt
 
     /**
      * 使用公钥加密，SM2非对称加密的结果由C1,C3,C2三部分组成，其中：
@@ -247,7 +242,6 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
         }
     }
 
-    // --------------------------------------------------------------------------------- Decrypt
 
     /**
      * 使用私钥解密
@@ -293,7 +287,6 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
             lock.unlock();
         }
     }
-    // --------------------------------------------------------------------------------- Sign and Verify
 
     /**
      * 用私钥对信息生成数字签名
@@ -544,17 +537,18 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
      * @return {@link CipherParameters}
      */
     private CipherParameters getCipherParameters(KeyType keyType) {
-        return switch (keyType) {
-            case PublicKey -> {
+        switch (keyType) {
+            case PublicKey: {
                 Assert.notNull(this.publicKeyParams, "PublicKey must be not null !");
-                yield this.publicKeyParams;
+                return this.publicKeyParams;
             }
-            case PrivateKey -> {
+            case PrivateKey: {
                 Assert.notNull(this.privateKeyParams, "PrivateKey must be not null !");
-                yield this.privateKeyParams;
+                return this.privateKeyParams;
             }
-            default -> null;
-        };
+            default:
+                return null;
+        }
 
     }
 

@@ -7,7 +7,7 @@ import com.ziyao.harbor.crypto.Padding;
 import com.ziyao.harbor.crypto.TextCipher;
 import lombok.Getter;
 
-import java.io.Serial;
+
 import java.io.Serializable;
 
 /**
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Getter
 public class Sm4TextCipher implements TextCipher, Serializable {
 
-    @Serial
+    
     private static final long serialVersionUID = 6505931393405080942L;
 
     private final String algorithm = Algorithm.SM4;

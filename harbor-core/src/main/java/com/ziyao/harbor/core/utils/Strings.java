@@ -68,7 +68,7 @@ public abstract class Strings implements StrPool {
      * @see #hasText(CharSequence)
      */
     public static boolean hasLength(CharSequence str) {
-        return (str != null && str.length() == 0);
+        return (str != null && !str.toString().isEmpty());
     }
 
     /**
@@ -218,7 +218,11 @@ public abstract class Strings implements StrPool {
      */
     public static String encodeURLUTF8(String str) {
         if (hasLength(str)) {
-            return URLEncoder.encode(str, Charsets.CHARSET_UTF_8);
+            try {
+                return URLEncoder.encode(str, Charsets.UTF_8);
+            } catch (UnsupportedEncodingException e) {
+                throw new RuntimeException(e);
+            }
         }
         return null;
     }

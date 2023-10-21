@@ -1175,7 +1175,7 @@ public abstract class IOUtils extends NioUtils {
      * @param charset 编码
      * @return 字符串
      */
-    public static String toStr(ByteArrayOutputStream out, Charset charset) {
-        return out.toString(charset);
+    public static String toStr(ByteArrayOutputStream out, Charset charset) throws UnsupportedEncodingException {
+        return out.toString(charset.name());
     }
 }
