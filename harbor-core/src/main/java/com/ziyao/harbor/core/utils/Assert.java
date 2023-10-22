@@ -24,6 +24,18 @@ public abstract class Assert {
         }
     }
 
+    /**
+     * Assert that a string is not {@code null}.
+     *
+     * @param value   要检查的字符串
+     * @param message 断言失败后返回的异常信息
+     */
+    public static void notNull(CharSequence value, String message) {
+        if (Strings.isEmpty(value) || value.isEmpty()) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
     public static <T> void notNull(T value) {
         if (value instanceof String) {
             if (Strings.isEmpty(value)) {

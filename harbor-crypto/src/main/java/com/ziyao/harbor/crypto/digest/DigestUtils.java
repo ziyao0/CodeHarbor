@@ -9,7 +9,7 @@ import java.nio.charset.Charset;
  * @author ziyao
  * @since 2023/4/23
  */
-public abstract class DigestUtil {
+public abstract class DigestUtils {
 
 
     /**

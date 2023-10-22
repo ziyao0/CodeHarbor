@@ -4,7 +4,7 @@ package com.ziyao.harbor.usercenter.security.codec;
  * @author zhangziyao
  * @since 2023/4/24
  */
-public interface Encryptor {
+public interface PasswordEncryptor {
 
     /**
      * <p>

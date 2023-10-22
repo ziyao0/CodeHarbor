@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.security;
+package com.ziyao.harbor.usercenter.authenticate;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;

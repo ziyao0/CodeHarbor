@@ -5,7 +5,6 @@ import com.ziyao.harbor.usercenter.comm.exception.ErrorsIMessage;
 import com.ziyao.harbor.usercenter.comm.exception.UserStatusException;
 import com.ziyao.harbor.usercenter.security.api.UserDetails;
 import com.ziyao.harbor.usercenter.security.core.UserDetailsChecker;
-import org.springframework.util.ObjectUtils;
 
 /**
  * 检查用户状态公共类
@@ -22,7 +21,7 @@ public class UserStatusChecker implements UserDetailsChecker {
      * @param userDetails the UserDetails instance whose status should be checked.
      */
     @Override
-    public void check(UserDetails userDetails) {
+    public void validate(UserDetails userDetails) {
         // 账号
         if (Strings.isEmpty(userDetails.getAccessKey())) {
             throw new UserStatusException(ErrorsIMessage.ACCOUNT_NULL);
