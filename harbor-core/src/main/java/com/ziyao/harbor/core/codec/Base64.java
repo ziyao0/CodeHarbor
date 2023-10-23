@@ -1,12 +1,9 @@
 package com.ziyao.harbor.core.codec;
 
 
-import com.ziyao.harbor.core.io.IOUtils;
 import com.ziyao.harbor.core.utils.Charsets;
 import com.ziyao.harbor.core.utils.Strings;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.nio.charset.Charset;
 
 /**
@@ -15,8 +12,6 @@ import java.nio.charset.Charset;
  */
 public class Base64 {
     private static final Charset DEFAULT_CHARSET = Charsets.CHARSET_UTF_8;
-
-    // -------------------------------------------------------------------- encode
 
     /**
      * 编码为Base64，非URL安全的
@@ -151,26 +146,6 @@ public class Base64 {
         return java.util.Base64.getUrlEncoder().withoutPadding().encodeToString(source);
     }
 
-    /**
-     * base64编码
-     *
-     * @param in 被编码base64的流（一般为图片流或者文件流）
-     * @return 被加密后的字符串
-     */
-    public static String encode(InputStream in) {
-        return encode(IOUtils.readBytes(in));
-    }
-
-    /**
-     * base64编码,URL安全的
-     *
-     * @param in 被编码base64的流（一般为图片流或者文件流）
-     * @return 被加密后的字符串
-     */
-    public static String encodeUrlSafe(InputStream in) {
-        return encodeUrlSafe(IOUtils.readBytes(in));
-    }
-
 
     /**
      * 编码为Base64<br>
@@ -184,8 +159,6 @@ public class Base64 {
     public static byte[] encode(byte[] arr, boolean isMultiLine, boolean isUrlSafe) {
         return Base64Encoder.encode(arr, isMultiLine, isUrlSafe);
     }
-
-    // -------------------------------------------------------------------- decode
 
     /**
      * base64解码
@@ -229,17 +202,6 @@ public class Base64 {
         return Base64Decoder.decodeStr(source, charset);
     }
 
-
-    /**
-     * base64解码
-     *
-     * @param base64     被解码的base64字符串
-     * @param out        写出到的流
-     * @param isCloseOut 是否关闭输出流
-     */
-    public static void decodeToStream(CharSequence base64, OutputStream out, boolean isCloseOut) {
-        IOUtils.write(out, isCloseOut, Base64Decoder.decode(base64));
-    }
 
     /**
      * base64解码

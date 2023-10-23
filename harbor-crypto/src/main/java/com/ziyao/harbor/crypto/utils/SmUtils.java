@@ -1,18 +1,21 @@
 package com.ziyao.harbor.crypto.utils;
 
-import com.ziyao.harbor.core.utils.*;
+import com.ziyao.harbor.core.codec.HexCodec;
+import com.ziyao.harbor.core.codec.StringCodec;
+import com.ziyao.harbor.core.utils.Arrays;
+import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.core.utils.HexUtils;
+import com.ziyao.harbor.core.utils.Randoms;
 import com.ziyao.harbor.crypto.Algorithm;
-import com.ziyao.harbor.crypto.KeyPair;
-import com.ziyao.harbor.crypto.Padding;
+import com.ziyao.harbor.crypto.BytesCipher;
+import com.ziyao.harbor.crypto.DefaultTextCipher;
 import com.ziyao.harbor.crypto.TextCipher;
+import com.ziyao.harbor.crypto.asymmetric.KeyPair;
 import com.ziyao.harbor.crypto.asymmetric.SM2;
-import com.ziyao.harbor.crypto.asymmetric.Sm2TextCipher;
+import com.ziyao.harbor.crypto.asymmetric.Sm2BytesCipher;
 import com.ziyao.harbor.crypto.digest.SM3;
 import com.ziyao.harbor.crypto.exception.CryptoException;
-import com.ziyao.harbor.crypto.symmetric.KeyIv;
-import com.ziyao.harbor.crypto.symmetric.Mode;
-import com.ziyao.harbor.crypto.symmetric.SM4;
-import com.ziyao.harbor.crypto.symmetric.Sm4TextCipher;
+import com.ziyao.harbor.crypto.symmetric.*;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.crypto.params.ECDomainParameters;
@@ -124,7 +127,6 @@ public abstract class SmUtils {
 
     public static KeyIv generateSm4KeyIv() {
         SecretKey secretKey = KeyUtils.generateKey(Algorithm.SM4, 128);
-        String key = HexUtils.encodeHexStr(secretKey.getEncoded());
         byte[] iv = new byte[16];
         SecureRandom secureRandom = Randoms.getSecureRandom();
         secureRandom.nextBytes(iv);
@@ -141,7 +143,8 @@ public abstract class SmUtils {
     public static TextCipher createSm2TextCipher(String privateKey, String publicKey) {
         Assert.notNull(privateKey, "私钥不能为空！");
         Assert.notNull(publicKey, "公钥不能为空！");
-        return new Sm2TextCipher(privateKey, publicKey);
+        BytesCipher bytesCipher = createSm2BytesCipher(privateKey, publicKey);
+        return new DefaultTextCipher(bytesCipher, HexCodec.CODEC);
     }
 
     /**
@@ -151,32 +154,90 @@ public abstract class SmUtils {
      * @param iv  向量 加盐
      * @return {@link TextCipher}
      */
-    public static TextCipher createSm4CBCWithZeroPaddingTextCipher(String key, String iv) {
+    public static TextCipher createSm4CBCTextCipherWithZeroPaddingAndHexCodec(String key, String iv) {
         Assert.notNull(key, "密钥不能为空！");
         Assert.notNull(iv, "向量不能为空！");
-        return new Sm4TextCipher(Mode.CBC, Padding.ZeroPadding, key, iv);
+        SM4 sm4 = createSm4CBCWithZeroPadding(key, iv);
+        BytesCipher bytesCipher = createSm4BytesCipher(sm4);
+        return new DefaultTextCipher(bytesCipher, HexCodec.CODEC);
     }
 
-    public static void main(String[] args) {
-        KeyIv keyIv = generateSm4KeyIv();
-        System.out.println(keyIv.getKey());
-        System.out.println(keyIv.getIv());
-        TextCipher textCipher = createSm4CBCWithZeroPaddingTextCipher(keyIv.getKey(), keyIv.getIv());
-        String encrypt = textCipher.encrypt("张子111111ddfaefaewafafeeafsdsvcdsfwerfawgfdsafewwerewgvfsadfsafee   efdfffaefwafdsacdvsrgfawef1111111111111尧");
-        System.out.println(encrypt);
-        System.out.println(textCipher.decrypt(encrypt));
-        SM3 sm3 = createSm3();
-        byte[] digest = sm3.digest(Strings.toBytes("zhangziyao"));
-
-        String s = HexUtils.encodeHexStr(digest);
-        System.out.println(s);
-
-
-        String s1 = HexUtils.encodeHexStr(sm3.digest(Strings.toBytes("zhangziyao")));
-        System.out.println(s1);
-        System.out.println(Strings.equals(s, s1));
+    /**
+     * 创建sm4文本密码
+     *
+     * @param keyIv 密钥向量
+     * @return {@link TextCipher}
+     */
+    public static TextCipher createSm4CBCTextCipherWithZeroPaddingAndHexCodec(KeyIv keyIv) {
+        Assert.notNull(keyIv, "密钥不能为空！");
+        Assert.notNull(keyIv.getKey(), "密钥不能为空！");
+        Assert.notNull(keyIv.getIv(), "向量不能为空！");
+        SM4 sm4 = createSm4CBCWithZeroPadding(keyIv.getKey(), keyIv.getIv());
+        BytesCipher bytesCipher = createSm4BytesCipher(sm4);
+        return new DefaultTextCipher(bytesCipher, HexCodec.CODEC);
     }
 
+    /**
+     * 创建sm4文本密码
+     *
+     * @param key 密钥
+     * @param iv  向量 加盐
+     * @return {@link TextCipher}
+     */
+    public static TextCipher createSm4ECBTextCipherWithZeroPaddingAndHexCodec(String key, String iv) {
+        Assert.notNull(key, "密钥不能为空！");
+        Assert.notNull(iv, "向量不能为空！");
+        SM4 sm4 = createSm4WithZeroPadding(Mode.ECB, key, iv);
+        BytesCipher bytesCipher = createSm4BytesCipher(sm4);
+        return new DefaultTextCipher(bytesCipher, HexCodec.CODEC);
+    }
+
+    /**
+     * 创建sm4文本密码
+     *
+     * @param key 密钥
+     * @param iv  向量 加盐
+     * @return {@link TextCipher}
+     */
+    public static TextCipher createSm4CBCTextCipherWithPKCS5PaddingAndHexCodec(String key, String iv) {
+        Assert.notNull(key, "密钥不能为空！");
+        Assert.notNull(iv, "向量不能为空！");
+        SM4 sm4 = createSm4CBCWithPKCS5Padding(key, iv);
+        BytesCipher bytesCipher = createSm4BytesCipher(sm4);
+        return new DefaultTextCipher(bytesCipher, HexCodec.CODEC);
+    }
+
+    private static BytesCipher createSm4BytesCipher(SM4 sm4) {
+        return new Sm4BytesCipher(sm4);
+    }
+
+    private static BytesCipher createSm2BytesCipher(SM2 sm2) {
+        return new Sm2BytesCipher(sm2);
+    }
+
+    private static BytesCipher createSm2BytesCipher(String privateKey, String publicKey) {
+        return new Sm2BytesCipher(HexCodec.CODEC.decode(privateKey), HexCodec.CODEC.decode(publicKey));
+    }
+
+    public static SM4 createSm4CBCWithZeroPadding(String key, String iv) {
+        return createSm4WithZeroPadding(Mode.CBC, key, iv);
+    }
+
+    public static SM4 createSm4WithZeroPadding(Mode mode, String key, String iv) {
+        return createSm4(mode, Padding.ZeroPadding, key, iv);
+    }
+
+    public static SM4 createSm4(Mode mode, Padding padding, String key, String iv) {
+        return new SM4(mode, padding, key, iv);
+    }
+
+    public static SM4 createSm4CBCWithPKCS5Padding(String key, String iv) {
+        return new SM4(Mode.CBC, Padding.PKCS5Padding, HexUtils.decodeHex(key), HexUtils.decodeHex(iv));
+    }
+
+    private static TextCipher createTextCipher(BytesCipher bytesCipher, StringCodec codec) {
+        return new DefaultTextCipher(bytesCipher, codec);
+    }
 
     /**
      * BC的SM3withSM2签名得到的结果的rs是asn1格式的，这个方法转化成直接拼接r||s
@@ -219,5 +280,20 @@ public abstract class SmUtils {
             throw new CryptoException("Error rs: " + Hex.toHexString(rs));
         }
     }
+
+
+    public static void main(String[] args) {
+
+        KeyIv keyIv = generateSm4KeyIv();
+        TextCipher sm4CBCTextCipherWithZeroPadding = createSm4CBCTextCipherWithZeroPaddingAndHexCodec(keyIv.getKey(), keyIv.getIv());
+        String encrypt1 = sm4CBCTextCipherWithZeroPadding.encrypt("这个那");
+        System.out.println(encrypt1);
+        System.out.println(sm4CBCTextCipherWithZeroPadding.decrypt(encrypt1));
+
+        TextCipher sm4CBCTextCipherWithPKCS5Padding = createSm4CBCTextCipherWithPKCS5PaddingAndHexCodec(keyIv.getKey(), keyIv.getIv());
+        String encrypt2 = sm4CBCTextCipherWithPKCS5Padding.encrypt("张子尧");
+        System.out.println(sm4CBCTextCipherWithZeroPadding.decrypt(encrypt2));
+    }
+
 }
 

@@ -1,4 +1,6 @@
-package com.ziyao.horbar.codec.druid;
+package com.ziyao.horbar.crypto.druid;
+
+import com.ziyao.harbor.crypto.TextCipher;
 
 import javax.security.auth.callback.NameCallback;
 import java.io.Serial;
@@ -11,12 +13,16 @@ public class NameDecryptCallback extends NameCallback {
     @Serial
     private static final long serialVersionUID = 6060803312395586003L;
 
-    public NameDecryptCallback(String prompt) {
+    private final TextCipher textCipher;
+
+
+    public NameDecryptCallback(String prompt, TextCipher textCipher) {
         super(prompt);
+        this.textCipher = textCipher;
     }
 
     @Override
     public String getName() {
-        return super.getName();
+        return textCipher.decrypt(super.getName());
     }
 }

@@ -2,7 +2,6 @@ package com.ziyao.harbor.crypto.symmetric;
 
 import com.ziyao.harbor.core.utils.Arrays;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.crypto.Padding;
 import com.ziyao.harbor.crypto.utils.SecureUtils;
 
 import javax.crypto.SecretKey;

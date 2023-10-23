@@ -1,4 +1,4 @@
-package com.ziyao.harbor.crypto;
+package com.ziyao.harbor.crypto.symmetric;
 
 /**
  * 补码方式

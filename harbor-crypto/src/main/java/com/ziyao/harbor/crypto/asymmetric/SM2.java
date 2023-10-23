@@ -307,7 +307,7 @@ public class SM2 extends AbstractAsymmetricCrypto<SM2> {
 
     /**
      * 用私钥对信息生成数字签名，签名格式为ASN1<br>
-     * * 在硬件签名中，返回结果为R+S，可以通过调用{@link com.ziyao.harbor.crypto.utils.SmUtils#rsAsn1ToPlain(byte[])}方法转换之。
+     * * 在硬件签名中，返回结果为R+S，可以通过调用{@link com.ziyao.harbor.crypto.utils.SmUtils#rsAsn1ToPlain(byte[])}方法转换。
      *
      * @param data 加密数据
      * @return 签名

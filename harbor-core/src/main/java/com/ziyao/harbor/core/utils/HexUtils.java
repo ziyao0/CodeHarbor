@@ -46,7 +46,6 @@ public abstract class HexUtils {
         return true;
     }
 
-    // ---------------------------------------------------------------------------------------------------- encode
 
     /**
      * 将字节数组转换为十六进制字符数组
@@ -131,7 +130,6 @@ public abstract class HexUtils {
         return new String(encodeHex(data, toLowerCase));
     }
 
-    // ---------------------------------------------------------------------------------------------------- decode
 
     /**
      * 将十六进制字符数组转换为字符串，默认编码UTF-8
@@ -199,7 +197,6 @@ public abstract class HexUtils {
         return Base16Codec.CODEC_LOWER.decode(hexData);
     }
 
-    // ---------------------------------------------------------------------------------------- Color
 
     /**
      * 将{@link Color}编码为Hex形式
