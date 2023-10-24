@@ -5,4 +5,9 @@ package com.ziyao.harbor.crypto;
  * @since 2023/10/24
  */
 public interface CipherContext {
+
+    CipherProperties getCipherProperties();
+
+    
+
 }

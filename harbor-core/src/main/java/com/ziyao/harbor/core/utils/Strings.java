@@ -686,6 +686,17 @@ public abstract class Strings implements StrPool {
     }
 
     /**
+     * 比较两个字符串是否相等
+     *
+     * @param str1 要比较的字符串1
+     * @param str2 要比较的字符串2
+     * @return 如果两个字符串相同，或者都是{@code null}，则返回{@code true}
+     */
+    public static boolean equalsIgnoreCase(CharSequence str1, CharSequence str2) {
+        return equals(str1, str2, true);
+    }
+
+    /**
      * 替换字符串中的指定字符串
      *
      * @param str         字符串

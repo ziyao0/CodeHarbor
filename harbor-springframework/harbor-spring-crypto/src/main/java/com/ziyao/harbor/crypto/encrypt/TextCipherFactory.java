@@ -1,18 +1,43 @@
-package com.ziyao.harbor.crypto;
+package com.ziyao.harbor.crypto.encrypt;
 
+import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.harbor.crypto.CipherProperties;
+import com.ziyao.harbor.crypto.TextCipher;
 import com.ziyao.harbor.crypto.utils.SmUtils;
+import lombok.Getter;
 
 import java.util.List;
 
 /**
- * @author ziyao zhang
- * @since 2023/10/23
+ * @author ziyao
+ * @since 2023/4/23
  */
-public class DefaultCipherFactory implements CipherFactory {
+@Getter
+public class TextCipherFactory {
 
 
-    @Override
-    public List<TextCipher> create(CipherProperties properties) {
+    private final List<TextCipher> textCiphers;
+
+    public TextCipherFactory(List<TextCipher> textCiphers) {
+        this.textCiphers = textCiphers;
+    }
+
+    public TextCipherFactory(CipherProperties properties) {
+        this.textCiphers = readCipher(properties);
+    }
+
+    public TextCipher loadCipher(String algorithm) {
+        if (Strings.hasText(algorithm)) {
+            for (TextCipher textCipher : getTextCiphers()) {
+                if (Strings.equalsIgnoreCase(algorithm, textCipher.getAlgorithm())) {
+                    return textCipher;
+                }
+            }
+        }
+        return null;
+    }
+
+    private List<TextCipher> readCipher(CipherProperties properties) {
         List<TextCipher> textCiphers = new java.util.ArrayList<>();
         //解析配置文件
         for (CipherProperties.Type type : properties.getTypes()) {
