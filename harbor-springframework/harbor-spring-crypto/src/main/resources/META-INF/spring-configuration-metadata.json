@@ -1,0 +1,54 @@
+{
+  "groups": [
+    {
+      "name": "com.ziyao.crypto.cipher",
+      "type": "com.ziyao.harbor.crypto.CipherProperties",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm2",
+      "type": "com.ziyao.harbor.crypto.CipherProperties$Sm2Properties",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties",
+      "sourceMethod": "getSm2()"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4",
+      "type": "com.ziyao.harbor.crypto.CipherProperties$Sm4Properties",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties",
+      "sourceMethod": "getSm4()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "com.ziyao.crypto.cipher.sm2.pri-key",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties$Sm2Properties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm2.pub-key",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties$Sm2Properties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4.iv",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties$Sm4Properties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4.key",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties$Sm4Properties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4.mode",
+      "type": "com.ziyao.harbor.crypto.symmetric.Mode",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties$Sm4Properties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.types",
+      "type": "java.util.Set<com.ziyao.harbor.crypto.CipherProperties$Type>",
+      "sourceType": "com.ziyao.harbor.crypto.CipherProperties"
+    }
+  ],
+  "hints": []
+}

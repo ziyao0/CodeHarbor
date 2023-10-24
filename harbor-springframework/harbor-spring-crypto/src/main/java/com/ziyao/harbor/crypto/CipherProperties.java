@@ -1,7 +1,9 @@
-package com.ziyao.horbar.crypto;
+package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.crypto.symmetric.Mode;
 import lombok.Getter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 import java.util.Set;
 
@@ -10,6 +12,8 @@ import java.util.Set;
  * @since 2023/10/23
  */
 @Getter
+@Configuration
+@ConfigurationProperties("com.ziyao.crypto.cipher")
 public class CipherProperties {
 
     private Set<Type> types;

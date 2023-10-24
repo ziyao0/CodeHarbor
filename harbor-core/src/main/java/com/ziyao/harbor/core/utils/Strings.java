@@ -455,7 +455,7 @@ public abstract class Strings implements StrPool {
         return startsWith(value, prefix, false);
     }
 
-    public static boolean startWithIgnoreCase(String value, String prefix) {
+    public static boolean startsWithIgnoreCase(String value, String prefix) {
         return startsWith(value, prefix, true);
     }
 
