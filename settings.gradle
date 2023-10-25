@@ -66,4 +66,6 @@ findProject(':harbor-springframework:harbor-spring-reboot')?.name = 'harbor-spri
 include 'harbor-springframework:harbor-spring-crypto'
 findProject(':harbor-springframework:harbor-spring-crypto')?.name = 'harbor-spring-crypto'
 include 'harbor-crypto'
+include 'harbor-springframework:harbor-spring-elastic'
+findProject(':harbor-springframework:harbor-spring-elastic')?.name = 'harbor-spring-elastic'
 
