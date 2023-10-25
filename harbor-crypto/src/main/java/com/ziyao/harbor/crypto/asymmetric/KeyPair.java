@@ -63,4 +63,20 @@ public class KeyPair extends AbstractAlgorithm {
             this.privateKey = privateKey;
         }
     }
+
+    public void setPublicKey(String publicKey) {
+        this.publicKey = publicKey;
+    }
+
+    public void setPrivateKey(String privateKey) {
+        this.privateKey = privateKey;
+    }
+
+    public void setPubKey(byte[] pubKey) {
+        this.pubKey = pubKey;
+    }
+
+    public void setPriKey(byte[] priKey) {
+        this.priKey = priKey;
+    }
 }

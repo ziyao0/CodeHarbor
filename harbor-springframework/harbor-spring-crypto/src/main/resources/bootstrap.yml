@@ -6,3 +6,5 @@ com:
           key: 123
           iv: 1dsads
           mode: CBC
+        config-path: /123455
+

@@ -1,9 +1,9 @@
 package com.ziyao.harbor.crypto;
 
-import com.ziyao.harbor.ValuePropertySource;
 import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.core.CipherProperties;
+import com.ziyao.harbor.crypto.core.ObjectPropertySource;
 import com.ziyao.harbor.crypto.core.Properties;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
 import org.slf4j.Logger;
@@ -13,6 +13,7 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.FileSystemResource;
 
@@ -48,19 +49,24 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
             }
             return doExtract(environment);
         } catch (Exception e) {
-            LOGGER.error("提取配置异常！");
+            LOGGER.error("提取配置异常！", e);
         }
         return null;
     }
 
     private Properties<?> doExtract(ConfigurableEnvironment environment) {
 
-        environment.getPropertySources().get(ConstantPool.properties_prefix);
-
-        String name = environment.getProperty(ConstantPool.properties_prefix, ConstantPool.default_prefix);
-        return Binder.get(environment)
-                .bind(name, Bindable.of(Properties.class))
-                .orElseGet(() -> null);
+        PropertySource<?> propertySource = environment.getPropertySources().get(ConstantPool.properties_prefix);
+        environment.getPropertySources().remove(ConstantPool.properties_prefix);
+        if (propertySource != null) {
+            Properties<?> properties = (Properties<?>) propertySource.getProperty(ConstantPool.properties_prefix);
+            if (properties != null) {
+                return Binder.get(environment)
+                        .bind(properties.getPrefix(), Bindable.of(properties.getClass()))
+                        .orElseGet(() -> null);
+            }
+        }
+        return null;
     }
 
     /**
@@ -73,7 +79,7 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
     public static <T> T extractProperties(ConfigurableEnvironment environment, Class<? extends Properties<T>> clazz) {
         try {
             Properties<T> properties = clazz.getDeclaredConstructor().newInstance();
-            environment.getPropertySources().addFirst(new ValuePropertySource(ConstantPool.properties_prefix, properties.getPrefix()));
+            environment.getPropertySources().addFirst(new ObjectPropertySource(ConstantPool.properties_prefix, properties));
             return (T) ENVIRONMENT_EXTRACTOR.extract(environment);
         } catch (Exception e) {
             LOGGER.error("读取配置异常异常：{}", e.getMessage());
@@ -132,7 +138,9 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
     }
 
     public static void main(String[] args) {
-        CipherProperties cipherProperties = EnvironmentExtractor.extractProperties("C:\\Users\\Lajos\\Documents\\GitHub\\CodeHarbor\\harbor-springframework\\harbor-spring-crypto\\src\\main\\resources\\bootstrap.yml", CipherProperties.class);
+        CipherProperties cipherProperties = EnvironmentExtractor.extractProperties(
+                "/Users/zhangziyao/workspace/project/CodeHarbor/harbor-springframework/harbor-spring-crypto/src/main/resources/bootstrap.yml"
+                , CipherProperties.class);
         System.out.println(cipherProperties);
     }
 }

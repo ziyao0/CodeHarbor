@@ -59,4 +59,24 @@ public class KeyIv extends AbstractAlgorithm {
             this.mode = mode;
         }
     }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public void setIv(String iv) {
+        this.iv = iv;
+    }
+
+    public void setMode(Mode mode) {
+        this.mode = mode;
+    }
+
+    public void setKeyBytes(byte[] keyBytes) {
+        this.keyBytes = keyBytes;
+    }
+
+    public void setIvBytes(byte[] ivBytes) {
+        this.ivBytes = ivBytes;
+    }
 }
