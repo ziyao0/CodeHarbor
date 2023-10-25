@@ -1,9 +1,8 @@
-package com.ziyao.harbor.crypto;
+package com.ziyao.harbor.crypto.core;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.crypto.encrypt.CipherUtils;
-import com.ziyao.harbor.crypto.encrypt.TextCipherFactory;
-import lombok.Getter;
+import com.ziyao.harbor.crypto.Algorithm;
+import com.ziyao.harbor.crypto.TextCipher;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -12,22 +11,30 @@ import java.util.stream.Stream;
  * @author ziyao
  * @since 2023/4/23
  */
-@Getter
-public record PropertyReader(TextCipherFactory cipherFactory) {
 
-    public Property readProperty(String key, String value) {
+public record PropertyResolver(TextCipherProvider textCipherProvider) {
+
+    /**
+     * 解析配置属性值并对配置属性值进行解析，
+     *
+     * @param key   key
+     * @param value 属性值
+     * @return {@link Property}
+     */
+    public Property getProperty(String key, String value) {
         Property property = new Property(key, value);
 
         if (Strings.hasText(value)) {
-            if (CipherUtils.isMatchPrefix(value)) {
+            if (isMatchPrefix(value)) {
                 // 满足前缀匹配算法
-                TextCipher textCipher = matchingTextCipher(getCipherFactory().getTextCiphers(), value);
+                TextCipher textCipher = matchingTextCipher(textCipherProvider().textCiphers(), value);
                 property.setValue(value.substring(textCipher.getAlgorithm().length()));
                 property.setAlgorithm(textCipher.getAlgorithm());
             }
         }
         return property;
     }
+
 
     private static boolean isMatchPrefix(String value) {
         return Stream.of(Algorithm.SM2, Algorithm.SM3, Algorithm.SM4)
@@ -52,5 +59,10 @@ public record PropertyReader(TextCipherFactory cipherFactory) {
 
     private static String getPrefix(TextCipher cipher) {
         return "{" + cipher.getAlgorithm() + "}";
+    }
+
+    @Override
+    public TextCipherProvider textCipherProvider() {
+        return textCipherProvider;
     }
 }

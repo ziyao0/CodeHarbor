@@ -1,6 +1,7 @@
-package com.ziyao.harbor.crypto;
+package com.ziyao.harbor.crypto.core;
 
 import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.harbor.crypto.TextCipher;
 import lombok.Getter;
 import lombok.Setter;
 

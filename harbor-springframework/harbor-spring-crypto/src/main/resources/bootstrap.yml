@@ -1,0 +1,8 @@
+com:
+  ziyao:
+    crypto:
+      cipher:
+        sm4:
+          key: 123
+          iv: 1dsads
+          mode: CBC

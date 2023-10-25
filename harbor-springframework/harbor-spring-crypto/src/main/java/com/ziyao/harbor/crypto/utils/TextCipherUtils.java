@@ -1,10 +1,7 @@
-package com.ziyao.harbor.crypto.encrypt;
+package com.ziyao.harbor.crypto.utils;
 
-import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.crypto.CipherProperties;
 import com.ziyao.harbor.crypto.TextCipher;
-import com.ziyao.harbor.crypto.utils.SmUtils;
-import lombok.Getter;
+import com.ziyao.harbor.crypto.core.CipherProperties;
 
 import java.util.List;
 
@@ -12,38 +9,21 @@ import java.util.List;
  * @author ziyao
  * @since 2023/4/23
  */
-@Getter
-public class TextCipherFactory {
+public abstract class TextCipherUtils {
 
-
-    private final List<TextCipher> textCiphers;
-
-    public TextCipherFactory(List<TextCipher> textCiphers) {
-        this.textCiphers = textCiphers;
-    }
-
-    public TextCipherFactory(CipherProperties properties) {
-        this.textCiphers = readCipher(properties);
-    }
-
-    public TextCipher loadCipher(String algorithm) {
-        if (Strings.hasText(algorithm)) {
-            for (TextCipher textCipher : getTextCiphers()) {
-                if (Strings.equalsIgnoreCase(algorithm, textCipher.getAlgorithm())) {
-                    return textCipher;
-                }
-            }
-        }
-        return null;
-    }
-
-    private List<TextCipher> readCipher(CipherProperties properties) {
+    /**
+     * 从配置文件中解析对应的文本解码器
+     *
+     * @param properties 配置秘钥信息
+     * @return 返回文本解码器
+     */
+    public static List<TextCipher> loadCipher(CipherProperties properties) {
         List<TextCipher> textCiphers = new java.util.ArrayList<>();
         //解析配置文件
         for (CipherProperties.Type type : properties.getTypes()) {
             switch (type) {
                 case sm2 ->
-                        textCiphers.add(SmUtils.createSm2TextCipher(properties.getSm2().getPriKey(), properties.getSm2().getPubKey()));
+                        textCiphers.add(SmUtils.createSm2TextCipher(properties.getSm2().getPrivateKey(), properties.getSm2().getPublicKey()));
                 case sm4 -> {
                     switch (properties.getSm4().getMode()) {
                         case CBC ->
