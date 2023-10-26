@@ -5,7 +5,12 @@ import com.ziyao.harbor.core.lang.NonNull;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
+import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
+import org.springframework.core.type.AnnotationMetadata;
 
 import javax.sql.DataSource;
 
@@ -29,5 +34,23 @@ public class DataSourceBeanPostProcessor implements BeanPostProcessor {
             DruidDataSourceWrapper.init((DataSource) bean);
         }
         return bean;
+    }
+
+    public static class Registrar implements ImportBeanDefinitionRegistrar {
+
+        private static final String BEAN_NAME = "dataSourceBeanPostProcessor";
+
+        @Override
+        public void registerBeanDefinitions(@NonNull AnnotationMetadata importingClassMetadata,
+                                            BeanDefinitionRegistry registry) {
+            if (!registry.containsBeanDefinition(BEAN_NAME)) {
+                GenericBeanDefinition beanDefinition = new GenericBeanDefinition();
+                beanDefinition.setBeanClass(DataSourceBeanPostProcessor.class);
+                beanDefinition.setRole(BeanDefinition.ROLE_INFRASTRUCTURE);
+                beanDefinition.setSynthetic(true);
+                registry.registerBeanDefinition(BEAN_NAME, beanDefinition);
+            }
+        }
+
     }
 }

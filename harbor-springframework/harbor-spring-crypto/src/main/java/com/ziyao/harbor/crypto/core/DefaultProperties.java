@@ -1,5 +1,6 @@
 package com.ziyao.harbor.crypto.core;
 
+import com.ziyao.harbor.core.Properties;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
 
 /**

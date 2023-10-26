@@ -13,10 +13,10 @@ public interface ConstantPool {
     /**
      * Name of the decrypted property source.
      */
-    public static final String CIPHER_PROPERTY_SOURCE_NAME = "harbor_cipher";
+    public static final String CIPHER_PROPERTY_SOURCE_NAME = "harbor_decrypted";
 
     /**
      * Name of the decrypted bootstrap property source.
      */
-    public static final String CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME = "harbor_cipher_bootstrap";
+    public static final String CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME = "harbor_decrypted_bootstrap";
 }

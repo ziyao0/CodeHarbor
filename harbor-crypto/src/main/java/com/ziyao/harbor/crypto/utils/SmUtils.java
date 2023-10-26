@@ -6,16 +6,15 @@ import com.ziyao.harbor.core.utils.Arrays;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.HexUtils;
 import com.ziyao.harbor.core.utils.Randoms;
-import com.ziyao.harbor.crypto.Algorithm;
-import com.ziyao.harbor.crypto.BytesCipher;
-import com.ziyao.harbor.crypto.DefaultTextCipher;
-import com.ziyao.harbor.crypto.TextCipher;
-import com.ziyao.harbor.crypto.asymmetric.KeyPair;
+import com.ziyao.harbor.crypto.*;
 import com.ziyao.harbor.crypto.asymmetric.SM2;
 import com.ziyao.harbor.crypto.asymmetric.Sm2BytesCipher;
 import com.ziyao.harbor.crypto.digest.SM3;
 import com.ziyao.harbor.crypto.exception.CryptoException;
-import com.ziyao.harbor.crypto.symmetric.*;
+import com.ziyao.harbor.crypto.symmetric.Mode;
+import com.ziyao.harbor.crypto.symmetric.Padding;
+import com.ziyao.harbor.crypto.symmetric.SM4;
+import com.ziyao.harbor.crypto.symmetric.Sm4BytesCipher;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.gm.GMNamedCurves;
 import org.bouncycastle.crypto.params.ECDomainParameters;
@@ -54,10 +53,10 @@ public abstract class SmUtils {
     /**
      * 创建{@link SM2}
      *
-     * @param keyPair {@link KeyPair}
+     * @param keyPair {@link com.ziyao.harbor.crypto.Codebook.KeyPair}
      * @return sm2对象
      */
-    public static SM2 createSm2(KeyPair keyPair) {
+    public static SM2 createSm2(Codebook.KeyPair keyPair) {
         Assert.notNull(keyPair, "keyPair 不能为空！");
         return new SM2(keyPair.getPrivateKey(), keyPair.getPublicKey());
     }
@@ -113,24 +112,24 @@ public abstract class SmUtils {
     /**
      * 获取公私钥
      *
-     * @return {@link KeyPair}
+     * @return {@link com.ziyao.harbor.crypto.Codebook.KeyPair}
      */
-    public static KeyPair generateSm2KeyPair() {
+    public static Codebook.KeyPair generateSm2KeyPair() {
         java.security.KeyPair keyPair = KeyUtils.generateKeyPair(Algorithm.SM2);
         BCECPrivateKey priKey = (BCECPrivateKey) keyPair.getPrivate();
         BCECPublicKey pubKey = (BCECPublicKey) keyPair.getPublic();
 
         byte[] publicKey = pubKey.getQ().getEncoded(false);
         byte[] privateKey = priKey.getD().toByteArray();
-        return new KeyPair(Algorithm.SM2, publicKey, privateKey);
+        return new Codebook.KeyPair(Algorithm.SM2, publicKey, privateKey);
     }
 
-    public static KeyIv generateSm4KeyIv() {
+    public static Codebook.KeyIv generateSm4KeyIv() {
         SecretKey secretKey = KeyUtils.generateKey(Algorithm.SM4, 128);
         byte[] iv = new byte[16];
         SecureRandom secureRandom = Randoms.getSecureRandom();
         secureRandom.nextBytes(iv);
-        return new KeyIv(Algorithm.SM4, secretKey.getEncoded(), iv);
+        return new Codebook.KeyIv(Algorithm.SM4, secretKey.getEncoded(), iv);
     }
 
     /**
@@ -168,7 +167,7 @@ public abstract class SmUtils {
      * @param keyIv 密钥向量
      * @return {@link TextCipher}
      */
-    public static TextCipher createSm4CBCTextCipherWithZeroPaddingAndHexCodec(KeyIv keyIv) {
+    public static TextCipher createSm4CBCTextCipherWithZeroPaddingAndHexCodec(Codebook.KeyIv keyIv) {
         Assert.notNull(keyIv, "密钥不能为空！");
         Assert.notNull(keyIv.getKey(), "密钥不能为空！");
         Assert.notNull(keyIv.getIv(), "向量不能为空！");
@@ -284,7 +283,7 @@ public abstract class SmUtils {
 
     public static void main(String[] args) {
 
-        KeyIv keyIv = generateSm4KeyIv();
+        Codebook.KeyIv keyIv = generateSm4KeyIv();
         TextCipher sm4CBCTextCipherWithZeroPadding = createSm4CBCTextCipherWithZeroPaddingAndHexCodec(keyIv.getKey(), keyIv.getIv());
         String encrypt1 = sm4CBCTextCipherWithZeroPadding.encrypt("这个那");
         System.out.println(encrypt1);

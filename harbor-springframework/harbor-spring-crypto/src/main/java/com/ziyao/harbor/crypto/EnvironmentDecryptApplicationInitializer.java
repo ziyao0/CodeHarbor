@@ -20,16 +20,25 @@ import java.util.Map;
 import java.util.Set;
 
 /**
+ * 从环境中解密属性并以高优先级插入它们，以便它们覆盖加密值。
+ * <p>
+ * 该类是对{@link org.springframework.cloud.bootstrap.encrypt.EnvironmentDecryptApplicationInitializer}的扩展
+ * 增加了自定义加解密算法
+ *
  * @author ziyao zhang
  * @since 2023/10/24
  */
-public class CodecEnvironmentApplicationInitializer
+public class EnvironmentDecryptApplicationInitializer
         extends AbstractCodecEnvironment
         implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
+    /**
+     * 该类优先级高于{@link org.springframework.cloud.bootstrap.encrypt.EnvironmentDecryptApplicationInitializer#getOrder()}
+     */
+    private static final int order = Ordered.HIGHEST_PRECEDENCE + 14;
     private final CipherContextFactory cipherContextFactory;
 
-    public CodecEnvironmentApplicationInitializer(CipherContextFactory cipherContextFactory) {
+    public EnvironmentDecryptApplicationInitializer(CipherContextFactory cipherContextFactory) {
         this.cipherContextFactory = cipherContextFactory;
     }
 
@@ -40,10 +49,10 @@ public class CodecEnvironmentApplicationInitializer
 
         applicationContext.getBeanFactory()
                 .registerSingleton(CipherContext.class.getName(), context);
-        decryption(context, applicationContext);
+        decrypted(context, applicationContext);
     }
 
-    private void decryption(CipherContext context, ConfigurableApplicationContext applicationContext) {
+    private void decrypted(CipherContext context, ConfigurableApplicationContext applicationContext) {
 
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         MutablePropertySources propertySources = environment.getPropertySources();
@@ -55,17 +64,17 @@ public class CodecEnvironmentApplicationInitializer
             Map<String, Object> map = decrypt(context, bootstrap);
             if (!Collections.isEmpty(map)) {
                 found.addAll(map.keySet());
-                this.add(applicationContext, new SystemEnvironmentPropertySource(
+                this.insert(applicationContext, new SystemEnvironmentPropertySource(
                         CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME, map));
             }
         }
         // 删除加密配置属性
-        remove(applicationContext);
+        removeDecryptedProperties(applicationContext);
         Map<String, Object> map = decrypt(context, propertySources);
         if (!Collections.isEmpty(map)) {
 
             found.addAll(map.keySet());
-            add(applicationContext, new SystemEnvironmentPropertySource(
+            insert(applicationContext, new SystemEnvironmentPropertySource(
                     CIPHER_PROPERTY_SOURCE_NAME, map));
         }
         if (!found.isEmpty()) {
@@ -79,7 +88,7 @@ public class CodecEnvironmentApplicationInitializer
     /**
      * 删除加密配置
      */
-    private void remove(ConfigurableApplicationContext applicationContext) {
+    private void removeDecryptedProperties(ConfigurableApplicationContext applicationContext) {
         ApplicationContext parent = applicationContext;
         while (parent != null) {
             if (parent.getEnvironment() instanceof ConfigurableEnvironment) {
@@ -91,20 +100,20 @@ public class CodecEnvironmentApplicationInitializer
 
     }
 
-    private void add(ConfigurableApplicationContext applicationContext,
-                     PropertySource<?> propertySource) {
+    private void insert(ConfigurableApplicationContext applicationContext,
+                        PropertySource<?> propertySource) {
         ApplicationContext parent = applicationContext;
         while (parent != null) {
             if (parent.getEnvironment() instanceof ConfigurableEnvironment mutable) {
-                add(mutable.getPropertySources(), propertySource);
+                insert(mutable.getPropertySources(), propertySource);
             }
             parent = parent.getParent();
         }
 
     }
 
-    private void add(MutablePropertySources propertySources,
-                     PropertySource<?> propertySource) {
+    private void insert(MutablePropertySources propertySources,
+                        PropertySource<?> propertySource) {
         if (propertySources
                 .contains(BootstrapApplicationListener.BOOTSTRAP_PROPERTY_SOURCE_NAME)) {
             if (CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME.equals(propertySource.getName())) {
@@ -131,6 +140,6 @@ public class CodecEnvironmentApplicationInitializer
 
     @Override
     public int getOrder() {
-        return Ordered.HIGHEST_PRECEDENCE + 14;
+        return order;
     }
 }

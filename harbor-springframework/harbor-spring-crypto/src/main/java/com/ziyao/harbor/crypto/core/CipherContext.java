@@ -6,7 +6,7 @@ package com.ziyao.harbor.crypto.core;
  */
 public interface CipherContext {
 
-    CipherProperties getProperties();
+    CodebookProperties getProperties();
 
     PropertyResolver getPropertyResolver();
 

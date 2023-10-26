@@ -9,13 +9,13 @@ import lombok.Getter;
 @Getter
 public class ConfigurableCipherContext implements CipherContext {
 
-    private CipherProperties properties;
+    private CodebookProperties properties;
 
     private PropertyResolver propertyResolver;
 
     private TextCipherProvider textCipherProvider;
 
-    public void setProperties(CipherProperties properties) {
+    public void setProperties(CodebookProperties properties) {
         this.properties = properties;
     }
 

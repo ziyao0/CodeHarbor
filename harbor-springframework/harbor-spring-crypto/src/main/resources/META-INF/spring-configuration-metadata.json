@@ -2,30 +2,57 @@
   "groups": [
     {
       "name": "com.ziyao.crypto.cipher",
-      "type": "com.ziyao.harbor.crypto.core.CipherProperties",
-      "sourceType": "com.ziyao.harbor.crypto.core.CipherProperties"
+      "type": "com.ziyao.harbor.crypto.core.CodebookProperties",
+      "sourceType": "com.ziyao.harbor.crypto.core.CodebookProperties"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm2",
+      "type": "com.ziyao.harbor.crypto.Codebook$KeyPair",
+      "sourceType": "com.ziyao.harbor.crypto.core.CodebookProperties",
+      "sourceMethod": "getSm2()"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4",
+      "type": "com.ziyao.harbor.crypto.Codebook$KeyIv",
+      "sourceType": "com.ziyao.harbor.crypto.core.CodebookProperties",
+      "sourceMethod": "getSm4()"
     }
   ],
   "properties": [
     {
       "name": "com.ziyao.crypto.cipher.config-path",
       "type": "java.lang.String",
-      "sourceType": "com.ziyao.harbor.crypto.core.CipherProperties"
+      "sourceType": "com.ziyao.harbor.crypto.core.CodebookProperties"
     },
     {
-      "name": "com.ziyao.crypto.cipher.sm2",
-      "type": "com.ziyao.harbor.crypto.asymmetric.KeyPair",
-      "sourceType": "com.ziyao.harbor.crypto.core.CipherProperties"
+      "name": "com.ziyao.crypto.cipher.sm2.private-key",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.Codebook$KeyPair"
     },
     {
-      "name": "com.ziyao.crypto.cipher.sm4",
-      "type": "com.ziyao.harbor.crypto.symmetric.KeyIv",
-      "sourceType": "com.ziyao.harbor.crypto.core.CipherProperties"
+      "name": "com.ziyao.crypto.cipher.sm2.public-key",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.Codebook$KeyPair"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4.iv",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.Codebook$KeyIv"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4.key",
+      "type": "java.lang.String",
+      "sourceType": "com.ziyao.harbor.crypto.Codebook$KeyIv"
+    },
+    {
+      "name": "com.ziyao.crypto.cipher.sm4.mode",
+      "type": "com.ziyao.harbor.crypto.symmetric.Mode",
+      "sourceType": "com.ziyao.harbor.crypto.Codebook$KeyIv"
     },
     {
       "name": "com.ziyao.crypto.cipher.types",
-      "type": "java.util.Set<com.ziyao.harbor.crypto.core.CipherProperties$Type>",
-      "sourceType": "com.ziyao.harbor.crypto.core.CipherProperties"
+      "type": "java.util.Set<com.ziyao.harbor.crypto.Codebook$Type>",
+      "sourceType": "com.ziyao.harbor.crypto.core.CodebookProperties"
     }
   ],
   "hints": []

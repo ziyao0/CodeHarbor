@@ -11,7 +11,10 @@ import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.MutablePropertySources;
 import org.springframework.core.env.PropertySource;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author ziyao zhang
@@ -27,7 +30,7 @@ public abstract class AbstractCodecEnvironment {
     protected Map<String, Object> decrypt(CipherContext context, MutablePropertySources propertySources) {
         Map<String, Object> properties = merge(context, propertySources);
         decrypt(properties);
-        return new HashMap<>();
+        return properties;
     }
 
     protected void decrypt(Map<String, Object> properties) {
@@ -44,7 +47,7 @@ public abstract class AbstractCodecEnvironment {
                 TextCipher textCipher = property.getTextCipher();
                 return textCipher.decrypt(property.getValue());
             } catch (Exception e) {
-                throw new IllegalStateException("配置加密信息被损坏，请检查配置文件数据，key:" + property.getValue(), e);
+                throw new IllegalStateException("配置加密信息被损坏，请检查配置文件数据，key:[" + property.getKey() + "],value:[" + property.getValue() + "]", e);
             }
         }
         return property.getValue();

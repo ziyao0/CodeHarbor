@@ -28,8 +28,9 @@ public record PropertyResolver(TextCipherProvider textCipherProvider) {
             if (isMatchPrefix(value)) {
                 // 满足前缀匹配算法
                 TextCipher textCipher = matchingTextCipher(textCipherProvider().textCiphers(), value);
-                property.setValue(value.substring(textCipher.getAlgorithm().length()));
+                property.setValue(value.substring(getPrefix(textCipher.getAlgorithm()).length()));
                 property.setAlgorithm(textCipher.getAlgorithm());
+                property.setTextCipher(textCipher);
             }
         }
         return property;
@@ -39,7 +40,7 @@ public record PropertyResolver(TextCipherProvider textCipherProvider) {
     private static boolean isMatchPrefix(String value) {
         return Stream.of(Algorithm.SM2, Algorithm.SM3, Algorithm.SM4)
                 .anyMatch(algorithm ->
-                        Strings.startsWithIgnoreCase(value, "{" + algorithm + "}"));
+                        Strings.startsWithIgnoreCase(value, getPrefix(algorithm)));
     }
 
 
@@ -53,12 +54,12 @@ public record PropertyResolver(TextCipherProvider textCipherProvider) {
     }
 
     private static boolean isMatchCipher(TextCipher textCipher, String value) {
-        String prefix = getPrefix(textCipher);
+        String prefix = getPrefix(textCipher.getAlgorithm());
         return Strings.startsWithIgnoreCase(value, prefix);
     }
 
-    private static String getPrefix(TextCipher cipher) {
-        return "{" + cipher.getAlgorithm() + "}";
+    private static String getPrefix(String algorithm) {
+        return "{" + algorithm + "}";
     }
 
     @Override

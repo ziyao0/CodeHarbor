@@ -1,8 +1,8 @@
 package com.ziyao.harbor.crypto.druid;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import com.ziyao.harbor.crypto.Codebook;
 import com.ziyao.harbor.crypto.TextCipher;
-import com.ziyao.harbor.crypto.symmetric.KeyIv;
 import com.ziyao.harbor.crypto.utils.SmUtils;
 
 import javax.sql.DataSource;
@@ -20,7 +20,7 @@ public class DruidDataSourceWrapper {
 
     public static void init(DataSource dataSource) {
         if (dataSource instanceof DruidDataSource) {
-            if (!isInitiatedDS(dataSource)) {
+            if (isUninitiatedDS(dataSource)) {
                 initRandomSecret((DruidDataSource) dataSource);
                 markInitiatedDS(dataSource);
             }
@@ -47,7 +47,7 @@ public class DruidDataSourceWrapper {
     }
 
     private static TextCipher createRandomCipher() {
-        KeyIv keyIv = SmUtils.generateSm4KeyIv();
+        Codebook.KeyIv keyIv = SmUtils.generateSm4KeyIv();
         return SmUtils.createSm4CBCTextCipherWithZeroPaddingAndHexCodec(keyIv);
     }
 
@@ -55,12 +55,12 @@ public class DruidDataSourceWrapper {
      * 标记
      */
     private static void markInitiatedDS(DataSource dataSource) {
-        if (!isInitiatedDS(dataSource)) {
+        if (isUninitiatedDS(dataSource)) {
             initiatedDS.add(dataSource);
         }
     }
 
-    public static boolean isInitiatedDS(DataSource dataSource) {
-        return initiatedDS.contains(dataSource);
+    public static boolean isUninitiatedDS(DataSource dataSource) {
+        return !initiatedDS.contains(dataSource);
     }
 }

@@ -1,10 +1,10 @@
 package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.Extractor;
+import com.ziyao.harbor.core.Properties;
+import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.crypto.core.CipherProperties;
-import com.ziyao.harbor.crypto.core.ObjectPropertySource;
-import com.ziyao.harbor.crypto.core.Properties;
+import com.ziyao.harbor.crypto.core.CipherPropertySource;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,6 @@ import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.Environment;
-import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.FileSystemResource;
 
@@ -56,17 +55,20 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
 
     private Properties<?> doExtract(ConfigurableEnvironment environment) {
 
-        PropertySource<?> propertySource = environment.getPropertySources().get(ConstantPool.properties_prefix);
+        CipherPropertySource propertySource = extractPropertySourceAndRemove(environment);
+
+        Properties<?> properties = propertySource.getProperty(ConstantPool.properties_prefix);
+        return Binder.get(environment)
+                .bind(properties.getPrefix(), Bindable.of(properties.getClass()))
+                .orElseGet(() -> null);
+    }
+
+    private CipherPropertySource extractPropertySourceAndRemove(ConfigurableEnvironment environment) {
+        CipherPropertySource propertySource = (CipherPropertySource) environment.getPropertySources()
+                .get(ConstantPool.properties_prefix);
         environment.getPropertySources().remove(ConstantPool.properties_prefix);
-        if (propertySource != null) {
-            Properties<?> properties = (Properties<?>) propertySource.getProperty(ConstantPool.properties_prefix);
-            if (properties != null) {
-                return Binder.get(environment)
-                        .bind(properties.getPrefix(), Bindable.of(properties.getClass()))
-                        .orElseGet(() -> null);
-            }
-        }
-        return null;
+        Assert.notNull(propertySource, "CipherPropertySource is not null");
+        return propertySource;
     }
 
     /**
@@ -77,12 +79,19 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
      */
     @SuppressWarnings("unchecked")
     public static <T> T extractProperties(ConfigurableEnvironment environment, Class<? extends Properties<T>> clazz) {
+
+        injectEnvironment(environment, clazz);
+        // 提取属性
+        return (T) ENVIRONMENT_EXTRACTOR.extract(environment);
+
+    }
+
+    private static <T> void injectEnvironment(ConfigurableEnvironment environment, Class<? extends Properties<T>> clazz) {
         try {
             Properties<T> properties = clazz.getDeclaredConstructor().newInstance();
-            environment.getPropertySources().addFirst(new ObjectPropertySource(ConstantPool.properties_prefix, properties));
-            return (T) ENVIRONMENT_EXTRACTOR.extract(environment);
+            environment.getPropertySources().addFirst(new CipherPropertySource(ConstantPool.properties_prefix, properties));
         } catch (Exception e) {
-            LOGGER.error("读取配置异常异常：{}", e.getMessage());
+            LOGGER.error("实例化对象异常：{}", e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -123,24 +132,17 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
     }
 
     private static File getPropertiesFile(String configPath) {
-        if (Strings.hasText(configPath)) {
+        if (Strings.hasText(configPath))
             return getPropertiesFileForConfigPath(configPath);
-        }
-        return null;
+        else
+            return null;
     }
 
     private static File getPropertiesFileForConfigPath(String configPath) {
         File file = new File(configPath);
-        if (file.exists() && file.isFile()) {
+        if (file.exists() && file.isFile())
             return file;
-        } else
+        else
             return null;
-    }
-
-    public static void main(String[] args) {
-        CipherProperties cipherProperties = EnvironmentExtractor.extractProperties(
-                "/Users/zhangziyao/workspace/project/CodeHarbor/harbor-springframework/harbor-spring-crypto/src/main/resources/bootstrap.yml"
-                , CipherProperties.class);
-        System.out.println(cipherProperties);
     }
 }

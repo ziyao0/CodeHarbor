@@ -18,7 +18,7 @@ import java.util.Map;
  * @author ziyao zhang
  * @since 2023/10/23
  */
-public class CodecEnvironmentPostProcessor extends AbstractCodecEnvironment
+public class EnvironmentDecryptPostProcessor extends AbstractCodecEnvironment
         implements EnvironmentPostProcessor, ApplicationContextAware, Ordered {
 
     private CipherContext context;
