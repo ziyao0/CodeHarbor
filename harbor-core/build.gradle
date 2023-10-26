@@ -5,5 +5,4 @@ dependencies {
     api("org.slf4j:slf4j-api:${slf4japiVersion}")
     api("com.auth0:java-jwt:${jwtVersion}")
     api("com.google.guava:guava:${guavaVersion}")
-    api('com.google.code.findbugs:findbugs:3.0.1')
 }
