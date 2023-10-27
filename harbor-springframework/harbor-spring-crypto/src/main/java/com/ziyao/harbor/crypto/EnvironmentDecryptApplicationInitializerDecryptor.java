@@ -2,8 +2,8 @@ package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.lang.NonNull;
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.harbor.crypto.core.CipherContext;
-import com.ziyao.harbor.crypto.core.CipherContextFactory;
+import com.ziyao.harbor.crypto.core.CryptoContext;
+import com.ziyao.harbor.crypto.core.CryptoContextFactory;
 import org.springframework.cloud.bootstrap.BootstrapApplicationListener;
 import org.springframework.cloud.context.environment.EnvironmentChangeEvent;
 import org.springframework.context.ApplicationContext;
@@ -28,31 +28,31 @@ import java.util.Set;
  * @author ziyao zhang
  * @since 2023/10/24
  */
-public class EnvironmentDecryptApplicationInitializer
-        extends AbstractCodecEnvironment
+public class EnvironmentDecryptApplicationInitializerDecryptor
+        extends AbstractEnvironmentDecryptor
         implements ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
     /**
      * 该类优先级高于{@link org.springframework.cloud.bootstrap.encrypt.EnvironmentDecryptApplicationInitializer#getOrder()}
      */
     private static final int order = Ordered.HIGHEST_PRECEDENCE + 14;
-    private final CipherContextFactory cipherContextFactory;
+    private final CryptoContextFactory cryptoContextFactory;
 
-    public EnvironmentDecryptApplicationInitializer(CipherContextFactory cipherContextFactory) {
-        this.cipherContextFactory = cipherContextFactory;
+    public EnvironmentDecryptApplicationInitializerDecryptor(CryptoContextFactory cryptoContextFactory) {
+        this.cryptoContextFactory = cryptoContextFactory;
     }
 
     @Override
     public void initialize(@NonNull ConfigurableApplicationContext applicationContext) {
 
-        CipherContext context = cipherContextFactory.createContext(applicationContext);
+        CryptoContext context = cryptoContextFactory.createContext(applicationContext);
 
         applicationContext.getBeanFactory()
-                .registerSingleton(CipherContext.class.getName(), context);
+                .registerSingleton(CryptoContext.class.getName(), context);
         decrypted(context, applicationContext);
     }
 
-    private void decrypted(CipherContext context, ConfigurableApplicationContext applicationContext) {
+    private void decrypted(CryptoContext context, ConfigurableApplicationContext applicationContext) {
 
         ConfigurableEnvironment environment = applicationContext.getEnvironment();
         MutablePropertySources propertySources = environment.getPropertySources();
@@ -130,7 +130,7 @@ public class EnvironmentDecryptApplicationInitializer
         }
     }
 
-    private Map<String, Object> decrypt(CipherContext context,
+    private Map<String, Object> decrypt(CryptoContext context,
                                         PropertySource<?> propertySources) {
         Map<String, Object> properties = merge(context, propertySources);
         decrypt(properties);

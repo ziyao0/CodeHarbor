@@ -8,10 +8,10 @@ import org.springframework.core.env.PropertySource;
  * @author ziyao zhang
  * @since 2023/10/25
  */
-public class CipherPropertySource extends PropertySource<Properties<?>> {
+public class CryptoPropertySource extends PropertySource<Properties<?>> {
 
 
-    public CipherPropertySource(String name, Properties<?> source) {
+    public CryptoPropertySource(String name, Properties<?> source) {
         super(name, source);
     }
 

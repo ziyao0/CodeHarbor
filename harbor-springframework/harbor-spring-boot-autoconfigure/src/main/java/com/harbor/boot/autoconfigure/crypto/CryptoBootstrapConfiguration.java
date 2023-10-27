@@ -1,9 +1,9 @@
 package com.harbor.boot.autoconfigure.crypto;
 
-import com.ziyao.harbor.crypto.EnvironmentDecryptApplicationInitializer;
-import com.ziyao.harbor.crypto.core.CipherContextFactory;
+import com.ziyao.harbor.crypto.EnvironmentDecryptApplicationInitializerDecryptor;
+import com.ziyao.harbor.crypto.core.CryptoContextFactory;
 import com.ziyao.harbor.crypto.core.CodebookProperties;
-import com.ziyao.harbor.crypto.core.DefaultCipherContextFactory;
+import com.ziyao.harbor.crypto.core.DefaultCryptoContextFactory;
 import com.ziyao.harbor.crypto.druid.DataSourceBeanPostProcessor;
 import org.springframework.boot.autoconfigure.AutoConfigureBefore;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
@@ -29,13 +29,13 @@ public class CryptoBootstrapConfiguration {
             "com.ziyao.harbor.crypto.TextCipher",
             "com.ziyao.harbor.core.codec.StringCodec"
     })
-    public CipherContextFactory cipherContextFactory() {
-        return new DefaultCipherContextFactory();
+    public CryptoContextFactory cipherContextFactory() {
+        return new DefaultCryptoContextFactory();
     }
 
     @Bean
-    public EnvironmentDecryptApplicationInitializer codecEnvironmentApplicationInitializer() {
-        return new EnvironmentDecryptApplicationInitializer(cipherContextFactory());
+    public EnvironmentDecryptApplicationInitializerDecryptor codecEnvironmentApplicationInitializer() {
+        return new EnvironmentDecryptApplicationInitializerDecryptor(cipherContextFactory());
     }
 
     @Configuration
@@ -43,7 +43,7 @@ public class CryptoBootstrapConfiguration {
             "org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration",
             "com.alibaba.druid.spring.boot.autoconfigure.DruidDataSourceAutoConfigure"
     })
-    @ConditionalOnBean(CipherContextFactory.class)
+    @ConditionalOnBean(CryptoContextFactory.class)
     @Import(DataSourceBeanPostProcessor.Registrar.class)
     public static class DataSourceAutoConfiguration {
 

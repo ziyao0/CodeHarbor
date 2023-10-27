@@ -1,7 +1,7 @@
 package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.harbor.crypto.core.CipherContext;
+import com.ziyao.harbor.crypto.core.CryptoContext;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
@@ -18,10 +18,10 @@ import java.util.Map;
  * @author ziyao zhang
  * @since 2023/10/23
  */
-public class EnvironmentDecryptPostProcessor extends AbstractCodecEnvironment
+public class EnvironmentDecryptPostProcessorDecryptor extends AbstractEnvironmentDecryptor
         implements EnvironmentPostProcessor, ApplicationContextAware, Ordered {
 
-    private CipherContext context;
+    private CryptoContext context;
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
@@ -43,6 +43,6 @@ public class EnvironmentDecryptPostProcessor extends AbstractCodecEnvironment
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = applicationContext.getBean(CipherContext.class);
+        this.context = applicationContext.getBean(CryptoContext.class);
     }
 }

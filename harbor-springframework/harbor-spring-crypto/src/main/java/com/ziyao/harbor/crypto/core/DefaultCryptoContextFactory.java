@@ -12,17 +12,17 @@ import java.util.List;
  * @author ziyao zhang
  * @since 2023/10/23
  */
-public class DefaultCipherContextFactory implements CipherContextFactory {
+public class DefaultCryptoContextFactory implements CryptoContextFactory {
 
 
     @Override
-    public CipherContext createContext(ConfigurableApplicationContext applicationContext) {
+    public CryptoContext createContext(ConfigurableApplicationContext applicationContext) {
 
         CodebookProperties properties = loadEncryptorPropertiesFromEnvironment(applicationContext);
 
         TextCipherProvider textCipherProvider = createTextCipherProvider(properties);
 
-        ConfigurableCipherContext context = new ConfigurableCipherContext();
+        ConfigurableCryptoContext context = new ConfigurableCryptoContext();
         context.setProperties(properties);
         context.setTextCipherProvider(textCipherProvider);
         context.setPropertyResolver(new PropertyResolver(textCipherProvider));
@@ -40,7 +40,7 @@ public class DefaultCipherContextFactory implements CipherContextFactory {
         CodebookProperties main = EnvironmentExtractor.extractProperties(environment, CodebookProperties.class);
         CodebookProperties external = null;
         if (null != main) {
-            external = EnvironmentExtractor.extractProperties(main.getConfigPath(), CodebookProperties.class);
+            external = EnvironmentExtractor.extractProperties(main.getLocation(), CodebookProperties.class);
         }
         // 合并配置
         return CodebookProperties.merge(main, external);

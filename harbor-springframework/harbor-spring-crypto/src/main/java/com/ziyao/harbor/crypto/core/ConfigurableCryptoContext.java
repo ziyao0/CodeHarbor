@@ -7,7 +7,7 @@ import lombok.Getter;
  * @since 2023/10/25
  */
 @Getter
-public class ConfigurableCipherContext implements CipherContext {
+public class ConfigurableCryptoContext implements CryptoContext {
 
     private CodebookProperties properties;
 

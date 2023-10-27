@@ -2,4 +2,4 @@ org.springframework.cloud.bootstrap.BootstrapConfiguration=\
 com.harbor.boot.autoconfigure.crypto.CryptoBootstrapConfiguration
 # Environment Post Processors
 #org.springframework.boot.env.EnvironmentPostProcessor=\
-#com.ziyao.harbor.crypto.EnvironmentDecryptPostProcessor
+#com.ziyao.harbor.crypto.EnvironmentDecryptPostProcessorDecryptor

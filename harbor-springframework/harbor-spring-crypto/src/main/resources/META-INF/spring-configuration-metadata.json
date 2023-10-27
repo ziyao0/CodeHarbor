@@ -20,7 +20,7 @@
   ],
   "properties": [
     {
-      "name": "com.ziyao.crypto.cipher.config-path",
+      "name": "com.ziyao.crypto.cipher.location",
       "type": "java.lang.String",
       "sourceType": "com.ziyao.harbor.crypto.core.CodebookProperties"
     },

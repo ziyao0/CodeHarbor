@@ -6,7 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * @author ziyao zhang
  * @since 2023/10/23
  */
-public interface CipherContextFactory {
+public interface CryptoContextFactory {
 
-    CipherContext createContext(ConfigurableApplicationContext applicationContext);
+    CryptoContext createContext(ConfigurableApplicationContext applicationContext);
 }

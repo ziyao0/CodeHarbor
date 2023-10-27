@@ -13,7 +13,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties(ConstantPool.cipher_prefix)
 public class CodebookProperties extends Codebook<CodebookProperties> {
 
-    private String configPath;
+    private String location;
 
     public static CodebookProperties merge(
             CodebookProperties mainCodebook, CodebookProperties externalCodebook) {
@@ -30,7 +30,7 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
         properties.setSm4(KeyIv.merge(mainCodebook.getSm4(), externalCodebook.getSm4()));
         properties.setSm2(KeyPair.merge(mainCodebook.getSm2(), externalCodebook.getSm2()));
         properties.setTypes(mainCodebook.getTypes());
-        properties.setConfigPath(mainCodebook.getConfigPath());
+        properties.setLocation(mainCodebook.getLocation());
         return properties;
     }
 
@@ -39,7 +39,7 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
         return ConstantPool.cipher_prefix;
     }
 
-    public void setConfigPath(String configPath) {
-        this.configPath = configPath;
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

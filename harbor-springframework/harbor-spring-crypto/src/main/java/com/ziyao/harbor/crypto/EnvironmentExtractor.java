@@ -4,7 +4,7 @@ import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.core.Properties;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.crypto.core.CipherPropertySource;
+import com.ziyao.harbor.crypto.core.CryptoPropertySource;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,7 +55,7 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
 
     private Properties<?> doExtract(ConfigurableEnvironment environment) {
 
-        CipherPropertySource propertySource = extractPropertySourceAndRemove(environment);
+        CryptoPropertySource propertySource = extractPropertySourceAndRemove(environment);
 
         Properties<?> properties = propertySource.getProperty(ConstantPool.properties_prefix);
         return Binder.get(environment)
@@ -63,8 +63,8 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
                 .orElseGet(() -> null);
     }
 
-    private CipherPropertySource extractPropertySourceAndRemove(ConfigurableEnvironment environment) {
-        CipherPropertySource propertySource = (CipherPropertySource) environment.getPropertySources()
+    private CryptoPropertySource extractPropertySourceAndRemove(ConfigurableEnvironment environment) {
+        CryptoPropertySource propertySource = (CryptoPropertySource) environment.getPropertySources()
                 .get(ConstantPool.properties_prefix);
         environment.getPropertySources().remove(ConstantPool.properties_prefix);
         Assert.notNull(propertySource, "CipherPropertySource is not null");
@@ -89,7 +89,7 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
     private static <T> void injectEnvironment(ConfigurableEnvironment environment, Class<? extends Properties<T>> clazz) {
         try {
             Properties<T> properties = clazz.getDeclaredConstructor().newInstance();
-            environment.getPropertySources().addFirst(new CipherPropertySource(ConstantPool.properties_prefix, properties));
+            environment.getPropertySources().addFirst(new CryptoPropertySource(ConstantPool.properties_prefix, properties));
         } catch (Exception e) {
             LOGGER.error("实例化对象异常：{}", e.getMessage());
             throw new RuntimeException(e);

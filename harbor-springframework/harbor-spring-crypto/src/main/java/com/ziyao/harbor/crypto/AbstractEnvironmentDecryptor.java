@@ -2,7 +2,7 @@ package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.core.utils.RegexPool;
-import com.ziyao.harbor.crypto.core.CipherContext;
+import com.ziyao.harbor.crypto.core.CryptoContext;
 import com.ziyao.harbor.crypto.core.Property;
 import com.ziyao.harbor.crypto.core.PropertyResolver;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
@@ -20,14 +20,14 @@ import java.util.Map;
  * @author ziyao zhang
  * @since 2023/10/25
  */
-public abstract class AbstractCodecEnvironment {
+public abstract class AbstractEnvironmentDecryptor {
 
 
     protected static final String CIPHER_PROPERTY_SOURCE_NAME = ConstantPool.CIPHER_PROPERTY_SOURCE_NAME;
     protected static final String CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME = ConstantPool.CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME;
 
 
-    protected Map<String, Object> decrypt(CipherContext context, MutablePropertySources propertySources) {
+    protected Map<String, Object> decrypt(CryptoContext context, MutablePropertySources propertySources) {
         Map<String, Object> properties = merge(context, propertySources);
         decrypt(properties);
         return properties;
@@ -54,7 +54,7 @@ public abstract class AbstractCodecEnvironment {
     }
 
 
-    protected Map<String, Object> merge(CipherContext context, MutablePropertySources propertySources) {
+    protected Map<String, Object> merge(CryptoContext context, MutablePropertySources propertySources) {
         Map<String, Object> properties = new LinkedHashMap<>();
         List<PropertySource<?>> sources = new ArrayList<>();
         for (PropertySource<?> source : propertySources) {
@@ -66,14 +66,14 @@ public abstract class AbstractCodecEnvironment {
         return properties;
     }
 
-    protected Map<String, Object> merge(CipherContext context,
+    protected Map<String, Object> merge(CryptoContext context,
                                         PropertySource<?> source) {
         Map<String, Object> properties = new LinkedHashMap<>();
         merge(context, source, properties);
         return properties;
     }
 
-    protected void merge(CipherContext context, PropertySource<?> source, Map<String, Object> properties) {
+    protected void merge(CryptoContext context, PropertySource<?> source, Map<String, Object> properties) {
 
         if (source instanceof CompositePropertySource) {
 
