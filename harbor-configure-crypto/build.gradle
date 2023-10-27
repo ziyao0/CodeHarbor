@@ -1,0 +1,5 @@
+dependencies {
+    implementation(project(':harbor-crypto'))
+    implementation('org.springframework.boot:spring-boot')
+    implementation('org.yaml:snakeyaml:2.0')
+}

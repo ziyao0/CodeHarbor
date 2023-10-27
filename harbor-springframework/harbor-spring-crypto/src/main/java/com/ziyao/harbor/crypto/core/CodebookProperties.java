@@ -15,6 +15,8 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
 
     private String configPath;
 
+    private boolean failOnError;
+
     public static CodebookProperties merge(
             CodebookProperties mainCodebook, CodebookProperties externalCodebook) {
 
@@ -31,12 +33,17 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
         properties.setSm2(KeyPair.merge(mainCodebook.getSm2(), externalCodebook.getSm2()));
         properties.setTypes(mainCodebook.getTypes());
         properties.setConfigPath(mainCodebook.getConfigPath());
+        properties.setFailOnError(mainCodebook.isFailOnError());
         return properties;
     }
 
     @Override
     public String getPrefix() {
         return ConstantPool.cipher_prefix;
+    }
+
+    public void setFailOnError(boolean failOnError) {
+        this.failOnError = failOnError;
     }
 
     public void setConfigPath(String configPath) {

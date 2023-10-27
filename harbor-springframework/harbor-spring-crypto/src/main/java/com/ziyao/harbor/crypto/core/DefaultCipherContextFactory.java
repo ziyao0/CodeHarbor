@@ -1,7 +1,9 @@
 package com.ziyao.harbor.crypto.core;
 
 import com.ziyao.harbor.crypto.EnvironmentExtractor;
+import com.ziyao.harbor.crypto.PropertyResolver;
 import com.ziyao.harbor.crypto.TextCipher;
+import com.ziyao.harbor.crypto.TextCipherProvider;
 import com.ziyao.harbor.crypto.utils.TextCipherUtils;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.env.ConfigurableEnvironment;
@@ -17,15 +19,19 @@ public class DefaultCipherContextFactory implements CipherContextFactory {
 
     @Override
     public CipherContext createContext(ConfigurableApplicationContext applicationContext) {
+        return createContext(applicationContext.getEnvironment());
+    }
 
-        CodebookProperties properties = loadEncryptorPropertiesFromEnvironment(applicationContext);
-
+    @Override
+    public CipherContext createContext(ConfigurableEnvironment environment) {
+        CodebookProperties properties = loadEncryptorPropertiesInEnvironment(environment);
         TextCipherProvider textCipherProvider = createTextCipherProvider(properties);
 
         ConfigurableCipherContext context = new ConfigurableCipherContext();
         context.setProperties(properties);
         context.setTextCipherProvider(textCipherProvider);
         context.setPropertyResolver(new PropertyResolver(textCipherProvider));
+        context.setFailOnError(properties.isFailOnError());
         return context;
     }
 
@@ -34,9 +40,7 @@ public class DefaultCipherContextFactory implements CipherContextFactory {
         return new TextCipherProvider(textCiphers);
     }
 
-    private CodebookProperties loadEncryptorPropertiesFromEnvironment(ConfigurableApplicationContext applicationContext) {
-        ConfigurableEnvironment environment = applicationContext.getEnvironment();
-
+    private CodebookProperties loadEncryptorPropertiesInEnvironment(ConfigurableEnvironment environment) {
         CodebookProperties main = EnvironmentExtractor.extractProperties(environment, CodebookProperties.class);
         CodebookProperties external = null;
         if (null != main) {

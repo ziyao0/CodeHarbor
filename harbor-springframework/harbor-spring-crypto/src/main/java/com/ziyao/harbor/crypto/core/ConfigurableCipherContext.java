@@ -1,5 +1,7 @@
 package com.ziyao.harbor.crypto.core;
 
+import com.ziyao.harbor.crypto.PropertyResolver;
+import com.ziyao.harbor.crypto.TextCipherProvider;
 import lombok.Getter;
 
 /**
@@ -15,6 +17,8 @@ public class ConfigurableCipherContext implements CipherContext {
 
     private TextCipherProvider textCipherProvider;
 
+    private boolean failOnError;
+
     public void setProperties(CodebookProperties properties) {
         this.properties = properties;
     }
@@ -25,5 +29,9 @@ public class ConfigurableCipherContext implements CipherContext {
 
     public void setTextCipherProvider(TextCipherProvider textCipherProvider) {
         this.textCipherProvider = textCipherProvider;
+    }
+
+    public void setFailOnError(boolean failOnError) {
+        this.failOnError = failOnError;
     }
 }

@@ -133,7 +133,7 @@ public class EnvironmentDecryptApplicationInitializer
     private Map<String, Object> decrypt(CipherContext context,
                                         PropertySource<?> propertySources) {
         Map<String, Object> properties = merge(context, propertySources);
-        decrypt(properties);
+        decrypt(properties, context.isFailOnError());
         return properties;
     }
 

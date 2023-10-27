@@ -3,9 +3,9 @@ package com.ziyao.harbor.crypto;
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.core.utils.RegexPool;
 import com.ziyao.harbor.crypto.core.CipherContext;
-import com.ziyao.harbor.crypto.core.Property;
-import com.ziyao.harbor.crypto.core.PropertyResolver;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.MutablePropertySources;
@@ -22,32 +22,36 @@ import java.util.Map;
  */
 public abstract class AbstractCodecEnvironment {
 
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCodecEnvironment.class);
     protected static final String CIPHER_PROPERTY_SOURCE_NAME = ConstantPool.CIPHER_PROPERTY_SOURCE_NAME;
     protected static final String CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME = ConstantPool.CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME;
 
 
     protected Map<String, Object> decrypt(CipherContext context, MutablePropertySources propertySources) {
         Map<String, Object> properties = merge(context, propertySources);
-        decrypt(properties);
+        decrypt(properties, context.isFailOnError());
         return properties;
     }
 
-    protected void decrypt(Map<String, Object> properties) {
+    protected void decrypt(Map<String, Object> properties, boolean failOnError) {
         properties.forEach((key, value) -> {
             if (value instanceof Property) {
-                properties.put(key, decrypt((Property) value));
+                properties.put(key, decrypt((Property) value, failOnError));
             }
         });
     }
 
-    protected String decrypt(Property property) {
+    protected String decrypt(Property property, boolean failOnError) {
         if (property.isEncryption()) {
             try {
                 TextCipher textCipher = property.getTextCipher();
                 return textCipher.decrypt(property.getValue());
             } catch (Exception e) {
-                throw new IllegalStateException("配置加密信息被损坏，请检查配置文件数据，key:[" + property.getKey() + "],value:[" + property.getValue() + "]", e);
+                String decryptFail = "配置加密信息被损坏，请检查配置文件数据，algorithm:,[" + property.getAlgorithm() + "],key:[" + property.getKey() + "],value:[" + property.getValue() + "]";
+                if (failOnError)
+                    throw new IllegalStateException(decryptFail, e);
+                else
+                    LOGGER.error(decryptFail);
             }
         }
         return property.getValue();
