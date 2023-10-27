@@ -1,12 +1,12 @@
 package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.harbor.crypto.core.CryptoContext;
-import org.springframework.beans.BeansException;
+import com.ziyao.harbor.crypto.core.CipherContext;
+import com.ziyao.harbor.crypto.core.CipherContextFactory;
+import com.ziyao.harbor.crypto.core.DefaultCipherContextFactory;
+import lombok.Getter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MutablePropertySources;
@@ -18,13 +18,22 @@ import java.util.Map;
  * @author ziyao zhang
  * @since 2023/10/23
  */
-public class EnvironmentDecryptPostProcessorDecryptor extends AbstractEnvironmentDecryptor
-        implements EnvironmentPostProcessor, ApplicationContextAware, Ordered {
+@Getter
+public class EnvironmentDecryptPostProcessor
+        extends AbstractCodecEnvironment implements EnvironmentPostProcessor, Ordered {
 
-    private CryptoContext context;
+    private static final int order = Ordered.LOWEST_PRECEDENCE;
+    private final CipherContextFactory contextFactory;
+
+    public EnvironmentDecryptPostProcessor() {
+        this.contextFactory = new DefaultCipherContextFactory();
+    }
 
     @Override
     public void postProcessEnvironment(ConfigurableEnvironment environment, SpringApplication application) {
+        // 创建解密上下文
+        CipherContext context = contextFactory.createContext(environment);
+
         MutablePropertySources propertySources = environment.getPropertySources();
         environment.getPropertySources().remove(CIPHER_PROPERTY_SOURCE_NAME);
         Map<String, Object> properties = decrypt(context, propertySources);
@@ -38,11 +47,6 @@ public class EnvironmentDecryptPostProcessorDecryptor extends AbstractEnvironmen
 
     @Override
     public int getOrder() {
-        return Ordered.LOWEST_PRECEDENCE;
-    }
-
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.context = applicationContext.getBean(CryptoContext.class);
+        return order;
     }
 }

@@ -1,6 +1,7 @@
 package com.ziyao.harbor.crypto.core;
 
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.ConfigurableEnvironment;
 
 /**
  * @author ziyao zhang
@@ -8,5 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface CryptoContextFactory {
 
-    CryptoContext createContext(ConfigurableApplicationContext applicationContext);
+    CipherContext createContext(ConfigurableApplicationContext applicationContext);
+
+    CipherContext createContext(ConfigurableEnvironment environment);
 }

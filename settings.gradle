@@ -68,4 +68,5 @@ findProject(':harbor-springframework:harbor-spring-crypto')?.name = 'harbor-spri
 include 'harbor-crypto'
 include 'harbor-springframework:harbor-spring-elastic'
 findProject(':harbor-springframework:harbor-spring-elastic')?.name = 'harbor-spring-elastic'
+include 'harbor-configure-crypto'
 
