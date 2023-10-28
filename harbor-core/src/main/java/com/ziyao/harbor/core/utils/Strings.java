@@ -2,6 +2,7 @@ package com.ziyao.harbor.core.utils;
 
 
 import com.ziyao.harbor.core.Filter;
+import com.ziyao.harbor.core.lang.NonNull;
 import com.ziyao.harbor.core.text.StrPool;
 import com.ziyao.harbor.core.text.StringFinder;
 import com.ziyao.harbor.core.text.StringFormatter;
@@ -234,6 +235,19 @@ public abstract class Strings implements StrPool {
             return value.toString().getBytes(Charsets.CHARSET_UTF_8);
         }
         return null;
+    }
+
+    /**
+     * toBytes
+     * <p>
+     * 字符串为空返回空数组
+     *
+     * @param value target
+     * @return <code>byte[]</code>
+     */
+    public static byte[] toBytesOrEmpty(CharSequence value) {
+        byte[] bytes = toBytes(value);
+        return bytes != null ? bytes : new byte[0];
     }
 
     /**
@@ -837,5 +851,9 @@ public abstract class Strings implements StrPool {
         }
 
         return str1.toString().regionMatches(ignoreCase, start1, str2.toString(), start2, length);
+    }
+
+    public static String[] split(@NonNull String value, @NonNull String regex) {
+        return value.split(regex);
     }
 }

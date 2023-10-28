@@ -3,7 +3,6 @@ package com.ziyao.harbor.crypto.core;
 
 import com.ziyao.harbor.crypto.Property;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,7 +23,7 @@ public class YamlPropertySourceLoader implements PropertySourceLoader {
     @Override
     public List<Property> load(String name, InputStream inputStream) {
 
-        List<Map<String, Object>> loaded = new OriginTrackedYamlLoader(inputStream).load();
+        List<Map<String, Object>> loaded = new OriginTrackedYamlProcessor(inputStream).load();
         if (loaded.isEmpty()) {
             return Collections.emptyList();
         }

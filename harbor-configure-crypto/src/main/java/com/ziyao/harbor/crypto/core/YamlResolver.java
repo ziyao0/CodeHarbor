@@ -1,6 +1,7 @@
 package com.ziyao.harbor.crypto.core;
 
 import com.ziyao.harbor.core.Extractor;
+import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.Property;
 
@@ -31,13 +32,30 @@ public final class YamlResolver
      * @return 返回 {@link org.springframework.core.env.Environment}
      * @throws IOException 读取配置文件失败后所抛出的流异常
      */
-    public static List<Property> extractYamlProperties(File propertiesFile) throws IOException {
+    public static List<Property> loadYaml(File propertiesFile) throws IOException {
         if (propertiesFile == null) {
             return null;
         }
         YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
         return yamlPropertySourceLoader.load(
                 "EnvironmentExtractor", new FileInputStream(propertiesFile));
+    }
+
+    /**
+     * 把配置信息写入指定的配置文件中
+     *
+     * @param properties     配置信息
+     * @param propertiesPath 写入目标路径
+     * @throws IOException 读取配置文件失败后所抛出的流异常
+     */
+    public static void writeYaml(List<Property> properties, String propertiesPath) throws IOException {
+
+        if (propertiesPath == null
+                || Collections.isEmpty(properties)) {
+            return;
+        }
+        YamlPropertySourceWriter writer = new YamlPropertySourceWriter();
+        writer.write(properties, propertiesPath);
     }
 
     private static File getPropertiesFile(String configPath) {

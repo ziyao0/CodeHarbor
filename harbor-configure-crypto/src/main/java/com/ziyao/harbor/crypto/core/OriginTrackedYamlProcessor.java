@@ -1,5 +1,7 @@
 package com.ziyao.harbor.crypto.core;
 
+import com.ziyao.harbor.core.lang.NonNull;
+import com.ziyao.harbor.crypto.Property;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -21,10 +23,14 @@ import java.util.regex.Pattern;
  * @author ziyao zhang
  * @since 2023/10/27
  */
-public class OriginTrackedYamlLoader extends YamlProcessor {
+class OriginTrackedYamlProcessor extends YamlProcessor {
 
-    OriginTrackedYamlLoader(InputStream inputStream) {
+    OriginTrackedYamlProcessor(InputStream inputStream) {
         setStreams(inputStream);
+    }
+
+    OriginTrackedYamlProcessor(List<Property> properties) {
+        setProperties(properties);
     }
 
     @Override
@@ -48,6 +54,11 @@ public class OriginTrackedYamlLoader extends YamlProcessor {
         List<Map<String, Object>> result = new ArrayList<>();
         process((properties, map) -> result.add(getFlattenedMap(map)));
         return result;
+    }
+
+    @NonNull
+    String resolve() {
+        return process();
     }
 
     /**

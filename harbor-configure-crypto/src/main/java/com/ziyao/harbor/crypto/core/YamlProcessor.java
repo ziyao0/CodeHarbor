@@ -4,6 +4,7 @@ import com.ziyao.harbor.core.io.IOUtils;
 import com.ziyao.harbor.core.lang.Nullable;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.harbor.crypto.Property;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
@@ -28,6 +29,7 @@ public abstract class YamlProcessor {
 
     private ResolutionMethod resolutionMethod = ResolutionMethod.OVERRIDE;
     private InputStream[] streams = new InputStream[0];
+    private List<Property> properties = new ArrayList<>();
     private List<DocumentMatcher> documentMatchers = Collections.emptyList();
 
     private boolean matchDefault = true;
@@ -88,6 +90,10 @@ public abstract class YamlProcessor {
         this.streams = streams;
     }
 
+    public void setProperties(List<Property> properties) {
+        this.properties = properties;
+    }
+
     /**
      * Set the supported types that can be loaded from YAML documents.
      * <p>If no supported types are configured, only Java standard classes
@@ -132,6 +138,43 @@ public abstract class YamlProcessor {
         }
     }
 
+    protected String process() {
+        Yaml yaml = createYamlBlockFlowStyle();
+        Map<String, Object> yamlMap = createYamlMap(this.properties);
+        return yaml.dump(yamlMap);
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, Object> createYamlMap(List<Property> properties) {
+        Map<String, Object> yamlMap = new LinkedHashMap<>();
+        for (Property property : properties) {
+            String key = property.getKey();
+            Object value = property.getValue();
+            Map<String, Object> currentMap = yamlMap;
+            String[] keys = Strings.split(key, "\\.");
+
+            for (int i = 0; i < keys.length; i++) {
+                String currentKey = keys[i];
+                if (i == keys.length - 1) {
+                    currentMap.put(currentKey, value);
+                } else {
+                    currentMap = (Map<String, Object>) currentMap.computeIfAbsent(currentKey, k -> new HashMap<>());
+                }
+            }
+        }
+        return yamlMap;
+    }
+
+    /**
+     * 转换类型
+     */
+    public Object convert(Object value) {
+        if (value instanceof String) {
+            return value.toString();
+        }
+        return null;
+    }
+
     /**
      * Create the {@link Yaml} instance to use.
      * <p>The default implementation sets the "allowDuplicateKeys" flag to {@code false},
@@ -148,6 +191,15 @@ public abstract class YamlProcessor {
         LoaderOptions loaderOptions = new LoaderOptions();
         loaderOptions.setAllowDuplicateKeys(false);
         DumperOptions dumperOptions = new DumperOptions();
+        return new Yaml(new FilteringConstructor(loaderOptions), new Representer(dumperOptions),
+                dumperOptions, loaderOptions);
+    }
+
+    protected Yaml createYamlBlockFlowStyle() {
+        LoaderOptions loaderOptions = new LoaderOptions();
+        loaderOptions.setAllowDuplicateKeys(false);
+        DumperOptions dumperOptions = new DumperOptions();
+        dumperOptions.setDefaultFlowStyle(DumperOptions.FlowStyle.BLOCK);
         return new Yaml(new FilteringConstructor(loaderOptions), new Representer(dumperOptions),
                 dumperOptions, loaderOptions);
     }
