@@ -32,7 +32,7 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
         properties.setSm4(KeyIv.merge(mainCodebook.getSm4(), externalCodebook.getSm4()));
         properties.setSm2(KeyPair.merge(mainCodebook.getSm2(), externalCodebook.getSm2()));
         properties.setTypes(mainCodebook.getTypes());
-        properties.setConfigPath(mainCodebook.getConfigPath());
+        properties.setLocation(mainCodebook.getLocation());
         properties.setFailOnError(mainCodebook.isFailOnError());
         return properties;
     }
@@ -46,7 +46,7 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
         this.failOnError = failOnError;
     }
 
-    public void setConfigPath(String configPath) {
-        this.configPath = configPath;
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

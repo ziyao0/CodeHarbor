@@ -1,9 +1,8 @@
 package com.ziyao.harbor.crypto.core;
 
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.io.Resource;
+import com.ziyao.harbor.crypto.Property;
 
-import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -24,11 +23,10 @@ public interface PropertySourceLoader {
      * return a list containing a single source, or in the case of a multi-document format
      * such as yaml a source for each document in the resource.
      *
-     * @param name     the root name of the property source. If multiple documents are loaded
-     *                 an additional suffix should be added to the name for each source loaded.
-     * @param resource the resource to load
+     * @param name        the root name of the property source. If multiple documents are loaded
+     *                    an additional suffix should be added to the name for each source loaded.
+     * @param inputStream the resource to load
      * @return a list property sources
-     * @throws IOException if the source cannot be loaded
      */
-    List<PropertySource<?>> load(String name, Resource resource) throws IOException;
+    List<Property> load(String name, InputStream inputStream);
 }

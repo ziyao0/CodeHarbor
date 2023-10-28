@@ -18,12 +18,12 @@ public class DefaultCryptoContextFactory implements CryptoContextFactory {
 
 
     @Override
-    public CipherContext createContext(ConfigurableApplicationContext applicationContext) {
+    public CryptoContext createContext(ConfigurableApplicationContext applicationContext) {
         return createContext(applicationContext.getEnvironment());
     }
 
     @Override
-    public CipherContext createContext(ConfigurableEnvironment environment) {
+    public CryptoContext createContext(ConfigurableEnvironment environment) {
         CodebookProperties properties = loadEncryptorPropertiesInEnvironment(environment);
         TextCipherProvider textCipherProvider = createTextCipherProvider(properties);
 

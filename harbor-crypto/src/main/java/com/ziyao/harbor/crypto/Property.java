@@ -14,7 +14,7 @@ public class Property {
 
     private String key;
 
-    private String value;
+    private Object value;
 
     private String algorithm;
 
@@ -23,12 +23,20 @@ public class Property {
     public Property() {
     }
 
-    public Property(String key, String value) {
+    public Property(String key, Object value) {
         this.key = key;
         this.value = value;
     }
 
     public boolean isEncryption() {
         return !Strings.isEmpty(textCipher);
+    }
+
+    @Override
+    public String toString() {
+        return "Property{" +
+                "key='" + key + '\'' +
+                ", value=" + value +
+                '}';
     }
 }

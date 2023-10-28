@@ -9,7 +9,7 @@ import org.springframework.core.env.ConfigurableEnvironment;
  */
 public interface CryptoContextFactory {
 
-    CipherContext createContext(ConfigurableApplicationContext applicationContext);
+    CryptoContext createContext(ConfigurableApplicationContext applicationContext);
 
-    CipherContext createContext(ConfigurableEnvironment environment);
+    CryptoContext createContext(ConfigurableEnvironment environment);
 }

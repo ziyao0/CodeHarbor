@@ -3,11 +3,9 @@ package com.ziyao.harbor.crypto.core;
 import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.Property;
-import org.springframework.boot.env.YamlPropertySourceLoader;
-import org.springframework.core.env.StandardEnvironment;
-import org.springframework.core.io.FileSystemResource;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 
@@ -33,17 +31,13 @@ public final class YamlResolver
      * @return 返回 {@link org.springframework.core.env.Environment}
      * @throws IOException 读取配置文件失败后所抛出的流异常
      */
-    private static StandardEnvironment extractYamlProperties(File propertiesFile) throws IOException {
+    public static List<Property> extractYamlProperties(File propertiesFile) throws IOException {
         if (propertiesFile == null) {
             return null;
         }
-        StandardEnvironment environment = new StandardEnvironment();
         YamlPropertySourceLoader yamlPropertySourceLoader = new YamlPropertySourceLoader();
-        yamlPropertySourceLoader.load("EnvironmentExtractor", new FileSystemResource(propertiesFile))
-                .forEach(e -> {
-                    environment.getPropertySources().addFirst(e);
-                });
-        return environment;
+        return yamlPropertySourceLoader.load(
+                "EnvironmentExtractor", new FileInputStream(propertiesFile));
     }
 
     private static File getPropertiesFile(String configPath) {

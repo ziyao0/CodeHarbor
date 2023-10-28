@@ -1,21 +1,16 @@
 package com.ziyao.harbor.crypto.core;
 
-import org.springframework.boot.origin.Origin;
-import org.springframework.boot.origin.OriginTrackedValue;
-import org.springframework.boot.origin.TextResourceOrigin;
-import org.springframework.boot.origin.TextResourceOrigin.Location;
-import org.springframework.core.io.Resource;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.BaseConstructor;
 import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.constructor.SafeConstructor;
-import org.yaml.snakeyaml.error.Mark;
-import org.yaml.snakeyaml.nodes.*;
+import org.yaml.snakeyaml.nodes.Tag;
 import org.yaml.snakeyaml.representer.Representer;
 import org.yaml.snakeyaml.resolver.Resolver;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,11 +23,8 @@ import java.util.regex.Pattern;
  */
 public class OriginTrackedYamlLoader extends YamlProcessor {
 
-    private final Resource resource;
-
-    OriginTrackedYamlLoader(Resource resource) {
-        this.resource = resource;
-        setResources(resource);
+    OriginTrackedYamlLoader(InputStream inputStream) {
+        setStreams(inputStream);
     }
 
     @Override
@@ -61,7 +53,7 @@ public class OriginTrackedYamlLoader extends YamlProcessor {
     /**
      * {@link Constructor} that tracks property origins.
      */
-    private class OriginTrackingConstructor extends SafeConstructor {
+    private static class OriginTrackingConstructor extends SafeConstructor {
 
         OriginTrackingConstructor(LoaderOptions loadingConfig) {
             super(loadingConfig);
@@ -76,66 +68,6 @@ public class OriginTrackedYamlLoader extends YamlProcessor {
             return data;
         }
 
-        @Override
-        protected Object constructObject(Node node) {
-            if (node instanceof CollectionNode && ((CollectionNode<?>) node).getValue().isEmpty()) {
-                return constructTrackedObject(node, super.constructObject(node));
-            }
-            if (node instanceof ScalarNode) {
-                if (!(node instanceof KeyScalarNode)) {
-                    return constructTrackedObject(node, super.constructObject(node));
-                }
-            }
-            if (node instanceof MappingNode mappingNode) {
-                replaceMappingNodeKeys(mappingNode);
-            }
-            return super.constructObject(node);
-        }
-
-        private void replaceMappingNodeKeys(MappingNode node) {
-            List<NodeTuple> newValue = new ArrayList<>();
-            node.getValue().stream().map(KeyScalarNode::get).forEach(newValue::add);
-            node.setValue(newValue);
-        }
-
-        private Object constructTrackedObject(Node node, Object value) {
-            Origin origin = getOrigin(node);
-            return OriginTrackedValue.of(getValue(value), origin);
-        }
-
-        private Object getValue(Object value) {
-            return (value != null) ? value : "";
-        }
-
-        private Origin getOrigin(Node node) {
-            Mark mark = node.getStartMark();
-            Location location = new Location(mark.getLine(), mark.getColumn());
-            return new TextResourceOrigin(OriginTrackedYamlLoader.this.resource, location);
-        }
-
-    }
-
-    /**
-     * {@link ScalarNode} that replaces the key node in a {@link NodeTuple}.
-     */
-    private static class KeyScalarNode extends ScalarNode {
-
-        KeyScalarNode(ScalarNode node) {
-            super(node.getTag(), node.getValue(), node.getStartMark(), node.getEndMark(), node.getScalarStyle());
-        }
-
-        static NodeTuple get(NodeTuple nodeTuple) {
-            Node keyNode = nodeTuple.getKeyNode();
-            Node valueNode = nodeTuple.getValueNode();
-            return new NodeTuple(KeyScalarNode.get(keyNode), valueNode);
-        }
-
-        private static Node get(Node node) {
-            if (node instanceof ScalarNode scalarNode) {
-                return new KeyScalarNode(scalarNode);
-            }
-            return node;
-        }
 
     }
 

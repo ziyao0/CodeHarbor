@@ -1,13 +1,11 @@
 package com.ziyao.harbor.crypto.core;
 
+import com.ziyao.harbor.core.io.IOUtils;
 import com.ziyao.harbor.core.lang.Nullable;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.springframework.core.CollectionFactory;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
-import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
+import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.core.utils.Strings;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
 import org.yaml.snakeyaml.Yaml;
@@ -16,6 +14,7 @@ import org.yaml.snakeyaml.reader.UnicodeReader;
 import org.yaml.snakeyaml.representer.Representer;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -25,12 +24,10 @@ import java.util.stream.Collectors;
  * @since 2023/10/27
  */
 public abstract class YamlProcessor {
-    private final Log logger = LogFactory.getLog(getClass());
+    private final Logger logger = LoggerFactory.getLogger(getClass());
 
     private ResolutionMethod resolutionMethod = ResolutionMethod.OVERRIDE;
-
-    private Resource[] resources = new Resource[0];
-
+    private InputStream[] streams = new InputStream[0];
     private List<DocumentMatcher> documentMatchers = Collections.emptyList();
 
     private boolean matchDefault = true;
@@ -87,13 +84,8 @@ public abstract class YamlProcessor {
         this.resolutionMethod = resolutionMethod;
     }
 
-    /**
-     * Set locations of YAML {@link Resource resources} to be loaded.
-     *
-     * @see ResolutionMethod
-     */
-    public void setResources(Resource... resources) {
-        this.resources = resources;
+    public void setStreams(InputStream... streams) {
+        this.streams = streams;
     }
 
     /**
@@ -110,7 +102,7 @@ public abstract class YamlProcessor {
      * @since 5.1.16
      */
     public void setSupportedTypes(Class<?>... supportedTypes) {
-        if (ObjectUtils.isEmpty(supportedTypes)) {
+        if (Objects.isNull(supportedTypes)) {
             this.supportedTypes = Collections.emptySet();
         } else {
             Assert.noNullElements(supportedTypes, "'supportedTypes' must not contain null elements");
@@ -132,8 +124,8 @@ public abstract class YamlProcessor {
      */
     protected void process(MatchCallback callback) {
         Yaml yaml = createYaml();
-        for (Resource resource : this.resources) {
-            boolean found = process(callback, yaml, resource);
+        for (InputStream inputStream : this.streams) {
+            boolean found = process(callback, yaml, inputStream);
             if (this.resolutionMethod == ResolutionMethod.FIRST_FOUND && found) {
                 return;
             }
@@ -160,13 +152,13 @@ public abstract class YamlProcessor {
                 dumperOptions, loaderOptions);
     }
 
-    private boolean process(MatchCallback callback, Yaml yaml, Resource resource) {
+    private boolean process(MatchCallback callback, Yaml yaml, InputStream inputStream) {
         int count = 0;
         try {
             if (logger.isDebugEnabled()) {
-                logger.debug("Loading from YAML: " + resource);
+                logger.debug("Loading from YAML: " + inputStream);
             }
-            try (Reader reader = new UnicodeReader(resource.getInputStream())) {
+            try (Reader reader = new UnicodeReader(inputStream)) {
                 for (Object object : yaml.loadAll(reader)) {
                     if (object != null && process(asMap(object), callback)) {
                         count++;
@@ -177,22 +169,24 @@ public abstract class YamlProcessor {
                 }
                 if (logger.isDebugEnabled()) {
                     logger.debug("Loaded " + count + " document" + (count > 1 ? "s" : "") +
-                            " from YAML resource: " + resource);
+                            " from YAML resource: " + inputStream);
                 }
             }
         } catch (IOException ex) {
-            handleProcessError(resource, ex);
+            handleProcessError(inputStream, ex);
+        } finally {
+            IOUtils.close(inputStream);
         }
         return (count > 0);
     }
 
-    private void handleProcessError(Resource resource, IOException ex) {
+    private void handleProcessError(InputStream inputStream, IOException ex) {
         if (this.resolutionMethod != ResolutionMethod.FIRST_FOUND &&
                 this.resolutionMethod != ResolutionMethod.OVERRIDE_AND_IGNORE) {
             throw new IllegalStateException(ex);
         }
         if (logger.isWarnEnabled()) {
-            logger.warn("Could not load map from " + resource + ": " + ex.getMessage());
+            logger.warn("Could not load map from " + inputStream + ": " + ex.getMessage());
         }
     }
 
@@ -221,7 +215,7 @@ public abstract class YamlProcessor {
     }
 
     private boolean process(Map<String, Object> map, MatchCallback callback) {
-        Properties properties = CollectionFactory.createStringAdaptingProperties();
+        Properties properties = this.createStringAdaptingProperties();
         properties.putAll(getFlattenedMap(map));
 
         if (this.documentMatchers.isEmpty()) {
@@ -259,6 +253,17 @@ public abstract class YamlProcessor {
         return false;
     }
 
+    private Properties createStringAdaptingProperties() {
+        return new SortedProperties(false) {
+            @Override
+            @Nullable
+            public String getProperty(String key) {
+                Object value = get(key);
+                return (value != null ? value.toString() : null);
+            }
+        };
+    }
+
     /**
      * Return a flattened version of the given map, recursively following any nested Map
      * or Collection values. Entries from the resulting map retain the same order as the
@@ -278,7 +283,7 @@ public abstract class YamlProcessor {
     @SuppressWarnings({"rawtypes", "unchecked"})
     private void buildFlattenedMap(Map<String, Object> result, Map<String, Object> source, @Nullable String path) {
         source.forEach((key, value) -> {
-            if (StringUtils.hasText(path)) {
+            if (Strings.hasText(path)) {
                 if (key.startsWith("[")) {
                     key = path + key;
                 } else {

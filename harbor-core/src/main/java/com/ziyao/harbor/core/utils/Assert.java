@@ -1,8 +1,11 @@
 package com.ziyao.harbor.core.utils;
 
+import com.ziyao.harbor.core.lang.Nullable;
+
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
+import java.util.function.Supplier;
 
 /**
  * @author ziyao zhang
@@ -143,5 +146,68 @@ public abstract class Assert {
         if (!value) {
             throw new IllegalArgumentException(message);
         }
+    }
+
+    /**
+     * Assert that an array contains no {@code null} elements.
+     * <p>Note: Does not complain if the array is empty!
+     * <pre class="code">Assert.noNullElements(array, "The array must contain non-null elements");</pre>
+     *
+     * @param array   the array to check
+     * @param message the exception message to use if the assertion fails
+     * @throws IllegalArgumentException if the object array contains a {@code null} element
+     */
+    public static void noNullElements(@Nullable Object[] array, String message) {
+        if (array != null) {
+            for (Object element : array) {
+                if (element == null) {
+                    throw new IllegalArgumentException(message);
+                }
+            }
+        }
+    }
+
+    /**
+     * Assert a boolean expression, throwing an {@code IllegalStateException}
+     * if the expression evaluates to {@code false}.
+     * <p>Call {@link #isTrue} if you wish to throw an {@code IllegalArgumentException}
+     * on an assertion failure.
+     * <pre class="code">Assert.state(id == null, "The id property must not already be initialized");</pre>
+     *
+     * @param expression a boolean expression
+     * @param message    the exception message to use if the assertion fails
+     * @throws IllegalStateException if {@code expression} is {@code false}
+     */
+    public static void state(boolean expression, String message) {
+        if (!expression) {
+            throw new IllegalStateException(message);
+        }
+    }
+
+    /**
+     * Assert a boolean expression, throwing an {@code IllegalStateException}
+     * if the expression evaluates to {@code false}.
+     * <p>Call {@link #isTrue} if you wish to throw an {@code IllegalArgumentException}
+     * on an assertion failure.
+     * <pre class="code">
+     * Assert.state(entity.getId() == null,
+     *     () -&gt; "ID for entity " + entity.getName() + " must not already be initialized");
+     * </pre>
+     *
+     * @param expression      a boolean expression
+     * @param messageSupplier a supplier for the exception message to use if the
+     *                        assertion fails
+     * @throws IllegalStateException if {@code expression} is {@code false}
+     * @since 5.0
+     */
+    public static void state(boolean expression, Supplier<String> messageSupplier) {
+        if (!expression) {
+            throw new IllegalStateException(nullSafeGet(messageSupplier));
+        }
+    }
+
+    @Nullable
+    private static String nullSafeGet(@Nullable Supplier<String> messageSupplier) {
+        return (messageSupplier != null ? messageSupplier.get() : null);
     }
 }

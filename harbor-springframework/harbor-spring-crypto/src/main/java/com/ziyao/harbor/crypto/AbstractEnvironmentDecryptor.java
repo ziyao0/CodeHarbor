@@ -2,7 +2,7 @@ package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.core.utils.RegexPool;
-import com.ziyao.harbor.crypto.core.CipherContext;
+import com.ziyao.harbor.crypto.core.CryptoContext;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,7 +22,7 @@ import java.util.Map;
  */
 public abstract class AbstractEnvironmentDecryptor {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractCodecEnvironment.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(AbstractEnvironmentDecryptor.class);
     protected static final String CIPHER_PROPERTY_SOURCE_NAME = ConstantPool.CIPHER_PROPERTY_SOURCE_NAME;
     protected static final String CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME = ConstantPool.CIPHER_BOOTSTRAP_PROPERTY_SOURCE_NAME;
 
@@ -45,7 +45,7 @@ public abstract class AbstractEnvironmentDecryptor {
         if (property.isEncryption()) {
             try {
                 TextCipher textCipher = property.getTextCipher();
-                return textCipher.decrypt(property.getValue());
+                return textCipher.decrypt(String.valueOf(property.getValue()));
             } catch (Exception e) {
                 String decryptFail = "配置加密信息被损坏，请检查配置文件数据，algorithm:,[" + property.getAlgorithm() + "],key:[" + property.getKey() + "],value:[" + property.getValue() + "]";
                 if (failOnError)
@@ -54,7 +54,7 @@ public abstract class AbstractEnvironmentDecryptor {
                     LOGGER.error(decryptFail);
             }
         }
-        return property.getValue();
+        return String.valueOf(property.getValue());
     }
 
 
