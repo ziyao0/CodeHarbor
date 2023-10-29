@@ -21,7 +21,7 @@ public class YamlPropertySourceLoader implements PropertySourceLoader {
     }
 
     @Override
-    public List<Property> load(String name, InputStream inputStream) {
+    public List<Property> load(InputStream inputStream) {
 
         List<Map<String, Object>> loaded = new OriginTrackedYamlProcessor(inputStream).load();
         if (loaded.isEmpty()) {

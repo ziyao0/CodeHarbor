@@ -34,9 +34,6 @@ public class Property {
 
     @Override
     public String toString() {
-        return "Property{" +
-                "key='" + key + '\'' +
-                ", value=" + value +
-                '}';
+        return "Property:key=" + key + ", value=" + value;
     }
 }

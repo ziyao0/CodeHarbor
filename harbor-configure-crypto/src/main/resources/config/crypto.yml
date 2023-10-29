@@ -1,0 +1,9 @@
+com:
+  ziyao:
+    crypto:
+      cipher:
+        types: sm4
+        sm4:
+          key: 13f70890272c40c07d85b15e5d532bd5
+          iv: b18451cd68969ad9ec78f7c700370eea
+          mode: CBC
