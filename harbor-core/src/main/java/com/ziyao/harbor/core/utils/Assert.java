@@ -34,7 +34,7 @@ public abstract class Assert {
      * @param message 断言失败后返回的异常信息
      */
     public static void notNull(CharSequence value, String message) {
-        if (Strings.isEmpty(value) || value.isEmpty()) {
+        if (Strings.isEmpty(value)) {
             throw new IllegalArgumentException(message);
         }
     }

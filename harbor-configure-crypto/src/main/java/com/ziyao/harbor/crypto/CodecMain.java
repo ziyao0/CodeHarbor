@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author ziyao zhang
@@ -44,7 +45,7 @@ public class CodecMain {
                     continue;
                 }
                 for (Property property : properties) {
-                    if (Arrays.stream(includes).toList().contains(property.getKey())) {
+                    if (Arrays.stream(includes).collect(Collectors.toList()).contains(property.getKey())) {
                         property.setValue(encryptCallback.encrypt(property.getValue().toString()));
                     }
                 }

@@ -3,7 +3,9 @@ package com.ziyao.harbor.crypto;
 import com.ziyao.harbor.core.Ordered;
 import com.ziyao.harbor.core.utils.Assert;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.List;
 import java.util.ServiceLoader;
 
 /**
@@ -29,8 +31,11 @@ public abstract class CodecContextFactory {
 
     private <T> T load(Class<T> clazz) {
         ServiceLoader<T> services = ServiceLoader.load(clazz);
-        return services.stream()
-                .map(ServiceLoader.Provider::get)
+        List<T> instances = new ArrayList<>();
+        for (T service : services) {
+            instances.add(service);
+        }
+        return instances.stream()
                 //按照排序取出最大优先级的
                 .min(
                         Comparator.comparing(service -> ((Ordered) service).getOrder()))

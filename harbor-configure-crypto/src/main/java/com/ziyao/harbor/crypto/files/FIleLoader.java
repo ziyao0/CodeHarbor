@@ -11,8 +11,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * @author ziyao
@@ -30,7 +32,7 @@ public class FIleLoader {
                 return Lists.newArrayList(getFile(path));
             }
         } else
-            return List.of();
+            return Collections.emptyList();
     }
 
     /**
@@ -51,7 +53,7 @@ public class FIleLoader {
             else
                 propertyFiles.add(getFile(path));
         }
-        return propertyFiles.stream().filter(Objects::nonNull).toList();
+        return propertyFiles.stream().filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     private static File getFile(Path path) {

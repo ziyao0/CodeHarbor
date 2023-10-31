@@ -52,6 +52,15 @@ public abstract class Strings implements StrPool {
     }
 
     /**
+     * 检查给定的对象（可能是 {@code String}）是否为空。
+     *
+     * @param str 候选对象（可能是 {@code String}）
+     */
+    public static boolean isEmpty(CharSequence str) {
+        return (str == null || "".contentEquals(str));
+    }
+
+    /**
      * Check that the given {@code CharSequence} is neither {@code null} nor
      * of length 0.
      * <p>Note: this method returns {@code true} for a {@code CharSequence}

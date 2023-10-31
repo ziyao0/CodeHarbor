@@ -3,6 +3,7 @@ package com.ziyao.harbor.usercenter.security.codec;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Randoms;
 import com.ziyao.harbor.core.utils.RegexPool;
+import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.digest.BCrypt;
 import com.ziyao.harbor.crypto.digest.BCryptVersion;
 
@@ -39,8 +40,8 @@ public final class BCryptPasswordEncryptor implements PasswordEncryptor {
     @Override
     public boolean matches(CharSequence plaintext, String ciphertext) {
         Assert.notNull(plaintext, "明文不能为空！");
-        Assert.isTrue(plaintext.isEmpty(), "明文不能为空！");
-        Assert.notNull(ciphertext, "秘闻不能为空！");
+        Assert.isTrue(Strings.isEmpty(plaintext), "明文不能为空！");
+        Assert.notNull(ciphertext, "秘文不能为空！");
         Assert.isTrue(!this.BCRYPT_PATTERN.matcher(ciphertext).matches(), "Encoded password does not look like BCrypt");
         return BCrypt.checkpw(plaintext.toString(), ciphertext);
     }
