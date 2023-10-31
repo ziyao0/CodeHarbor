@@ -9,8 +9,8 @@ import com.ziyao.harbor.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
 import com.ziyao.harbor.usercenter.security.cache.MemoryUserDetailsCache;
 import com.ziyao.harbor.usercenter.security.cache.UserDetailsCache;
-import com.ziyao.harbor.usercenter.security.codec.Encryptor;
-import com.ziyao.harbor.usercenter.security.codec.PasswordAuthenticator;
+import com.ziyao.harbor.usercenter.security.codec.PasswordEncryptor;
+import com.ziyao.harbor.usercenter.security.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
 import com.ziyao.harbor.usercenter.security.core.UserDetailsChecker;
 import com.ziyao.harbor.usercenter.service.UserService;
@@ -32,7 +32,7 @@ public class UserDetailsPrimaryProvider implements PrimaryProvider {
 
     private final UserDetailsCache<User> userDetailsCache = new MemoryUserDetailsCache();
 
-    private final Encryptor encryptor = new PasswordAuthenticator();
+    private final PasswordEncryptor passwordEncryptor = new BCryptPasswordEncryptor();
 
     private final UserDetailsChecker checker = new UserStatusChecker();
 
@@ -58,11 +58,11 @@ public class UserDetailsPrimaryProvider implements PrimaryProvider {
                 throw new ServiceException(ErrorsIMessage.ACCOUNT_NULL);
             }
             // 验证密码
-            if (!encryptor.matches(secretKey, userDetails.getSecretKey())) {
+            if (!passwordEncryptor.matches(secretKey, userDetails.getSecretKey())) {
                 throw new ServiceException(ErrorsIMessage.ACCOUNT_PD_NULL);
             }
             // 校验账号状态
-            checker.check(userDetails);
+            checker.validate(userDetails);
             userDetailsCache.put(userDetails);
             return new SuccessAuthDetails(userDetails.getAppId(),
                     userDetails.getId(), userDetails.getAccessKey(), userDetails.getNickname()

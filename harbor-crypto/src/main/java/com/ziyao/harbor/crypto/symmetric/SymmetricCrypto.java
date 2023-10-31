@@ -2,7 +2,6 @@ package com.ziyao.harbor.crypto.symmetric;
 
 import com.ziyao.harbor.core.utils.*;
 import com.ziyao.harbor.crypto.CipherWrapper;
-import com.ziyao.harbor.crypto.Padding;
 import com.ziyao.harbor.crypto.exception.CryptoException;
 import com.ziyao.harbor.crypto.utils.KeyUtils;
 import lombok.Getter;
@@ -295,13 +294,13 @@ public class SymmetricCrypto implements SymmetricEncryptor, SymmetricDecryptor, 
             }
 
             // 随机IV
-            if (Strings.startWithIgnoreCase(algorithm, "PBE")) {
+            if (Strings.startsWithIgnoreCase(algorithm, "PBE")) {
                 // 对于PBE算法使用随机数加盐
                 if (null == iv) {
                     iv = Randoms.randomBytes(8);
                 }
                 paramsSpec = new PBEParameterSpec(iv, 100);
-            } else if (Strings.startWithIgnoreCase(algorithm, "AES")) {
+            } else if (Strings.startsWithIgnoreCase(algorithm, "AES")) {
                 if (null != iv) {
                     //AES使用Cipher默认的随机盐
                     paramsSpec = new IvParameterSpec(iv);

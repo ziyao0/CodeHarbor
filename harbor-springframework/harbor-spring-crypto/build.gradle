@@ -2,4 +2,6 @@ dependencies {
     api(project(':harbor-crypto'))
     api group: 'mysql', name: 'mysql-connector-java', version: "${mysqlconnectorjavaVersion}"
     api group: 'com.alibaba', name: 'druid-spring-boot-starter', version: '1.2.20'
+    api('org.springframework.cloud:spring-cloud-context')
+    api('org.yaml:snakeyaml:2.0')
 }

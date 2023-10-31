@@ -1,4 +1,5 @@
 dependencies{
+    api(project(":harbor-springframework:harbor-spring-crypto"))
     api(project(":harbor-springframework:harbor-spring-web"))
     implementation('org.springframework:spring-webflux')
 }

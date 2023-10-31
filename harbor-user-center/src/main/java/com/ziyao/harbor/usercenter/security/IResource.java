@@ -1,5 +1,7 @@
 package com.ziyao.harbor.usercenter.security;
 
+import com.ziyao.harbor.usercenter.authenticate.Permission;
+
 import java.util.Set;
 
 /**

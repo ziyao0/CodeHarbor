@@ -2,3 +2,4 @@ com.harbor.boot.autoconfigure.servlet.WebMvcAutoConfiguration
 com.ziyao.harbor.web.GlobalExceptionHandlerAdvice
 com.ziyao.harbor.web.GlobalResponseHandlerAdvice
 com.ziyao.harbor.web.RequestFilter
+#加密启动配置类

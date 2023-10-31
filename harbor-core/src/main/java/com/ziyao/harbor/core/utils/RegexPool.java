@@ -2,6 +2,8 @@ package com.ziyao.harbor.core.utils;
 
 import lombok.Getter;
 
+import java.util.regex.Pattern;
+
 /**
  * @author ziyao zhang
  * @since 2023/10/19
@@ -247,7 +249,11 @@ public enum RegexPool {
      * 放宽汉字范围：如生僻姓名 刘欣䶮yǎn
      */
     CHINESE_NAME("^[\u2E80-\u9FFF·]{2,60}$"),
-    ;
+    /**
+     * bcrypt 正则表达式
+     */
+    BCRYPT_PATTERN("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}"),
+    COLLECTION_PROPERTY("(\\S+)?\\[(\\d+)\\](\\.\\S+)?");
 
     private final String regex;
 
@@ -255,4 +261,7 @@ public enum RegexPool {
         this.regex = regex;
     }
 
+    public Pattern forName() {
+        return Pattern.compile(this.getRegex());
+    }
 }

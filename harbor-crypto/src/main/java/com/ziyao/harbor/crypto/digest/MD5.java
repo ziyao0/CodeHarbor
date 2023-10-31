@@ -69,7 +69,7 @@ public class MD5 extends Digester {
      * @return 16位MD5摘要
      */
     public String digestHex16(String data, Charset charset) {
-        return DigestUtil.md5HexTo16(digestHex(data, charset));
+        return DigestUtils.md5HexTo16(digestHex(data, charset));
     }
 
     /**
@@ -79,7 +79,7 @@ public class MD5 extends Digester {
      * @return 16位MD5摘要
      */
     public String digestHex16(String data) {
-        return DigestUtil.md5HexTo16(digestHex(data));
+        return DigestUtils.md5HexTo16(digestHex(data));
     }
 
     /**
@@ -89,7 +89,7 @@ public class MD5 extends Digester {
      * @return 16位MD5摘要
      */
     public String digestHex16(byte[] data) {
-        return DigestUtil.md5HexTo16(digestHex(data));
+        return DigestUtils.md5HexTo16(digestHex(data));
     }
 
 }

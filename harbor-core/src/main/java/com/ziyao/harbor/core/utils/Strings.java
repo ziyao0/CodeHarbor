@@ -2,6 +2,7 @@ package com.ziyao.harbor.core.utils;
 
 
 import com.ziyao.harbor.core.Filter;
+import com.ziyao.harbor.core.lang.NonNull;
 import com.ziyao.harbor.core.text.StrPool;
 import com.ziyao.harbor.core.text.StringFinder;
 import com.ziyao.harbor.core.text.StringFormatter;
@@ -242,6 +243,19 @@ public abstract class Strings implements StrPool {
 
     /**
      * toBytes
+     * <p>
+     * 字符串为空返回空数组
+     *
+     * @param value target
+     * @return <code>byte[]</code>
+     */
+    public static byte[] toBytesOrEmpty(CharSequence value) {
+        byte[] bytes = toBytes(value);
+        return bytes != null ? bytes : new byte[0];
+    }
+
+    /**
+     * toBytes
      *
      * @param value target
      * @return <code>byte[]</code>
@@ -459,7 +473,7 @@ public abstract class Strings implements StrPool {
         return startsWith(value, prefix, false);
     }
 
-    public static boolean startWithIgnoreCase(String value, String prefix) {
+    public static boolean startsWithIgnoreCase(String value, String prefix) {
         return startsWith(value, prefix, true);
     }
 
@@ -690,6 +704,17 @@ public abstract class Strings implements StrPool {
     }
 
     /**
+     * 比较两个字符串是否相等
+     *
+     * @param str1 要比较的字符串1
+     * @param str2 要比较的字符串2
+     * @return 如果两个字符串相同，或者都是{@code null}，则返回{@code true}
+     */
+    public static boolean equalsIgnoreCase(CharSequence str1, CharSequence str2) {
+        return equals(str1, str2, true);
+    }
+
+    /**
      * 替换字符串中的指定字符串
      *
      * @param str         字符串
@@ -830,5 +855,9 @@ public abstract class Strings implements StrPool {
         }
 
         return str1.toString().regionMatches(ignoreCase, start1, str2.toString(), start2, length);
+    }
+
+    public static String[] split(@NonNull String value, @NonNull String regex) {
+        return value.split(regex);
     }
 }

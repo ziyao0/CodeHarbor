@@ -2,7 +2,7 @@ plugins {
     id "java-library"
 }
 dependencies {
-    api(project(":harbor-core"))
+    api(project(":harbor-crypto"))
     api("jakarta.servlet:jakarta.servlet-api")
     api("com.baomidou:mybatis-plus-annotation:${mybatisplusVersion}")
     api("com.baomidou:mybatis-plus-extension:${mybatisplusVersion}")

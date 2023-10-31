@@ -13,6 +13,13 @@ import reactor.core.publisher.Mono;
  */
 public abstract class AbstractAfterAuthenticationFilter extends AbstractGlobalFilter {
 
+    /**
+     * 处理 Web 请求并（可选）通过给定的 {@code GatewayFilterChain} 委托给下一个 {@link org.springframework.cloud.gateway.filter.GatewayFilter}。
+     *
+     * @param exchange the current server exchange
+     * @param chain    provides a way to delegate to the next filter
+     * @return {@code Mono<Void>} 指示请求处理何时完成
+     */
     @Override
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         if (isAuthenticated(exchange)) {
