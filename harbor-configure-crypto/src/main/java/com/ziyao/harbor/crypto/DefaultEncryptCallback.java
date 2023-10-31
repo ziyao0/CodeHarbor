@@ -18,14 +18,14 @@ public class DefaultEncryptCallback implements EncryptCallback {
     }
 
     private TextCipher createTextCipher() {
-        String key = System.getProperty(ConstantPool.KEY);
-        String iv = System.getProperty(ConstantPool.IV);
+        String key = System.getProperty(ConstantPool.key);
+        String iv = System.getProperty(ConstantPool.iv);
         return SmUtils.createSm4CBCTextCipherWithZeroPaddingAndHexCodec(key, iv);
     }
 
     @Override
     public String encrypt(String text) throws Exception {
-        return textCipher.encrypt(text);
+        return PropertyResolver.getPrefix(textCipher.getAlgorithm()) + textCipher.encrypt(text);
     }
 
     @Override

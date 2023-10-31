@@ -51,12 +51,12 @@ public record PropertyResolver(TextCipherProvider textCipherProvider) {
         throw new IllegalStateException("未获取到对应的解密器！value=" + value);
     }
 
-    private static boolean isMatchCipher(TextCipher textCipher, String value) {
+    public static boolean isMatchCipher(TextCipher textCipher, String value) {
         String prefix = getPrefix(textCipher.getAlgorithm());
         return Strings.startsWithIgnoreCase(value, prefix);
     }
 
-    private static String getPrefix(String algorithm) {
+    public static String getPrefix(String algorithm) {
         return "{" + algorithm + "}";
     }
 
