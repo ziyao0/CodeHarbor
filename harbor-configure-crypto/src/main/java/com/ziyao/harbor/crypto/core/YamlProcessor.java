@@ -1,5 +1,6 @@
 package com.ziyao.harbor.crypto.core;
 
+import com.google.common.collect.Lists;
 import com.ziyao.harbor.core.io.IOUtils;
 import com.ziyao.harbor.core.lang.Nullable;
 import com.ziyao.harbor.core.utils.Assert;
@@ -64,7 +65,7 @@ public abstract class YamlProcessor {
      * </pre>
      */
     public void setDocumentMatchers(DocumentMatcher... matchers) {
-        this.documentMatchers = List.of(matchers);
+        this.documentMatchers = Lists.newArrayList(matchers);
     }
 
     /**
@@ -113,7 +114,7 @@ public abstract class YamlProcessor {
         } else {
             Assert.noNullElements(supportedTypes, "'supportedTypes' must not contain null elements");
             this.supportedTypes = Arrays.stream(supportedTypes).map(Class::getName)
-                    .collect(Collectors.toUnmodifiableSet());
+                    .collect(Collectors.toSet());
         }
     }
 
@@ -246,12 +247,12 @@ public abstract class YamlProcessor {
     private Map<String, Object> asMap(Object object) {
         // YAML can have numbers as keys
         Map<String, Object> result = new LinkedHashMap<>();
-        if (!(object instanceof Map map)) {
+        if (!(object instanceof Map)) {
             // A document can be a text literal
             result.put("document", object);
             return result;
         }
-
+        Map map = (Map) object;
         map.forEach((key, value) -> {
             if (value instanceof Map) {
                 value = asMap(value);
@@ -344,11 +345,12 @@ public abstract class YamlProcessor {
             }
             if (value instanceof String) {
                 result.put(key, value);
-            } else if (value instanceof Map map) {
+            } else if (value instanceof Map) {
                 // Need a compound key
-                buildFlattenedMap(result, map, key);
-            } else if (value instanceof Collection collection) {
+                buildFlattenedMap(result, (Map) value, key);
+            } else if (value instanceof Collection) {
                 // Need a compound key
+                Collection collection = (Collection) value;
                 if (collection.isEmpty()) {
                     result.put(key, "");
                 } else {

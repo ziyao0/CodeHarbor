@@ -10,10 +10,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextInitializer;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
-import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.env.MutablePropertySources;
-import org.springframework.core.env.PropertySource;
-import org.springframework.core.env.SystemEnvironmentPropertySource;
+import org.springframework.core.env.*;
 
 import java.util.LinkedHashSet;
 import java.util.Map;
@@ -104,8 +101,9 @@ public class EnvironmentDecryptApplicationInitializerDecryptor
                         PropertySource<?> propertySource) {
         ApplicationContext parent = applicationContext;
         while (parent != null) {
-            if (parent.getEnvironment() instanceof ConfigurableEnvironment mutable) {
-                insert(mutable.getPropertySources(), propertySource);
+            Environment environment = parent.getEnvironment();
+            if (environment instanceof ConfigurableEnvironment) {
+                insert(((ConfigurableEnvironment) environment).getPropertySources(), propertySource);
             }
             parent = parent.getParent();
         }

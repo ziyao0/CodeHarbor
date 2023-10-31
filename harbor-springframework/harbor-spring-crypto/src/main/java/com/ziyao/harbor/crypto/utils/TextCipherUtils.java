@@ -27,18 +27,24 @@ public abstract class TextCipherUtils {
         //解析配置文件
         for (CodebookProperties.Type type : properties.getTypes()) {
             switch (type) {
-                case sm2 ->
-                        textCiphers.add(SmUtils.createSm2TextCipher(properties.getSm2().getPrivateKey(), properties.getSm2().getPublicKey()));
-                case sm4 -> {
+                case sm2:
+                    textCiphers.add(SmUtils.createSm2TextCipher(properties.getSm2().getPrivateKey(), properties.getSm2().getPublicKey()));
+                    break;
+                case sm4: {
                     switch (properties.getSm4().getMode()) {
-                        case CBC ->
-                                textCiphers.add(SmUtils.createSm4CBCTextCipherWithZeroPaddingAndHexCodec(properties.getSm4().getKey(), properties.getSm4().getIv()));
-                        case ECB ->
-                                textCiphers.add(SmUtils.createSm4ECBTextCipherWithZeroPaddingAndHexCodec(properties.getSm4().getKey(), properties.getSm4().getIv()));
-                        default -> LOGGER.error("未知的配置类型");
+                        case CBC:
+                            textCiphers.add(SmUtils.createSm4CBCTextCipherWithZeroPaddingAndHexCodec(properties.getSm4().getKey(), properties.getSm4().getIv()));
+                            break;
+                        case ECB:
+                            textCiphers.add(SmUtils.createSm4ECBTextCipherWithZeroPaddingAndHexCodec(properties.getSm4().getKey(), properties.getSm4().getIv()));
+                            break;
+                        default:
+                            LOGGER.error("未知的配置类型");
                     }
+                    break;
                 }
-                default -> LOGGER.error("未知的配置类型");
+                default:
+                    LOGGER.error("未知的配置类型");
             }
         }
         return textCiphers;

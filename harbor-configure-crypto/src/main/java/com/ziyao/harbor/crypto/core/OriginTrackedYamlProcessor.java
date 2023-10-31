@@ -1,6 +1,7 @@
 package com.ziyao.harbor.crypto.core;
 
 import com.ziyao.harbor.core.lang.NonNull;
+import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.Property;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.LoaderOptions;
@@ -73,8 +74,10 @@ class OriginTrackedYamlProcessor extends YamlProcessor {
         @Override
         public Object getData() throws NoSuchElementException {
             Object data = super.getData();
-            if (data instanceof CharSequence charSequence && charSequence.isEmpty()) {
-                return null;
+            if (data instanceof CharSequence) {
+                if (Strings.isEmpty(data)) {
+                    return null;
+                }
             }
             return data;
         }

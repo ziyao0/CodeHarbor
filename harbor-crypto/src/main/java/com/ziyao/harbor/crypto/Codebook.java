@@ -6,6 +6,7 @@ import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.symmetric.Mode;
 import lombok.Getter;
 
+import java.util.Collections;
 import java.util.Set;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Set;
 @Getter
 public abstract class Codebook<T extends Codebook<T>> extends Properties<T> {
 
-    private Set<Type> types = Set.of();
+    private Set<Type> types = Collections.emptySet();
 
     private KeyIv sm4 = new KeyIv();
 
