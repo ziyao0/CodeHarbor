@@ -1,3 +1,3 @@
 dependencies {
-    implementation('com.github.rebue.sbs:es-spring-boot-starter:1.2.4')
+    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
 }
