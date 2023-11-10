@@ -7,7 +7,7 @@ import com.ziyao.harbor.usercenter.security.api.UserDetails;
  * @author zhangziyao
  * @since 2023/4/24
  */
-public interface UserDetailsChecker extends Validator<UserDetails> {
+public interface UserDetailsValidator extends Validator<UserDetails> {
 
 
     /**

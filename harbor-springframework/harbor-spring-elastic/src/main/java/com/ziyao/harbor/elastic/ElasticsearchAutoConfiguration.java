@@ -9,5 +9,5 @@ import org.springframework.context.annotation.Configuration;
  * @since 2023/4/23
  */
 @Configuration
-public class ElasticAutoConfiguration {
+public class ElasticsearchAutoConfiguration {
 }

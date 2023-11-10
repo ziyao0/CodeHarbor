@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.security.core;
 
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticationException;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedException;
 
 /**
  * @author ziyao zhang
@@ -12,7 +12,7 @@ public interface FailureHandler<T, E extends Exception> {
     /**
      * 失败时调用该方法
      *
-     * @throws AuthenticationException 认证异常
+     * @throws AuthenticatedException 认证异常
      */
     void onFailure(T t, E e);
 }

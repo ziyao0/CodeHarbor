@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.security;
 
-import com.ziyao.harbor.usercenter.comm.exception.ErrorsIMessage;
+import com.ziyao.harbor.usercenter.comm.exception.Errors;
 import com.ziyao.harbor.usercenter.security.api.Authentication;
 import com.ziyao.harbor.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.harbor.usercenter.security.core.AuthenticationProvider;
@@ -45,10 +45,10 @@ public class PrimaryProviderManager implements ProviderManager {
         if (Objects.nonNull(primaryAuthProvider)) {
             if (!primaryAuthProvider.supports(authentication.getClass())) {
                 log.error("当前认证处理不支持. {}", authentication.getClass());
-                return new FailureAuthDetails(ErrorsIMessage.UN_SUPPORTS);
+                return new FailureAuthDetails(Errors.ERROR_100008);
             }
             return primaryAuthProvider.authenticate(authentication);
         }
-        return new FailureAuthDetails(ErrorsIMessage.ERROR_100008);
+        return new FailureAuthDetails(Errors.ERROR_100008);
     }
 }

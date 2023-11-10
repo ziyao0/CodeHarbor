@@ -1,18 +1,18 @@
 package com.ziyao.harbor.usercenter.security.provider;
 
-import com.ziyao.harbor.usercenter.comm.exception.ErrorsIMessage;
+import com.ziyao.harbor.usercenter.comm.exception.Errors;
 import com.ziyao.harbor.usercenter.entity.User;
-import com.ziyao.harbor.usercenter.security.UserStatusChecker;
+import com.ziyao.harbor.usercenter.authenticate.UserStatusValidator;
 import com.ziyao.harbor.usercenter.security.api.Authentication;
-import com.ziyao.harbor.usercenter.security.api.ProviderName;
+import com.ziyao.harbor.usercenter.security.api.AuthenticatedType;
 import com.ziyao.harbor.usercenter.security.auth.FailureAuthDetails;
 import com.ziyao.harbor.usercenter.security.auth.SuccessAuthDetails;
-import com.ziyao.harbor.usercenter.security.cache.MemoryUserDetailsCache;
-import com.ziyao.harbor.usercenter.security.cache.UserDetailsCache;
-import com.ziyao.harbor.usercenter.security.codec.PasswordEncryptor;
-import com.ziyao.harbor.usercenter.security.codec.BCryptPasswordEncryptor;
+import com.ziyao.harbor.usercenter.cache.MemoryUserDetailsCache;
+import com.ziyao.harbor.usercenter.cache.UserDetailsCache;
+import com.ziyao.harbor.usercenter.authenticate.codec.PasswordEncryptor;
+import com.ziyao.harbor.usercenter.authenticate.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
-import com.ziyao.harbor.usercenter.security.core.UserDetailsChecker;
+import com.ziyao.harbor.usercenter.security.core.UserDetailsValidator;
 import com.ziyao.harbor.usercenter.service.UserService;
 import com.ziyao.harbor.web.exception.ServiceException;
 import lombok.extern.slf4j.Slf4j;
@@ -34,7 +34,7 @@ public class UserDetailsPrimaryProvider implements PrimaryProvider {
 
     private final PasswordEncryptor passwordEncryptor = new BCryptPasswordEncryptor();
 
-    private final UserDetailsChecker checker = new UserStatusChecker();
+    private final UserDetailsValidator checker = new UserStatusValidator();
 
     public UserDetailsPrimaryProvider(UserService userService) {
         this.userService = userService;
@@ -55,11 +55,11 @@ public class UserDetailsPrimaryProvider implements PrimaryProvider {
             }
             // 验证账号是否存在
             if (ObjectUtils.isEmpty(userDetails)) {
-                throw new ServiceException(ErrorsIMessage.ACCOUNT_NULL);
+                throw new ServiceException(Errors.ERROR_100005);
             }
             // 验证密码
             if (!passwordEncryptor.matches(secretKey, userDetails.getSecretKey())) {
-                throw new ServiceException(ErrorsIMessage.ACCOUNT_PD_NULL);
+                throw new ServiceException(Errors.ERROR_100006);
             }
             // 校验账号状态
             checker.validate(userDetails);
@@ -74,6 +74,6 @@ public class UserDetailsPrimaryProvider implements PrimaryProvider {
 
     @Override
     public String getProviderName() {
-        return ProviderName.PASSWD.name();
+        return AuthenticatedType.PASSWD.name();
     }
 }

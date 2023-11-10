@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.security.cache;
+package com.ziyao.harbor.usercenter.cache;
 
 import com.ziyao.harbor.usercenter.security.api.UserDetails;
 

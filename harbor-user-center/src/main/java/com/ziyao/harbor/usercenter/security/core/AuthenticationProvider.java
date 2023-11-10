@@ -1,8 +1,8 @@
 package com.ziyao.harbor.usercenter.security.core;
 
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticationException;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedException;
 import com.ziyao.harbor.usercenter.security.api.Authentication;
-import com.ziyao.harbor.usercenter.security.api.ProviderName;
+import com.ziyao.harbor.usercenter.security.api.AuthenticatedType;
 
 /**
  * @author zhangziyao
@@ -15,7 +15,7 @@ public interface AuthenticationProvider {
      *
      * @param authentication {@link Authentication}认证核心参数
      * @return 返回认证结果
-     * @throws AuthenticationException 认证异常
+     * @throws AuthenticatedException 认证异常
      */
     Authentication authenticate(Authentication authentication);
 
@@ -32,7 +32,7 @@ public interface AuthenticationProvider {
     /**
      * Provider Name
      *
-     * @return {@link ProviderName}
+     * @return {@link AuthenticatedType}
      */
     String getProviderName();
 }

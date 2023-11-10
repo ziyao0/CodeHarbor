@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.security.codec;
+package com.ziyao.harbor.usercenter.authenticate.codec;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Randoms;
