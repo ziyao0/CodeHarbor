@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
-import com.ziyao.harbor.usercenter.security.api.UserDetails;
+import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

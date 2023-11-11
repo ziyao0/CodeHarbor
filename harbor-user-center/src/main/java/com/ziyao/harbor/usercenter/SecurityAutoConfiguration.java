@@ -3,7 +3,6 @@ package com.ziyao.harbor.usercenter;
 import com.ziyao.harbor.crypto.Codebook;
 import com.ziyao.harbor.crypto.TextCipher;
 import com.ziyao.harbor.crypto.utils.SmUtils;
-import com.ziyao.harbor.usercenter.security.PrimaryProviderManager;
 import com.ziyao.harbor.usercenter.security.core.PrimaryProvider;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import org.springframework.beans.BeansException;
