@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.dto;
 
-import com.ziyao.harbor.usercenter.security.api.ProviderName;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedType;
 import lombok.Data;
 
 /**
@@ -16,5 +16,5 @@ public class LoginDTO {
 
     private String accessKey;
 
-    private ProviderName loginType = ProviderName.PASSWD;
+    private AuthenticatedType loginType = AuthenticatedType.PASSWD;
 }
