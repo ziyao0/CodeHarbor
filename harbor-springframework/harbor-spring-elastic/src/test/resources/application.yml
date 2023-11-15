@@ -1,0 +1,7 @@
+spring:
+  elasticsearch:
+    uris:
+      - http://192.168.201.43:9200
+    connection-timeout: 3s
+    username: elasticsearch
+    password: tjhOsYvA28V4P+EFv94z
