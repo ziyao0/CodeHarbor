@@ -97,9 +97,14 @@ public class DefaultESRepository<T, ID> extends SimpleElasticsearchRepository<T,
         Map<String, Object> properties = extractPropertyFromEntity(entity, fields);
         doCreateCriteria(properties).forEach(condition -> {
             switch (operator) {
-                case And -> criteria.and(condition);
-                case Or -> criteria.or(condition);
-                default -> LOGGER.error("未知的操作类型:{}", operator.jsonValue());
+                case And:
+                    criteria.and(condition);
+                    break;
+                case Or:
+                    criteria.or(condition);
+                    break;
+                default:
+                    LOGGER.error("未知的操作类型:{}", operator.jsonValue());
             }
         });
         return criteria;
