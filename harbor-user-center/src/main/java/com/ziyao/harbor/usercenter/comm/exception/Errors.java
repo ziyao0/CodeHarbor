@@ -7,7 +7,6 @@ import com.ziyao.harbor.core.error.StatusMessage;
  * @since 2023/4/24
  */
 public enum Errors implements StatusMessage {
-
     ERROR_100001(100001, "认证失败,账号已锁定"),
     ERROR_100002(100002, "认证失败,用户以禁用"),
     ERROR_100003(100003, "认证失败,账号过期"),

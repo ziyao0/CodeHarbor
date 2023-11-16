@@ -1,5 +1,6 @@
 dependencies {
     implementation(project(":dubbo-api"))
+    implementation(project(":harbor-springframework:harbor-spring-web"))
     implementation(project(":harbor-springframework:harbor-spring-boot-autoconfigure"))
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"

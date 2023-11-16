@@ -3,8 +3,6 @@ package com.ziyao.harbor.usercenter.authenticate;
 import lombok.Data;
 
 /**
- * 认证请求
- *
  * @author ziyao
  * @since 2023/4/23
  */
@@ -13,9 +11,9 @@ public class AuthenticatedRequest {
 
     private Long appid;
 
-    private String accessKey;
+    private String username;
 
-    private String secretKey;
+    private String password;
 
-    private boolean authenticated;
+    boolean authenticated;
 }

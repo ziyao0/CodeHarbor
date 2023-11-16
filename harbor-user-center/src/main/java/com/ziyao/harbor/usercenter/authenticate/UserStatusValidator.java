@@ -3,8 +3,7 @@ package com.ziyao.harbor.usercenter.authenticate;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.comm.exception.Errors;
 import com.ziyao.harbor.usercenter.comm.exception.UserStatusException;
-import com.ziyao.harbor.usercenter.security.api.UserDetails;
-import com.ziyao.harbor.usercenter.security.core.UserDetailsValidator;
+import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 
 /**
  * 检查用户状态公共类

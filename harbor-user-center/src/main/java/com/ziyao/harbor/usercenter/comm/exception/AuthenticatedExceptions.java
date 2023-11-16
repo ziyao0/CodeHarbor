@@ -1,9 +1,12 @@
 package com.ziyao.harbor.usercenter.comm.exception;
 
+import lombok.Data;
+
 /**
- * @author ziyao zhang
- * @since 2023/11/10
+ * @author ziyao
+ * @since 2023/4/23
  */
+@Data
 public abstract class AuthenticatedExceptions {
 
 

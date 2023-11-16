@@ -1,14 +1,17 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
-import com.ziyao.harbor.usercenter.security.api.Authentication;
-import com.ziyao.harbor.usercenter.security.core.AuthenticatedUser;
-
 /**
  * @author ziyao zhang
  * @since 2023/9/25
  */
 @FunctionalInterface
 public interface Authenticator {
+
+    /*
+     * 身份验证器是否需要显式登录。
+     * 如果为 false，则将用AuthenticatedUser.ANONYMOUS_USER实例化用户。
+     *//*
+    boolean requireAuthentication();*/
 
     /**
      * 身份验证
@@ -34,6 +37,6 @@ public interface Authenticator {
      * @return 返回 {@link Boolean#TRUE} 不支持
      */
     default boolean supports(Class<?> authenticationClass) {
-        return Authentication.class.isAssignableFrom(authenticationClass);
+        return Authenticator.class.isAssignableFrom(authenticationClass);
     }
 }
