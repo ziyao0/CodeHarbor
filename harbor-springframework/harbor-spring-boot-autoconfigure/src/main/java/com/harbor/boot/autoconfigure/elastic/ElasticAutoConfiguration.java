@@ -1,5 +1,6 @@
-package com.ziyao.harbor.elastic;
+package com.harbor.boot.autoconfigure.elastic;
 
+import com.ziyao.harbor.elastic.EnableESRepositories;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -9,5 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 2023/4/23
  */
 @Configuration
+@EnableESRepositories
 public class ElasticAutoConfiguration {
 }

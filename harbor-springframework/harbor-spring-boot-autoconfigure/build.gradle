@@ -1,5 +1,6 @@
-dependencies{
-    api(project(":harbor-springframework:harbor-spring-crypto"))
-    api(project(":harbor-springframework:harbor-spring-web"))
+dependencies {
+    implementation(project(":harbor-springframework:harbor-spring-crypto"))
+    implementation(project(":harbor-springframework:harbor-spring-web"))
     implementation('org.springframework:spring-webflux')
+    implementation(project(":harbor-springframework:harbor-spring-elastic"))
 }

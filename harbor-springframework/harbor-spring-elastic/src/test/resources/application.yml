@@ -5,3 +5,5 @@ spring:
     connection-timeout: 3s
     username: elasticsearch
     password: tjhOsYvA28V4P+EFv94z
+    repositories:
+      enabled: true

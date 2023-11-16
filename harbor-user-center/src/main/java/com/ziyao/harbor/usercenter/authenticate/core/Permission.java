@@ -1,10 +1,5 @@
 package com.ziyao.harbor.usercenter.authenticate.core;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
-
-import java.util.EnumSet;
-import java.util.Set;
 
 /**
  * @author ziyao zhang
@@ -29,7 +24,4 @@ public enum Permission {
     // UDF permissions
     EXECUTE;  // 执行
 
-    public static final Set<Permission> ALL =
-            Sets.immutableEnumSet(EnumSet.range(Permission.CREATE, Permission.EXECUTE));
-    public static final Set<Permission> NONE = ImmutableSet.of();
 }
