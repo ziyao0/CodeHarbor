@@ -1,5 +1,6 @@
-package com.ziyao.harbor.elastic;
+package com.ziyao.harbor.elasticsearch.autoconfigure;
 
+import com.ziyao.harbor.elastic.ESRepositoryConfigExtension;
 import com.ziyao.harbor.elastic.config.EnableESRepositories;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;

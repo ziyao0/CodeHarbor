@@ -1,4 +1,4 @@
-package com.ziyao.harbor.elastic;
+package com.ziyao.harbor.elasticsearch.autoconfigure;
 
 import co.elastic.clients.elasticsearch.nodes.Client;
 import org.springframework.boot.autoconfigure.AutoConfiguration;
