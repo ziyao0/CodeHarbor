@@ -5,8 +5,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.Query;
-import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
+import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.lang.Nullable;
 
 /**
@@ -14,11 +15,11 @@ import org.springframework.lang.Nullable;
  * @since 2023/11/15
  */
 @NoRepositoryBean
-public interface ESRepository<T, ID> extends ElasticsearchRepository<T, ID> {
+public interface ESRepository<T, ID> extends PagingAndSortingRepository<T, ID>, CrudRepository<T, ID> {
 
     /**
      * 分页搜索数据
-     * <p>
+     * <p>searchSimilar
      * entity中如果屬性{@code null}则不会被当做查询条件进行查询.
      * 如果全部为空则进行全量查询
      *
@@ -26,7 +27,7 @@ public interface ESRepository<T, ID> extends ElasticsearchRepository<T, ID> {
      * @param pageable 分页信息
      * @return 返回搜到到的结果，分页展示
      */
-    Page<T> searchMatcher(T entity, Pageable pageable);
+    Page<T> searchSimilar(T entity, Pageable pageable);
 
     /**
      * 分页搜索数据
@@ -38,7 +39,7 @@ public interface ESRepository<T, ID> extends ElasticsearchRepository<T, ID> {
      * @param pageable 分页信息
      * @return 返回搜到到的结果，分页展示
      */
-    Page<T> searchMatcher(T entity, @Nullable String[] fields, Pageable pageable);
+    Page<T> searchSimilar(T entity, @Nullable String[] fields, Pageable pageable);
 
     /**
      * 分页搜索数据
@@ -49,7 +50,7 @@ public interface ESRepository<T, ID> extends ElasticsearchRepository<T, ID> {
      * @param operator 关联类型。默认{@link Operator#And}
      * @return 返回搜到到的结果，分页展示
      */
-    Page<T> searchMatcher(T entity, @Nullable String[] fields, Pageable pageable, Operator operator);
+    Page<T> searchSimilar(T entity, @Nullable String[] fields, Pageable pageable, Operator operator);
 
     /**
      * 分页搜索数据
@@ -58,7 +59,7 @@ public interface ESRepository<T, ID> extends ElasticsearchRepository<T, ID> {
      * @param pageable 分页信息
      * @return 返回搜到到的结果，分页展示
      */
-    Page<T> searchMatcher(Criteria criteria, Pageable pageable);
+    Page<T> searchSimilar(Criteria criteria, Pageable pageable);
 
     /**
      * 分页搜索数据

@@ -1,6 +1,6 @@
 package com.ziyao.harbor.elastic;
 
-import com.ziyao.harbor.elastic.repository.DefaultESRepository;
+import com.ziyao.harbor.elastic.repository.SimpleESRepository;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactory;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
@@ -25,7 +25,7 @@ public class ESRepositoryFactory extends ElasticsearchRepositoryFactory {
             throw new IllegalArgumentException("QueryDsl Support has not been implemented yet.");
         }
 
-        return DefaultESRepository.class;
+        return SimpleESRepository.class;
     }
 
 

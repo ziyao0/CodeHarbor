@@ -14,4 +14,6 @@ import java.util.List;
 public interface UserESRepository extends ESRepository<User, Long> {
 
     List<User> findByName(String name);
+
+    List<User> findByAddr(String addr);
 }
