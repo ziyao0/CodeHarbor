@@ -62,6 +62,10 @@ allprojects {
 }
 subprojects {
     def excludes = ['harbor-core']
+    def springframeworkBom = []
+    def alibabaCloudBom = []
+    def springframeworkCloudBom = []
+
     if (!excludes.contains(project.name)) {
         dependencyManagement {
             imports {
