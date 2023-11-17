@@ -1,9 +1,10 @@
 package com.ziyao.harbor.elastic;
 
-import com.ziyao.harbor.core.lang.NonNull;
+
 import org.springframework.data.elasticsearch.repository.config.ElasticsearchRepositoryConfigExtension;
 import org.springframework.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
 import org.springframework.data.repository.config.RepositoryConfigurationExtension;
+import org.springframework.lang.NonNull;
 
 import java.lang.annotation.Annotation;
 

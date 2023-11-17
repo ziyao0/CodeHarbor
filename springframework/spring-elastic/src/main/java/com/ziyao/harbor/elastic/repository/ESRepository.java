@@ -1,13 +1,13 @@
 package com.ziyao.harbor.elastic.repository;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
-import com.ziyao.harbor.core.lang.Nullable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 import org.springframework.data.repository.NoRepositoryBean;
+import org.springframework.lang.Nullable;
 
 /**
  * @author ziyao zhang

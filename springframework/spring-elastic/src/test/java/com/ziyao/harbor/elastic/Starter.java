@@ -8,13 +8,19 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
+import org.springframework.data.elasticsearch.core.ElasticsearchRestTemplate;
+import org.springframework.data.elasticsearch.core.SearchHit;
+import org.springframework.data.elasticsearch.core.SearchHits;
+import org.springframework.data.elasticsearch.core.query.Criteria;
+import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
+import org.springframework.data.elasticsearch.core.query.CriteriaQueryBuilder;
+
+import java.util.List;
 
 /**
  * @author ziyao zhang
  * @since 2023/11/14
  */
-@EnableESRepositories(basePackages = "com.ziyao.harbor.elastic")
 @SpringBootApplication
 public class Starter implements CommandLineRunner {
 
@@ -24,7 +30,7 @@ public class Starter implements CommandLineRunner {
 
 
     @Autowired
-    private ElasticsearchTemplate elasticsearchTemplate;
+    private ElasticsearchRestTemplate elasticsearchTemplate;
     @Autowired
     private UserESRepository userESRepository;
 
@@ -67,18 +73,18 @@ public class Starter implements CommandLineRunner {
 //        NativeQueryBuilder nativeQueryBuilder = builder.withQuery(addrQuery).withPageable(Pageable.ofSize(100));
 
 
-//        Criteria criteria = new Criteria("addr").is("北京中关村").or("name").is("李四").boost(2f);
+        Criteria criteria = new Criteria("addr").is("北京中关村").or("name").is("李四").boost(2f);
 //
-//        CriteriaQueryBuilder queryBuilder = CriteriaQuery.builder(criteria).withPageable(PageRequest.of(0, 10)).withSort(Sort.by(Sort.Direction.ASC, "age"));
-//
-//
-//        SearchHits<User> search = elasticsearchTemplate.search(queryBuilder.build(), User.class);
+        CriteriaQueryBuilder queryBuilder = CriteriaQuery.builder(criteria).withPageable(PageRequest.of(0, 10)).withSort(Sort.by(Sort.Direction.ASC, "age"));
 //
 //
-//        List<SearchHit<User>> searchHits = search.getSearchHits();
-//        for (SearchHit<User> searchHit : searchHits) {
-//            User content = searchHit.getContent();
-//            System.out.println(content);
-//        }
+        SearchHits<User> search = elasticsearchTemplate.search(queryBuilder.build(), User.class);
+
+
+        List<SearchHit<User>> searchHits = search.getSearchHits();
+        for (SearchHit<User> searchHit : searchHits) {
+            User content = searchHit.getContent();
+            System.out.println(content);
+        }
     }
 }
