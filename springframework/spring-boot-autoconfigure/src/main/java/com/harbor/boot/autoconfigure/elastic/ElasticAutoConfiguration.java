@@ -1,9 +1,7 @@
 package com.harbor.boot.autoconfigure.elastic;
 
-import com.ziyao.harbor.elastic.ESRepositoriesRegistrar;
-import org.springframework.boot.autoconfigure.AutoConfiguration;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.annotation.Import;
+import com.ziyao.harbor.elastic.config.EnableESRepositories;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * org.elasticsearch.bootstrap.Bootstrap
@@ -11,10 +9,7 @@ import org.springframework.context.annotation.Import;
  * @author ziyao
  * @since 2023/4/23
  */
-@AutoConfiguration
-@ConditionalOnProperty(prefix = "spring.data.elasticsearch.repositories", name = "enabled", havingValue = "true",
-        matchIfMissing = true)
-@Import(ESRepositoriesRegistrar.class)
+@Configuration
+@EnableESRepositories
 public class ElasticAutoConfiguration {
-
 }

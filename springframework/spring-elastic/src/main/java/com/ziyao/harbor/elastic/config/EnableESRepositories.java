@@ -1,5 +1,6 @@
-package com.ziyao.harbor.elastic;
+package com.ziyao.harbor.elastic.config;
 
+import com.ziyao.harbor.elastic.ESRepositoryFactoryBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
