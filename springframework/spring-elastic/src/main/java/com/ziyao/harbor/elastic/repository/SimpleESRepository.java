@@ -176,7 +176,7 @@ public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
         if (unwrappedSearchHits != null) {
             return (List<T>) unwrappedSearchHits;
         } else {
-            return List.of();
+            return Collections.emptyList();
         }
     }
 
@@ -322,8 +322,8 @@ public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
                 .collect(Collectors.toList());
     }
 
-    protected @Nullable String stringIdRepresentation(@Nullable ID id) {
-        return operations.convertId(id);
+    protected @Nullable String stringIdRepresentation(@NonNull ID id) {
+        return operations.getElasticsearchConverter().convertId(id);
     }
 
     private IndexCoordinates getIndexCoordinates() {
@@ -375,9 +375,14 @@ public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
         Map<String, Object> properties = extractPropertyFromEntity(entity, fields);
         doCreateCriteria(properties).forEach(condition -> {
             switch (operator) {
-                case And -> criteria.and(condition);
-                case Or -> criteria.or(condition);
-                default -> LOGGER.error("未知的操作类型:{}", operator.jsonValue());
+                case And:
+                    criteria.and(condition);
+                    break;
+                case Or:
+                    criteria.or(condition);
+                    break;
+                default:
+                    LOGGER.error("未知的操作类型:{}", operator.jsonValue());
             }
         });
         return criteria;
