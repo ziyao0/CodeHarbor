@@ -14,7 +14,6 @@ import org.springframework.data.elasticsearch.client.elc.ElasticsearchTemplate;
  * @author ziyao zhang
  * @since 2023/11/14
  */
-@EnableESRepositories(basePackages = "com.ziyao.harbor.elastic")
 @SpringBootApplication
 public class Starter implements CommandLineRunner {
 

@@ -1,11 +1,11 @@
 package com.ziyao.harbor.elastic;
 
-import com.ziyao.harbor.core.lang.NonNull;
-import com.ziyao.harbor.core.lang.Nullable;
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 
 import java.io.Serializable;

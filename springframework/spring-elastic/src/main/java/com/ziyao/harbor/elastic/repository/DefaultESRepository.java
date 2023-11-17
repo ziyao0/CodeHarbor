@@ -1,9 +1,6 @@
 package com.ziyao.harbor.elastic.repository;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
-import com.ziyao.harbor.core.lang.NonNull;
-import com.ziyao.harbor.core.lang.Nullable;
-import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.elastic.support.BeanPropertyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +15,9 @@ import org.springframework.data.elasticsearch.core.query.CriteriaQuery;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.elasticsearch.repository.support.ElasticsearchEntityInformation;
 import org.springframework.data.elasticsearch.repository.support.SimpleElasticsearchRepository;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.Nullable;
+import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 import java.util.ArrayList;
