@@ -35,7 +35,7 @@ public class Starter implements CommandLineRunner {
 
         Sort sort = Sort.by(Sort.Direction.ASC, "age");
 
-        Page<User> users1 = userESRepository.searchMatcher(user, PageRequest.of(0, 10, sort));
+        Page<User> users1 = userESRepository.searchSimilar(user, PageRequest.of(0, 10, sort));
         for (User user1 : users1) {
             System.out.println(user1);
         }
