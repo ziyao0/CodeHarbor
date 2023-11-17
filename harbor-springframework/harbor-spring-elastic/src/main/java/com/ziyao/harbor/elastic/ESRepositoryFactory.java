@@ -13,8 +13,8 @@ import static org.springframework.data.querydsl.QuerydslUtils.QUERY_DSL_PRESENT;
  * @author ziyao zhang
  * @since 2023/11/16
  */
-public class SearchOperatorFactory extends ElasticsearchRepositoryFactory {
-    public SearchOperatorFactory(ElasticsearchOperations elasticsearchOperations) {
+public class ESRepositoryFactory extends ElasticsearchRepositoryFactory {
+    public ESRepositoryFactory(ElasticsearchOperations elasticsearchOperations) {
         super(elasticsearchOperations);
     }
 

@@ -74,7 +74,7 @@ public @interface EnableESRepositories {
      * Returns the {@link org.springframework.beans.factory.FactoryBean} class to be used for each repository instance.
      * Defaults to {@link ElasticsearchRepositoryFactoryBean}.
      */
-    Class<?> repositoryFactoryBeanClass() default SearchOperatorFactoryBean.class;
+    Class<?> repositoryFactoryBeanClass() default ESRepositoryFactoryBean.class;
 
     /**
      * Configure the repository base class to be used to create repository proxies for this particular configuration.
