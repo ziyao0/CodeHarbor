@@ -1,4 +1,0 @@
-harbor-openplatform
-harbor-gateway
-harbor-xxl-job
-harbor-user-center

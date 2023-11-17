@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author ziyao zhang
  * @since 2023/11/16
  */
-public class SearchOperatorFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable>
+public class ESRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable>
         extends ElasticsearchRepositoryFactoryBean<T, S, ID> {
 
     @Nullable
@@ -25,7 +25,7 @@ public class SearchOperatorFactoryBean<T extends Repository<S, ID>, S, ID extend
      *
      * @param repositoryInterface must not be {@literal null}.
      */
-    public SearchOperatorFactoryBean(Class<? extends T> repositoryInterface) {
+    public ESRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
         super(repositoryInterface);
     }
 
@@ -55,6 +55,6 @@ public class SearchOperatorFactoryBean<T extends Repository<S, ID>, S, ID extend
 
         Assert.notNull(operations, "operations are not initialized");
 
-        return new SearchOperatorFactory(operations);
+        return new ESRepositoryFactory(operations);
     }
 }

@@ -109,7 +109,7 @@ subprojects {
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
 
-    def inputFile = file("${projectDir}/subprojects.txt") // 使用 projectDir 获取项目根目录
+    def inputFile = file("${projectDir}/resources/subprojects.txt") // 使用 projectDir 获取项目根目录
     // 需要拷贝的文件夹
     def subprojects = []
     if (inputFile.exists()) {

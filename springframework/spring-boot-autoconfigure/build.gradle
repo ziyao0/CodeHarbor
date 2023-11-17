@@ -1,0 +1,6 @@
+dependencies {
+    implementation(project(":springframework:spring-crypto"))
+    implementation(project(":springframework:spring-web"))
+    implementation('org.springframework:spring-webflux')
+    implementation(project(":springframework:spring-elastic"))
+}
