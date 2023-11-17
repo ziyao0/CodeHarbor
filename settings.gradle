@@ -69,4 +69,6 @@ include 'harbor-crypto'
 include 'springframework:spring-elastic'
 findProject(':springframework:spring-elastic')?.name = 'spring-elastic'
 include 'configure-crypto'
+include 'springframework:elasticsearch-spring-boot-starter'
+findProject(':springframework:elasticsearch-spring-boot-starter')?.name = 'elasticsearch-spring-boot-starter'
 
