@@ -1,9 +1,8 @@
-package com.ziyao.harbor.elastic.config;
+package com.ziyao.harbor.elasticsearch.config;
 
-import com.ziyao.harbor.elastic.ESRepositoryFactoryBean;
+import com.ziyao.harbor.elasticsearch.ElasticsearchRepositoryFactoryBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
-import org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
 import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
 import org.springframework.data.repository.query.QueryLookupStrategy;
 
@@ -17,8 +16,8 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Inherited
-@Import(ESRepositoriesRegistrar.class)
-public @interface EnableESRepositories {
+@Import(ElasticsearchRepositoriesRegistrar.class)
+public @interface EnableElasticsearchRepositories {
 
     /**
      * Alias for the {@link #basePackages()} attribute. Allows for more concise annotation declarations e.g.:
@@ -73,9 +72,9 @@ public @interface EnableESRepositories {
 
     /**
      * Returns the {@link org.springframework.beans.factory.FactoryBean} class to be used for each repository instance.
-     * Defaults to {@link ElasticsearchRepositoryFactoryBean}.
+     * Defaults to {@link org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean}.
      */
-    Class<?> repositoryFactoryBeanClass() default ESRepositoryFactoryBean.class;
+    Class<?> repositoryFactoryBeanClass() default ElasticsearchRepositoryFactoryBean.class;
 
     /**
      * Configure the repository base class to be used to create repository proxies for this particular configuration.

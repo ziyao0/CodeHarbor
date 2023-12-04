@@ -1,6 +1,6 @@
-package com.ziyao.harbor.elastic.config;
+package com.ziyao.harbor.elasticsearch.config;
 
-import com.ziyao.harbor.elastic.ESRepositoryConfigExtension;
+import com.ziyao.harbor.elasticsearch.ElasticsearchRepositoryConfigExtension;
 import org.springframework.data.repository.config.RepositoryBeanDefinitionRegistrarSupport;
 import org.springframework.data.repository.config.RepositoryConfigurationExtension;
 import org.springframework.lang.NonNull;
@@ -11,7 +11,7 @@ import java.lang.annotation.Annotation;
  * @author ziyao zhang
  * @since 2023/11/16
  */
-public class ESRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupport {
+public class ElasticsearchRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSupport {
 
     /*
      * (non-Javadoc)
@@ -20,7 +20,7 @@ public class ESRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSu
     @NonNull
     @Override
     protected Class<? extends Annotation> getAnnotation() {
-        return EnableESRepositories.class;
+        return EnableElasticsearchRepositories.class;
     }
 
     /*
@@ -30,6 +30,6 @@ public class ESRepositoriesRegistrar extends RepositoryBeanDefinitionRegistrarSu
     @NonNull
     @Override
     protected RepositoryConfigurationExtension getExtension() {
-        return new ESRepositoryConfigExtension();
+        return new ElasticsearchRepositoryConfigExtension();
     }
 }

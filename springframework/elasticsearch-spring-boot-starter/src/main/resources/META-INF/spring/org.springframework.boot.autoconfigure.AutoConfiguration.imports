@@ -1,1 +1,1 @@
-com.ziyao.harbor.elasticsearch.autoconfigure.ESRepositoriesAutoConfiguration
+com.ziyao.harbor.elasticsearch.autoconfigure.ElasticsearchRepositoriesAutoConfiguration

@@ -1,7 +1,6 @@
-package com.ziyao.harbor.elastic;
+package com.ziyao.harbor.elasticsearch;
 
 import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
-import org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.core.support.RepositoryFactorySupport;
 import org.springframework.lang.NonNull;
@@ -14,8 +13,8 @@ import java.io.Serializable;
  * @author ziyao zhang
  * @since 2023/11/16
  */
-public class ESRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable>
-        extends ElasticsearchRepositoryFactoryBean<T, S, ID> {
+public class ElasticsearchRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends Serializable>
+        extends org.springframework.data.elasticsearch.repository.support.ElasticsearchRepositoryFactoryBean<T, S, ID> {
 
     @Nullable
     private ElasticsearchOperations operations;
@@ -25,7 +24,7 @@ public class ESRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends 
      *
      * @param repositoryInterface must not be {@literal null}.
      */
-    public ESRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
+    public ElasticsearchRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
         super(repositoryInterface);
     }
 
@@ -55,6 +54,6 @@ public class ESRepositoryFactoryBean<T extends Repository<S, ID>, S, ID extends 
 
         Assert.notNull(operations, "operations are not initialized");
 
-        return new ESRepositoryFactory(operations);
+        return new ElasticsearchRepositoryFactory(operations);
     }
 }

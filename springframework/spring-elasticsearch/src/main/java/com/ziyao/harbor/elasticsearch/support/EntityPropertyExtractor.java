@@ -1,4 +1,4 @@
-package com.ziyao.harbor.elastic.support;
+package com.ziyao.harbor.elasticsearch.support;
 
 import org.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentProperty;
 import org.springframework.data.elasticsearch.core.mapping.SimpleElasticsearchMappingContext;
@@ -18,13 +18,13 @@ import java.util.Map;
  * @author ziyao
  * @since 2023/4/23
  */
-public final class BeanPropertyExtractor<T> {
+public final class EntityPropertyExtractor<T> {
 
     private final Class<T> entityClass;
 
     private final SimpleElasticsearchPersistentEntity<?> persistentEntity;
 
-    public BeanPropertyExtractor(Class<T> entityClass) {
+    public EntityPropertyExtractor(Class<T> entityClass) {
         this.entityClass = entityClass;
 
         this.persistentEntity = new SimpleElasticsearchMappingContext()

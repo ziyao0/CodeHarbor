@@ -1,8 +1,9 @@
-package com.ziyao.harbor.elastic.repository;
+package com.ziyao.harbor.elasticsearch.repository;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.elasticsearch.core.SearchHits;
 import org.springframework.data.elasticsearch.core.query.Criteria;
 import org.springframework.data.elasticsearch.core.query.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,12 +11,14 @@ import org.springframework.data.repository.NoRepositoryBean;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.lang.Nullable;
 
+import java.util.List;
+
 /**
  * @author ziyao zhang
  * @since 2023/11/15
  */
 @NoRepositoryBean
-public interface ESRepository<T, ID> extends PagingAndSortingRepository<T, ID>, CrudRepository<T, ID> {
+public interface ElasticsearchRepository<T, ID> extends PagingAndSortingRepository<T, ID>, CrudRepository<T, ID> {
 
     /**
      * 分页搜索数据
@@ -68,4 +71,20 @@ public interface ESRepository<T, ID> extends PagingAndSortingRepository<T, ID>, 
      * @return 返回搜到到的结果，分页展示
      */
     Page<T> search(Query query);
+
+    /**
+     * Execute the multi search query against elasticsearch and return result as {@link List} of {@link SearchHits}.
+     *
+     * @param queries condition
+     * @return list of SearchHits
+     */
+    List<SearchHits<T>> multiSearch(List<? extends Query> queries);
+
+    /**
+     * return number of elements found by given query
+     *
+     * @param query condition
+     * @return count
+     */
+    long count(Query query);
 }

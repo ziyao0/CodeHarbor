@@ -1,7 +1,7 @@
-package com.ziyao.harbor.elastic.repository;
+package com.ziyao.harbor.elasticsearch.repository;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
-import com.ziyao.harbor.elastic.support.BeanPropertyExtractor;
+import com.ziyao.harbor.elasticsearch.support.EntityPropertyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
@@ -28,18 +28,18 @@ import java.util.stream.Collectors;
  * @author ziyao zhang
  * @since 2023/11/15
  */
-public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
+public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(SimpleESRepository.class);
-    private final BeanPropertyExtractor<T> beanPropertyExtractor;
+    private static final Logger LOGGER = LoggerFactory.getLogger(EnhanceElasticsearchRepository.class);
+    private final EntityPropertyExtractor<T> entityPropertyExtractor;
     protected ElasticsearchOperations operations;
     protected IndexOperations indexOperations;
     protected Class<T> entityClass;
     protected ElasticsearchEntityInformation<T, ID> entityInformation;
 
 
-    public SimpleESRepository(ElasticsearchEntityInformation<T, ID> metadata,
-                              ElasticsearchOperations operations) {
+    public EnhanceElasticsearchRepository(ElasticsearchEntityInformation<T, ID> metadata,
+                                          ElasticsearchOperations operations) {
         this.operations = operations;
 
         Assert.notNull(metadata, "ElasticsearchEntityInformation must not be null!");
@@ -51,7 +51,7 @@ public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
         if (shouldCreateIndexAndMapping() && !indexOperations.exists()) {
             indexOperations.createWithMapping();
         }
-        beanPropertyExtractor = new BeanPropertyExtractor<>(metadata.getJavaType());
+        entityPropertyExtractor = new EntityPropertyExtractor<>(metadata.getJavaType());
     }
 
 
@@ -91,6 +91,17 @@ public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
         return doSearch(query);
     }
 
+    @Override
+    public List<SearchHits<T>> multiSearch(List<? extends Query> queries) {
+        Assert.notNull(queries, "查询条件不能为空");
+        return operations.multiSearch(queries, entityClass);
+    }
+
+    @Override
+    public long count(Query query) {
+        Assert.notNull(query, "查询条件不能为空");
+        return operations.count(query, entityClass);
+    }
 
     private boolean shouldCreateIndexAndMapping() {
 
@@ -408,11 +419,11 @@ public class SimpleESRepository<T, ID> implements ESRepository<T, ID> {
      */
     private Map<String, Object> extractPropertyFromEntity(T entity, @Nullable String[] fields) {
         if (fields == null) {
-            return beanPropertyExtractor.extract(entity);
+            return entityPropertyExtractor.extract(entity);
         }
         Map<String, Object> properties = new HashMap<>();
         for (String field : fields) {
-            properties.put(field, beanPropertyExtractor.extract(entity, field));
+            properties.put(field, entityPropertyExtractor.extract(entity, field));
         }
         return properties;
     }

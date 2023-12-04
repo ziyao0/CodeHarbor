@@ -1,7 +1,7 @@
 package com.ziyao.harbor.elasticsearch.autoconfigure;
 
-import com.ziyao.harbor.elastic.ESRepositoryConfigExtension;
-import com.ziyao.harbor.elastic.config.EnableESRepositories;
+import com.ziyao.harbor.elasticsearch.ElasticsearchRepositoryConfigExtension;
+import com.ziyao.harbor.elasticsearch.config.EnableElasticsearchRepositories;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
@@ -27,7 +27,7 @@ import java.lang.annotation.Annotation;
  * @author ziyao zhang
  * @since 2023/11/17
  */
-public class ESRepositoriesRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware, ResourceLoaderAware {
+public class ElasticsearchRepositoriesRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware, BeanFactoryAware, ResourceLoaderAware {
 
     private Environment environment;
     private ResourceLoader resourceLoader;
@@ -43,7 +43,7 @@ public class ESRepositoriesRegistrar implements ImportBeanDefinitionRegistrar, E
     }
 
 
-    @EnableESRepositories
+    @EnableElasticsearchRepositories
     private static class EnableESRepositoriesConfiguration {
 
     }
@@ -68,7 +68,7 @@ public class ESRepositoriesRegistrar implements ImportBeanDefinitionRegistrar, E
         @NonNull
         @Override
         public Streamable<String> getBasePackages() {
-            return ESRepositoriesRegistrar.this.getBasePackages();
+            return ElasticsearchRepositoriesRegistrar.this.getBasePackages();
         }
 
         @NonNull
@@ -100,15 +100,15 @@ public class ESRepositoriesRegistrar implements ImportBeanDefinitionRegistrar, E
     }
 
     protected Class<? extends Annotation> getAnnotation() {
-        return EnableESRepositories.class;
+        return EnableElasticsearchRepositories.class;
     }
 
     protected Class<?> getConfiguration() {
-        return ESRepositoriesRegistrar.EnableESRepositoriesConfiguration.class;
+        return ElasticsearchRepositoriesRegistrar.EnableESRepositoriesConfiguration.class;
     }
 
     protected RepositoryConfigurationExtension getRepositoryConfigurationExtension() {
-        return new ESRepositoryConfigExtension();
+        return new ElasticsearchRepositoryConfigExtension();
     }
 
 }
