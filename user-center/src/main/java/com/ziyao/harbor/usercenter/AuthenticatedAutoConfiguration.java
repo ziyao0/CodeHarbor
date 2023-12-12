@@ -15,7 +15,7 @@ import org.springframework.lang.Nullable;
  * @since 2023/4/23
  */
 @Configuration
-public class SecurityAutoConfiguration implements ApplicationContextAware {
+public class AuthenticatedAutoConfiguration implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(@Nullable ApplicationContext applicationContext) throws BeansException {
