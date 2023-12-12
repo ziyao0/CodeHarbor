@@ -1,6 +1,7 @@
 package com.ziyao.harbor.elasticsearch.repository;
 
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
+import com.ziyao.harbor.elasticsearch.query.BetweenQueries;
 import com.ziyao.harbor.elasticsearch.support.EntityPropertyExtractor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,23 +58,28 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
 
     @Override
     public Page<T> searchSimilar(T entity, Pageable pageable) {
-        return searchSimilar(entity, null, pageable);
+        return searchSimilar(entity, null, BetweenQueries.of(), pageable);
     }
 
     @Override
-    public Page<T> searchSimilar(@NonNull T entity, @Nullable String[] fields, @NonNull Pageable pageable) {
-        return searchSimilar(entity, fields, pageable, Operator.And);
+    public Page<T> searchSimilar(T entity, BetweenQueries betweenQueries, Pageable pageable) {
+        return searchSimilar(entity, null, betweenQueries, pageable);
+    }
+
+    @Override
+    public Page<T> searchSimilar(@NonNull T entity, @Nullable String[] fields, BetweenQueries betweenQueries, @NonNull Pageable pageable) {
+        return searchSimilar(entity, fields, betweenQueries, pageable, Operator.And);
     }
 
 
     @Override
-    public Page<T> searchSimilar(T entity, @Nullable String[] fields, Pageable pageable, Operator operator) {
+    public Page<T> searchSimilar(T entity, @Nullable String[] fields, BetweenQueries betweenQueries, Pageable pageable, Operator operator) {
         Assert.notNull(entity, "Cannot search similar records for 'null'.");
         Assert.notNull(pageable, "'pageable' cannot be 'null'");
 
         return search(
                 CriteriaQuery.builder(
-                                createCriteria(entity, fields, operator))
+                                createCriteria(entity, fields, betweenQueries, operator))
                         .withPageable(pageable).build());
     }
 
@@ -380,11 +386,11 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
     /**
      * 创建并组装查询条件
      */
-    private Criteria createCriteria(T entity, @Nullable String[] fields, Operator operator) {
+    private Criteria createCriteria(T entity, @Nullable String[] fields, BetweenQueries betweenQueries, Operator operator) {
         Criteria criteria = new Criteria();
 
         Map<String, Object> properties = extractPropertyFromEntity(entity, fields);
-        doCreateCriteria(properties).forEach(condition -> {
+        doCreateCriteria(properties, betweenQueries).forEach(condition -> {
             switch (operator) {
                 case And -> criteria.and(condition);
                 case Or -> criteria.or(condition);
@@ -397,7 +403,7 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
     /**
      * 创建查询条件
      */
-    private List<Criteria> doCreateCriteria(Map<String, Object> properties) {
+    private List<Criteria> doCreateCriteria(Map<String, Object> properties, BetweenQueries betweenQueries) {
         List<Criteria> criteriaList = new ArrayList<>();
         for (Map.Entry<String, Object> property : properties.entrySet()) {
 
@@ -407,6 +413,9 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
                 criteriaList.add(new Criteria(property.getKey()).is(property.getValue()));
             }
         }
+        List<BetweenQueries.BetweenQuery> queries = betweenQueries.getQueries();
+        // Query conditions for assembly range
+        queries.forEach(query -> criteriaList.add(new Criteria(query.field()).between(query.lowerBound(), query.upperBound())));
         return criteriaList;
     }
 
