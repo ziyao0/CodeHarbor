@@ -1,5 +1,6 @@
 package com.ziyao.harbor.usercenter.dto;
 
+import com.ziyao.harbor.usercenter.authenticate.AuthenticationType;
 import lombok.Data;
 
 /**
@@ -15,5 +16,5 @@ public class LoginDTO {
 
     private String accessKey;
 
-    private AuthenticatedType loginType = AuthenticatedType.PASSWD;
+    private AuthenticationType loginType = AuthenticationType.passwd;
 }
