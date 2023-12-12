@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.authenticate;
+package com.ziyao.harbor.usercenter.authenticate.support;
 
 import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.core.utils.Assert;
@@ -27,8 +27,6 @@ public abstract class PasswordValidator implements Validator<PasswordParameter> 
         Assert.notNull(parameter, AuthenticatedExceptions.createValidatedFailure());
         Assert.notNull(parameter.plaintext(), AuthenticatedExceptions.createValidatedFailure());
         Assert.notNull(parameter.ciphertext(), AuthenticatedExceptions.createValidatedFailure());
-
-
         doValidated(parameter);
 
 

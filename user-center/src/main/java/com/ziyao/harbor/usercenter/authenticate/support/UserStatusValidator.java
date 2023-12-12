@@ -1,9 +1,9 @@
-package com.ziyao.harbor.usercenter.authenticate;
+package com.ziyao.harbor.usercenter.authenticate.support;
 
 import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import com.ziyao.harbor.usercenter.comm.exception.Errors;
 import com.ziyao.harbor.usercenter.comm.exception.UserStatusException;
-import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 
 /**
  * 检查用户状态公共类
@@ -11,8 +11,18 @@ import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
  * @author zhangziyao
  * @since 2023/4/24
  */
-public class UserStatusValidator implements UserDetailsValidator {
+public abstract class UserStatusValidator implements UserDetailsValidator {
 
+    private static final UserStatusValidator userStatusValidator = new UserStatusValidator() {
+        @Override
+        public void validate(UserDetails userDetails) {
+            super.validate(userDetails);
+        }
+    };
+
+    public static void validated(UserDetails userDetails) {
+        userStatusValidator.validate(userDetails);
+    }
 
     /**
      * 检查用户状态

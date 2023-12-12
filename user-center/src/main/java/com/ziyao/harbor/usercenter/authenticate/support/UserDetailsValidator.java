@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.authenticate;
+package com.ziyao.harbor.usercenter.authenticate.support;
 
 import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;

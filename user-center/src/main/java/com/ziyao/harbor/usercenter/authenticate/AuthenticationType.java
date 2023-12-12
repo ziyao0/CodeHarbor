@@ -6,7 +6,7 @@ package com.ziyao.harbor.usercenter.authenticate;
  * @author ziyao zhang
  * @since 2023/12/12
  */
-public enum AuthType {
+public enum AuthenticationType {
 
     passwd,
     ;

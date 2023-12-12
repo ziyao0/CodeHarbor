@@ -1,8 +1,7 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
-import com.ziyao.harbor.usercenter.entity.User;
-import com.ziyao.harbor.usercenter.authenticate.core.IResource;
+import com.ziyao.harbor.usercenter.authenticate.core.Resource;
 import lombok.Data;
 
 import java.util.Set;
@@ -16,7 +15,7 @@ public class AuthenticatedUser {
 
     private UserDetails user;
 
-    private Set<? extends IResource> resources;
+    private Set<? extends Resource> resources;
 
     private boolean authenticated;
 

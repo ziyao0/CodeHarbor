@@ -27,9 +27,9 @@ public interface AuthenticatorManager {
      * @param authenticators 认证bean
      * @return name to beanName
      */
-    default Map<String, Authenticator> initBeanMapping(List<? extends Authenticator> authenticators) {
+    default Map<AuthenticationType, Authenticator> initBeanMapping(List<? extends Authenticator> authenticators) {
         return authenticators.stream().collect(
-                Collectors.toMap(authenticator -> authenticator.getClass().getSimpleName(), Function.identity())
+                Collectors.toMap(Authenticator::getAuthenticationType, Function.identity())
         );
     }
 }

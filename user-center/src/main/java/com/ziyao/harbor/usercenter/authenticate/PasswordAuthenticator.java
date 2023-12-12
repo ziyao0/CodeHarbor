@@ -4,6 +4,9 @@ import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import com.ziyao.harbor.usercenter.authenticate.query.UserQuery;
+import com.ziyao.harbor.usercenter.authenticate.support.PasswordParameter;
+import com.ziyao.harbor.usercenter.authenticate.support.PasswordValidator;
+import com.ziyao.harbor.usercenter.authenticate.support.UserStatusValidator;
 import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedExceptions;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.service.UserService;
@@ -21,16 +24,12 @@ public class PasswordAuthenticator implements Authenticator {
 
     private final UserService userService;
 
-    private final UserStatusValidator userStatusValidator = new UserStatusValidator();
-
     public PasswordAuthenticator(UserService userService) {
         this.userService = userService;
     }
 
-
     @Override
     public AuthenticatedUser authenticate(AuthenticatedRequest authenticatedRequest) {
-
         Assert.notNull(authenticatedRequest, "认证信息不能为空！");
         return doAuthenticate(authenticatedRequest);
     }
@@ -42,9 +41,11 @@ public class PasswordAuthenticator implements Authenticator {
         // 获取用户信息
         UserDetails userDetails = loadUserDetails(query);
         // 校验用户状态
-        userStatusValidator.validate(userDetails);
+        UserStatusValidator.validated(userDetails);
         // 检查用户密码
-        PasswordValidator.validated(PasswordParameter.of(authenticatedRequest.getPassword(), userDetails.getSecretKey()));
+        PasswordParameter parameter = PasswordParameter.of(
+                authenticatedRequest.getPassword(), userDetails.getSecretKey());
+        PasswordValidator.validated(parameter);
         // 组装验证成功的用户信息
         return createdValidatorSuccessfulAuthenticatedUser(userDetails);
     }

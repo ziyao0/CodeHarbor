@@ -15,5 +15,7 @@ public class AuthenticatedRequest {
 
     private String password;
 
-    boolean authenticated;
+    private boolean authenticated;
+
+    private AuthenticationType authenticationType = AuthenticationType.passwd;
 }

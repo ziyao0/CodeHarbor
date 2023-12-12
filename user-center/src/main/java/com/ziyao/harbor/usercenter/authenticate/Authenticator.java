@@ -33,6 +33,10 @@ public interface Authenticator {
         return null;
     }
 
+    default AuthenticationType getAuthenticationType() {
+        return AuthenticationType.passwd;
+    }
+
     /**
      * 验证是否支持认证协议
      *
