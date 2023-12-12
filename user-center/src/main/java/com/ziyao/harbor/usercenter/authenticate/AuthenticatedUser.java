@@ -1,5 +1,6 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
+import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.authenticate.core.IResource;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.Set;
 @Data
 public class AuthenticatedUser {
 
-    private User user;
+    private UserDetails user;
 
     private Set<? extends IResource> resources;
 
@@ -25,9 +26,9 @@ public class AuthenticatedUser {
 
     public static class Builder {
 
-        private User user;
+        private UserDetails user;
 
-        public Builder user(User user) {
+        public Builder user(UserDetails user) {
             this.user = user;
             return this;
         }

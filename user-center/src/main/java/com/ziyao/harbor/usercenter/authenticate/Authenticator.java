@@ -1,5 +1,8 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
+import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
+import com.ziyao.harbor.usercenter.authenticate.query.UserQuery;
+
 /**
  * @author ziyao zhang
  * @since 2023/9/25
@@ -24,9 +27,9 @@ public interface Authenticator {
     /**
      * 获取授权后用户
      *
-     * @return AuthenticatedUser
+     * @return UserDetails
      */
-    default AuthenticatedUser loadAuthenticatedUser(Long appid, String username) {
+    default UserDetails loadUserDetails(UserQuery query) {
         return null;
     }
 

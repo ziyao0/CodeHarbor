@@ -2,13 +2,12 @@ package com.ziyao.harbor.usercenter.authenticate;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authenticate.codec.BCryptPasswordEncryptor;
-import com.ziyao.harbor.usercenter.authenticate.codec.PasswordEncryptor;
+import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
+import com.ziyao.harbor.usercenter.authenticate.query.UserQuery;
 import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedExceptions;
 import com.ziyao.harbor.usercenter.entity.User;
-import com.ziyao.harbor.usercenter.mysql.QueryHandler;
-import com.ziyao.harbor.usercenter.mysql.QueryProcessor;
 import com.ziyao.harbor.usercenter.service.UserService;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
 /**
@@ -20,10 +19,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PasswordAuthenticator implements Authenticator {
 
-    private final PasswordEncryptor passwordEncryptor = new BCryptPasswordEncryptor();
     private final UserService userService;
 
-    private final UserStatusValidator userStatusChecker = new UserStatusValidator();
+    private final UserStatusValidator userStatusValidator = new UserStatusValidator();
 
     public PasswordAuthenticator(UserService userService) {
         this.userService = userService;
@@ -39,30 +37,34 @@ public class PasswordAuthenticator implements Authenticator {
 
 
     private AuthenticatedUser doAuthenticate(AuthenticatedRequest authenticatedRequest) {
-        Long appId = authenticatedRequest.getAppid();
-        appId = Strings.isEmpty(appId) ? 0 : appId;
+        // 组装查询条件
+        UserQuery query = createdQuery(authenticatedRequest);
+        // 获取用户信息
+        UserDetails userDetails = loadUserDetails(query);
+        // 校验用户状态
+        userStatusValidator.validate(userDetails);
+        // 检查用户密码
+        PasswordValidator.validated(PasswordParameter.of(authenticatedRequest.getPassword(), userDetails.getSecretKey()));
+        // 组装验证成功的用户信息
+        return createdValidatorSuccessfulAuthenticatedUser(userDetails);
+    }
+
+    private @NonNull UserQuery createdQuery(AuthenticatedRequest authenticatedRequest) {
+        Long appid = authenticatedRequest.getAppid();
         String username = authenticatedRequest.getUsername();
         Assert.notNull(username, "用户登陆名不能为空！");
-        String password = authenticatedRequest.getPassword();
-        // 获取用户信息
-        AuthenticatedUser authenticatedUser = loadAuthenticatedUser(appId, password);
-        User user = authenticatedUser.getUser();
-        if (!passwordEncryptor.matches(password, user.getSecretKey())) {
-            throw AuthenticatedExceptions.createValidatedFailure();
-        }
-        userStatusChecker.validate(user);
-        return authenticatedUser;
+        return UserQuery.of(Strings.isEmpty(appid) ? 0 : appid, username);
+    }
+
+    private AuthenticatedUser createdValidatorSuccessfulAuthenticatedUser(UserDetails userDetails) {
+        return AuthenticatedUser.builder().user(userDetails).build();
     }
 
     @Override
-    public AuthenticatedUser loadAuthenticatedUser(Long appid, String username) {
-        User user = userService.loadUserDetails(appid, username);
-        Assert.notNull(user, "为获取到用户信息！");
-        return AuthenticatedUser.builder().user(user).build();
-    }
-
-    private QueryHandler prepare(String query) {
-        return new QueryProcessor(null, query);
+    public UserDetails loadUserDetails(UserQuery query) {
+        User user = userService.loadUserDetails(query.appid(), query.username());
+        Assert.notNull(user, AuthenticatedExceptions.createValidatedFailure());
+        return user;
     }
 
 }

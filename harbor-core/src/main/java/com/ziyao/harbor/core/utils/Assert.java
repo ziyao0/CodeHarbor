@@ -50,6 +50,17 @@ public abstract class Assert {
         }
     }
 
+    public static <T> void notNull(T value, RuntimeException exception) {
+        if (value instanceof String) {
+            if (Strings.isEmpty(value)) {
+                throw exception;
+            }
+        }
+        if (Objects.isNull(value)) {
+            throw exception;
+        }
+    }
+
     /**
      * Assert that a Collection is not {@code null}.
      *
