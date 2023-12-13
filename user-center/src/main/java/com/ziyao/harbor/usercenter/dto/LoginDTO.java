@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.dto;
 
-import com.ziyao.harbor.usercenter.authenticate.AuthenticationType;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticationType;
 import lombok.Data;
 
 /**

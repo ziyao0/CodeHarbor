@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.service;
 
-import com.ziyao.harbor.usercenter.authenticate.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 
 /**
  * @author ziyao
@@ -13,5 +13,5 @@ public interface AuthenticatedService {
      * @param authenticatedRequest 认证请求参数
      * @return 返回认证后信息
      */
-    Object login(AuthenticatedRequest authenticatedRequest);
+    String login(AuthenticatedRequest authenticatedRequest);
 }

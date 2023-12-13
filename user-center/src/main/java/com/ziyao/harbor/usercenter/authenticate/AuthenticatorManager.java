@@ -1,5 +1,9 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticationType;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;

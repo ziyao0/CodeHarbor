@@ -1,7 +1,10 @@
-package com.ziyao.harbor.usercenter.authenticate;
+package com.ziyao.harbor.usercenter.authenticate.provider;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.harbor.usercenter.authenticate.Authenticator;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import com.ziyao.harbor.usercenter.authenticate.query.UserQuery;
 import com.ziyao.harbor.usercenter.authenticate.support.PasswordParameter;

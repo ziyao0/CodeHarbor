@@ -1,5 +1,8 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticationType;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import com.ziyao.harbor.usercenter.authenticate.query.UserQuery;
 

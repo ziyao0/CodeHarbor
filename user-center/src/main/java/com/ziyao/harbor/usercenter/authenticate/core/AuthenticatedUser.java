@@ -1,7 +1,5 @@
-package com.ziyao.harbor.usercenter.authenticate;
+package com.ziyao.harbor.usercenter.authenticate.core;
 
-import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
-import com.ziyao.harbor.usercenter.authenticate.core.Resource;
 import lombok.Data;
 
 import java.util.Set;
@@ -18,6 +16,8 @@ public class AuthenticatedUser {
     private Set<? extends Resource> resources;
 
     private boolean authenticated;
+
+    private String token;
 
     public static Builder builder() {
         return new Builder();

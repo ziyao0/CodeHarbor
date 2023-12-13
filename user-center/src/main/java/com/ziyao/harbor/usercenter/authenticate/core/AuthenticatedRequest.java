@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.authenticate;
+package com.ziyao.harbor.usercenter.authenticate.core;
 
 import lombok.Data;
 

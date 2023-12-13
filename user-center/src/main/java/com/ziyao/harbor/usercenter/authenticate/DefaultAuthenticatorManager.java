@@ -1,6 +1,9 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
 import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticationType;
 import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedExceptions;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +29,7 @@ import java.util.Map;
 @Slf4j
 @Service
 public class DefaultAuthenticatorManager implements AuthenticatorManager {
+
     private final Map<AuthenticationType, Authenticator> authenticatorsMapping;
 
     public DefaultAuthenticatorManager() {
@@ -35,14 +39,14 @@ public class DefaultAuthenticatorManager implements AuthenticatorManager {
     }
 
     @Override
-    public AuthenticatedUser authenticate(AuthenticatedRequest authenticatedRequest) {
-        Authenticator authenticator = authenticatorsMapping.get(authenticatedRequest.getAuthenticationType());
+    public AuthenticatedUser authenticate(AuthenticatedRequest request) {
+        Authenticator authenticator = authenticatorsMapping.get(request.getAuthenticationType());
         if (authenticator != null) {
             if (!authenticator.supports(authenticator.getClass())) {
                 log.error("当前认证处理不支持. {}", authenticator.getClass());
                 throw AuthenticatedExceptions.createValidatedFailure();
             }
-            return authenticator.authenticate(authenticatedRequest);
+            return authenticator.authenticate(request);
         } else
             throw AuthenticatedExceptions.createValidatedFailure();
     }
