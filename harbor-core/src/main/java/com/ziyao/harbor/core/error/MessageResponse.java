@@ -36,27 +36,27 @@ public class MessageResponse<T> implements StatusMessage {
     }
 
     public MessageResponse(StatusMessage StatusMessage) {
-        Checker.check(StatusMessage);
+        Checker.checked(StatusMessage);
         this.state = StatusMessage.getStatus();
         this.message = StatusMessage.getMessage();
     }
 
     public MessageResponse(StatusMessage StatusMessage, T data) {
-        Checker.check(StatusMessage, data);
+        Checker.checked(StatusMessage, data);
         this.state = StatusMessage.getStatus();
         this.message = StatusMessage.getMessage();
         this.data = data;
     }
 
     public MessageResponse(Integer state, String message) {
-        Checker.check(state, message);
+        Checker.checked(state, message);
         this.state = state;
         this.message = message;
 
     }
 
     public MessageResponse(Integer state, String message, T data) {
-        Checker.check(state, message, data);
+        Checker.checked(state, message, data);
         this.state = state;
         this.message = message;
         this.data = data;
@@ -64,36 +64,36 @@ public class MessageResponse<T> implements StatusMessage {
 
     protected abstract static class Checker {
 
-        public static void check(Integer state) {
+        public static void checked(Integer state) {
             if (null == state) {
                 throw new IllegalArgumentException("state cannot be empty.");
             }
         }
 
-        public static void check(Integer state, String message) {
+        public static void checked(Integer state, String message) {
 
-            check(state);
+            checked(state);
 
             if (null == message) {
                 throw new IllegalArgumentException("message cannot be empty.");
             }
         }
 
-        public static void check(Integer state, String message, Object data) {
+        public static void checked(Integer state, String message, Object data) {
 
-            check(state, message);
+            checked(state, message);
 
             if (null == data) {
                 LOGGER.debug("response data cannot be empty.");
             }
         }
 
-        public static void check(StatusMessage StatusMessage) {
-            check(StatusMessage.getStatus(), StatusMessage.getMessage());
+        public static void checked(StatusMessage StatusMessage) {
+            checked(StatusMessage.getStatus(), StatusMessage.getMessage());
         }
 
-        public static void check(StatusMessage StatusMessage, Object data) {
-            check(StatusMessage.getStatus(), StatusMessage.getMessage(), data);
+        public static void checked(StatusMessage StatusMessage, Object data) {
+            checked(StatusMessage.getStatus(), StatusMessage.getMessage(), data);
         }
     }
 }
