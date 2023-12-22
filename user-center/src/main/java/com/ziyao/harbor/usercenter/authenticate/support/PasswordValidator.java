@@ -4,7 +4,7 @@ import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authenticate.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.authenticate.codec.PasswordEncryptor;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedExceptions;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticateExceptions;
 
 /**
  * @author ziyao zhang
@@ -24,9 +24,9 @@ public abstract class PasswordValidator implements Validator<PasswordParameter> 
     @Override
     public void validate(PasswordParameter parameter) {
 
-        Assert.notNull(parameter, AuthenticatedExceptions.createValidatedFailure());
-        Assert.notNull(parameter.plaintext(), AuthenticatedExceptions.createValidatedFailure());
-        Assert.notNull(parameter.ciphertext(), AuthenticatedExceptions.createValidatedFailure());
+        Assert.notNull(parameter, AuthenticateExceptions.createValidatedFailure());
+        Assert.notNull(parameter.plaintext(), AuthenticateExceptions.createValidatedFailure());
+        Assert.notNull(parameter.ciphertext(), AuthenticateExceptions.createValidatedFailure());
         doValidated(parameter);
 
 
@@ -34,7 +34,7 @@ public abstract class PasswordValidator implements Validator<PasswordParameter> 
 
     private void doValidated(PasswordParameter parameter) {
         if (!passwordEncryptor.matches(parameter.plaintext(), parameter.ciphertext())) {
-            throw AuthenticatedExceptions.createValidatedFailure();
+            throw AuthenticateExceptions.createValidatedFailure();
         }
     }
 

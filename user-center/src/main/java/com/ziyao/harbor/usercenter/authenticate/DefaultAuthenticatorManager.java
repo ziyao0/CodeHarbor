@@ -4,7 +4,7 @@ import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticationType;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedExceptions;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticateExceptions;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -44,11 +44,11 @@ public class DefaultAuthenticatorManager implements AuthenticatorManager {
         if (authenticator != null) {
             if (!authenticator.supports(authenticator.getClass())) {
                 log.error("当前认证处理不支持. {}", authenticator.getClass());
-                throw AuthenticatedExceptions.createValidatedFailure();
+                throw AuthenticateExceptions.createValidatedFailure();
             }
             return authenticator.authenticate(request);
         } else
-            throw AuthenticatedExceptions.createValidatedFailure();
+            throw AuthenticateExceptions.createValidatedFailure();
     }
 
 }

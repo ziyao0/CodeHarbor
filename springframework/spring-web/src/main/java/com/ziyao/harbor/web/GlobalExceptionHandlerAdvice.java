@@ -46,7 +46,6 @@ public class GlobalExceptionHandlerAdvice {
         else
             // TODO: 2023/9/24 400异常
             return ResponseBuilder.failed();
-
     }
 
     /**
@@ -132,13 +131,13 @@ public class GlobalExceptionHandlerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public StatusMessage exceptionHandler(Exception e) {
-        return ResponseBuilder.failed(500, e.getClass().getName(),
+        return ResponseBuilder.of(500, e.getClass().getName(),
                 "服务器内部异常" + e.getMessage());
     }
 
 
     private StatusMessage buildIllegalArgument(String message) {
-        return ResponseBuilder.failed(400, message);
+        return ResponseBuilder.of(400, message);
     }
 
     protected static abstract class ExceptionUtils {

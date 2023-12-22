@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedException;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticateException;
 
 /**
  * @author ziyao zhang
@@ -11,6 +11,6 @@ public interface AuthenticatedHandler {
 
     AuthenticatedUser onSuccessful(AuthenticatedUser authenticatedUser);
 
-    void onFailure(AuthenticatedUser authenticatedUser, AuthenticatedException exception);
+    void onFailure(AuthenticatedUser authenticatedUser, AuthenticateException exception);
 
 }

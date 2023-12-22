@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedException;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticateException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,7 +18,7 @@ public class DefaultAuthenticatedHandler implements AuthenticatedHandler {
     }
 
     @Override
-    public void onFailure(AuthenticatedUser authenticatedUser, AuthenticatedException exception) {
+    public void onFailure(AuthenticatedUser authenticatedUser, AuthenticateException exception) {
 
     }
 }

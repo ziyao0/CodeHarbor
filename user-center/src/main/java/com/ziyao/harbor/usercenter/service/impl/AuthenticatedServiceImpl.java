@@ -4,7 +4,7 @@ import com.ziyao.harbor.usercenter.authenticate.AuthenticatedHandler;
 import com.ziyao.harbor.usercenter.authenticate.AuthenticatorManager;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticatedException;
+import com.ziyao.harbor.usercenter.comm.exception.AuthenticateException;
 import com.ziyao.harbor.usercenter.service.AuthenticatedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,7 +35,7 @@ public class AuthenticatedServiceImpl implements AuthenticatedService {
                 return authenticatedHandler.onSuccessful(authenticate).getToken();
             }
             return null;
-        } catch (AuthenticatedException e) {
+        } catch (AuthenticateException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException(e);
