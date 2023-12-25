@@ -109,6 +109,19 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
         return operations.count(query, entityClass);
     }
 
+    @Override
+    public long count(T entity) {
+        return count(entity, BetweenQueries.of());
+    }
+
+    @Override
+    public long count(T entity, BetweenQueries betweenQueries) {
+        return operations.count(
+                CriteriaQuery.builder(
+                        createCriteria(entity, null, betweenQueries, Operator.And)
+                ).build(), entityClass);
+    }
+
     private boolean shouldCreateIndexAndMapping() {
 
         final ElasticsearchPersistentEntity<?> entity = operations.getElasticsearchConverter().getMappingContext()

@@ -103,4 +103,20 @@ public interface ElasticsearchRepository<T, ID> extends PagingAndSortingReposito
      * @return count
      */
     long count(Query query);
+
+    /**
+     * return number of elements found by given entity
+     *
+     * @param entity condition
+     * @return count
+     */
+    long count(T entity);
+
+    /**
+     * return number of elements found by given entity
+     *
+     * @param entity condition
+     * @return count
+     */
+    long count(T entity, BetweenQueries betweenQueries);
 }
