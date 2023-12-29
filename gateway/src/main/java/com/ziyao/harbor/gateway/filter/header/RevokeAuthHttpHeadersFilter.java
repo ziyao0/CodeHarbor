@@ -9,6 +9,8 @@ import org.springframework.web.server.ServerWebExchange;
 
 /**
  * 重置请求头
+ * <p>
+ * 删除认证相关的请求头
  *
  * @author ziyao zhang
  * @since 2023/9/26
