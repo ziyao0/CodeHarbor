@@ -1,4 +1,4 @@
 openplatform
-harbor-gateway
+gateway
 xxl-job
 user-center
