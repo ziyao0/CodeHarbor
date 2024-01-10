@@ -71,4 +71,10 @@ findProject(':springframework:spring-elasticsearch')?.name = 'spring-elasticsear
 include 'configure-crypto'
 include 'springframework:elasticsearch-spring-boot-starter'
 findProject(':springframework:elasticsearch-spring-boot-starter')?.name = 'elasticsearch-spring-boot-starter'
+include 'openplatform:openplatform-client'
+findProject(':openplatform:openplatform-client')?.name = 'openplatform-client'
+include 'openplatform:openplatform-server'
+findProject(':openplatform:openplatform-server')?.name = 'openplatform-server'
+include 'openplatform:openplatform-common'
+findProject(':openplatform:openplatform-common')?.name = 'openplatform-common'
 

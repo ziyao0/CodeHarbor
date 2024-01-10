@@ -3,7 +3,8 @@ package com.ziyao.harbor.gateway.filter.body;
 import com.ziyao.harbor.gateway.filter.AbstractAfterAuthenticationFilter;
 import com.ziyao.harbor.gateway.rewrite.EncodeRewriteFunction;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
-import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory;
+import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyResponseBodyGatewayFilterFactory;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -13,18 +14,22 @@ import reactor.core.publisher.Mono;
  */
 public class ResponseBodyEncodeFilter extends AbstractAfterAuthenticationFilter {
 
-    private final ModifyRequestBodyGatewayFilterFactory modifyRequestBodyGatewayFilterFactory;
+    private final ModifyResponseBodyGatewayFilterFactory modifyResponseBodyGatewayFilterFactory;
 
-    public ResponseBodyEncodeFilter(ModifyRequestBodyGatewayFilterFactory modifyRequestBodyGatewayFilterFactory) {
-        this.modifyRequestBodyGatewayFilterFactory = modifyRequestBodyGatewayFilterFactory;
+    public ResponseBodyEncodeFilter(ModifyResponseBodyGatewayFilterFactory modifyResponseBodyGatewayFilterFactory) {
+        this.modifyResponseBodyGatewayFilterFactory = modifyResponseBodyGatewayFilterFactory;
     }
+
 
     @Override
     protected Mono<Void> onSuccess(ServerWebExchange exchange, GatewayFilterChain chain) {
+        ServerHttpResponse response = exchange.getResponse();
         EncodeRewriteFunction rewriteFunction = new EncodeRewriteFunction();
-        ModifyRequestBodyGatewayFilterFactory.Config config = new ModifyRequestBodyGatewayFilterFactory.Config()
-                .setRewriteFunction(rewriteFunction);
-        return modifyRequestBodyGatewayFilterFactory.apply(config).filter(exchange, chain);
+        ModifyResponseBodyGatewayFilterFactory.Config config = new ModifyResponseBodyGatewayFilterFactory.Config()
+                .setRewriteFunction(byte[].class, byte[].class, rewriteFunction);
+        return modifyResponseBodyGatewayFilterFactory
+                .apply(config)
+                .filter(exchange, chain);
     }
 
     @Override
