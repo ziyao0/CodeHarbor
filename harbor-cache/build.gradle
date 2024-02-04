@@ -1,0 +1,6 @@
+dependencies {
+    implementation(project(':harbor-crypto'))
+    implementation('org.springframework.data:spring-data-redis')
+    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
+
+}
