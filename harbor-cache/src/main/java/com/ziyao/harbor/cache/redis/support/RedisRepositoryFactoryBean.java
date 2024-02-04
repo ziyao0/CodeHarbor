@@ -19,7 +19,7 @@ import java.util.Optional;
  * @since 2024/2/4
  */
 @Getter
-public class RedisRepositoryFactoryBean<T extends CacheRepository> implements CacheRepositoryFactoryInformation,
+public class RedisRepositoryFactoryBean<T extends CacheRepository<K, V, HK, HV>, K, V, HK, HV> implements CacheRepositoryFactoryInformation,
         InitializingBean, FactoryBean<T>, BeanClassLoaderAware, BeanFactoryAware {
     private final Class<? extends T> repositoryInterface;
     private RedisRepositoryFactory factory;
