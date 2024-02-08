@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author ziyao zhang
  * @since 2024/1/10
  */
-public class OpenplatformResponseErrorHandler extends DefaultResponseErrorHandler {
+public class OpenPlatformResponseErrorHandler extends DefaultResponseErrorHandler {
     @Override
     public boolean hasError(@NonNull ClientHttpResponse response) throws IOException {
         return super.hasError(response);
