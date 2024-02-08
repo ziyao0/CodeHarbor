@@ -77,4 +77,5 @@ include 'openplatform:openplatform-server'
 findProject(':openplatform:openplatform-server')?.name = 'openplatform-server'
 include 'openplatform:openplatform-common'
 findProject(':openplatform:openplatform-common')?.name = 'openplatform-common'
+include 'ziyao-spring-data-redis'
 
