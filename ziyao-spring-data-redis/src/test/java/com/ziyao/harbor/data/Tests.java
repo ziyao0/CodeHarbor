@@ -1,9 +1,7 @@
 package com.ziyao.harbor.data;
 
-import com.ziyao.harbor.data.redis.CatCacheRepository;
+import com.ziyao.harbor.data.redis.CatRepository;
 import com.ziyao.harbor.data.redis.core.Repository;
-import com.ziyao.harbor.data.redis.repository.RedisRepository;
-import com.ziyao.harbor.data.redis.support.RedisRepositoryFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 /**
@@ -17,10 +15,10 @@ public class Tests {
 
         RedisRepositoryFactory factory = new RedisRepositoryFactory(new RedisTemplate<>());
 
-        System.out.println(RedisRepository.class.isAssignableFrom(CatCacheRepository.class));
-        System.out.println(Repository.class.isAssignableFrom(CatCacheRepository.class));
+        System.out.println(RedisRepository.class.isAssignableFrom(CatRepository.class));
+        System.out.println(Repository.class.isAssignableFrom(CatRepository.class));
 
-        CatCacheRepository repository = factory.getRepository(CatCacheRepository.class);
+        CatRepository repository = factory.getRepository(CatRepository.class);
         System.out.println(repository);
     }
 

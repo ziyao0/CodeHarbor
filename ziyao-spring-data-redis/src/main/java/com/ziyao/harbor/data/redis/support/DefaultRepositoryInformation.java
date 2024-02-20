@@ -1,7 +1,7 @@
 package com.ziyao.harbor.data.redis.support;
 
-import com.ziyao.harbor.data.redis.core.RedisRepositoryInformation;
-import com.ziyao.harbor.data.redis.core.RedisRepositoryMetadata;
+import com.ziyao.harbor.data.redis.core.RepositoryInformation;
+import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
@@ -9,13 +9,13 @@ import org.springframework.util.Assert;
  * @author ziyao zhang
  * @since 2024/2/4
  */
-public class DefaultRedisRepositoryInformation implements RedisRepositoryInformation {
+public class DefaultRepositoryInformation implements RepositoryInformation {
 
-    private final RedisRepositoryMetadata metadata;
+    private final RepositoryMetadata metadata;
     private final Class<?> repositoryBaseClass;
 
-    public DefaultRedisRepositoryInformation(RedisRepositoryMetadata metadata,
-                                             Class<?> repositoryBaseClass) {
+    public DefaultRepositoryInformation(RepositoryMetadata metadata,
+                                        Class<?> repositoryBaseClass) {
         Assert.notNull(metadata, "Repository metadata must not be null");
         Assert.notNull(repositoryBaseClass, "Repository base class must not be null");
 
@@ -40,7 +40,7 @@ public class DefaultRedisRepositoryInformation implements RedisRepositoryInforma
 
     @Override
     public TypeInformation<?> getHashValueTypeInformation() {
-        return metadata.getValueTypeInformation();
+        return metadata.getHashValueTypeInformation();
     }
 
     @Override

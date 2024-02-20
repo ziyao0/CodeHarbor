@@ -3,10 +3,15 @@ package com.ziyao.harbor.data.redis.core;
 import org.springframework.data.util.TypeInformation;
 
 /**
- * @author ziyao zhang
- * @since 2024/2/4
+ * @author ziyao
+ * @since 2023/4/23
  */
-public interface RedisRepositoryMetadata {
+public interface RepositoryMetadata {
+
+    /**
+     * Returns the repository interface.
+     */
+    Class<?> getRepositoryInterface();
 
     /**
      * Returns the {@link TypeInformation} of the id type of the repository.
@@ -24,6 +29,7 @@ public interface RedisRepositoryMetadata {
      */
     TypeInformation<?> getValueTypeInformation();
 
+
     /**
      * Returns the {@link TypeInformation} of the id type of the repository.
      *
@@ -40,14 +46,10 @@ public interface RedisRepositoryMetadata {
      */
     TypeInformation<?> getHashValueTypeInformation();
 
-    /**
-     * Returns the repository interface.
-     */
-    Class<?> getRepositoryInterface();
-
     default Class<?> getKeyType() {
         return getKeyTypeInformation().getType();
     }
+
 
     default Class<?> getValueType() {
         return getValueTypeInformation().getType();

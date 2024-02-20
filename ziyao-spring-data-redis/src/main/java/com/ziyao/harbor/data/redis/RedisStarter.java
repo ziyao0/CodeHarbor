@@ -45,20 +45,20 @@ public class RedisStarter implements CommandLineRunner {
 
 
     @Resource
-    private CatCacheRepository catCacheRepository;
+    private CatRepository catRepository;
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
     @Override
     public void run(String... args) throws Exception {
-        stringRedisTemplate.opsForValue().set("ZIYAO1", "11");
 
-        catCacheRepository.opsForValue().set("ZIYAO", new Cat("黑猫警长","12"));
-        Cat cat = catCacheRepository.opsForValue().get("ZIYAO");
+        catRepository.opsForValue().set("ZIYAO", new Cat("黑猫警长", "12"));
+        Cat cat = catRepository.opsForValue().get("ZIYAO");
         System.out.println(cat);
 
-        catCacheRepository.opsForHash().put("ZIYAO2","z1", List.of(new Cat("黑猫警长","12")));
-        Map<String, List<Cat>> ziyao2 = catCacheRepository.opsForHash().entries("ZIYAO2");
+        catRepository.opsForHash().put("ZIYAO2", "z1", List.of(new Cat("黑猫警长", "12")));
+        Map<String, List<Cat>> ziyao2 = catRepository.opsForHash().entries("ZIYAO2");
         System.out.println(ziyao2);
+        System.out.println(catRepository.getKey());
     }
 }

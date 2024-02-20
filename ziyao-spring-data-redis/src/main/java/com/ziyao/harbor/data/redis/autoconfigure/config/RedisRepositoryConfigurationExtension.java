@@ -1,6 +1,6 @@
 package com.ziyao.harbor.data.redis.autoconfigure.config;
 
-import com.ziyao.harbor.data.redis.support.RedisRepositoryFactoryBean;
+import com.ziyao.harbor.data.redis.support.RepositoryFactoryBean;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -46,13 +46,8 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
         for (BeanDefinition candidate : configSource.getCandidates(loader)) {
 
             RepositoryConfiguration<T> configuration = getRepositoryConfiguration(candidate, configSource);
-            Class<?> repositoryInterface = loadRepositoryInterface(configuration,
-                    getConfigurationInspectionClassLoader(loader));
-
-            if (repositoryInterface == null) {
-                result.add(configuration);
-                continue;
-            }
+//            Class<?> repositoryInterface = loadRepositoryInterface(configuration,
+//                    getConfigurationInspectionClassLoader(loader));
 
             result.add(configuration);
         }
@@ -67,7 +62,7 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
 
     @Override
     public @NonNull String getRepositoryFactoryBeanClassName() {
-        return RedisRepositoryFactoryBean.class.getName();
+        return RepositoryFactoryBean.class.getName();
     }
 
 
@@ -82,26 +77,8 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
             }
         }
 
-//        Optional<String> keyValueTemplateName = configurationSource.getAttribute(REDIS_TEMPLATE_BEAN_REF_ATTRIBUTE);
 
-        // No custom template reference configured and no matching bean definition found
-//        if (keyValueTemplateName.isPresent() && !registry.containsBeanDefinition(keyValueTemplateName.get())) {
-//
-//            AbstractBeanDefinition beanDefinition = getDefaultRedisTemplateBeanDefinition(configurationSource);
-//
-//            if (beanDefinition != null) {
-//                registerIfNotAlreadyRegistered(() -> beanDefinition, registry, keyValueTemplateName.get(),
-//                        configurationSource.getSource());
-//            }
-//        }
     }
-
-//    protected AbstractBeanDefinition getDefaultRedisTemplateBeanDefinition(
-//            RepositoryConfigurationSource configurationSource) {
-//
-//        return BeanDefinitionBuilder.rootBeanDefinition(RedisTemplate.class) //
-//                .getBeanDefinition();
-//    }
 
     @Override
     public void postProcess(@NonNull BeanDefinitionBuilder builder, @NonNull RepositoryConfigurationSource config) {

@@ -1,11 +1,10 @@
 package com.ziyao.harbor.data.redis.core;
 
 /**
- * @author ziyao zhang
- * @since 2024/2/4
+ * @author ziyao
+ * @since 2023/4/23
  */
-public interface RedisRepositoryInformation extends RedisRepositoryMetadata {
-
+public interface RepositoryInformation extends RepositoryMetadata {
     /**
      * Returns the base class to be used to create the proxy backing instance.
      */

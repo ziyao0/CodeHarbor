@@ -22,9 +22,7 @@ public class RedisRepositoryBeanDefinitionBuilder {
     private static final Log logger = LogFactory.getLog(RedisRepositoryBeanDefinitionBuilder.class);
 
     private final BeanDefinitionRegistry registry;
-    private final RepositoryConfigurationExtension extension;
     private final ResourceLoader resourceLoader;
-
     private final MetadataReaderFactory metadataReaderFactory;
     private final CustomRepositoryImplementationDetector implementationDetector;
 
@@ -45,7 +43,6 @@ public class RedisRepositoryBeanDefinitionBuilder {
         Assert.notNull(environment, "Environment must not be null");
 
         this.registry = registry;
-        this.extension = extension;
         this.resourceLoader = resourceLoader;
 
         this.metadataReaderFactory = new CachingMetadataReaderFactory(resourceLoader);

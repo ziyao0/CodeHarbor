@@ -1,10 +1,9 @@
 package com.ziyao.harbor.data.redis.support;
 
-import com.ziyao.harbor.data.redis.core.RedisEntityInformation;
-import com.ziyao.harbor.data.redis.core.RedisEntityInformationCreator;
-import com.ziyao.harbor.data.redis.core.RedisRepositoryInformation;
 import com.ziyao.harbor.data.redis.core.Repository;
-import com.ziyao.harbor.data.redis.repository.DefaultRedisRepository;
+import com.ziyao.harbor.data.redis.core.RepositoryInformation;
+import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
+import com.ziyao.harbor.data.redis.repository.DefaultRepository;
 import lombok.Getter;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.BeanUtils;
@@ -26,29 +25,21 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @author ziyao zhang
- * @since 2024/2/4
+ * @author ziyao
+ * @since 2023/4/23
  */
 @Getter
-public class RedisRepositoryFactory implements BeanClassLoaderAware, BeanFactoryAware {
+public  class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFactoryAware {
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
     private Optional<Class<?>> repositoryBaseClass;
-    private final RedisEntityInformationCreator redisEntityInformationCreator;
-    private final Map<String, RedisRepositoryInformation> repositoryInformationCache;
     private final RedisOperations<?, ?> redisOperations;
+    private final Map<String, RepositoryInformation> repositoryInformationCache;
 
-    public RedisRepositoryFactory(RedisOperations<?, ?> redisOperations) {
+    public DefaultRepositoryFactory(RedisOperations<?, ?> redisOperations) {
         this.redisOperations = redisOperations;
         this.repositoryInformationCache = new ConcurrentReferenceHashMap<>(16, ConcurrentReferenceHashMap.ReferenceType.WEAK);
-        this.redisEntityInformationCreator = new DefaultCacheEntityInformationCreator();
-
         this.repositoryBaseClass = Optional.empty();
-    }
-
-
-    protected com.ziyao.harbor.data.redis.core.RedisRepositoryMetadata getRepositoryMetadata(Class<?> repositoryInterface) {
-        return new RedisRepositoryMetadata(repositoryInterface);
     }
 
     /**
@@ -58,8 +49,8 @@ public class RedisRepositoryFactory implements BeanClassLoaderAware, BeanFactory
     @SuppressWarnings({"unchecked"})
     public <T> T getRepository(Class<T> repositoryInterface) {
 
-        com.ziyao.harbor.data.redis.core.RedisRepositoryMetadata metadata = getRepositoryMetadata(repositoryInterface);
-        RedisRepositoryInformation information = getRepositoryInformation(metadata);
+        RepositoryMetadata metadata = getRepositoryMetadata(repositoryInterface);
+        RepositoryInformation information = getRepositoryInformation(metadata);
         Object target = getTargetRepository(information);
 
         ProxyFactory result = new ProxyFactory();
@@ -68,42 +59,44 @@ public class RedisRepositoryFactory implements BeanClassLoaderAware, BeanFactory
         return (T) result.getProxy(classLoader);
     }
 
-    private RedisRepositoryInformation getRepositoryInformation(com.ziyao.harbor.data.redis.core.RedisRepositoryMetadata metadata) {
+    private RepositoryInformation getRepositoryInformation(RepositoryMetadata metadata) {
 
         String cacheKey = metadata.getRepositoryInterface().getSimpleName();
 
         return repositoryInformationCache.computeIfAbsent(cacheKey, key -> {
             Class<?> baseClass = repositoryBaseClass.orElse(getRepositoryBaseClass(metadata));
 
-            return new DefaultRedisRepositoryInformation(metadata, baseClass);
+            return new DefaultRepositoryInformation(metadata, baseClass);
         });
     }
 
-    protected Object getTargetRepository(RedisRepositoryInformation metadata) {
-        return getTargetRepositoryViaReflection(metadata,
-                getEntityInformation(metadata.getKeyType(),
-                        metadata.getValueType(),
-                        metadata.getHashKeyType(),
-                        metadata.getHashValueType()), redisOperations);
-    }
 
     /**
      * Returns the base class backing the actual repository instance. Make sure
-     * {@link #getTargetRepository(RedisRepositoryInformation)} returns an instance of this class.
+     * {@link #getTargetRepository(RepositoryInformation)} returns an instance of this class.
      */
-    protected Class<?> getRepositoryBaseClass(com.ziyao.harbor.data.redis.core.RedisRepositoryMetadata metadata) {
+    protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
         if (!isCacheRepository(metadata.getRepositoryInterface())) {
             throw new IllegalArgumentException("redis query Support has not been implemented yet.");
         }
 
-        return DefaultRedisRepository.class;
+        return DefaultRepository.class;
     }
 
-    protected final <R> R getTargetRepositoryViaReflection(RedisRepositoryInformation information,
+
+    protected Object getTargetRepository(RepositoryInformation metadata) {
+        return getTargetRepositoryViaReflection(metadata, metadata, redisOperations);
+    }
+
+    protected final <R> R getTargetRepositoryViaReflection(RepositoryInformation information,
                                                            Object... constructorArguments) {
 
         Class<?> baseClass = information.getRepositoryBaseClass();
         return instantiateClass(baseClass, constructorArguments);
+    }
+
+    protected RepositoryMetadata getRepositoryMetadata(Class<?> repositoryInterface) {
+        return new DefaultRepositoryMetadata(repositoryInterface);
     }
 
     @SuppressWarnings("unchecked")
@@ -118,21 +111,13 @@ public class RedisRepositoryFactory implements BeanClassLoaderAware, BeanFactory
                                 .collect(Collectors.joining(", ")))));
     }
 
-    private boolean isCacheRepository(Class<?> repositoryInterface) {
-        return Repository.class.isAssignableFrom(repositoryInterface);
-    }
-
     public void setRepositoryBaseClass(Class<?> repositoryBaseClass) {
         this.repositoryBaseClass = Optional.ofNullable(repositoryBaseClass);
     }
 
-    public <K, V, HK, HV> RedisEntityInformation<K, V, HK, HV>
-    getEntityInformation(Class<K> keyClass,
-                         Class<V> valueClass,
-                         Class<HK> hkeyClass,
-                         Class<HV> hvalueClass) {
-        return redisEntityInformationCreator.getInformation(keyClass,
-                valueClass, hkeyClass, hvalueClass);
+    //判断是否为缓存库
+    protected boolean isCacheRepository(Class<?> repositoryInterface) {
+        return Repository.class.isAssignableFrom(repositoryInterface);
     }
 
     @Override

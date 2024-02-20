@@ -1,6 +1,6 @@
 package com.ziyao.harbor.data.redis.autoconfigure;
 
-import com.ziyao.harbor.data.redis.support.RedisRepositoryFactoryBean;
+import com.ziyao.harbor.data.redis.support.RepositoryFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Import;
@@ -59,9 +59,9 @@ public @interface EnableRedisRepositories {
 
     /**
      * Returns the {@link FactoryBean} class to be used for each repository instance. Defaults to
-     * {@link RedisRepositoryFactoryBean}.
+     * {@link RepositoryFactoryBean}.
      */
-    Class<?> repositoryFactoryBeanClass() default RedisRepositoryFactoryBean.class;
+    Class<?> repositoryFactoryBeanClass() default RepositoryFactoryBean.class;
 
     /**
      * Configures whether nested repository-interfaces (e.g. defined as inner classes) should be discovered by the

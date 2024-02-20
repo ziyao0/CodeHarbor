@@ -1,9 +1,8 @@
 package com.ziyao.harbor.data.redis.support;
 
-import com.ziyao.harbor.data.redis.core.RedisRepositoryMetadata;
-import com.ziyao.harbor.data.redis.core.Repository;
-import com.ziyao.harbor.data.redis.core.RedisRepositoryFactoryInformation;
 import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.data.redis.core.Repository;
+import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.BeansException;
@@ -15,24 +14,26 @@ import org.springframework.lang.NonNull;
 import java.util.Optional;
 
 /**
- * @author ziyao zhang
- * @since 2024/2/4
+ * @author ziyao
+ * @since 2023/4/23
  */
 @Getter
-public class RedisRepositoryFactoryBean<T extends Repository<K, V, HK, HV>, K, V, HK, HV> implements RedisRepositoryFactoryInformation,
-        InitializingBean, FactoryBean<T>, BeanClassLoaderAware, BeanFactoryAware {
-    private final Class<? extends T> repositoryInterface;
-    private RedisRepositoryFactory factory;
-    private Lazy<T> repository;
+public class RepositoryFactoryBean<T extends Repository>
+        implements InitializingBean, FactoryBean<T>, BeanClassLoaderAware, BeanFactoryAware {
+
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
-    private final Optional<Class<?>> repositoryBaseClass = Optional.empty();
-    private RedisRepositoryMetadata redisRepositoryMetadata;
+    private RepositoryMetadata repositoryMetadata;
     private RedisOperations<?, ?> operations;
+    private final Optional<Class<?>> repositoryBaseClass = Optional.empty();
+    private DefaultRepositoryFactory factory;
+    private final Class<? extends T> repositoryInterface;
+    private Lazy<T> repository;
     @Setter
     private boolean lazyInit = false;
 
-    public RedisRepositoryFactoryBean(Class<? extends T> repositoryInterface) {
+
+    protected RepositoryFactoryBean(Class<? extends T> repositoryInterface) {
         this.repositoryInterface = repositoryInterface;
     }
 
@@ -60,35 +61,28 @@ public class RedisRepositoryFactoryBean<T extends Repository<K, V, HK, HV>, K, V
 
     @Override
     public Class<?> getObjectType() {
-        return repositoryInterface;
+        return this.repositoryInterface;
     }
 
     @Override
-    public void afterPropertiesSet() {
+    public void afterPropertiesSet() throws Exception {
         this.factory = createRepositoryFactory();
         this.factory.setBeanClassLoader(classLoader);
         this.factory.setBeanFactory(beanFactory);
         repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
-
-
-        this.redisRepositoryMetadata = this.factory.getRepositoryMetadata(repositoryInterface);
-
         this.repository = Lazy.of(() -> this.factory.getRepository(repositoryInterface));
 
-        // Make sure the aggregate root type is present in the MappingContext (e.g. for auditing)
-//        this.mappingContext.ifPresent(it -> it.getPersistentEntity(cacheRepositoryMetadata.getValueType()));
-
-        if (!lazyInit) {
+        if (!this.lazyInit) {
             this.repository.get();
         }
     }
 
-    /**
-     * Create the actual {@link RedisRepositoryFactory} instance.
-     */
-    public RedisRepositoryFactory createRepositoryFactory() {
+    private DefaultRepositoryFactory createRepositoryFactory() {
         Assert.notNull(operations, "operations are not initialized");
+        return doCreateRepositoryFactory();
+    }
 
-        return new RedisRepositoryFactory(operations);
+    protected DefaultRepositoryFactory doCreateRepositoryFactory() {
+        return new DefaultRepositoryFactory(operations);
     }
 }

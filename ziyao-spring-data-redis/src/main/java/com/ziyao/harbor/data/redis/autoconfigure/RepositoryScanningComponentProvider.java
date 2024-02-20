@@ -84,7 +84,7 @@ public class RepositoryScanningComponentProvider extends ClassPathScanningCandid
 
         List<TypeFilter> filterPlusInterface = new ArrayList<>(2);
         filterPlusInterface.add(includeFilter);
-        filterPlusInterface.add(new RepositoryScanningComponentProvider.InterfaceTypeFilter(org.springframework.data.repository.Repository.class));
+        filterPlusInterface.add(new RepositoryScanningComponentProvider.InterfaceTypeFilter(Repository.class));
 
         super.addIncludeFilter(new RepositoryScanningComponentProvider.AllTypeFilter(filterPlusInterface));
 

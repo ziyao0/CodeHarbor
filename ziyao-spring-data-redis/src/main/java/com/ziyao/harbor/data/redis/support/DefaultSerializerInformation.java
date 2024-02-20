@@ -1,23 +1,24 @@
 package com.ziyao.harbor.data.redis.support;
 
 import com.ziyao.harbor.data.redis.serializer.ObjectRedisSerializer;
+import com.ziyao.harbor.data.redis.serializer.SerializerInformation;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 /**
  * @author ziyao zhang
  * @since 2024/2/4
  */
-public class RedisEntityInformation<K, V, HK, HV> implements com.ziyao.harbor.data.redis.core.RedisEntityInformation<K, V, HK, HV> {
+public class DefaultSerializerInformation<K, V, HK, HV> implements SerializerInformation<K, V, HK, HV> {
 
     private final Class<K> keyJavaType;
     private final Class<V> valueJavaType;
     private final Class<HK> hkJavaType;
     private final Class<HV> hvJavaType;
 
-    public RedisEntityInformation(Class<K> keyJavaType,
-                                  Class<V> valueJavaType,
-                                  Class<HK> hkJavaType,
-                                  Class<HV> hvJavaType) {
+    public DefaultSerializerInformation(Class<K> keyJavaType,
+                                        Class<V> valueJavaType,
+                                        Class<HK> hkJavaType,
+                                        Class<HV> hvJavaType) {
         this.keyJavaType = keyJavaType;
         this.valueJavaType = valueJavaType;
         this.hkJavaType = hkJavaType;

@@ -1,15 +1,18 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.BasicRepository;
-import org.springframework.data.redis.core.*;
+import com.ziyao.harbor.data.redis.core.Repository;
+import org.springframework.data.redis.core.ListOperations;
+import org.springframework.data.redis.core.SetOperations;
+import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.data.repository.NoRepositoryBean;
 
 /**
- * @author ziyao zhang
- * @since 2024/2/2
+ * @author ziyao
+ * @since 2023/4/23
  */
 @NoRepositoryBean
-public interface RedisRepository<K, V, HK, HV> extends BasicRepository<K, V, HK, HV> {
+public interface KeyValueRepository<K, V> extends Repository<K> {
     /**
      * Returns the operations performed on simple values (or Strings in Redis terminology).
      *
@@ -24,7 +27,7 @@ public interface RedisRepository<K, V, HK, HV> extends BasicRepository<K, V, HK,
      */
     ListOperations<K, V> opsForList();
 
-    HashOperations<K, HK, HV> opsForHash();
+
 
     /**
      * Returns the operations performed on set values.
