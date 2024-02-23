@@ -25,7 +25,8 @@ public class SslHttpRequestFactory extends SimpleClientHttpRequestFactory {
 
     @Override
     protected void prepareConnection(@NonNull HttpURLConnection connection, @NonNull String httpMethod) throws IOException {
-        if (connection instanceof HttpsURLConnection httpsConnection) {
+        if (connection instanceof HttpsURLConnection) {
+            HttpsURLConnection httpsConnection = (HttpsURLConnection) connection;
             super.prepareConnection(connection, httpMethod);
             TrustManager[] trustAllCerts = new TrustManager[]{new NoCheckX509TrustManager()};
             SSLContext sslContext;

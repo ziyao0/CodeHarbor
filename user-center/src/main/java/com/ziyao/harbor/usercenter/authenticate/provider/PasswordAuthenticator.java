@@ -66,7 +66,7 @@ public class PasswordAuthenticator implements Authenticator {
 
     @Override
     public UserDetails loadUserDetails(UserQuery query) {
-        User user = userService.loadUserDetails(query.appid(), query.username());
+        User user = userService.loadUserDetails(query.getAppid(), query.getUsername());
         Assert.notNull(user, AuthenticateExceptions.createValidatedFailure());
         return user;
     }

@@ -433,7 +433,7 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
         }
         List<BetweenQueries.BetweenQuery> queries = betweenQueries.getQueries();
         // Query conditions for assembly range
-        queries.forEach(query -> criteriaList.add(new Criteria(query.field()).between(query.lowerBound(), query.upperBound())));
+        queries.forEach(query -> criteriaList.add(new Criteria(query.getField()).between(query.getLowerBound(), query.getUpperBound())));
         return criteriaList;
     }
 

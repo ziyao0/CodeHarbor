@@ -25,15 +25,15 @@ public abstract class PasswordValidator implements Validator<PasswordParameter> 
     public void validate(PasswordParameter parameter) {
 
         Assert.notNull(parameter, AuthenticateExceptions.createValidatedFailure());
-        Assert.notNull(parameter.plaintext(), AuthenticateExceptions.createValidatedFailure());
-        Assert.notNull(parameter.ciphertext(), AuthenticateExceptions.createValidatedFailure());
+        Assert.notNull(parameter.getPlaintext(), AuthenticateExceptions.createValidatedFailure());
+        Assert.notNull(parameter.getCiphertext(), AuthenticateExceptions.createValidatedFailure());
         doValidated(parameter);
 
 
     }
 
     private void doValidated(PasswordParameter parameter) {
-        if (!passwordEncryptor.matches(parameter.plaintext(), parameter.ciphertext())) {
+        if (!passwordEncryptor.matches(parameter.getPlaintext(), parameter.getCiphertext())) {
             throw AuthenticateExceptions.createValidatedFailure();
         }
     }

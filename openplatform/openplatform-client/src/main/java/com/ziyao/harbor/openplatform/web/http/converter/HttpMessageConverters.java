@@ -69,7 +69,7 @@ public abstract class HttpMessageConverters {
         CONVERTER_CLASS_LIST.add("org.springframework.http.converter.json.JsonbHttpMessageConverter");
     }
 
-    private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<>() {
+    private static final ParameterizedTypeReference<Map<String, Object>> STRING_OBJECT_MAP = new ParameterizedTypeReference<Map<String, Object>>() {
     };
 
     @SuppressWarnings("unchecked")
@@ -86,8 +86,7 @@ public abstract class HttpMessageConverters {
                 if (genericConverter.canWrite(STRING_OBJECT_MAP.getType(), Map.class, contentType)) {
                     genericConverter.write(parameters, STRING_OBJECT_MAP.getType(), contentType, outputMessage);
                 }
-            }
-            else if (httpMessageConverter.canWrite(Map.class, contentType)) {
+            } else if (httpMessageConverter.canWrite(Map.class, contentType)) {
                 ((HttpMessageConverter<Object>) httpMessageConverter).write(parameters, contentType, outputMessage);
             }
         }
@@ -107,13 +106,11 @@ public abstract class HttpMessageConverters {
                 if (genericConverter.canRead(STRING_OBJECT_MAP.getType(), null, contentType)) {
                     return (Map<String, Object>) genericConverter.read(STRING_OBJECT_MAP.getType(), null, inputMessage);
                 }
-            }
-            else if (httpMessageConverter.canRead(Map.class, contentType)) {
+            } else if (httpMessageConverter.canRead(Map.class, contentType)) {
                 Object data = ((HttpMessageConverter<Object>) httpMessageConverter).read(Map.class, inputMessage);
                 if (data instanceof Map) {
                     return (Map<String, Object>) data;
-                }
-                else {
+                } else {
                     throw new HttpMessageNotReadableException(
                             httpMessageConverter.getClass().getSimpleName() + " unable to read inputMessage to Map",
                             inputMessage);
@@ -145,8 +142,7 @@ public abstract class HttpMessageConverters {
     private static MediaType getContentTypeOrDefault(HttpHeaders headers) {
         if (headers == null || headers.getContentType() == null) {
             return MediaType.APPLICATION_JSON;
-        }
-        else {
+        } else {
             return headers.getContentType();
         }
     }

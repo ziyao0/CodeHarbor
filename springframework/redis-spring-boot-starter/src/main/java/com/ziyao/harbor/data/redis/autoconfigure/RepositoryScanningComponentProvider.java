@@ -153,9 +153,16 @@ public class RepositoryScanningComponentProvider extends ClassPathScanningCandid
      *
      * @author Oliver Gierke
      */
-    private record AllTypeFilter(List<TypeFilter> delegates) implements TypeFilter {
+    @Getter
+    private static class AllTypeFilter implements TypeFilter {
 
-        private AllTypeFilter {
+        private List<TypeFilter> delegates;
+
+        public AllTypeFilter(List<TypeFilter> delegates) {
+            this.delegates = delegates;
+        }
+
+        private AllTypeFilter() {
 
             Assert.notNull(delegates, "TypeFilter deleages must not be null");
         }

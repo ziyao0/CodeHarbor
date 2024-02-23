@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.data.elasticsearch.core.query.Field;
 import org.springframework.data.elasticsearch.core.query.SimpleField;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -17,7 +18,7 @@ public class BetweenQueries {
     private final List<BetweenQuery> queries;
 
     public BetweenQueries(BetweenQuery... queries) {
-        this.queries = List.of(queries);
+        this.queries = Arrays.asList(queries);
     }
 
     public static BetweenQueries of(BetweenQuery... queries) {
@@ -32,7 +33,16 @@ public class BetweenQueries {
         return new BetweenQuery(field, upperBound, lowerBound);
     }
 
-    public record BetweenQuery(Field field, Object upperBound, Object lowerBound) {
+    @Getter
+    public static class BetweenQuery {
+        private final Field field;
+        private final Object upperBound;
+        private final Object lowerBound;
 
+        public BetweenQuery(Field field, Object upperBound, Object lowerBound) {
+            this.field = field;
+            this.upperBound = upperBound;
+            this.lowerBound = lowerBound;
+        }
     }
 }

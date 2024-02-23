@@ -6,6 +6,7 @@ import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
 import com.ziyao.harbor.data.redis.repository.HashRepository;
 import com.ziyao.harbor.data.redis.repository.KeyValueRepository;
 import lombok.Getter;
+import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
@@ -40,12 +41,12 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         Assert.isTrue(repositoryInterface.isInterface(), "Given type must be an interface");
 
         this.repositoryInterface = repositoryInterface;
-        this.typeInformation = TypeInformation.of(repositoryInterface);
-        this.keyTypeInformation = TypeInformation.of(String.class);
+        this.typeInformation = ClassTypeInformation.from(repositoryInterface);
+        this.keyTypeInformation = ClassTypeInformation.from(String.class);
         Assert.isTrue(Repository.class.isAssignableFrom(repositoryInterface), MUST_BE_A_REPOSITORY);
 
         // KeyValueRepository
-        TypeInformation<?> keyValueTypeInformation = TypeInformation.of(repositoryInterface)//
+        TypeInformation<?> keyValueTypeInformation = ClassTypeInformation.from(repositoryInterface)//
                 .getSuperTypeInformation(KeyValueRepository.class);
         if (keyValueTypeInformation != null) {
             List<TypeInformation<?>> keyvalueArguments = keyValueTypeInformation.getTypeArguments();
@@ -55,7 +56,7 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
             }
         }
         // HashRepository
-        TypeInformation<?> hashTypeInformation = TypeInformation.of(repositoryInterface)//
+        TypeInformation<?> hashTypeInformation = ClassTypeInformation.from(repositoryInterface)//
                 .getSuperTypeInformation(HashRepository.class);
         if (hashTypeInformation != null) {
             List<TypeInformation<?>> hashArguments = hashTypeInformation.getTypeArguments();
@@ -84,22 +85,22 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
 
     @Override
     public TypeInformation<?> getKeyTypeInformation() {
-        return Objects.requireNonNullElseGet(this.keyTypeInformation, () -> TypeInformation.of(String.class));
+        return requireNonNullElseGet(this.keyTypeInformation, () -> ClassTypeInformation.from(String.class));
     }
 
     @Override
     public TypeInformation<?> getValueTypeInformation() {
-        return Objects.requireNonNullElseGet(this.valueTypeInformation, () -> TypeInformation.of(Object.class));
+        return requireNonNullElseGet(this.valueTypeInformation, () -> ClassTypeInformation.from(Object.class));
     }
 
     @Override
     public TypeInformation<?> getHashKeyTypeInformation() {
-        return Objects.requireNonNullElseGet(this.hashKeyTypeInformation, () -> TypeInformation.of(Object.class));
+        return requireNonNullElseGet(this.hashKeyTypeInformation, () -> ClassTypeInformation.from(Object.class));
     }
 
     @Override
     public TypeInformation<?> getHashValueTypeInformation() {
-        return Objects.requireNonNullElseGet(this.hashValueTypeInformation, () -> TypeInformation.of(Object.class));
+        return requireNonNullElseGet(this.hashValueTypeInformation, () -> ClassTypeInformation.from(Object.class));
     }
 
     @Override
@@ -115,5 +116,10 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         }
 
         return arguments.get(index);
+    }
+
+    private static <T> T requireNonNullElseGet(T obj, Supplier<? extends T> supplier) {
+        return (obj != null) ? obj
+                : Objects.requireNonNull(Objects.requireNonNull(supplier, "supplier").get(), "supplier.get()");
     }
 }

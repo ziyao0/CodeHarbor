@@ -57,7 +57,8 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
 
     @Override
     public @NonNull String getDefaultNamedQueryLocation() {
-        return String.format("classpath*:META-INF/%s-named-queries.properties", getModuleIdentifier());
+//        return String.format("classpath*:META-INF/%s-named-queries.properties", getModuleIdentifier());
+        return "";
     }
 
     @Override

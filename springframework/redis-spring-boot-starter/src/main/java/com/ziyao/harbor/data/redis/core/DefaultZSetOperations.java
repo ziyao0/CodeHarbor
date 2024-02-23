@@ -1,7 +1,6 @@
 package com.ziyao.harbor.data.redis.core;
 
-import org.springframework.data.redis.connection.zset.Aggregate;
-import org.springframework.data.redis.connection.zset.Weights;
+import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -150,7 +149,7 @@ public class DefaultZSetOperations<V> extends AbstractOperations<V> implements Z
     }
 
     @Override
-    public Long unionAndStore(Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights) {
+    public Long unionAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights) {
         return template.opsForZSet().unionAndStore(redisKey, otherKeys, destKey, aggregate, weights);
     }
 
@@ -165,7 +164,7 @@ public class DefaultZSetOperations<V> extends AbstractOperations<V> implements Z
     }
 
     @Override
-    public Long intersectAndStore(Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights) {
+    public Long intersectAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights) {
         return template.opsForZSet().intersectAndStore(redisKey, otherKeys, destKey, aggregate, weights);
     }
 
