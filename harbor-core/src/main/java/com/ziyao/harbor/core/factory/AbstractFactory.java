@@ -1,11 +1,13 @@
 package com.ziyao.harbor.core.factory;
 
 import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author ziyao zhang
  * @since 2023/8/28
  */
+@Setter
 @Getter
 public abstract class AbstractFactory<T> {
 
@@ -23,7 +25,4 @@ public abstract class AbstractFactory<T> {
      */
     protected abstract void init();
 
-    public void setAbstractHandler(AbstractHandler<T> abstractHandler) {
-        this.abstractHandler = abstractHandler;
-    }
 }

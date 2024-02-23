@@ -1,6 +1,6 @@
 package com.harbor.boot.autoconfigure.elastic;
 
-import com.ziyao.harbor.elastic.config.EnableESRepositories;
+import com.ziyao.harbor.elasticsearch.config.EnableElasticsearchRepositories;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Configuration;
  * @since 2023/4/23
  */
 @Configuration
-@EnableESRepositories
+@EnableElasticsearchRepositories
 public class ElasticAutoConfiguration {
 }

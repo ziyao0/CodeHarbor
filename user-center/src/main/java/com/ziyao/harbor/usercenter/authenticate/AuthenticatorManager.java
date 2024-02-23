@@ -1,5 +1,9 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
+import com.ziyao.harbor.usercenter.authenticate.core.AuthenticationType;
+
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
@@ -27,9 +31,9 @@ public interface AuthenticatorManager {
      * @param authenticators 认证bean
      * @return name to beanName
      */
-    default Map<String, Authenticator> initBeanMapping(List<? extends Authenticator> authenticators) {
+    default Map<AuthenticationType, Authenticator> initBeanMapping(List<? extends Authenticator> authenticators) {
         return authenticators.stream().collect(
-                Collectors.toMap(authenticator -> authenticator.getClass().getSimpleName(), Function.identity())
+                Collectors.toMap(Authenticator::getAuthenticationType, Function.identity())
         );
     }
 }

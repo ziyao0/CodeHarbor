@@ -3,12 +3,14 @@ package com.ziyao.harbor.crypto.core;
 import com.ziyao.harbor.crypto.Codebook;
 import com.ziyao.harbor.crypto.utils.ConstantPool;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author ziyao zhang
  * @since 2023/10/23
  */
+@Setter
 @Getter
 @ConfigurationProperties(ConstantPool.cipher_prefix)
 public class CodebookProperties extends Codebook<CodebookProperties> {
@@ -42,11 +44,4 @@ public class CodebookProperties extends Codebook<CodebookProperties> {
         return ConstantPool.cipher_prefix;
     }
 
-    public void setFailOnError(boolean failOnError) {
-        this.failOnError = failOnError;
-    }
-
-    public void setLocation(String location) {
-        this.location = location;
-    }
 }

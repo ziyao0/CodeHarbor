@@ -29,7 +29,7 @@ dependencyResolutionManagement {
 
 rootProject.name = 'CodeHarbor'
 include 'harbor-core',
-        'harbor-gateway',
+        'gateway',
         'user-center'
 include 'code-generator'
 include 'openplatform'
@@ -71,4 +71,11 @@ findProject(':springframework:spring-elasticsearch')?.name = 'spring-elasticsear
 include 'configure-crypto'
 include 'springframework:elasticsearch-spring-boot-starter'
 findProject(':springframework:elasticsearch-spring-boot-starter')?.name = 'elasticsearch-spring-boot-starter'
-
+include 'openplatform:openplatform-client'
+findProject(':openplatform:openplatform-client')?.name = 'openplatform-client'
+include 'openplatform:openplatform-server'
+findProject(':openplatform:openplatform-server')?.name = 'openplatform-server'
+include 'openplatform:openplatform-common'
+findProject(':openplatform:openplatform-common')?.name = 'openplatform-common'
+include 'springframework:redis-spring-boot-starter'
+findProject(':springframework:redis-spring-boot-starter')?.name = 'redis-spring-boot-starter'

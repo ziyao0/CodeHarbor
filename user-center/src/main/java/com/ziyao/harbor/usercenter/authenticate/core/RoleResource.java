@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
  * @author ziyao zhang
  * @since 2023/9/25
  */
-public final class RoleResource implements IResource, Comparable<RoleResource> {
+public final class RoleResource implements Resource, Comparable<RoleResource> {
 
 
     enum Level {
@@ -66,7 +66,7 @@ public final class RoleResource implements IResource, Comparable<RoleResource> {
     }
 
     @Override
-    public IResource getParent() {
+    public Resource getParent() {
         if (level == Level.ROLE)
             return root();
 

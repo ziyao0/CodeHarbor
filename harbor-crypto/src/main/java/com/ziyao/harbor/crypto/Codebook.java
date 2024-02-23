@@ -5,6 +5,7 @@ import com.ziyao.harbor.core.utils.HexUtils;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.symmetric.Mode;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Collections;
 import java.util.Set;
@@ -13,6 +14,7 @@ import java.util.Set;
  * @author ziyao zhang
  * @since 2023/10/26
  */
+@Setter
 @Getter
 public abstract class Codebook<T extends Codebook<T>> extends Properties<T> {
 
@@ -26,18 +28,7 @@ public abstract class Codebook<T extends Codebook<T>> extends Properties<T> {
         sm2, sm4;
     }
 
-    public void setTypes(Set<Type> types) {
-        this.types = types;
-    }
-
-    public void setSm4(KeyIv sm4) {
-        this.sm4 = sm4;
-    }
-
-    public void setSm2(KeyPair sm2) {
-        this.sm2 = sm2;
-    }
-
+    @Setter
     @Getter
     public static class KeyIv extends AbstractAlgorithm {
 
@@ -88,26 +79,6 @@ public abstract class Codebook<T extends Codebook<T>> extends Properties<T> {
             }
         }
 
-        public void setKey(String key) {
-            this.key = key;
-        }
-
-        public void setIv(String iv) {
-            this.iv = iv;
-        }
-
-        public void setMode(Mode mode) {
-            this.mode = mode;
-        }
-
-        public void setKeyBytes(byte[] keyBytes) {
-            this.keyBytes = keyBytes;
-        }
-
-        public void setIvBytes(byte[] ivBytes) {
-            this.ivBytes = ivBytes;
-        }
-
         @Override
         public String toString() {
             return "KeyIv{" +
@@ -118,6 +89,7 @@ public abstract class Codebook<T extends Codebook<T>> extends Properties<T> {
         }
     }
 
+    @Setter
     @Getter
     public static class KeyPair extends AbstractAlgorithm {
 
@@ -172,22 +144,6 @@ public abstract class Codebook<T extends Codebook<T>> extends Properties<T> {
             if (Strings.hasText(privateKey)) {
                 this.privateKey = privateKey;
             }
-        }
-
-        public void setPublicKey(String publicKey) {
-            this.publicKey = publicKey;
-        }
-
-        public void setPrivateKey(String privateKey) {
-            this.privateKey = privateKey;
-        }
-
-        public void setPubKey(byte[] pubKey) {
-            this.pubKey = pubKey;
-        }
-
-        public void setPriKey(byte[] priKey) {
-            this.priKey = priKey;
         }
 
         @Override

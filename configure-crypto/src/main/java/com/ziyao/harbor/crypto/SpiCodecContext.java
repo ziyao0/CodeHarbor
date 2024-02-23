@@ -1,9 +1,12 @@
 package com.ziyao.harbor.crypto;
 
+import lombok.Setter;
+
 /**
  * @author ziyao
  * @since 2023/4/23
  */
+@Setter
 public class SpiCodecContext implements CodecContext {
 
     private EncryptCallback encryptCallback;
@@ -20,11 +23,4 @@ public class SpiCodecContext implements CodecContext {
         return decryptCallback;
     }
 
-    public void setEncryptCallback(EncryptCallback encryptCallback) {
-        this.encryptCallback = encryptCallback;
-    }
-
-    public void setDecryptCallback(DecryptCallback decryptCallback) {
-        this.decryptCallback = decryptCallback;
-    }
 }

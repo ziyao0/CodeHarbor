@@ -1,7 +1,7 @@
 package com.ziyao.harbor.web;
 
-import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.core.error.MessageResponse;
+import com.ziyao.harbor.core.error.StatusMessage;
 
 /**
  * @author ziyao zhang
@@ -25,19 +25,23 @@ public abstract class ResponseBuilder {
         return new MessageResponse<>(StatusMessage.FAILED_STATE(), StatusMessage.FAILED_MESSAGE());
     }
 
-    public static <T> MessageResponse<T> failed(Integer state, String message) {
+    public static <T> MessageResponse<T> of(Integer state, String message) {
         return new MessageResponse<>(state, message);
     }
 
-    public static <T> MessageResponse<T> failed(Integer state, String message, T data) {
+    public static <T> MessageResponse<T> of(Integer state, String message, T data) {
         return new MessageResponse<>(state, message, data);
     }
 
-    public static <T> MessageResponse<T> failed(StatusMessage StatusMessage, String message) {
-        return failed(StatusMessage.getStatus(), message);
+    public static <T> MessageResponse<T> of(StatusMessage StatusMessage, String message) {
+        return of(StatusMessage.getStatus(), message);
     }
 
-    public static <T> MessageResponse<T> failed(StatusMessage StatusMessage) {
-        return failed(StatusMessage.getStatus(), StatusMessage.getMessage());
+    public static <T> MessageResponse<T> of(StatusMessage StatusMessage) {
+        return of(StatusMessage.getStatus(), StatusMessage.getMessage());
+    }
+
+    private ResponseBuilder() {
+
     }
 }
