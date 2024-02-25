@@ -1,5 +1,6 @@
 package com.ziyao.harbor.usercenter;
 
+import com.google.common.collect.Lists;
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.data.redis.core.ValueOperations;
 import com.ziyao.harbor.usercenter.entity.MenuTree;
@@ -41,10 +42,10 @@ public class UserCenterStarter implements CommandLineRunner {
         MenuTree role = new MenuTree("角色管理");
         MenuTree menu = new MenuTree("菜单管理");
 
-        parent.setNodes(List.of(user, role, menu));
+        parent.setNodes(Lists.newArrayList(user, role, menu));
         List<MenuTree> menuTrees = operations.get();
         if (Collections.isEmpty(menuTrees)) {
-            operations.set(List.of(parent));
+            operations.set(Lists.newArrayList(parent));
         }
         System.out.println(operations.get());
     }

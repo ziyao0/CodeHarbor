@@ -150,7 +150,7 @@ public class DefaultZSetOperations<V> extends AbstractOperations<V> implements Z
 
     @Override
     public Long unionAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights) {
-        return template.opsForZSet().unionAndStore(redisKey, otherKeys, destKey, aggregate, weights);
+        return template.opsForZSet().unionAndStore(key, otherKeys, destKey, aggregate, weights);
     }
 
     @Override
@@ -165,7 +165,7 @@ public class DefaultZSetOperations<V> extends AbstractOperations<V> implements Z
 
     @Override
     public Long intersectAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights) {
-        return template.opsForZSet().intersectAndStore(redisKey, otherKeys, destKey, aggregate, weights);
+        return template.opsForZSet().intersectAndStore(key, otherKeys, destKey, aggregate, weights);
     }
 
     @Override
