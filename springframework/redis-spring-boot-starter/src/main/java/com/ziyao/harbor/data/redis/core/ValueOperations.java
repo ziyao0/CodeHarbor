@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  * @author ziyao zhang
  * @since 2024/2/23
  */
-public interface ValueOperations<V> {
+public interface ValueOperations<V> extends KeyAware  {
     /**
      * Set {@code value} for {@code key}.
      *

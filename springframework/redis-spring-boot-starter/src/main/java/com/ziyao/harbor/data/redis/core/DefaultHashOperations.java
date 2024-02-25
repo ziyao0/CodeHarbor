@@ -1,6 +1,5 @@
 package com.ziyao.harbor.data.redis.core;
 
-import org.springframework.core.convert.converter.Converter;
 import org.springframework.data.redis.connection.convert.Converters;
 import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.serializer.RedisSerializer;
@@ -14,116 +13,110 @@ import java.util.*;
  */
 public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> implements HashOperations<HK, HV> {
 
-    public DefaultHashOperations(RedisTemplate<String, V> template, String redisKey) {
-        super(template, redisKey);
+    public DefaultHashOperations(RedisTemplate<String, V> template, String key) {
+        super(template, key);
     }
 
     @Override
     public final Long delete(Object... hashKeys) {
-        return template.opsForHash().delete(redisKey, hashKeys);
+        return template.opsForHash().delete(key, hashKeys);
     }
 
     @Override
     public Boolean hasKey(HK hashKey) {
-        return template.opsForHash().hasKey(redisKey, hashKey);
+        return template.opsForHash().hasKey(key, hashKey);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public HV get(HK hashKey) {
-        return (HV) template.opsForHash().get(redisKey, hashKey);
+        return (HV) template.opsForHash().get(key, hashKey);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<HV> multiGet(Collection<HK> hashKeys) {
-        return (List<HV>) template.opsForHash().multiGet(redisKey, Collections.singleton(hashKeys));
+        return (List<HV>) template.opsForHash().multiGet(key, Collections.singleton(hashKeys));
     }
 
     @Override
     public Long increment(HK hashKey, long delta) {
-        return template.opsForHash().increment(redisKey, hashKey, delta);
+        return template.opsForHash().increment(key, hashKey, delta);
     }
 
     @Override
     public Double increment(HK hashKey, double delta) {
-        return template.opsForHash().increment(redisKey, hashKey, delta);
+        return template.opsForHash().increment(key, hashKey, delta);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public HK randomKey() {
-        return (HK) template.opsForHash().randomKey(redisKey);
+        return (HK) template.opsForHash().randomKey(key);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Map.Entry<HK, HV> randomEntry() {
-        return (Map.Entry<HK, HV>) template.opsForHash().randomEntry(redisKey);
+        return (Map.Entry<HK, HV>) template.opsForHash().randomEntry(key);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<HK> randomKeys(long count) {
-        return (List<HK>) template.opsForHash().randomKeys(redisKey, count);
+        return (List<HK>) template.opsForHash().randomKeys(key, count);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Map<HK, HV> randomEntries(long count) {
-        return (Map<HK, HV>) template.opsForHash().randomEntries(redisKey, count);
+        return (Map<HK, HV>) template.opsForHash().randomEntries(key, count);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Set<HK> keys() {
-        return (Set<HK>) template.opsForHash().keys(redisKey);
+        return (Set<HK>) template.opsForHash().keys(key);
     }
 
     @Override
     public Long lengthOfValue(HK hashKey) {
-        return template.opsForHash().lengthOfValue(redisKey, hashKey);
+        return template.opsForHash().lengthOfValue(key, hashKey);
     }
 
     @Override
     public Long size() {
-        return template.opsForHash().size(redisKey);
+        return template.opsForHash().size(key);
     }
 
     @Override
     public void put(HK hashKey, HV value) {
-        template.opsForHash().put(redisKey, hashKey, value);
+        template.opsForHash().put(key, hashKey, value);
     }
 
     @Override
     public Boolean putIfAbsent(HK hashKey, HV value) {
-        return template.opsForHash().putIfAbsent(redisKey, hashKey, value);
+        return template.opsForHash().putIfAbsent(key, hashKey, value);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public List<HV> values() {
-        return (List<HV>) template.opsForHash().values(redisKey);
+        return (List<HV>) template.opsForHash().values(key);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public Map<HK, HV> entries() {
-        return (Map<HK, HV>) template.opsForHash().entries(redisKey);
+        return (Map<HK, HV>) template.opsForHash().entries(key);
     }
 
     @Override
     public Cursor<Map.Entry<HK, HV>> scan(ScanOptions options) {
-        byte[] rawKey = rawKey(redisKey);
+        byte[] rawKey = rawKey(key);
         return template.executeWithStickyConnection(
                 (RedisCallback<Cursor<Map.Entry<HK, HV>>>) connection -> new ConvertingCursor<>(connection.hScan(rawKey, options),
-                        new Converter<Map.Entry<byte[], byte[]>, Map.Entry<HK, HV>>() {
-
-                            @Override
-                            public Map.Entry<HK, HV> convert(final Map.Entry<byte[], byte[]> source) {
-                                return Converters.entryOf(deserializeHashKey(source.getKey()), deserializeHashValue(source.getValue()));
-                            }
-                        }));
+                        source -> Converters.entryOf(deserializeHashKey(source.getKey()), deserializeHashValue(source.getValue()))));
     }
 
     byte[] rawKey(String key) {
@@ -157,4 +150,5 @@ public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> impl
         }
         return (HV) hashValueSerializer().deserialize(value);
     }
+
 }

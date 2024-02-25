@@ -15,59 +15,59 @@ import java.util.Set;
  */
 public class DefaultSetOperations<V> extends AbstractOperations<V> implements SetOperations<V> {
 
-    public DefaultSetOperations(RedisTemplate<String, V> template, String redisKey) {
-        super(template, redisKey);
+    public DefaultSetOperations(RedisTemplate<String, V> template, String key) {
+        super(template, key);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final Long add(V... values) {
-        return template.opsForSet().add(redisKey, values);
+        return template.opsForSet().add(key, values);
     }
 
     @Override
     public Long remove(Object... values) {
-        return template.opsForSet().remove(redisKey, values);
+        return template.opsForSet().remove(key, values);
     }
 
     @Override
     public V pop() {
-        return template.opsForSet().pop(redisKey);
+        return template.opsForSet().pop(key);
     }
 
     @Override
     public List<V> pop(long count) {
-        return template.opsForSet().pop(redisKey, count);
+        return template.opsForSet().pop(key, count);
     }
 
     @Override
     public Boolean move(V value, String destKey) {
-        return template.opsForSet().move(redisKey, value, destKey);
+        return template.opsForSet().move(key, value, destKey);
     }
 
     @Override
     public Long size() {
-        return template.opsForSet().size(redisKey);
+        return template.opsForSet().size(key);
     }
 
     @Override
     public Boolean isMember(Object o) {
-        return template.opsForSet().isMember(redisKey, o);
+        return template.opsForSet().isMember(key, o);
     }
 
     @Override
     public Map<Object, Boolean> isMember(Object... objects) {
-        return template.opsForSet().isMember(redisKey, objects);
+        return template.opsForSet().isMember(key, objects);
     }
 
     @Override
     public Set<V> intersect(String otherKey) {
-        return template.opsForSet().intersect(redisKey, otherKey);
+        return template.opsForSet().intersect(key, otherKey);
     }
 
     @Override
     public Set<V> intersect(String key, Collection<String> otherKeys) {
-        return template.opsForSet().intersect(redisKey, otherKeys);
+        return template.opsForSet().intersect(key, otherKeys);
     }
 
     @Override
@@ -77,12 +77,12 @@ public class DefaultSetOperations<V> extends AbstractOperations<V> implements Se
 
     @Override
     public Long intersectAndStore(String otherKey, String destKey) {
-        return template.opsForSet().intersectAndStore(redisKey, otherKey, destKey);
+        return template.opsForSet().intersectAndStore(key, otherKey, destKey);
     }
 
     @Override
     public Long intersectAndStore(String key, Collection<String> otherKeys, String destKey) {
-        return template.opsForSet().intersectAndStore(redisKey, otherKeys, destKey);
+        return template.opsForSet().intersectAndStore(key, otherKeys, destKey);
     }
 
     @Override
@@ -92,12 +92,12 @@ public class DefaultSetOperations<V> extends AbstractOperations<V> implements Se
 
     @Override
     public Set<V> union(String otherKey) {
-        return template.opsForSet().union(redisKey, otherKey);
+        return template.opsForSet().union(key, otherKey);
     }
 
     @Override
     public Set<V> union(String key, Collection<String> otherKeys) {
-        return template.opsForSet().union(redisKey, otherKeys);
+        return template.opsForSet().union(key, otherKeys);
     }
 
     @Override
@@ -107,12 +107,12 @@ public class DefaultSetOperations<V> extends AbstractOperations<V> implements Se
 
     @Override
     public Long unionAndStore(String otherKey, String destKey) {
-        return template.opsForSet().unionAndStore(redisKey, otherKey, destKey);
+        return template.opsForSet().unionAndStore(key, otherKey, destKey);
     }
 
     @Override
     public Long unionAndStore(String key, Collection<String> otherKeys, String destKey) {
-        return template.opsForSet().unionAndStore(redisKey, otherKeys, destKey);
+        return template.opsForSet().unionAndStore(key, otherKeys, destKey);
     }
 
     @Override
@@ -122,12 +122,12 @@ public class DefaultSetOperations<V> extends AbstractOperations<V> implements Se
 
     @Override
     public Set<V> difference(String otherKey) {
-        return template.opsForSet().difference(redisKey, otherKey);
+        return template.opsForSet().difference(key, otherKey);
     }
 
     @Override
     public Set<V> difference(String key, Collection<String> otherKeys) {
-        return template.opsForSet().difference(redisKey, otherKeys);
+        return template.opsForSet().difference(key, otherKeys);
     }
 
     @Override
@@ -137,12 +137,12 @@ public class DefaultSetOperations<V> extends AbstractOperations<V> implements Se
 
     @Override
     public Long differenceAndStore(String otherKey, String destKey) {
-        return template.opsForSet().differenceAndStore(redisKey, otherKey, destKey);
+        return template.opsForSet().differenceAndStore(key, otherKey, destKey);
     }
 
     @Override
     public Long differenceAndStore(String key, Collection<String> otherKeys, String destKey) {
-        return template.opsForSet().differenceAndStore(redisKey, otherKeys, destKey);
+        return template.opsForSet().differenceAndStore(key, otherKeys, destKey);
     }
 
     @Override
@@ -152,26 +152,26 @@ public class DefaultSetOperations<V> extends AbstractOperations<V> implements Se
 
     @Override
     public Set<V> members() {
-        return template.opsForSet().members(redisKey);
+        return template.opsForSet().members(key);
     }
 
     @Override
     public V randomMember() {
-        return template.opsForSet().randomMember(redisKey);
+        return template.opsForSet().randomMember(key);
     }
 
     @Override
     public Set<V> distinctRandomMembers(long count) {
-        return template.opsForSet().distinctRandomMembers(redisKey, count);
+        return template.opsForSet().distinctRandomMembers(key, count);
     }
 
     @Override
     public List<V> randomMembers(long count) {
-        return template.opsForSet().randomMembers(redisKey, count);
+        return template.opsForSet().randomMembers(key, count);
     }
 
     @Override
     public Cursor<V> scan(ScanOptions options) {
-        return template.opsForSet().scan(redisKey, options);
+        return template.opsForSet().scan(key, options);
     }
 }

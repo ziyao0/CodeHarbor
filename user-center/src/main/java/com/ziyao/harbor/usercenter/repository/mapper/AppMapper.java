@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.mapper;
+package com.ziyao.harbor.usercenter.repository.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.ziyao.harbor.usercenter.entity.App;

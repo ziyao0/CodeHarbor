@@ -13,5 +13,5 @@ import org.springframework.data.repository.NoRepositoryBean;
 @NoRepositoryBean
 public interface HashRepository<HK, HV> extends Repository {
 
-    HashOperations<HK, HV> opsForHash();
+    HashOperations<HK, HV> opsForHash(String... arguments);
 }

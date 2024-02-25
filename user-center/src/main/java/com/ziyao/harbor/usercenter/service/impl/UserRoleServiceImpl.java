@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ziyao.harbor.usercenter.dto.UserRoleDTO;
 import com.ziyao.harbor.usercenter.entity.UserRole;
-import com.ziyao.harbor.usercenter.mapper.UserRoleMapper;
+import com.ziyao.harbor.usercenter.repository.mapper.UserRoleMapper;
 import com.ziyao.harbor.usercenter.service.UserRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

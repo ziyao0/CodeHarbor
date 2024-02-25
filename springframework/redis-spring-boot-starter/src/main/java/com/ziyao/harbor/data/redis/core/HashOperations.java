@@ -13,7 +13,7 @@ import java.util.Set;
  * @author ziyao zhang
  * @since 2024/2/23
  */
-public interface HashOperations<HK, HV> {
+public interface HashOperations<HK, HV>  extends KeyAware {
     /**
      * Delete given hash {@code hashKeys}.
      *

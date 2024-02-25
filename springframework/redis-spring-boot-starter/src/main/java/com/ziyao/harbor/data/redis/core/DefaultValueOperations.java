@@ -16,38 +16,38 @@ import java.util.concurrent.TimeUnit;
 public class DefaultValueOperations<V> extends AbstractOperations<V> implements ValueOperations<V> {
 
 
-    public DefaultValueOperations(RedisTemplate<String, V> template, String redisKey) {
-        super(template, redisKey);
+    public DefaultValueOperations(RedisTemplate<String, V> template, String key) {
+        super(template, key);
     }
 
     @Override
     public void set(V value) {
-        template.opsForValue().set(redisKey, value);
+        template.opsForValue().set(key, value);
     }
 
     @Override
     public void set(V value, long timeout, TimeUnit unit) {
-        template.opsForValue().set(redisKey, value, timeout, unit);
+        template.opsForValue().set(key, value, timeout, unit);
     }
 
     @Override
     public Boolean setIfAbsent(V value) {
-        return template.opsForValue().setIfAbsent(redisKey, value);
+        return template.opsForValue().setIfAbsent(key, value);
     }
 
     @Override
     public Boolean setIfAbsent(V value, long timeout, TimeUnit unit) {
-        return template.opsForValue().setIfAbsent(redisKey, value, timeout, unit);
+        return template.opsForValue().setIfAbsent(key, value, timeout, unit);
     }
 
     @Override
     public Boolean setIfPresent(V value) {
-        return template.opsForValue().setIfAbsent(redisKey, value);
+        return template.opsForValue().setIfAbsent(key, value);
     }
 
     @Override
     public Boolean setIfPresent(V value, long timeout, TimeUnit unit) {
-        return template.opsForValue().setIfPresent(redisKey, value, timeout, unit);
+        return template.opsForValue().setIfPresent(key, value, timeout, unit);
     }
 
     @Override
@@ -62,32 +62,32 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
 
     @Override
     public V get() {
-        return template.opsForValue().get(redisKey);
+        return template.opsForValue().get(key);
     }
 
     @Override
     public V getAndDelete() {
-        return template.opsForValue().getAndDelete(redisKey);
+        return template.opsForValue().getAndDelete(key);
     }
 
     @Override
     public V getAndExpire(long timeout, TimeUnit unit) {
-        return template.opsForValue().getAndExpire(redisKey, timeout, unit);
+        return template.opsForValue().getAndExpire(key, timeout, unit);
     }
 
     @Override
     public V getAndExpire(Duration timeout) {
-        return template.opsForValue().getAndExpire(redisKey, timeout);
+        return template.opsForValue().getAndExpire(key, timeout);
     }
 
     @Override
     public V getAndPersist() {
-        return template.opsForValue().getAndPersist(redisKey);
+        return template.opsForValue().getAndPersist(key);
     }
 
     @Override
     public V getAndSet(V value) {
-        return template.opsForValue().getAndSet(redisKey, value);
+        return template.opsForValue().getAndSet(key, value);
     }
 
     @Override
@@ -97,61 +97,62 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
 
     @Override
     public Long increment() {
-        return template.opsForValue().increment(redisKey);
+        return template.opsForValue().increment(key);
     }
 
     @Override
     public Long increment(long delta) {
-        return template.opsForValue().increment(redisKey, delta);
+        return template.opsForValue().increment(key, delta);
     }
 
     @Override
     public Double increment(double delta) {
-        return template.opsForValue().increment(redisKey, delta);
+        return template.opsForValue().increment(key, delta);
     }
 
     @Override
     public Long decrement() {
-        return template.opsForValue().decrement(redisKey);
+        return template.opsForValue().decrement(key);
     }
 
     @Override
     public Long decrement(long delta) {
-        return template.opsForValue().decrement(redisKey, delta);
+        return template.opsForValue().decrement(key, delta);
     }
 
     @Override
     public Integer append(String value) {
-        return template.opsForValue().append(redisKey, value);
+        return template.opsForValue().append(key, value);
     }
 
     @Override
     public String get(long start, long end) {
-        return template.opsForValue().get(redisKey, start, end);
+        return template.opsForValue().get(key, start, end);
     }
 
     @Override
     public void set(V value, long offset) {
-        template.opsForValue().set(redisKey, value, offset);
+        template.opsForValue().set(key, value, offset);
     }
 
     @Override
     public Long size() {
-        return template.opsForValue().size(redisKey);
+        return template.opsForValue().size(key);
     }
 
     @Override
     public Boolean setBit(long offset, boolean value) {
-        return template.opsForValue().setBit(redisKey, offset, value);
+        return template.opsForValue().setBit(key, offset, value);
     }
 
     @Override
     public Boolean getBit(long offset) {
-        return template.opsForValue().getBit(redisKey, offset);
+        return template.opsForValue().getBit(key, offset);
     }
 
     @Override
     public List<Long> bitField(BitFieldSubCommands subCommands) {
-        return template.opsForValue().bitField(redisKey, subCommands);
+        return template.opsForValue().bitField(key, subCommands);
     }
+
 }

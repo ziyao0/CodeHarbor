@@ -1,12 +1,10 @@
-package com.ziyao.harbor.usercenter.elasticsearch.entity;
+package com.ziyao.harbor.usercenter.entity;
 
-import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
-import org.springframework.data.elasticsearch.annotations.Setting;
 
 import java.util.Date;
 
@@ -15,8 +13,6 @@ import java.util.Date;
  * @since 2023/12/25
  */
 @Data
-@Builder
-@Setting
 @Document(indexName = "login_record")
 public class LoginRecord {
 
