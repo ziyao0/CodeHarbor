@@ -14,14 +14,14 @@ public interface KeyValueRepository<V> extends Repository {
      *
      * @return value operations
      */
-    ValueOperations<V> opsForValue();
+    ValueOperations<V> opsForValue(String... arguments);
 
     /**
      * Returns the operations performed on list values.
      *
      * @return list operations
      */
-    ListOperations<V> opsForList();
+    ListOperations<V> opsForList(String... arguments);
 
 
     /**
@@ -29,12 +29,12 @@ public interface KeyValueRepository<V> extends Repository {
      *
      * @return set operations
      */
-    SetOperations<V> opsForSet();
+    SetOperations<V> opsForSet(String... arguments);
 
     /**
      * Returns the operations performed on ZSet values (also known as sorted sets).
      *
      * @return ZSet operations
      */
-    ZSetOperations<V> opsForZSet();
+    ZSetOperations<V> opsForZSet(String... arguments);
 }

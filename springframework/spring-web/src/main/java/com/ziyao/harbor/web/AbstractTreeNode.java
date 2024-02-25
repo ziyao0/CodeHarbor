@@ -1,6 +1,7 @@
 package com.ziyao.harbor.web;
 
 import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author zhangziyao
  * @since 2023/4/21
  */
+@Setter
 @Getter
 public abstract class AbstractTreeNode implements Serializable {
 
@@ -23,31 +25,5 @@ public abstract class AbstractTreeNode implements Serializable {
     private int level;
     private String url;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
-
-    public void setNodes(List<AbstractTreeNode> nodes) {
-        this.nodes = nodes;
-    }
-
-    public void setLevel(int level) {
-        this.level = level;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
 }

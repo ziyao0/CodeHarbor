@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.ziyao.harbor.usercenter.dto.UserDTO;
 import com.ziyao.harbor.usercenter.entity.User;
-import com.ziyao.harbor.usercenter.mapper.UserMapper;
+import com.ziyao.harbor.usercenter.repository.mapper.UserMapper;
 import com.ziyao.harbor.usercenter.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

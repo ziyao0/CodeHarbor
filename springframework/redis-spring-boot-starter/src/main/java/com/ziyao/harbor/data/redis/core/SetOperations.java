@@ -13,7 +13,7 @@ import java.util.Set;
  * @author ziyao zhang
  * @since 2024/2/23
  */
-public interface SetOperations<V> {
+public interface SetOperations<V>  extends KeyAware {
 
     /**
      * Add given {@code values} to set at {@code key}.

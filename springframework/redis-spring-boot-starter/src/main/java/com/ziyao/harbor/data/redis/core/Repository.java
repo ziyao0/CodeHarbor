@@ -12,15 +12,15 @@ public interface Repository {
     /**
      * 判断缓存中有没有这个key
      */
-    boolean hasKey();
+    boolean hasKey(String... arguments);
 
     /**
      * 删除key
      */
-    boolean delete();
+    boolean delete(String... arguments);
 
 
-    String getKey();
+    String getKey(String... arguments);
 
     default String version() {
         return "v1.0";

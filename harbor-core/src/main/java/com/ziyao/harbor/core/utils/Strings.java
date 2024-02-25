@@ -866,6 +866,20 @@ public abstract class Strings implements StrPool {
         return str1.toString().regionMatches(ignoreCase, start1, str2.toString(), start2, length);
     }
 
+    public static int countOccurrencesOf(String str, String sub) {
+        if (hasLength(str) && hasLength(sub)) {
+            int count = 0;
+
+            int idx;
+            for(int pos = 0; (idx = str.indexOf(sub, pos)) != -1; pos = idx + sub.length()) {
+                ++count;
+            }
+
+            return count;
+        } else {
+            return 0;
+        }
+    }
     public static String[] split(@NonNull String value, @NonNull String regex) {
         return value.split(regex);
     }
