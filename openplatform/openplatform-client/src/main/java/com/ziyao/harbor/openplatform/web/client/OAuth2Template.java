@@ -1,6 +1,6 @@
 package com.ziyao.harbor.openplatform.web.client;
 
-import com.ziyao.harbor.openplatform.web.error.OpenPlatformResponseErrorHandler;
+import com.ziyao.harbor.openplatform.web.error.OAuth2ResponseErrorHandler;
 import com.ziyao.harbor.openplatform.web.http.SslHttpRequestFactory;
 import com.ziyao.harbor.openplatform.web.http.converter.HttpMessageConverters;
 import org.springframework.http.HttpEntity;
@@ -24,12 +24,12 @@ import java.util.List;
  * @author ziyao zhang
  * @since 2024/1/10
  */
-public class RestClientTemplate extends RestTemplate {
+public class OAuth2Template extends RestTemplate {
 
-    public RestClientTemplate() {
+    public OAuth2Template() {
         this.setInterceptors(new ArrayList<>());
         // 错误信息处理
-        this.setErrorHandler(new OpenPlatformResponseErrorHandler());
+        this.setErrorHandler(new OAuth2ResponseErrorHandler());
         // https 情况下默认不校验服务端证书(不安全).
         this.setRequestFactory(new SslHttpRequestFactory());
         // 默认情况下将 HttpMessageConvert 排序, 优先使用支持 json 的 HttpMessageConvert.
