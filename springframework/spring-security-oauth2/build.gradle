@@ -1,5 +1,5 @@
 dependencies {
     implementation(project(':harbor-core'))
-    implementation("jakarta.servlet:jakarta.servlet-api")
+    implementation("javax.servlet:javax.servlet-api")
     implementation('org.springframework:spring-web')
 }

@@ -1,7 +1,7 @@
 package com.ziyao.harbor.oauth2.provider.authentication;
 
 import com.ziyao.harbor.oauth2.core.OAuth2AccessToken;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

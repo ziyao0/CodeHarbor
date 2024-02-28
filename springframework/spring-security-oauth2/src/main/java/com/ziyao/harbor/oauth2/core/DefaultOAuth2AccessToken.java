@@ -2,7 +2,6 @@ package com.ziyao.harbor.oauth2.core;
 
 import lombok.Setter;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.*;
 
@@ -11,7 +10,6 @@ import java.util.*;
  * @since 2024/2/27
  */
 public class DefaultOAuth2AccessToken implements Serializable, OAuth2AccessToken {
-    @Serial
     private static final long serialVersionUID = -8765695009206119151L;
 
     @Setter

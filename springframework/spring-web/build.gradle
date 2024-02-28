@@ -3,7 +3,7 @@ plugins {
 }
 dependencies {
     api(project(":harbor-crypto"))
-    api("jakarta.servlet:jakarta.servlet-api")
+    api("javax.servlet:javax.servlet-api")
     api("com.baomidou:mybatis-plus-annotation:${mybatisplusVersion}")
     api("com.baomidou:mybatis-plus-extension:${mybatisplusVersion}")
     api("javax.validation:validation-api:${validationapiVersion}")

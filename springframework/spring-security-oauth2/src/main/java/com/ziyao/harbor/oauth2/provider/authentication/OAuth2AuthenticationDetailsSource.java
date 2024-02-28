@@ -1,6 +1,6 @@
 package com.ziyao.harbor.oauth2.provider.authentication;
 
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author ziyao zhang

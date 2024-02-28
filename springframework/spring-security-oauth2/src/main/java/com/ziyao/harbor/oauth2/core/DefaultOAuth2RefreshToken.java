@@ -1,6 +1,5 @@
 package com.ziyao.harbor.oauth2.core;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -9,7 +8,6 @@ import java.util.Objects;
  * @since 2024/2/27
  */
 public class DefaultOAuth2RefreshToken implements Serializable, OAuth2RefreshToken {
-    @Serial
     private static final long serialVersionUID = -2898234098159868942L;
     private final String value;
 
