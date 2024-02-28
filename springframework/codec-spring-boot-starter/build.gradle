@@ -1,0 +1,4 @@
+dependencies {
+    api(project(":springframework:spring-crypto"))
+    api(project(":springframework:spring-boot-autoconfigure"))
+}

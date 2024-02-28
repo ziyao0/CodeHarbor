@@ -1,7 +1,5 @@
 dependencies {
-    implementation(project(':harbor-core'))
-    implementation('org.springframework.data:spring-data-redis')
-    implementation('org.springframework.boot:spring-boot-autoconfigure')
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
-
+    api(project(":springframework:spring-data-redis"))
+    api(project(":springframework:spring-boot-autoconfigure"))
+    api('org.springframework.boot:spring-boot-starter-data-redis')
 }
