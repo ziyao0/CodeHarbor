@@ -77,4 +77,6 @@ include 'springframework:codec-spring-boot-starter'
 findProject(':springframework:codec-spring-boot-starter')?.name = 'codec-spring-boot-starter'
 include 'springframework:spring-security-oauth2'
 findProject(':springframework:spring-security-oauth2')?.name = 'spring-security-oauth2'
+include 'springframework:spring-data-redis'
+findProject(':springframework:spring-data-redis')?.name = 'spring-data-redis'
 

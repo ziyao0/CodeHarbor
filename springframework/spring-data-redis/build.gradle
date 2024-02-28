@@ -1,0 +1,5 @@
+dependencies {
+    api(project(':harbor-core'))
+    api('org.springframework.data:spring-data-redis')
+    api("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
+}

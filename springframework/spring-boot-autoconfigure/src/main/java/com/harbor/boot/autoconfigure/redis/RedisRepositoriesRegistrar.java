@@ -1,6 +1,6 @@
-package com.ziyao.harbor.data.redis.autoconfigure;
+package com.harbor.boot.autoconfigure.redis;
 
-import com.ziyao.harbor.data.redis.autoconfigure.config.RedisRepositoryConfigurationExtension;
+import com.harbor.boot.autoconfigure.redis.config.RedisRepositoryConfigurationExtension;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.config.BeanDefinition;

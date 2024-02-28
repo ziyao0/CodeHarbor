@@ -1,4 +1,4 @@
-package com.ziyao.harbor.data.redis.autoconfigure;
+package com.harbor.boot.autoconfigure.redis;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;

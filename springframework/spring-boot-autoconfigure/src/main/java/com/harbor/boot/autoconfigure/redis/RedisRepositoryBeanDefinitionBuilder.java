@@ -1,4 +1,4 @@
-package com.ziyao.harbor.data.redis.autoconfigure;
+package com.harbor.boot.autoconfigure.redis;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;

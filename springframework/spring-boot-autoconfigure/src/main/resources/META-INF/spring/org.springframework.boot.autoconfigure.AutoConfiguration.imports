@@ -5,3 +5,5 @@ com.ziyao.harbor.web.RequestFilter
 #加密启动配置类
 #es相关配置自动加载
 com.harbor.boot.autoconfigure.elasticsearch.ElasticsearchRepositoriesAutoConfiguration
+# redis
+com.harbor.boot.autoconfigure.redis.DataRedisAutoConfiguration

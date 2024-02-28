@@ -1,4 +1,4 @@
-package com.ziyao.harbor.data.redis.autoconfigure;
+package com.harbor.boot.autoconfigure.redis;
 
 import com.ziyao.harbor.data.redis.core.Repository;
 import lombok.Getter;
