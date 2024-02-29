@@ -1,5 +1,6 @@
 package com.harbor.boot.autoconfigure.redis.config;
 
+import com.harbor.boot.autoconfigure.redis.support.Streamable;
 import lombok.Getter;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.BeanNameGenerator;
@@ -14,7 +15,6 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.data.config.ConfigurationUtils;
 import org.springframework.data.repository.config.BootstrapMode;
 import org.springframework.data.repository.config.DefaultRepositoryBaseClass;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -116,7 +116,7 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
         this.hasExplicitFilters = hasExplicitFilters(attributes);
     }
 
-    public  @NonNull Streamable<String> getBasePackages() {
+    public @NonNull Streamable<String> getBasePackages() {
 
         String[] value = attributes.getStringArray("value");
         String[] basePackages = attributes.getStringArray(BASE_PACKAGES);
@@ -140,15 +140,15 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
         return Streamable.of(packages);
     }
 
-    public @NonNull  Optional<Object> getQueryLookupStrategyKey() {
+    public @NonNull Optional<Object> getQueryLookupStrategyKey() {
         return Optional.ofNullable(attributes.get(QUERY_LOOKUP_STRATEGY));
     }
 
-    public  @NonNull Optional<String> getNamedQueryLocation() {
+    public @NonNull Optional<String> getNamedQueryLocation() {
         return getNullDefaultedAttribute(NAMED_QUERIES_LOCATION);
     }
 
-    public @NonNull  Optional<String> getRepositoryImplementationPostfix() {
+    public @NonNull Optional<String> getRepositoryImplementationPostfix() {
         return getNullDefaultedAttribute(REPOSITORY_IMPLEMENTATION_POSTFIX);
     }
 
@@ -163,17 +163,17 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
     }
 
     @Override
-    public  @NonNull Streamable<TypeFilter> getExcludeFilters() {
+    public @NonNull Streamable<TypeFilter> getExcludeFilters() {
         return parseFilters("excludeFilters");
     }
 
     @Override
-    public @NonNull  Optional<String> getRepositoryFactoryBeanClassName() {
+    public @NonNull Optional<String> getRepositoryFactoryBeanClassName() {
         return Optional.of(attributes.getClass(REPOSITORY_FACTORY_BEAN_CLASS).getName());
     }
 
     @Override
-    public @NonNull  Optional<String> getRepositoryBaseClassName() {
+    public @NonNull Optional<String> getRepositoryBaseClassName() {
 
         if (!attributes.containsKey(REPOSITORY_BASE_CLASS)) {
             return Optional.empty();
@@ -190,12 +190,12 @@ public class AnnotationRepositoryConfigurationSource extends RepositoryConfigura
     }
 
     @Override
-    public @NonNull  Optional<String> getAttribute( @NonNull String name) {
+    public @NonNull Optional<String> getAttribute(@NonNull String name) {
         return getAttribute(name, String.class);
     }
 
     @Override
-    public <T>  @NonNull Optional<T> getAttribute( @NonNull String name,  @NonNull Class<T> type) {
+    public <T> @NonNull Optional<T> getAttribute(@NonNull String name, @NonNull Class<T> type) {
 
         if (!attributes.containsKey(name)) {
             throw new IllegalArgumentException(String.format("No attribute named %s found", name));

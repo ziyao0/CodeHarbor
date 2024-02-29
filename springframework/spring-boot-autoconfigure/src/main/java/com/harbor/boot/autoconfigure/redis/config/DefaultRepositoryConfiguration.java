@@ -1,14 +1,13 @@
 package com.harbor.boot.autoconfigure.redis.config;
 
+import com.harbor.boot.autoconfigure.redis.support.Streamable;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.data.config.ConfigurationUtils;
 import org.springframework.data.repository.config.BootstrapMode;
-
 import org.springframework.data.repository.query.QueryLookupStrategy;
 import org.springframework.data.util.Lazy;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
@@ -134,11 +133,10 @@ public class DefaultRepositoryConfiguration<T extends RepositoryConfigurationSou
     public ImplementationLookupConfiguration toLookupConfiguration(MetadataReaderFactory factory) {
 
         Assert.notNull(factory, "MetadataReaderFactory must not be null");
-        
+
         return toImplementationDetectionConfiguration(factory).forRepositoryConfiguration(this);
-        
-        
-        
+
+
     }
 
     @Override

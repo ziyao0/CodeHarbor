@@ -1,10 +1,9 @@
 package com.harbor.boot.autoconfigure.redis.config;
 
+import com.harbor.boot.autoconfigure.redis.support.Streamable;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
-
 import org.springframework.data.repository.query.QueryLookupStrategy;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.Nullable;
 
 import java.util.Optional;

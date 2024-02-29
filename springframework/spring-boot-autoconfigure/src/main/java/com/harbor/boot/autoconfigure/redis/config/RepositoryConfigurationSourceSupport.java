@@ -1,6 +1,7 @@
 package com.harbor.boot.autoconfigure.redis.config;
 
 import com.harbor.boot.autoconfigure.redis.RepositoryScanningComponentProvider;
+import com.harbor.boot.autoconfigure.redis.support.Streamable;
 import lombok.Getter;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -9,7 +10,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.TypeFilter;
-import org.springframework.data.util.Streamable;
 import org.springframework.util.Assert;
 
 import java.util.Collections;

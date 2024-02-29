@@ -5,7 +5,6 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
-
 import org.springframework.data.util.Lazy;
 import org.springframework.data.util.StreamUtils;
 import org.springframework.util.Assert;
@@ -39,7 +38,7 @@ public class CustomRepositoryImplementationDetector {
      * @param configuration  must not be {@literal null}.
      */
     public CustomRepositoryImplementationDetector(Environment environment, ResourceLoader resourceLoader,
-                                                 ImplementationDetectionConfiguration configuration) {
+                                                  ImplementationDetectionConfiguration configuration) {
 
         Assert.notNull(environment, "Environment must not be null");
         Assert.notNull(resourceLoader, "ResourceLoader must not be null");

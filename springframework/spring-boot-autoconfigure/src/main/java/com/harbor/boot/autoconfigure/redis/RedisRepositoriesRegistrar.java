@@ -4,6 +4,7 @@ import com.harbor.boot.autoconfigure.redis.config.AnnotationRepositoryConfigurat
 import com.harbor.boot.autoconfigure.redis.config.RedisRepositoryConfigurationExtension;
 import com.harbor.boot.autoconfigure.redis.config.RepositoryConfigurationExtension;
 import com.harbor.boot.autoconfigure.redis.config.RepositoryConfigurationUtils;
+import com.harbor.boot.autoconfigure.redis.support.Streamable;
 import com.harbor.boot.autoconfigure.redis.type.AnnotationMetadataUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -20,7 +21,6 @@ import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.NonNull;
 
 import java.lang.annotation.Annotation;
