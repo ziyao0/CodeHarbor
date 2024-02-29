@@ -1,5 +1,5 @@
 org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-com.harbor.boot.autoconfigure.crypto.CryptoBootstrapConfiguration
+com.harbor.boot.autoconfigure.encrypt.EncryptionBootstrap2Configuration
 # Environment Post Processors
 org.springframework.boot.env.EnvironmentPostProcessor=\
 com.ziyao.harbor.crypto.EnvironmentDecryptPostProcessor

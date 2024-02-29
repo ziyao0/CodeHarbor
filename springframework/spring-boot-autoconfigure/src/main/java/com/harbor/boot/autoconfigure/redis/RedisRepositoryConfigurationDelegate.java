@@ -1,6 +1,9 @@
 package com.harbor.boot.autoconfigure.redis;
 
-import org.springframework.beans.factory.FactoryBean;
+import com.harbor.boot.autoconfigure.redis.config.AnnotationRepositoryConfigurationSource;
+import com.harbor.boot.autoconfigure.redis.config.RepositoryConfiguration;
+import com.harbor.boot.autoconfigure.redis.config.RepositoryConfigurationExtension;
+import com.harbor.boot.autoconfigure.redis.config.RepositoryConfigurationSource;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -9,7 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.env.EnvironmentCapable;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.repository.config.*;
 import org.springframework.lang.Nullable;
 
 import java.util.ArrayList;
@@ -25,10 +27,10 @@ public class RedisRepositoryConfigurationDelegate {
     private final RepositoryConfigurationSource configurationSource;
     private final ResourceLoader resourceLoader;
     private final Environment environment;
-    private static final String FACTORY_BEAN_OBJECT_TYPE = FactoryBean.OBJECT_TYPE_ATTRIBUTE;
+    private static final String FACTORY_BEAN_OBJECT_TYPE = "factoryBeanObjectType";
 
     /**
-     * Creates a new {@link RepositoryConfigurationDelegate} for the given {@link RepositoryConfigurationSource} and
+     * Creates a new {@link org.springframework.data.repository.config.RepositoryConfigurationDelegate} for the given {@link RepositoryConfigurationSource} and
      * {@link ResourceLoader} and {@link Environment}.
      *
      * @param configurationSource must not be {@literal null}.

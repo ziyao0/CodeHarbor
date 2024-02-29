@@ -111,6 +111,7 @@ public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> impl
         return (Map<HK, HV>) template.opsForHash().entries(key);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public Cursor<Map.Entry<HK, HV>> scan(ScanOptions options) {
         byte[] rawKey = rawKey(key);

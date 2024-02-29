@@ -1,7 +1,7 @@
 dependencies {
-    implementation(project(":springframework:spring-crypto"))
     implementation(project(":springframework:spring-web"))
     implementation('org.springframework:spring-webflux')
+    implementation(project(":springframework:spring-security-crypto"))
     implementation(project(":springframework:spring-elasticsearch"))
     implementation(project(":springframework:spring-data-redis"))
     implementation('org.springframework.data:spring-data-redis')

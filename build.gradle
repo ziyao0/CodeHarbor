@@ -20,7 +20,10 @@ allprojects {
     configurations.configureEach {
         transitive = true
     }
-
+    java {
+//        withJavadocJar() // 生成java-doc
+        withSourcesJar() // 生成源码
+    }
     jar {
         enabled = true //生成依赖jar包
         archiveClassifier = '' //取消原来plain的后缀
@@ -33,10 +36,6 @@ allprojects {
     }
     // 仓库地址
     repositories {
-        // 阿里云镜像地址
-        maven { url 'https://maven.aliyun.com/repository/public/' }
-        // 阿里云spring仓库地址
-        maven { url 'https://maven.aliyun.com/repository/spring/' }
         mavenLocal()
         mavenCentral()
     }
@@ -57,58 +56,48 @@ allprojects {
     }
 
     dependencies {
-        compileOnly "org.projectlombok:lombok:${lombokVersion}"
-        annotationProcessor "org.projectlombok:lombok:${lombokVersion}"
+        compileOnly 'org.projectlombok:lombok'
+        annotationProcessor 'org.projectlombok:lombok'
     }
     tasks.withType(JavaCompile).configureEach {
         options.compilerArgs << "-Xlint:unchecked"
     }
 }
 subprojects {
-    def excludes = ['harbor-core']
-    def springframeworkBom = []
-    def alibabaCloudBom = []
-    def springframeworkCloudBom = []
+    def springframeworkBom = ['harbor-core']
+    def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
+    def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
+    def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
 
-    if (!excludes.contains(project.name)) {
+    if (!springframeworkBom.contains(project.name)) {
         dependencyManagement {
             imports {
-                mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
                 mavenBom "org.springframework:spring-framework-bom:${springVersion}"
             }
         }
-        bootRun {
-
+    }
+    if (!alibabaCloudBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+            }
         }
     }
-
-    if (project.name == 'harbor-core') {
-        publishing {
-            publications {
-                maven(MavenPublication) {
-                    //如果是war包填写components.web，如果是jar包填写components.java
-                    from components.java
-                }
+    if (!springCloudBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
             }
-            repositories {
-                maven {
-                    // 允许http访问
-                    allowInsecureProtocol = true
-                    // 私服仓库地址
-                    url ''
-                    credentials {
-                        username ''
-                        password ''
-                    }
-                }
+        }
+    }
+    if (!dubboBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
             }
         }
     }
 }
-
-
 // 获取所有模块名称rootProject.subprojects
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
