@@ -20,7 +20,10 @@ allprojects {
     configurations.configureEach {
         transitive = true
     }
-
+    java {
+//        withJavadocJar() // 生成java-doc
+        withSourcesJar() // 生成源码
+    }
     jar {
         enabled = true //生成依赖jar包
         archiveClassifier = '' //取消原来plain的后缀
@@ -61,25 +64,37 @@ allprojects {
     }
 }
 subprojects {
-    def excludes = ['harbor-core']
-    def springframeworkBom = []
-    def alibabaCloudBom = []
-    def springframeworkCloudBom = []
+    def springframeworkBom = ['harbor-core']
+    def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
+    def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
+    def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
 
-    if (!excludes.contains(project.name)) {
+    if (!springframeworkBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+            }
+        }
+    }
+    if (!alibabaCloudBom.contains(project.name)) {
         dependencyManagement {
             imports {
                 mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
-                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
-            }
-            dependencies {
-
             }
         }
-        bootRun {
-
+    }
+    if (!springCloudBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            }
+        }
+    }
+    if (!dubboBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
+            }
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.harbor.boot.autoconfigure.redis;
 
+import com.harbor.boot.autoconfigure.redis.config.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
@@ -9,7 +10,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
-import org.springframework.data.repository.config.*;
 import org.springframework.util.Assert;
 
 import java.util.Optional;

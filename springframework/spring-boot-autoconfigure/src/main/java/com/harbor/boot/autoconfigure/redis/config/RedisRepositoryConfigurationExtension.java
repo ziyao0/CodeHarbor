@@ -9,7 +9,7 @@ import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.core.annotation.AnnotationAttributes;
 import org.springframework.core.io.ResourceLoader;
-import org.springframework.data.repository.config.*;
+import org.springframework.data.repository.config.XmlRepositoryConfigurationSource;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -30,10 +30,6 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
     private static final String CLASS_LOADING_ERROR = "%s - Could not load type %s using class loader %s";
     protected static final String REDIS_TEMPLATE_BEAN_REF_ATTRIBUTE = "redisTemplateRef";
 
-    @Override
-    public @NonNull String getModuleName() {
-        return "Redis";
-    }
 
     @Override
     public @NonNull <T extends RepositoryConfigurationSource> Collection<RepositoryConfiguration<T>>
@@ -53,11 +49,6 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
         }
 
         return result;
-    }
-
-    @Override
-    public @NonNull String getDefaultNamedQueryLocation() {
-        return String.format("classpath*:META-INF/%s-named-queries.properties", getModuleIdentifier());
     }
 
     @Override
@@ -113,7 +104,7 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
         try {
             return org.springframework.util.ClassUtils.forName(repositoryInterface, classLoader);
         } catch (ClassNotFoundException | LinkageError e) {
-            logger.warn(String.format(CLASS_LOADING_ERROR, getModuleName(), repositoryInterface, classLoader), e);
+            logger.warn(String.format(CLASS_LOADING_ERROR, "Redis", repositoryInterface, classLoader), e);
         }
 
         return null;
