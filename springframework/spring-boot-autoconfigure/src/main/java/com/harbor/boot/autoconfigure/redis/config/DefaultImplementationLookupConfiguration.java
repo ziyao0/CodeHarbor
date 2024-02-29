@@ -1,12 +1,12 @@
 package com.harbor.boot.autoconfigure.redis.config;
 
+import com.harbor.boot.autoconfigure.redis.support.Streamable;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.core.type.classreading.MetadataReader;
 import org.springframework.core.type.classreading.MetadataReaderFactory;
 import org.springframework.core.type.filter.AnnotationTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.data.repository.NoRepositoryBean;
-import org.springframework.data.util.Streamable;
 import org.springframework.lang.NonNull;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;

@@ -1,9 +1,11 @@
 package com.ziyao.harbor.web;
 
 import com.google.common.collect.Lists;
+import com.ziyao.harbor.web.context.ContextInfo;
 import com.ziyao.harbor.web.context.ContextManager;
 import com.ziyao.harbor.web.context.ServletContext;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.lang.NonNull;
@@ -25,6 +27,7 @@ import java.util.List;
 @Slf4j
 @WebFilter("/*")
 @Order(Ordered.HIGHEST_PRECEDENCE)
+@ConditionalOnClass({ContextInfo.class})
 public class RequestFilter extends OncePerRequestFilter {
 
     private final List<String> excludePaths;

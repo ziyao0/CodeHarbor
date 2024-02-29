@@ -3,10 +3,12 @@ package com.ziyao.harbor.web;
 
 import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.core.utils.CommUtils;
+import com.ziyao.harbor.web.context.ContextInfo;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
@@ -27,6 +29,7 @@ import java.util.Set;
  * @since 2023/4/23
  */
 @RestControllerAdvice
+@ConditionalOnClass({ContextInfo.class})
 public class GlobalExceptionHandlerAdvice {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandlerAdvice.class);

@@ -1,3 +1,0 @@
-# autoconfigure
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-com.ziyao.harbor.redis.autoconfigure.DataRedisAutoConfiguration

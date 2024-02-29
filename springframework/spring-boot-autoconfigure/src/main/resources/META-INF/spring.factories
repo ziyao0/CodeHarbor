@@ -1,13 +1,8 @@
-org.springframework.cloud.bootstrap.BootstrapConfiguration=\
-com.harbor.boot.autoconfigure.encrypt.EncryptionBootstrap2Configuration
-# Environment Post Processors
-org.springframework.boot.env.EnvironmentPostProcessor=\
-com.ziyao.harbor.crypto.EnvironmentDecryptPostProcessor
+#org.springframework.cloud.bootstrap.BootstrapConfiguration=\
+#com.harbor.boot.autoconfigure.encrypt.EncryptionBootstrap2Configuration
+## Environment Post Processors
+#org.springframework.boot.env.EnvironmentPostProcessor=\
+#com.ziyao.harbor.crypto.EnvironmentDecryptPostProcessor
 # autoconfigure
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
- com.harbor.boot.autoconfigure.servlet.WebMvcAutoConfiguration,\
-com.ziyao.harbor.web.GlobalExceptionHandlerAdvice,\
-com.ziyao.harbor.web.GlobalResponseHandlerAdvice,\
-com.ziyao.harbor.web.RequestFilter,\
-com.harbor.boot.autoconfigure.elasticsearch.ElasticsearchRepositoriesAutoConfiguration,\
-com.harbor.boot.autoconfigure.redis.DataRedisAutoConfiguration
+  com.harbor.boot.autoconfigure.redis.DataRedisAutoConfiguration

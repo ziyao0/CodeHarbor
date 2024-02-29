@@ -1,6 +1,8 @@
 package com.ziyao.harbor.web;
 
 import com.ziyao.harbor.core.error.StatusMessage;
+import com.ziyao.harbor.web.context.ContextInfo;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -15,6 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
  * @since 2023/4/23
  */
 @RestControllerAdvice
+@ConditionalOnClass({ContextInfo.class})
 public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
 
 

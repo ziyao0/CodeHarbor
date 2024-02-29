@@ -2,6 +2,7 @@ package com.harbor.boot.autoconfigure.encrypt;
 
 import com.ziyao.harbor.crypto.EnvironmentDecryptApplicationInitializerDecryptor;
 import com.ziyao.harbor.crypto.core.CodebookProperties;
+import com.ziyao.harbor.crypto.core.CryptoContext;
 import com.ziyao.harbor.crypto.core.CryptoContextFactory;
 import com.ziyao.harbor.crypto.core.DefaultCryptoContextFactory;
 import com.ziyao.harbor.crypto.druid.DataSourceBeanPostProcessor;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Import;
  * @since 2023/10/26
  */
 @Configuration
+@ConditionalOnClass({CryptoContext.class})
 @AutoConfigureBefore(EncryptionBootstrapConfiguration.class)
 @EnableConfigurationProperties(CodebookProperties.class)
 public class EncryptionBootstrap2Configuration {

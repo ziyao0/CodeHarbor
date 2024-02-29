@@ -20,6 +20,7 @@ allprojects {
     configurations.configureEach {
         transitive = true
     }
+    def projectName = project.name;
     java {
 //        withJavadocJar() // 生成java-doc
         withSourcesJar() // 生成源码
@@ -34,6 +35,46 @@ allprojects {
             extendsFrom annotationProcessor
         }
     }
+    publishing {
+        publications {
+            maven(MavenPublication) {
+                from components.java
+
+                pom.withXml {
+                    def dependenciesNode = asNode().dependencies[0]
+                    // Find and process each dependency node
+                    dependenciesNode.dependency.each { dependencyNode ->
+                        def scopeNode = dependencyNode.scope
+                        if (scopeNode) {
+                            if (scopeNode.text() == 'runtime') {
+                                def optionalNode = scopeNode.optional
+                                dependencyNode.remove(scopeNode)
+                                dependencyNode.appendNode('scope', 'compile')
+                                if (projectName == 'spring-boot-autoconfigure') {
+                                    if (!optionalNode) {
+                                        dependencyNode.appendNode('optional', 'true')
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        repositories {
+            maven {
+                // 允许http访问
+                allowInsecureProtocol = true
+                // 私服仓库地址
+                url 'http://mirrors.dlsc.com:8081/repository/maven-releases/'
+                credentials {
+                    username 'dlsc-dev'
+                    password 'HGnBKm.(av7Ddj0c'
+                }
+            }
+        }
+    }
+
     // 仓库地址
     repositories {
         mavenLocal()
