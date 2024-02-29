@@ -4,4 +4,5 @@ dependencies {
     implementation('org.springframework:spring-webflux')
     implementation(project(":springframework:spring-elasticsearch"))
     implementation(project(":springframework:spring-data-redis"))
+    implementation('org.springframework.data:spring-data-redis')
 }

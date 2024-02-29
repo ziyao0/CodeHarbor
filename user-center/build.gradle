@@ -3,7 +3,6 @@ dependencies {
     implementation(project(":springframework:spring-web"))
     implementation(project(":springframework:elasticsearch-spring-boot-starter"))
     implementation(project(":springframework:redis-spring-boot-starter"))
-    implementation(project(":springframework:spring-boot-autoconfigure"))
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
