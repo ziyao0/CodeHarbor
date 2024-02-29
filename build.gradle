@@ -41,7 +41,14 @@ allprojects {
                 from components.java
 
                 pom.withXml {
-                    def dependenciesNode = asNode().dependencies[0]
+                    def parentNode = asNode();
+                    if (projectName == 'harbor-core' || projectName == 'redis-spring-boot-starter') {
+                        def dependencyManagementNode = parentNode.'dependencyManagement'
+                        if (dependencyManagementNode) {
+                            parentNode.remove(dependencyManagementNode)
+                        }
+                    }
+                    def dependenciesNode = parentNode.dependencies[0]
                     // Find and process each dependency node
                     dependenciesNode.dependency.each { dependencyNode ->
                         def scopeNode = dependencyNode.scope
@@ -50,7 +57,7 @@ allprojects {
                                 def optionalNode = scopeNode.optional
                                 dependencyNode.remove(scopeNode)
                                 dependencyNode.appendNode('scope', 'compile')
-                                if (projectName == 'spring-boot-autoconfigure') {
+                                if (projectName == 'spring-boot-autoconfigure' || projectName == 'spring-data-redis') {
                                     if (!optionalNode) {
                                         dependencyNode.appendNode('optional', 'true')
                                     }
@@ -66,10 +73,10 @@ allprojects {
                 // 允许http访问
                 allowInsecureProtocol = true
                 // 私服仓库地址
-                url 'http://mirrors.dlsc.com:8081/repository/maven-releases/'
+                url 'http://127.0.0.1:8081/repository/maven-releases/'
                 credentials {
-                    username 'dlsc-dev'
-                    password 'HGnBKm.(av7Ddj0c'
+                    username 'admin'
+                    password 'admin'
                 }
             }
         }
@@ -105,7 +112,7 @@ allprojects {
     }
 }
 subprojects {
-    def springframeworkBom = ['harbor-core']
+    def springframeworkBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
     def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
     def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
     def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
