@@ -1,5 +1,6 @@
 package com.ziyao.harbor.data.redis.core;
 
+import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import org.springframework.stereotype.Indexed;
 
 import java.util.concurrent.TimeUnit;
@@ -36,6 +37,9 @@ public interface Repository {
      * 刷新过期时间
      */
     void refresh(long timeout, TimeUnit unit, String... arguments);
+
+
+    SerializerInformation getInformation();
 
     default String version() {
         return "v1.0";

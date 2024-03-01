@@ -1,5 +1,6 @@
 package com.ziyao.harbor.data.redis.core;
 
+import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -15,165 +16,165 @@ import java.util.Set;
  */
 public class DefaultSetOperations<V> extends AbstractOperations<V> implements SetOperations<V> {
 
-    public DefaultSetOperations(RedisTemplate<String, V> template, long timeout) {
-        super(template, timeout);
+    public DefaultSetOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
+        super(operations, timeout, metadata);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final Long add(V... values) {
-        Long add = template.opsForSet().add(key, values);
+        Long add = operations.opsForSet().add(key, values);
         expire();
         return add;
     }
 
     @Override
     public Long remove(Object... values) {
-        return template.opsForSet().remove(key, values);
+        return operations.opsForSet().remove(key, values);
     }
 
     @Override
     public V pop() {
-        return template.opsForSet().pop(key);
+        return operations.opsForSet().pop(key);
     }
 
     @Override
     public List<V> pop(long count) {
-        return template.opsForSet().pop(key, count);
+        return operations.opsForSet().pop(key, count);
     }
 
     @Override
     public Boolean move(V value, String destKey) {
-        return template.opsForSet().move(key, value, destKey);
+        return operations.opsForSet().move(key, value, destKey);
     }
 
     @Override
     public Long size() {
-        return template.opsForSet().size(key);
+        return operations.opsForSet().size(key);
     }
 
     @Override
     public Boolean isMember(Object o) {
-        return template.opsForSet().isMember(key, o);
+        return operations.opsForSet().isMember(key, o);
     }
 
     @Override
     public Map<Object, Boolean> isMember(Object... objects) {
-        return template.opsForSet().isMember(key, objects);
+        return operations.opsForSet().isMember(key, objects);
     }
 
     @Override
     public Set<V> intersect(String otherKey) {
-        return template.opsForSet().intersect(key, otherKey);
+        return operations.opsForSet().intersect(key, otherKey);
     }
 
     @Override
     public Set<V> intersect(String key, Collection<String> otherKeys) {
-        return template.opsForSet().intersect(key, otherKeys);
+        return operations.opsForSet().intersect(key, otherKeys);
     }
 
     @Override
     public Set<V> intersect(Collection<String> keys) {
-        return template.opsForSet().intersect(keys);
+        return operations.opsForSet().intersect(keys);
     }
 
     @Override
     public Long intersectAndStore(String otherKey, String destKey) {
-        return template.opsForSet().intersectAndStore(key, otherKey, destKey);
+        return operations.opsForSet().intersectAndStore(key, otherKey, destKey);
     }
 
     @Override
     public Long intersectAndStore(String key, Collection<String> otherKeys, String destKey) {
-        return template.opsForSet().intersectAndStore(key, otherKeys, destKey);
+        return operations.opsForSet().intersectAndStore(key, otherKeys, destKey);
     }
 
     @Override
     public Long intersectAndStore(Collection<String> keys, String destKey) {
-        return template.opsForSet().intersectAndStore(keys, destKey);
+        return operations.opsForSet().intersectAndStore(keys, destKey);
     }
 
     @Override
     public Set<V> union(String otherKey) {
-        return template.opsForSet().union(key, otherKey);
+        return operations.opsForSet().union(key, otherKey);
     }
 
     @Override
     public Set<V> union(String key, Collection<String> otherKeys) {
-        return template.opsForSet().union(key, otherKeys);
+        return operations.opsForSet().union(key, otherKeys);
     }
 
     @Override
     public Set<V> union(Collection<String> keys) {
-        return template.opsForSet().union(keys);
+        return operations.opsForSet().union(keys);
     }
 
     @Override
     public Long unionAndStore(String otherKey, String destKey) {
-        return template.opsForSet().unionAndStore(key, otherKey, destKey);
+        return operations.opsForSet().unionAndStore(key, otherKey, destKey);
     }
 
     @Override
     public Long unionAndStore(String key, Collection<String> otherKeys, String destKey) {
-        return template.opsForSet().unionAndStore(key, otherKeys, destKey);
+        return operations.opsForSet().unionAndStore(key, otherKeys, destKey);
     }
 
     @Override
     public Long unionAndStore(Collection<String> keys, String destKey) {
-        return template.opsForSet().unionAndStore(keys, destKey);
+        return operations.opsForSet().unionAndStore(keys, destKey);
     }
 
     @Override
     public Set<V> difference(String otherKey) {
-        return template.opsForSet().difference(key, otherKey);
+        return operations.opsForSet().difference(key, otherKey);
     }
 
     @Override
     public Set<V> difference(String key, Collection<String> otherKeys) {
-        return template.opsForSet().difference(key, otherKeys);
+        return operations.opsForSet().difference(key, otherKeys);
     }
 
     @Override
     public Set<V> difference(Collection<String> keys) {
-        return template.opsForSet().difference(keys);
+        return operations.opsForSet().difference(keys);
     }
 
     @Override
     public Long differenceAndStore(String otherKey, String destKey) {
-        return template.opsForSet().differenceAndStore(key, otherKey, destKey);
+        return operations.opsForSet().differenceAndStore(key, otherKey, destKey);
     }
 
     @Override
     public Long differenceAndStore(String key, Collection<String> otherKeys, String destKey) {
-        return template.opsForSet().differenceAndStore(key, otherKeys, destKey);
+        return operations.opsForSet().differenceAndStore(key, otherKeys, destKey);
     }
 
     @Override
     public Long differenceAndStore(Collection<String> keys, String destKey) {
-        return template.opsForSet().differenceAndStore(keys, destKey);
+        return operations.opsForSet().differenceAndStore(keys, destKey);
     }
 
     @Override
     public Set<V> members() {
-        return template.opsForSet().members(key);
+        return operations.opsForSet().members(key);
     }
 
     @Override
     public V randomMember() {
-        return template.opsForSet().randomMember(key);
+        return operations.opsForSet().randomMember(key);
     }
 
     @Override
     public Set<V> distinctRandomMembers(long count) {
-        return template.opsForSet().distinctRandomMembers(key, count);
+        return operations.opsForSet().distinctRandomMembers(key, count);
     }
 
     @Override
     public List<V> randomMembers(long count) {
-        return template.opsForSet().randomMembers(key, count);
+        return operations.opsForSet().randomMembers(key, count);
     }
 
     @Override
     public Cursor<V> scan(ScanOptions options) {
-        return template.opsForSet().scan(key, options);
+        return operations.opsForSet().scan(key, options);
     }
 }
