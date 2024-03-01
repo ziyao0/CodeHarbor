@@ -11,6 +11,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao zhang
@@ -109,6 +110,12 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     @Override
     public String getKey(String... arguments) {
         return replace(arguments);
+    }
+
+    @Override
+    public void refresh(String... arguments) {
+        Assert.isTrue(this.timeout >= 0, "没有设置正确的过期时间，timeout:" + timeout);
+        this.operations.expire(getKey(arguments), timeout, TimeUnit.SECONDS);
     }
 
     private String replace(String... arguments) {

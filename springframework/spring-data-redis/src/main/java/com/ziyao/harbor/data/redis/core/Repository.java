@@ -20,7 +20,15 @@ public interface Repository {
     boolean delete(String... arguments);
 
 
+    /**
+     * 获取key
+     */
     String getKey(String... arguments);
+
+    /**
+     * 刷新过期时间
+     */
+    void refresh(String... arguments);
 
     default String version() {
         return "v1.0";
