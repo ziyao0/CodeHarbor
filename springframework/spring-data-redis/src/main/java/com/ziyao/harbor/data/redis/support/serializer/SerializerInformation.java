@@ -26,6 +26,7 @@ public interface SerializerInformation<K, V, HK, HV> {
      * Returns the actual hash value class type.
      */
     Class<HV> getHashValueJavaType();
+
     /**
      * @return the key {@link RedisSerializer}.
      */

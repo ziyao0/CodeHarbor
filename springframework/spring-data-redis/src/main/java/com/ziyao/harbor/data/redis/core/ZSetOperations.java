@@ -12,7 +12,7 @@ import java.util.Set;
  * @author ziyao zhang
  * @since 2024/2/23
  */
-public interface ZSetOperations<V> extends KeyAware {
+public interface ZSetOperations<V> extends CommonOperations, KeyAware {
 
     /**
      * Add {@code value} to a sorted set at {@code key}, or update its {@code score} if it already exists.

@@ -27,7 +27,7 @@ abstract public class TimeoutUtils {
      * than 0 but is truncated to 0 on conversion.
      *
      * @param timeout The timeout to convert
-     * @param unit The timeout's unit
+     * @param unit    The timeout's unit
      * @return The converted timeout
      */
     public static long toSeconds(long timeout, TimeUnit unit) {
@@ -42,7 +42,7 @@ abstract public class TimeoutUtils {
      * than 0 but is truncated to 0 on conversion.
      *
      * @param timeout The timeout to convert
-     * @param unit The timeout's unit
+     * @param unit    The timeout's unit
      * @return The converted timeout
      */
     public static long toMillis(long timeout, TimeUnit unit) {
