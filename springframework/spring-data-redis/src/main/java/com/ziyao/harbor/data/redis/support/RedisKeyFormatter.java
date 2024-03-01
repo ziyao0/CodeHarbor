@@ -1,7 +1,6 @@
 package com.ziyao.harbor.data.redis.support;
 
 import com.ziyao.harbor.core.utils.Strings;
-import org.springframework.util.StringUtils;
 
 /**
  * @author ziyao
@@ -12,7 +11,6 @@ public abstract class RedisKeyFormatter {
     static final String DELIM_STR = "{}";
 
     public static String format(final String keyPat, final String... args) {
-
 
         int start = 0;
         int end;
@@ -51,11 +49,5 @@ public abstract class RedisKeyFormatter {
     }
 
     private RedisKeyFormatter() {
-    }
-
-    public static void main(String[] args) {
-        String val = "ziyao:harbor:user_center:{}:menu_tree:{}:{}";
-        System.out.println(format(val, "朝丽", "2222", "xxxx"));
-        System.out.println(countOccurrencesOf(val));
     }
 }

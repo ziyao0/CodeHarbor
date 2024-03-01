@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao zhang
@@ -152,6 +153,14 @@ public interface HashOperations<HK, HV>  extends KeyAware {
      * @param value   v
      */
     void put(HK hashKey, HV value);
+
+    /**
+     * Set the {@code value} of a hash {@code hashKey}.
+     *
+     * @param hashKey must not be {@literal null}.
+     * @param value   v
+     */
+    void put(HK hashKey, HV value, long timeout, TimeUnit unit);
 
     /**
      * Set the {@code value} of a hash {@code hashKey} only if {@code hashKey} does not exist.

@@ -14,8 +14,8 @@ import java.util.Set;
  */
 public class DefaultZSetOperations<V> extends AbstractOperations<V> implements ZSetOperations<V> {
 
-    public DefaultZSetOperations(RedisTemplate<String, V> template, String key) {
-        super(template, key);
+    public DefaultZSetOperations(RedisTemplate<String, V> template, long timeout) {
+        super(template, timeout);
     }
 
     @Override

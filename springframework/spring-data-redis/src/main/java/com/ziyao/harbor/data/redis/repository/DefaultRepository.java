@@ -3,11 +3,14 @@ package com.ziyao.harbor.data.redis.repository;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.data.redis.core.*;
 import com.ziyao.harbor.data.redis.support.RedisKeyFormatter;
+import com.ziyao.harbor.data.redis.support.TimeoutUtils;
 import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
+import lombok.Getter;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * @author ziyao zhang
@@ -17,6 +20,8 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
 
     private final RedisTemplate<String, V> operations;
     private final String key;
+    @Getter
+    private final long timeout;
     private final HashOperations<HK, HV> hashOperations;
     private final ValueOperations<V> valueOperations;
     private final ListOperations<V> listOperations;
@@ -24,24 +29,40 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     private final ZSetOperations<V> zSetOperations;
 
     public DefaultRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, V> operations) {
+        // 设置序列化
+        this.setSerializer(operations, repositoryInformation);
         this.operations = operations;
+
+        Class<?> repositoryInterfaceClass = repositoryInformation.getRepositoryInterface();
+        //解析redis key
+        RedisKey key = repositoryInterfaceClass.getAnnotation(RedisKey.class);
+        this.key = key.value();
+        // 解析过期时间
+        this.timeout = extractTimeout(repositoryInterfaceClass);
+        //初始化redis操作相关
+        this.hashOperations = new DefaultHashOperations<>(this.operations, this.timeout);
+        this.valueOperations = new DefaultValueOperations<>(this.operations, this.timeout);
+        this.listOperations = new DefaultListOperations<>(this.operations, this.timeout);
+        this.setOperations = new DefaultSetOperations<>(this.operations, this.timeout);
+        this.zSetOperations = new DefaultZSetOperations<>(this.operations, this.timeout);
+    }
+
+    private long extractTimeout(Class<?> repositoryInterfaceClass) {
+        long timeout = -1;
+        Expired expiration = repositoryInterfaceClass.getAnnotation(Expired.class);
+        if (Objects.nonNull(expiration)) {
+            timeout = TimeoutUtils.toSeconds(expiration.timeout(), expiration.unit());
+        }
+        return timeout > 0 ? timeout : -1;
+    }
+
+    private void setSerializer(RedisTemplate<String, V> operations, RepositoryInformation repositoryInformation) {
         DefaultSerializerInformationCreator creator = new DefaultSerializerInformationCreator();
         SerializerInformation<?, ?, ?, ?> metadata = creator.getInformation(repositoryInformation);
-        // 设置序列化
         operations.setKeySerializer(metadata.getKeySerializer());
         operations.setValueSerializer(metadata.getValueSerializer());
         operations.setHashKeySerializer(metadata.getHashKeySerializer());
         operations.setHashValueSerializer(metadata.getHashValueSerializer());
-        Class<?> repositoryInterfaceClass = repositoryInformation.getRepositoryInterface();
-        RedisKey key = repositoryInterfaceClass.getAnnotation(RedisKey.class);
-        //解析redis key
-        this.key = key.value();
-        //初始化redis操作相关
-        this.hashOperations = new DefaultHashOperations<>(operations, this.key);
-        this.valueOperations = new DefaultValueOperations<>(operations, this.key);
-        this.listOperations = new DefaultListOperations<>(operations, this.key);
-        this.setOperations = new DefaultSetOperations<>(operations, this.key);
-        this.zSetOperations = new DefaultZSetOperations<>(operations, this.key);
     }
 
 

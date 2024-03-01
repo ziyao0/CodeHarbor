@@ -11,8 +11,8 @@ import java.util.concurrent.TimeUnit;
  * @since 2024/2/23
  */
 public class DefaultListOperations<V> extends AbstractOperations<V> implements ListOperations<V> {
-    public DefaultListOperations(RedisTemplate<String, V> template, String key) {
-        super(template, key);
+    public DefaultListOperations(RedisTemplate<String, V> template, long timeout) {
+        super(template, timeout);
     }
 
     @Override
@@ -32,59 +32,80 @@ public class DefaultListOperations<V> extends AbstractOperations<V> implements L
 
     @Override
     public Long leftPush(V value) {
-        return template.opsForList().leftPush(key, value);
+        Long l = template.opsForList().leftPush(key, value);
+        expire();
+        return l;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final Long leftPushAll(V... values) {
-        return template.opsForList().leftPushAll(key, values);
+        Long l = template.opsForList().leftPushAll(key, values);
+        expire();
+        return l;
     }
 
     @Override
     public Long leftPushAll(Collection<V> values) {
-        return template.opsForList().leftPushAll(key, values);
+        Long l = template.opsForList().leftPushAll(key, values);
+        expire();
+        return l;
     }
 
     @Override
     public Long leftPushIfPresent(V value) {
-        return template.opsForList().leftPushIfPresent(key, value);
+        Long l = template.opsForList().leftPushIfPresent(key, value);
+        expire();
+        return l;
     }
 
     @Override
     public Long leftPush(V pivot, V value) {
-        return template.opsForList().leftPush(key, pivot, value);
+        Long l = template.opsForList().leftPush(key, pivot, value);
+        expire();
+        return l;
     }
 
     @Override
     public Long rightPush(V value) {
-        return template.opsForList().rightPush(key, value);
+        Long l = template.opsForList().rightPush(key, value);
+        expire();
+        return l;
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final Long rightPushAll(V... values) {
-        return template.opsForList().rightPushAll(key, values);
+        Long l = template.opsForList().rightPushAll(key, values);
+        expire();
+        return l;
     }
 
     @Override
     public Long rightPushAll(Collection<V> values) {
-        return template.opsForList().rightPushAll(key, values);
+        Long l = template.opsForList().rightPushAll(key, values);
+        expire();
+        return l;
     }
 
     @Override
     public Long rightPushIfPresent(V value) {
-        return template.opsForList().rightPushIfPresent(key, value);
+        Long l = template.opsForList().rightPushIfPresent(key, value);
+        expire();
+        return l;
     }
 
     @Override
     public Long rightPush(V pivot, V value) {
-        return template.opsForList().rightPush(key, pivot, value);
+        Long l = template.opsForList().rightPush(key, pivot, value);
+        expire();
+        return l;
     }
 
     @Override
     public void set(long index, V value) {
         template.opsForList().set(key, index, value);
+        expire();
     }
 
     @Override
