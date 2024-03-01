@@ -2,6 +2,8 @@ package com.ziyao.harbor.data.redis.core;
 
 import org.springframework.stereotype.Indexed;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author ziyao zhang
  * @since 2024/2/2
@@ -20,7 +22,20 @@ public interface Repository {
     boolean delete(String... arguments);
 
 
+    /**
+     * 获取key
+     */
     String getKey(String... arguments);
+
+    /**
+     * 刷新过期时间
+     */
+    void refresh(String... arguments);
+
+    /**
+     * 刷新过期时间
+     */
+    void refresh(long timeout, TimeUnit unit, String... arguments);
 
     default String version() {
         return "v1.0";

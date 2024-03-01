@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * @author ziyao zhang
  * @since 2024/2/23
  */
-public interface HashOperations<HK, HV>  extends KeyAware {
+public interface HashOperations<HK, HV> extends CommonOperations, KeyAware {
     /**
      * Delete given hash {@code hashKeys}.
      *
