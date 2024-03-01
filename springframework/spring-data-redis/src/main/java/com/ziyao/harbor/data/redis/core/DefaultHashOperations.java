@@ -6,6 +6,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.util.Assert;
 
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao zhang
@@ -13,8 +14,8 @@ import java.util.*;
  */
 public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> implements HashOperations<HK, HV> {
 
-    public DefaultHashOperations(RedisTemplate<String, V> template, String key) {
-        super(template, key);
+    public DefaultHashOperations(RedisTemplate<String, V> template, long timeout) {
+        super(template, timeout);
     }
 
     @Override
@@ -91,12 +92,23 @@ public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> impl
 
     @Override
     public void put(HK hashKey, HV value) {
+        if (timeout > 0)
+            this.put(hashKey, value, timeout, TimeUnit.SECONDS);
+        else
+            template.opsForHash().put(key, hashKey, value);
+    }
+
+    @Override
+    public void put(HK hashKey, HV value, long timeout, TimeUnit unit) {
         template.opsForHash().put(key, hashKey, value);
+        template.expire(key, timeout, unit);
     }
 
     @Override
     public Boolean putIfAbsent(HK hashKey, HV value) {
-        return template.opsForHash().putIfAbsent(key, hashKey, value);
+        Boolean b = template.opsForHash().putIfAbsent(key, hashKey, value);
+        expire();
+        return b;
     }
 
     @SuppressWarnings("unchecked")

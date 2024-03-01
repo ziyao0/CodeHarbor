@@ -2,6 +2,8 @@ package com.ziyao.harbor.data.redis.core;
 
 import org.springframework.data.redis.core.RedisTemplate;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * @author ziyao zhang
  * @since 2024/2/23
@@ -9,10 +11,11 @@ import org.springframework.data.redis.core.RedisTemplate;
 public abstract class AbstractOperations<V> implements KeyAware {
     protected final RedisTemplate<String, V> template;
     protected String key;
+    protected long timeout;
 
-    public AbstractOperations(RedisTemplate<String, V> template, String key) {
+    public AbstractOperations(RedisTemplate<String, V> template, long timeout) {
         this.template = template;
-        this.key = key;
+        this.timeout = timeout;
     }
 
     @Override
@@ -25,4 +28,9 @@ public abstract class AbstractOperations<V> implements KeyAware {
         return this.key;
     }
 
+    protected void expire() {
+        if (timeout > 0) {
+            template.expire(key, timeout, TimeUnit.SECONDS);
+        }
+    }
 }

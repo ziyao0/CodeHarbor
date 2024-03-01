@@ -15,14 +15,16 @@ import java.util.Set;
  */
 public class DefaultSetOperations<V> extends AbstractOperations<V> implements SetOperations<V> {
 
-    public DefaultSetOperations(RedisTemplate<String, V> template, String key) {
-        super(template, key);
+    public DefaultSetOperations(RedisTemplate<String, V> template, long timeout) {
+        super(template, timeout);
     }
 
     @SuppressWarnings("unchecked")
     @Override
     public final Long add(V... values) {
-        return template.opsForSet().add(key, values);
+        Long add = template.opsForSet().add(key, values);
+        expire();
+        return add;
     }
 
     @Override

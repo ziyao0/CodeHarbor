@@ -16,13 +16,14 @@ import java.util.concurrent.TimeUnit;
 public class DefaultValueOperations<V> extends AbstractOperations<V> implements ValueOperations<V> {
 
 
-    public DefaultValueOperations(RedisTemplate<String, V> template, String key) {
-        super(template, key);
+    public DefaultValueOperations(RedisTemplate<String, V> template, long timeout) {
+        super(template, timeout);
     }
 
     @Override
     public void set(V value) {
         template.opsForValue().set(key, value);
+        expire();
     }
 
     @Override
@@ -32,7 +33,9 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
 
     @Override
     public Boolean setIfAbsent(V value) {
-        return template.opsForValue().setIfAbsent(key, value);
+        Boolean b = template.opsForValue().setIfAbsent(key, value);
+        expire();
+        return b;
     }
 
     @Override
@@ -42,7 +45,9 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
 
     @Override
     public Boolean setIfPresent(V value) {
-        return template.opsForValue().setIfAbsent(key, value);
+        Boolean b = template.opsForValue().setIfAbsent(key, value);
+        expire();
+        return b;
     }
 
     @Override
@@ -53,11 +58,14 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
     @Override
     public void multiSet(Map<? extends String, ? extends V> map) {
         template.opsForValue().multiSet(map);
+        expire();
     }
 
     @Override
     public Boolean multiSetIfAbsent(Map<? extends String, ? extends V> map) {
-        return template.opsForValue().multiSetIfAbsent(map);
+        Boolean b = template.opsForValue().multiSetIfAbsent(map);
+        expire();
+        return b;
     }
 
     @Override
@@ -87,7 +95,9 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
 
     @Override
     public V getAndSet(V value) {
-        return template.opsForValue().getAndSet(key, value);
+        V v = template.opsForValue().getAndSet(key, value);
+        expire();
+        return v;
     }
 
     @Override
@@ -133,6 +143,7 @@ public class DefaultValueOperations<V> extends AbstractOperations<V> implements 
     @Override
     public void set(V value, long offset) {
         template.opsForValue().set(key, value, offset);
+        expire();
     }
 
     @Override
