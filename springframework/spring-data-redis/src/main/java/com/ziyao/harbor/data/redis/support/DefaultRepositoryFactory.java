@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * @since 2023/4/23
  */
 @Getter
-public  class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFactoryAware {
+public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFactoryAware {
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
     private Optional<Class<?>> repositoryBaseClass;
