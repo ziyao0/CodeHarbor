@@ -32,6 +32,10 @@ public abstract class AbstractOperations<V> {
 
     public void refresh() {
         Assert.isTrue(this.timeout >= 0, "没有设置正确的过期时间，timeout:" + timeout);
-        template.expire(key, timeout, TimeUnit.SECONDS);
+        template.expire(key, this.timeout, TimeUnit.SECONDS);
+    }
+
+    public void refresh(long timeout, TimeUnit unit) {
+        template.expire(key, timeout, unit);
     }
 }

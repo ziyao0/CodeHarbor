@@ -115,7 +115,12 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     @Override
     public void refresh(String... arguments) {
         Assert.isTrue(this.timeout >= 0, "没有设置正确的过期时间，timeout:" + timeout);
-        this.operations.expire(getKey(arguments), timeout, TimeUnit.SECONDS);
+        this.operations.expire(getKey(arguments), this.timeout, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void refresh(long timeout, TimeUnit unit, String... arguments) {
+        this.operations.expire(getKey(arguments), timeout, unit);
     }
 
     private String replace(String... arguments) {
