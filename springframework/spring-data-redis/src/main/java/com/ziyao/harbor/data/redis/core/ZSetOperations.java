@@ -1,6 +1,7 @@
 package com.ziyao.harbor.data.redis.core;
 
-import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.connection.zset.Aggregate;
+import org.springframework.data.redis.connection.zset.Weights;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.lang.Nullable;
@@ -278,8 +279,8 @@ public interface ZSetOperations<V> extends CommonOperations, KeyAware {
      * @since 2.1
      */
     @Nullable
-    default Long unionAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate) {
-        return unionAndStore(otherKeys, destKey, aggregate, RedisZSetCommands.Weights.fromSetCount(1 + otherKeys.size()));
+    default Long unionAndStore(Collection<String> otherKeys, String destKey, Aggregate aggregate) {
+        return unionAndStore(otherKeys, destKey, aggregate, Weights.fromSetCount(1 + otherKeys.size()));
     }
 
     /**
@@ -294,7 +295,7 @@ public interface ZSetOperations<V> extends CommonOperations, KeyAware {
      * @since 2.1
      */
     @Nullable
-    Long unionAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights);
+    Long unionAndStore(Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights);
 
     /**
      * Intersect sorted sets at {@code key} and {@code otherKey} and store result in destination {@code destKey}.
@@ -329,8 +330,8 @@ public interface ZSetOperations<V> extends CommonOperations, KeyAware {
      * @since 2.1
      */
     @Nullable
-    default Long intersectAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate) {
-        return intersectAndStore(otherKeys, destKey, aggregate, RedisZSetCommands.Weights.fromSetCount(1 + otherKeys.size()));
+    default Long intersectAndStore(Collection<String> otherKeys, String destKey, Aggregate aggregate) {
+        return intersectAndStore(otherKeys, destKey, aggregate, Weights.fromSetCount(1 + otherKeys.size()));
     }
 
     /**
@@ -345,7 +346,7 @@ public interface ZSetOperations<V> extends CommonOperations, KeyAware {
      * @since 2.1
      */
     @Nullable
-    Long intersectAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights);
+    Long intersectAndStore(Collection<String> otherKeys, String destKey, Aggregate aggregate, Weights weights);
 
     /**
      * Iterate over elements in zset at {@code key}. <br />

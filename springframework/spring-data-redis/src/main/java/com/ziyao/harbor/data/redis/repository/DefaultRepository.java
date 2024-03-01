@@ -6,7 +6,10 @@ import com.ziyao.harbor.data.redis.support.RedisKeyFormatter;
 import com.ziyao.harbor.data.redis.support.TimeoutUtils;
 import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
+import com.ziyao.harbor.data.redis.support.serializer.SerializerInformationCreator;
 import lombok.Getter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Arrays;
@@ -19,6 +22,9 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, HashRepository<HK, HV> {
 
+    private static final Log log = LogFactory.getLog(DefaultRepository.class);
+    private static final SerializerInformationCreator created = new DefaultSerializerInformationCreator();
+    private final SerializerInformation metadata;
     private final RedisTemplate<String, V> operations;
     private final String key;
     @Getter
@@ -31,9 +37,7 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
 
     public DefaultRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, V> operations) {
         // 设置序列化
-        this.setSerializer(operations, repositoryInformation);
         this.operations = operations;
-
         Class<?> repositoryInterfaceClass = repositoryInformation.getRepositoryInterface();
         //解析redis key
         RedisKey key = repositoryInterfaceClass.getAnnotation(RedisKey.class);
@@ -41,11 +45,15 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         // 解析过期时间
         this.timeout = extractTimeout(repositoryInterfaceClass);
         //初始化redis操作相关
-        this.hashOperations = new DefaultHashOperations<>(this.operations, this.timeout);
-        this.valueOperations = new DefaultValueOperations<>(this.operations, this.timeout);
-        this.listOperations = new DefaultListOperations<>(this.operations, this.timeout);
-        this.setOperations = new DefaultSetOperations<>(this.operations, this.timeout);
-        this.zSetOperations = new DefaultZSetOperations<>(this.operations, this.timeout);
+        this.metadata = created.getInformation(repositoryInformation);
+        if (log.isDebugEnabled()) {
+            log.debug("repositoryInterfaceClass [" + repositoryInformation.getRepositoryInterface().getName() + "],metadata:" + metadata);
+        }
+        this.hashOperations = new DefaultHashOperations<>(this.operations, this.timeout, this.metadata);
+        this.valueOperations = new DefaultValueOperations<>(this.operations, this.timeout, this.metadata);
+        this.listOperations = new DefaultListOperations<>(this.operations, this.timeout, this.metadata);
+        this.setOperations = new DefaultSetOperations<>(this.operations, this.timeout, this.metadata);
+        this.zSetOperations = new DefaultZSetOperations<>(this.operations, this.timeout, this.metadata);
     }
 
     private long extractTimeout(Class<?> repositoryInterfaceClass) {
@@ -56,16 +64,6 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         }
         return timeout > 0 ? timeout : -1;
     }
-
-    private void setSerializer(RedisTemplate<String, V> operations, RepositoryInformation repositoryInformation) {
-        DefaultSerializerInformationCreator creator = new DefaultSerializerInformationCreator();
-        SerializerInformation<?, ?, ?, ?> metadata = creator.getInformation(repositoryInformation);
-        operations.setKeySerializer(metadata.getKeySerializer());
-        operations.setValueSerializer(metadata.getValueSerializer());
-        operations.setHashKeySerializer(metadata.getHashKeySerializer());
-        operations.setHashValueSerializer(metadata.getHashValueSerializer());
-    }
-
 
     @Override
     public HashOperations<HK, HV> opsForHash(String... arguments) {
@@ -121,6 +119,11 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     @Override
     public void refresh(long timeout, TimeUnit unit, String... arguments) {
         this.operations.expire(getKey(arguments), timeout, unit);
+    }
+
+    @Override
+    public SerializerInformation getInformation() {
+        return metadata;
     }
 
     private String replace(String... arguments) {
