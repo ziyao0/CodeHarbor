@@ -106,6 +106,20 @@ public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> impl
     }
 
     @Override
+    public void putAll(Map<? extends HK, ? extends HV> m) {
+        putAll(m, timeout, TimeUnit.SECONDS);
+    }
+
+    @Override
+    public void putAll(Map<? extends HK, ? extends HV> m, long timeout, TimeUnit unit) {
+        if (timeout > 0) {
+            operations.opsForHash().putAll(key, m);
+            operations.expire(key, timeout, unit);
+        } else
+            operations.opsForHash().putAll(key, m);
+    }
+
+    @Override
     public Boolean putIfAbsent(HK hashKey, HV value) {
         Boolean b = operations.opsForHash().putIfAbsent(key, hashKey, value);
         expire();

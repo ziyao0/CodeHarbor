@@ -44,4 +44,8 @@ public abstract class AbstractOperations<V> {
     public void refresh(long timeout, TimeUnit unit) {
         operations.expire(key, timeout, unit);
     }
+
+    public boolean deleteKey() {
+        return Boolean.TRUE.equals(operations.delete(key));
+    }
 }

@@ -1,6 +1,7 @@
 package com.ziyao.harbor.data.redis.repository;
 
 import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.data.redis.core.*;
 import com.ziyao.harbor.data.redis.support.RedisKeyFormatter;
 import com.ziyao.harbor.data.redis.support.TimeoutUtils;
@@ -27,6 +28,7 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     private final SerializerInformation metadata;
     private final RedisTemplate<String, V> operations;
     private final String key;
+    private final String keyFormat;
     @Getter
     private final long timeout;
     private final HashOperations<HK, HV> hashOperations;
@@ -40,8 +42,9 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         this.operations = operations;
         Class<?> repositoryInterfaceClass = repositoryInformation.getRepositoryInterface();
         //解析redis key
-        RedisKey key = repositoryInterfaceClass.getAnnotation(RedisKey.class);
-        this.key = key.value();
+        RedisKey redisKey = repositoryInterfaceClass.getAnnotation(RedisKey.class);
+        this.key = redisKey.key();
+        this.keyFormat = redisKey.format();
         // 解析过期时间
         this.timeout = extractTimeout(repositoryInterfaceClass);
         //初始化redis操作相关
@@ -106,8 +109,16 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     }
 
     @Override
+    public boolean delete(String key) {
+        return Boolean.TRUE.equals(operations.delete(key));
+    }
+
+    @Override
     public String getKey(String... arguments) {
-        return replace(arguments);
+        if (Strings.hasText(this.key))
+            return key;
+        else
+            return format(arguments);
     }
 
     @Override
@@ -126,9 +137,9 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         return metadata;
     }
 
-    private String replace(String... arguments) {
-        Assert.isTrue(RedisKeyFormatter.countOccurrencesOf(this.key) == arguments.length,
-                "KEY中需要替换的字符串[" + this.key + "]和传入的数值[" + Arrays.toString(arguments) + "]长度不匹配，请核对传入的数据！");
-        return RedisKeyFormatter.format(this.key, arguments);
+    private String format(String... arguments) {
+        Assert.isTrue(RedisKeyFormatter.countOccurrencesOf(this.keyFormat) == arguments.length,
+                "KEY中需要替换的字符串[" + this.keyFormat + "]和传入的数值[" + Arrays.toString(arguments) + "]长度不匹配，请核对传入的数据！");
+        return RedisKeyFormatter.format(this.keyFormat, arguments);
     }
 }

@@ -142,9 +142,14 @@ public interface HashOperations<HK, HV> extends CommonOperations, KeyAware {
      *
      * @param m must not be {@literal null}.
      */
-    default void putAll(Map<? extends HK, ? extends HV> m) {
+    void putAll(Map<? extends HK, ? extends HV> m);
 
-    }
+    /**
+     * Set multiple hash fields to multiple values using data provided in {@code m}.
+     *
+     * @param m must not be {@literal null}.
+     */
+    void putAll(Map<? extends HK, ? extends HV> m, long timeout, TimeUnit unit);
 
     /**
      * Set the {@code value} of a hash {@code hashKey}.

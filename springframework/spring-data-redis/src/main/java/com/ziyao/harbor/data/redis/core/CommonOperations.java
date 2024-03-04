@@ -16,4 +16,6 @@ public interface CommonOperations {
      * 刷新过期时间
      */
     void refresh(long timeout, TimeUnit unit);
+
+    boolean deleteKey();
 }

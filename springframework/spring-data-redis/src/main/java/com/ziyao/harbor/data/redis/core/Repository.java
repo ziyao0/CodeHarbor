@@ -22,6 +22,8 @@ public interface Repository {
      */
     boolean delete(String... arguments);
 
+    boolean delete(String key);
+
 
     /**
      * 获取key
