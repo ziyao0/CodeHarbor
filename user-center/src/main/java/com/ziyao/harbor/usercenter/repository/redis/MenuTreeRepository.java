@@ -12,6 +12,6 @@ import java.util.List;
  * @since 2023/4/23
  */
 @Repository
-@RedisKey("ziyao:harbor:user_center:menu_tree:{}:{}")
+@RedisKey(format = "ziyao:harbor:user_center:menu_tree:{}:{}")
 public interface MenuTreeRepository extends KeyValueRepository<List<MenuTree>> {
 }
