@@ -1,0 +1,24 @@
+plugins {
+    id "java-gradle-plugin"
+}
+
+
+group = 'com.ziyao.harbor'
+version = '1.0.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    gradlePluginPortal()
+}
+
+sourceCompatibility = 17
+targetCompatibility = 17
+
+gradlePlugin {
+    plugins {
+        optionalDependenciesPlugin {
+            id = "com.ziyao.harbor.optional-dependencies"
+            implementationClass = "com.ziyao.harbor.build.optional.OptionalDependenciesPlugin"
+        }
+    }
+}

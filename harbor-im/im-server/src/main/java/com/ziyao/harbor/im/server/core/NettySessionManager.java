@@ -30,7 +30,7 @@ public abstract class NettySessionManager {
         });
         channel.close();
         CONCURRENT_MAP.forEach((key, channels) -> {
-            if (channels.size() == 0) {
+            if (channels.isEmpty()) {
                 CONCURRENT_MAP.remove(key);
             }
         });
