@@ -1,6 +1,9 @@
+plugins {
+    id "com.ziyao.harbor.optional-dependencies"
+}
 dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
     api(project(':harbor-core'))
     api(project(":springframework:spring-data-redis"))
-    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    optional('org.springframework.boot:spring-boot-autoconfigure')
 }

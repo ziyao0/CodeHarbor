@@ -1,8 +1,11 @@
+plugins {
+    id "com.ziyao.harbor.optional-dependencies"
+}
 dependencies {
-    implementation(project(":springframework:spring-web"))
-    implementation('org.springframework:spring-webflux')
-    implementation(project(":springframework:spring-security-crypto"))
-    implementation(project(":springframework:spring-elasticsearch"))
-    implementation(project(":springframework:spring-data-redis"))
-    implementation('org.springframework.data:spring-data-redis')
+    optional(project(":springframework:spring-web"))
+    optional('org.springframework:spring-webflux')
+    optional(project(":springframework:spring-security-crypto"))
+    optional(project(":springframework:spring-elasticsearch"))
+    optional(project(":springframework:spring-data-redis"))
+    optional('org.springframework.data:spring-data-redis')
 }

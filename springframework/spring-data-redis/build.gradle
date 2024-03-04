@@ -1,5 +1,8 @@
+plugins {
+    id "com.ziyao.harbor.optional-dependencies"
+}
 dependencies {
-    implementation(project(':harbor-core'))
-    implementation('org.springframework.data:spring-data-redis')
-    implementation("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
+    api(project(':harbor-core'))
+    optional('org.springframework.data:spring-data-redis')
+    api("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
 }
