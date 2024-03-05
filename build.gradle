@@ -39,33 +39,6 @@ allprojects {
         publications {
             maven(MavenPublication) {
                 from components.java
-
-//                pom.withXml {
-//                    def parentNode = asNode();
-//                    if (projectName == 'harbor-core' || projectName == 'redis-spring-boot-starter') {
-//                        def dependencyManagementNode = parentNode.'dependencyManagement'
-//                        if (dependencyManagementNode) {
-//                            parentNode.remove(dependencyManagementNode)
-//                        }
-//                    }
-//                    def dependenciesNode = parentNode.dependencies[0]
-//                    // Find and process each dependency node
-//                    dependenciesNode.dependency.each { dependencyNode ->
-//                        def scopeNode = dependencyNode.scope
-//                        if (scopeNode) {
-//                            if (scopeNode.text() == 'runtime') {
-//                                def optionalNode = scopeNode.optional
-//                                dependencyNode.remove(scopeNode)
-//                                dependencyNode.appendNode('scope', 'compile')
-//                                if (projectName == 'spring-boot-autoconfigure' || projectName == 'spring-data-redis') {
-//                                    if (!optionalNode) {
-//                                        dependencyNode.appendNode('optional', 'true')
-//                                    }
-//                                }
-//                            }
-//                        }
-//                    }
-//                }
             }
         }
         repositories {
@@ -111,41 +84,7 @@ allprojects {
         options.compilerArgs << "-Xlint:unchecked"
     }
 }
-subprojects {
-    def springframeworkBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
-    def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
-    def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
-    def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
 
-    if (!springframeworkBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
-            }
-        }
-    }
-    if (!alibabaCloudBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
-            }
-        }
-    }
-    if (!springCloudBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-            }
-        }
-    }
-    if (!dubboBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
-            }
-        }
-    }
-}
 // 获取所有模块名称rootProject.subprojects
 // 拷贝配置文件
 tasks.register('copyFiles', Copy) {
