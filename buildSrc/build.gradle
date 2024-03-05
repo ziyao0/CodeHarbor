@@ -20,5 +20,9 @@ gradlePlugin {
             id = "com.ziyao.harbor.optional-dependencies"
             implementationClass = "com.ziyao.harbor.build.optional.OptionalDependenciesPlugin"
         }
+        mavenPublishingPlugin {
+            id = "com.ziyao.harbor.maven-publish"
+            implementationClass = "com.ziyao.harbor.build.publishing.MavenPublishingPlugin"
+        }
     }
 }
