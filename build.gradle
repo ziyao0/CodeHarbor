@@ -40,32 +40,32 @@ allprojects {
             maven(MavenPublication) {
                 from components.java
 
-                pom.withXml {
-                    def parentNode = asNode();
-                    if (projectName == 'harbor-core' || projectName == 'redis-spring-boot-starter') {
-                        def dependencyManagementNode = parentNode.'dependencyManagement'
-                        if (dependencyManagementNode) {
-                            parentNode.remove(dependencyManagementNode)
-                        }
-                    }
-                    def dependenciesNode = parentNode.dependencies[0]
-                    // Find and process each dependency node
-                    dependenciesNode.dependency.each { dependencyNode ->
-                        def scopeNode = dependencyNode.scope
-                        if (scopeNode) {
-                            if (scopeNode.text() == 'runtime') {
-                                def optionalNode = scopeNode.optional
-                                dependencyNode.remove(scopeNode)
-                                dependencyNode.appendNode('scope', 'compile')
-                                if (projectName == 'spring-boot-autoconfigure' || projectName == 'spring-data-redis') {
-                                    if (!optionalNode) {
-                                        dependencyNode.appendNode('optional', 'true')
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+//                pom.withXml {
+//                    def parentNode = asNode();
+//                    if (projectName == 'harbor-core' || projectName == 'redis-spring-boot-starter') {
+//                        def dependencyManagementNode = parentNode.'dependencyManagement'
+//                        if (dependencyManagementNode) {
+//                            parentNode.remove(dependencyManagementNode)
+//                        }
+//                    }
+//                    def dependenciesNode = parentNode.dependencies[0]
+//                    // Find and process each dependency node
+//                    dependenciesNode.dependency.each { dependencyNode ->
+//                        def scopeNode = dependencyNode.scope
+//                        if (scopeNode) {
+//                            if (scopeNode.text() == 'runtime') {
+//                                def optionalNode = scopeNode.optional
+//                                dependencyNode.remove(scopeNode)
+//                                dependencyNode.appendNode('scope', 'compile')
+//                                if (projectName == 'spring-boot-autoconfigure' || projectName == 'spring-data-redis') {
+//                                    if (!optionalNode) {
+//                                        dependencyNode.appendNode('optional', 'true')
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
             }
         }
         repositories {
