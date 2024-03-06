@@ -84,6 +84,11 @@ allprojects {
         options.compilerArgs << "-Xlint:unchecked"
     }
 }
+subprojects {
+    def springframeworkBom = ['harbor-core']
+    def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
+    def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
+    def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
 
     if (!springframeworkBom.contains(project.name)) {
         dependencyManagement {
