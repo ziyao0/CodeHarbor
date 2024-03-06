@@ -19,9 +19,13 @@ public class CopyPropertiesPlugin implements Plugin<Project> {
     // 需要拷贝的项目资源路径
     private static final String SUBPROJECTS_SUFFIX = "/resources/subprojects.txt";
     // 源文件资源路径
-    private static final List<String> SOURCE_FILES = List.of("resources/config/bootstrap-register.yml");
+    private static final List<String> SOURCE_FILES = new ArrayList<>(8);
     // 目标资源路径
     private static final String TARGET_PATH = "/src/main/resources";
+
+    static {
+        SOURCE_FILES.add("resources/config/bootstrap-register.yml");
+    }
 
     @Override
     public void apply(Project project) {

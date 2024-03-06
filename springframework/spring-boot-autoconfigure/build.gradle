@@ -1,7 +1,6 @@
 plugins {
     id("com.ziyao.harbor.optional-dependencies")
     id("com.ziyao.harbor.maven-publish")
-    id("com.ziyao.harbor.add-bom")
 }
 dependencies {
     optional(project(":springframework:spring-web"))
