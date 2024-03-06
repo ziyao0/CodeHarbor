@@ -1,7 +1,7 @@
 plugins {
 
     //     id 'java-library'
-
+    id "com.ziyao.harbor.copy-properties"
     id 'org.springframework.boot' version "${springBootPluginVersion}"
     id 'io.spring.dependency-management' version "${springDependencyPluginVersion}"
 }
@@ -85,27 +85,31 @@ allprojects {
     }
 }
 
-// 获取所有模块名称rootProject.subprojects
-// 拷贝配置文件
-tasks.register('copyFiles', Copy) {
-
-    def inputFile = file("${projectDir}/resources/subprojects.txt") // 使用 projectDir 获取项目根目录
-    // 需要拷贝的文件夹
-    def subprojects = []
-    if (inputFile.exists()) {
-        inputFile.eachLine { line ->
-            subprojects.add(line.trim())
+    if (!springframeworkBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
+            }
         }
-        // 需要拷贝的源文件
-        def source_files = ['resources/config/bootstrap-register.yml']
-        // 拷贝文件
-        subprojects.each { dir ->
-            //处理要拷贝的文件
-            source_files.each { source_file ->
-                copy {
-                    from source_file
-                    into dir + '/src/main/resources'
-                }
+    }
+    if (!alibabaCloudBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
+            }
+        }
+    }
+    if (!springCloudBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+            }
+        }
+    }
+    if (!dubboBom.contains(project.name)) {
+        dependencyManagement {
+            imports {
+                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
             }
         }
     }

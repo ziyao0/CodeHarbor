@@ -24,5 +24,13 @@ gradlePlugin {
             id = "com.ziyao.harbor.maven-publish"
             implementationClass = "com.ziyao.harbor.build.publishing.MavenPublishingPlugin"
         }
+        copyPropertiesPlugin {
+            id = "com.ziyao.harbor.copy-properties"
+            implementationClass = "com.ziyao.harbor.build.task.CopyPropertiesPlugin"
+        }
+        addMavenBomPlugin {
+            id = "com.ziyao.harbor.add-bom"
+            implementationClass = "com.ziyao.harbor.build.bom.AddMavenBomPlugin"
+        }
     }
 }
