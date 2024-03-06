@@ -1,7 +1,7 @@
 package com.harbor.boot.autoconfigure.redis.support;
 
 import lombok.Getter;
-import org.jetbrains.annotations.NotNull;
+import org.springframework.lang.NonNull;
 
 import java.util.Iterator;
 import java.util.function.Supplier;
@@ -28,9 +28,8 @@ final class LazyStreamable<T> implements Streamable<T> {
      * (non-Javadoc)
      * @see java.lang.Iterable#iterator()
      */
-    @NotNull
     @Override
-    public Iterator<T> iterator() {
+    public @NonNull Iterator<T> iterator() {
         return stream().iterator();
     }
 

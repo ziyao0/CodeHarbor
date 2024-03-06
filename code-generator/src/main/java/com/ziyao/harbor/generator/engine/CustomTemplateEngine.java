@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import org.jetbrains.annotations.NotNull;
+import com.ziyao.harbor.core.lang.NonNull;
 
 import java.io.File;
 import java.util.List;
@@ -17,7 +17,9 @@ import java.util.Map;
 public class CustomTemplateEngine extends FreemarkerTemplateEngine {
 
     @Override
-    protected void outputCustomFile(@NotNull List<CustomFile> customFiles, @NotNull TableInfo tableInfo, @NotNull Map<String, Object> objectMap) {
+    protected void outputCustomFile(@NonNull List<CustomFile> customFiles,
+                                    @NonNull TableInfo tableInfo,
+                                    @NonNull Map<String, Object> objectMap) {
 
         String pathInfo = getPathInfo(OutputFile.entity);
         assert pathInfo != null;
