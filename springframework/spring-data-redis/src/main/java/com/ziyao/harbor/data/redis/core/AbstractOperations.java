@@ -48,4 +48,8 @@ public abstract class AbstractOperations<V> {
     public boolean deleteKey() {
         return Boolean.TRUE.equals(operations.delete(key));
     }
+
+    public boolean hasKey() {
+        return Boolean.TRUE.equals(operations.hasKey(this.key));
+    }
 }
