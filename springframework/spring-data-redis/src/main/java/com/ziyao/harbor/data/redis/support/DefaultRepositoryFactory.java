@@ -5,6 +5,7 @@ import com.ziyao.harbor.data.redis.core.RepositoryInformation;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
 import com.ziyao.harbor.data.redis.repository.DefaultRepository;
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
@@ -16,11 +17,9 @@ import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.NonNull;
 import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.util.ClassUtils;
-import org.springframework.util.ConcurrentReferenceHashMap;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -32,14 +31,13 @@ import java.util.stream.Collectors;
 public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFactoryAware {
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
-    private Optional<Class<?>> repositoryBaseClass;
+    @Setter
+    private Class<?> repositoryBaseClass;
     private final RedisOperations<?, ?> redisOperations;
-    private final Map<String, RepositoryInformation> repositoryInformationCache;
 
     public DefaultRepositoryFactory(RedisOperations<?, ?> redisOperations) {
         this.redisOperations = redisOperations;
-        this.repositoryInformationCache = new ConcurrentReferenceHashMap<>(16, ConcurrentReferenceHashMap.ReferenceType.WEAK);
-        this.repositoryBaseClass = Optional.empty();
+        this.repositoryBaseClass = DefaultRepository.class;
     }
 
     /**
@@ -61,13 +59,9 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
 
     private RepositoryInformation getRepositoryInformation(RepositoryMetadata metadata) {
 
-        String cacheKey = metadata.getRepositoryInterface().getSimpleName();
+        Class<?> baseClass = getRepositoryBaseClass(metadata);
 
-        return repositoryInformationCache.computeIfAbsent(cacheKey, key -> {
-            Class<?> baseClass = repositoryBaseClass.orElse(getRepositoryBaseClass(metadata));
-
-            return new DefaultRepositoryInformation(metadata, baseClass);
-        });
+        return new DefaultRepositoryInformation(metadata, baseClass);
     }
 
 
@@ -79,8 +73,7 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
         if (!isCacheRepository(metadata.getRepositoryInterface())) {
             throw new IllegalArgumentException("redis query Support has not been implemented yet.");
         }
-
-        return DefaultRepository.class;
+        return this.repositoryBaseClass;
     }
 
 
@@ -109,10 +102,6 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
                         "No suitable constructor found on %s to match the given arguments: %s. Make sure you implement a constructor taking these",
                         baseClass, Arrays.stream(constructorArguments).map(Object::getClass).map(ClassUtils::getQualifiedName)
                                 .collect(Collectors.joining(", ")))));
-    }
-
-    public void setRepositoryBaseClass(Class<?> repositoryBaseClass) {
-        this.repositoryBaseClass = Optional.ofNullable(repositoryBaseClass);
     }
 
     //判断是否为缓存库
