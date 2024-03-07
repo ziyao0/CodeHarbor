@@ -1,6 +1,5 @@
 package com.ziyao.harbor.data.redis.core;
 
-import org.springframework.data.redis.connection.RedisZSetCommands;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.ScanOptions;
 import org.springframework.lang.Nullable;
@@ -268,35 +267,6 @@ public interface ZSetOperations<V> extends CommonOperations, KeyAware {
     Long unionAndStore(Collection<String> otherKeys, String destKey);
 
     /**
-     * Union sorted sets at {@code key} and {@code otherKeys} and store result in destination {@code destKey}.
-     *
-     * @param otherKeys must not be {@literal null}.
-     * @param destKey   must not be {@literal null}.
-     * @param aggregate must not be {@literal null}.
-     * @return {@literal null} when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/zunionstore">Redis Documentation: ZUNIONSTORE</a>
-     * @since 2.1
-     */
-    @Nullable
-    default Long unionAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate) {
-        return unionAndStore(otherKeys, destKey, aggregate, RedisZSetCommands.Weights.fromSetCount(1 + otherKeys.size()));
-    }
-
-    /**
-     * Union sorted sets at {@code key} and {@code otherKeys} and store result in destination {@code destKey}.
-     *
-     * @param otherKeys must not be {@literal null}.
-     * @param destKey   must not be {@literal null}.
-     * @param aggregate must not be {@literal null}.
-     * @param weights   must not be {@literal null}.
-     * @return {@literal null} when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/zunionstore">Redis Documentation: ZUNIONSTORE</a>
-     * @since 2.1
-     */
-    @Nullable
-    Long unionAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights);
-
-    /**
      * Intersect sorted sets at {@code key} and {@code otherKey} and store result in destination {@code destKey}.
      *
      * @param otherKey must not be {@literal null}.
@@ -317,35 +287,6 @@ public interface ZSetOperations<V> extends CommonOperations, KeyAware {
      */
     @Nullable
     Long intersectAndStore(Collection<String> otherKeys, String destKey);
-
-    /**
-     * Intersect sorted sets at {@code key} and {@code otherKeys} and store result in destination {@code destKey}.
-     *
-     * @param otherKeys must not be {@literal null}.
-     * @param destKey   must not be {@literal null}.
-     * @param aggregate must not be {@literal null}.
-     * @return {@literal null} when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/zinterstore">Redis Documentation: ZINTERSTORE</a>
-     * @since 2.1
-     */
-    @Nullable
-    default Long intersectAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate) {
-        return intersectAndStore(otherKeys, destKey, aggregate, RedisZSetCommands.Weights.fromSetCount(1 + otherKeys.size()));
-    }
-
-    /**
-     * Intersect sorted sets at {@code key} and {@code otherKeys} and store result in destination {@code destKey}.
-     *
-     * @param otherKeys must not be {@literal null}.
-     * @param destKey   must not be {@literal null}.
-     * @param aggregate must not be {@literal null}.
-     * @param weights   must not be {@literal null}.
-     * @return {@literal null} when used in pipeline / transaction.
-     * @see <a href="https://redis.io/commands/zinterstore">Redis Documentation: ZINTERSTORE</a>
-     * @since 2.1
-     */
-    @Nullable
-    Long intersectAndStore(Collection<String> otherKeys, String destKey, RedisZSetCommands.Aggregate aggregate, RedisZSetCommands.Weights weights);
 
     /**
      * Iterate over elements in zset at {@code key}. <br />

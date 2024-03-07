@@ -52,6 +52,12 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         if (log.isDebugEnabled()) {
             log.debug("repositoryInterfaceClass [" + repositoryInformation.getRepositoryInterface().getName() + "],metadata:" + metadata);
         }
+
+        this.operations.setKeySerializer(metadata.getKeySerializer());
+        this.operations.setValueSerializer(metadata.getValueSerializer());
+        this.operations.setHashKeySerializer(metadata.getHashKeySerializer());
+        this.operations.setHashValueSerializer(metadata.getHashValueSerializer());
+
         this.hashOperations = new DefaultHashOperations<>(this.operations, this.timeout);
         this.valueOperations = new DefaultValueOperations<>(this.operations, this.timeout);
         this.listOperations = new DefaultListOperations<>(this.operations, this.timeout);
@@ -71,36 +77,30 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
     @Override
     public HashOperations<HK, HV> opsForHash(String... arguments) {
         hashOperations.setKey(getKey(arguments));
-        hashOperations.setHashKeySerializer(metadata.getHashKeySerializer());
-        hashOperations.setHashValueSerializer(metadata.getHashValueSerializer());
         return hashOperations;
     }
 
     @Override
     public ListOperations<V> opsForList(String... arguments) {
         listOperations.setKey(getKey(arguments));
-        listOperations.setValueSerializer(metadata.getValueSerializer());
         return listOperations;
     }
 
     @Override
     public SetOperations<V> opsForSet(String... arguments) {
         setOperations.setKey(getKey(arguments));
-        setOperations.setValueSerializer(metadata.getValueSerializer());
         return setOperations;
     }
 
     @Override
     public ZSetOperations<V> opsForZSet(String... arguments) {
         zSetOperations.setKey(getKey(arguments));
-        zSetOperations.setValueSerializer(metadata.getValueSerializer());
         return zSetOperations;
     }
 
     @Override
     public ValueOperations<V> opsForValue(String... arguments) {
         valueOperations.setKey(getKey(arguments));
-        valueOperations.setValueSerializer(metadata.getValueSerializer());
         return valueOperations;
     }
 

@@ -24,9 +24,6 @@ public interface CommonOperations {
      */
     boolean deleteKey();
 
-    /**
-     * 判斷是否存在这个key
-     */
     boolean hasKey();
 
     void setKeySerializer(RedisSerializer<?> serializer);
