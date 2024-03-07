@@ -24,6 +24,8 @@ public interface CommonOperations {
      */
     boolean deleteKey();
 
+    boolean hasKey();
+
     void setKeySerializer(RedisSerializer<?> serializer);
 
     void setValueSerializer(RedisSerializer<?> serializer);

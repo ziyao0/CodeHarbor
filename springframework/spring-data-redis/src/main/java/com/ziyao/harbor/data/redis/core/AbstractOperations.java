@@ -41,6 +41,11 @@ public abstract class AbstractOperations<V> {
         operations.expire(key, timeout, unit);
     }
 
+    public boolean hasKey() {
+        return Boolean.TRUE.equals(operations.hasKey(key));
+    }
+
+
     public boolean deleteKey() {
         return Boolean.TRUE.equals(operations.delete(key));
     }
