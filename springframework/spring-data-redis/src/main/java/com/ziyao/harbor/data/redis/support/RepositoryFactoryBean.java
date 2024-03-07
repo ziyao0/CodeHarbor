@@ -19,13 +19,9 @@ public class RepositoryFactoryBean<T extends Repository>
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
     private RedisOperations<?, ?> operations;
-    //    private final Optional<Class<?>> repositoryBaseClass = Optional.empty();
     private DefaultRepositoryFactory factory;
     private final Class<? extends T> repositoryInterface;
     private T repository;
-//    @Setter
-//    private boolean lazyInit = false;
-
 
     protected RepositoryFactoryBean(Class<? extends T> repositoryInterface) {
         this.repositoryInterface = repositoryInterface;
@@ -63,11 +59,7 @@ public class RepositoryFactoryBean<T extends Repository>
         this.factory = createRepositoryFactory();
         this.factory.setBeanClassLoader(classLoader);
         this.factory.setBeanFactory(beanFactory);
-//        repositoryBaseClass.ifPresent(this.factory::setRepositoryBaseClass);
         this.repository = this.factory.getRepository(repositoryInterface);
-//        if (!this.lazyInit) {
-//            this.repository.get();
-//        }
     }
 
     private DefaultRepositoryFactory createRepositoryFactory() {
