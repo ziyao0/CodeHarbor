@@ -67,8 +67,6 @@ public class RedisRepositoryBeanDefinitionBuilder {
 
         builder.getRawBeanDefinition().setSource(configuration.getSource());
         builder.addConstructorArgValue(configuration.getRepositoryInterface());
-        builder.addPropertyValue("lazyInit", configuration.isLazyInit());
-        builder.setLazyInit(configuration.isLazyInit());
         builder.setPrimary(configuration.isPrimary());
 
         configuration.getRepositoryBaseClassName()//
