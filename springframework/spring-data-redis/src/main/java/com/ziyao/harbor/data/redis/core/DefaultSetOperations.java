@@ -16,8 +16,8 @@ import java.util.Set;
  */
 public class DefaultSetOperations<V> extends AbstractOperations<V> implements SetOperations<V> {
 
-    public DefaultSetOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
-        super(operations, timeout, metadata);
+    public DefaultSetOperations(RedisTemplate<String, V> operations, long timeout) {
+        super(operations, timeout);
     }
 
     @SuppressWarnings("unchecked")

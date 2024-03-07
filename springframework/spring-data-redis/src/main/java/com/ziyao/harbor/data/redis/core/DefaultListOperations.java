@@ -12,8 +12,8 @@ import java.util.concurrent.TimeUnit;
  * @since 2024/2/23
  */
 public class DefaultListOperations<V> extends AbstractOperations<V> implements ListOperations<V> {
-    public DefaultListOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
-        super(operations, timeout, metadata);
+    public DefaultListOperations(RedisTemplate<String, V> operations, long timeout) {
+        super(operations, timeout);
     }
 
     @Override

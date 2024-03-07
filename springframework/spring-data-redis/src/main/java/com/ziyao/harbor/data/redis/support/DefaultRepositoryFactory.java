@@ -53,7 +53,7 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
 
         ProxyFactory result = new ProxyFactory();
         result.setTarget(target);
-        result.setInterfaces(repositoryInterface, Repository.class, TransactionalProxy.class);
+        result.setInterfaces(repositoryInterface, Repository.class);
         return (T) result.getProxy(classLoader);
     }
 

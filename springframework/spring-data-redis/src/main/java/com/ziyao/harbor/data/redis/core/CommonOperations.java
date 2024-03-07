@@ -1,5 +1,7 @@
 package com.ziyao.harbor.data.redis.core;
 
+import org.springframework.data.redis.serializer.RedisSerializer;
+
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -26,4 +28,14 @@ public interface CommonOperations {
      * 判斷是否存在这个key
      */
     boolean hasKey();
+   
+    boolean deleteKey();
+
+    void setKeySerializer(RedisSerializer<?> serializer);
+
+    void setValueSerializer(RedisSerializer<?> serializer);
+
+    void setHashKeySerializer(RedisSerializer<?> serializer);
+
+    void setHashValueSerializer(RedisSerializer<?> serializer);
 }

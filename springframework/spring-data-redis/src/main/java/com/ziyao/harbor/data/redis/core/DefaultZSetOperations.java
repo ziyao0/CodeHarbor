@@ -2,6 +2,8 @@ package com.ziyao.harbor.data.redis.core;
 
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import org.springframework.data.redis.connection.RedisZSetCommands;
+import org.springframework.data.redis.connection.zset.Aggregate;
+import org.springframework.data.redis.connection.zset.Weights;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -15,8 +17,8 @@ import java.util.Set;
  */
 public class DefaultZSetOperations<V> extends AbstractOperations<V> implements ZSetOperations<V> {
 
-    public DefaultZSetOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
-        super(operations, timeout, metadata);
+    public DefaultZSetOperations(RedisTemplate<String, V> operations, long timeout) {
+        super(operations, timeout);
     }
 
     @Override
