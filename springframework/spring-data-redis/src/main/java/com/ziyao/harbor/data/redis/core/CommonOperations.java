@@ -28,8 +28,6 @@ public interface CommonOperations {
      * 判斷是否存在这个key
      */
     boolean hasKey();
-   
-    boolean deleteKey();
 
     void setKeySerializer(RedisSerializer<?> serializer);
 
