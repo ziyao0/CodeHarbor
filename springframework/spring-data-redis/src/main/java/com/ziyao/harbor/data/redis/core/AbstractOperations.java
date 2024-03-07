@@ -4,6 +4,8 @@ import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.concurrent.TimeUnit;
@@ -13,6 +15,9 @@ import java.util.concurrent.TimeUnit;
  * @since 2024/2/23
  */
 public abstract class AbstractOperations<V> {
+
+    private static final Log log = LogFactory.getLog(AbstractOperations.class);
+
     protected final RedisTemplate<String, V> operations;
     protected final long timeout;
     @Getter
@@ -23,10 +28,19 @@ public abstract class AbstractOperations<V> {
         this.operations = operations;
         this.timeout = timeout;
         // 设置redis序列化
-        operations.setKeySerializer(metadata.getKeySerializer());
-        operations.setValueSerializer(metadata.getValueSerializer());
-        operations.setHashKeySerializer(metadata.getHashKeySerializer());
-        operations.setHashValueSerializer(metadata.getHashValueSerializer());
+        this.initSerializer(metadata);
+    }
+
+    private void initSerializer(SerializerInformation metadata) {
+        this.operations.setKeySerializer(metadata.getKeySerializer());
+        this.operations.setValueSerializer(metadata.getValueSerializer());
+        this.operations.setHashKeySerializer(metadata.getHashKeySerializer());
+        this.operations.setHashValueSerializer(metadata.getHashValueSerializer());
+        log.debug("init operations serializer :" +
+                this.operations.getKeySerializer().getTargetType().getTypeName()
+                + this.operations.getValueSerializer().getTargetType().getTypeName()
+                + this.operations.getHashKeySerializer().getTargetType().getTypeName()
+                + this.operations.getHashValueSerializer().getTargetType().getTypeName());
     }
 
 
