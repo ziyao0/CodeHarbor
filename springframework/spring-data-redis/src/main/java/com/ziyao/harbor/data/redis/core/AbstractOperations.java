@@ -50,10 +50,6 @@ public abstract class AbstractOperations<V> {
         return Boolean.TRUE.equals(operations.delete(key));
     }
 
-    public boolean hasKey() {
-        return Boolean.TRUE.equals(operations.hasKey(this.key));
-    }
-
     public void setKeySerializer(RedisSerializer<?> serializer) {
         operations.setKeySerializer(serializer);
     }
