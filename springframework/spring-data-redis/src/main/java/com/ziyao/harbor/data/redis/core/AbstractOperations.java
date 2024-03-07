@@ -3,8 +3,6 @@ package com.ziyao.harbor.data.redis.core;
 import com.ziyao.harbor.core.utils.Assert;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
@@ -14,14 +12,12 @@ import java.util.concurrent.TimeUnit;
  * @author ziyao zhang
  * @since 2024/2/23
  */
+@Getter
+@Setter
 public abstract class AbstractOperations<V> {
-
-    private static final Log log = LogFactory.getLog(AbstractOperations.class);
 
     protected final RedisTemplate<String, V> operations;
     protected final long timeout;
-    @Getter
-    @Setter
     protected String key;
 
     public AbstractOperations(RedisTemplate<String, V> operations, long timeout) {

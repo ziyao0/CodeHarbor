@@ -1,5 +1,6 @@
 package com.harbor.boot.autoconfigure.redis;
 
+import com.ziyao.harbor.data.redis.support.CacheBeanName;
 import com.ziyao.harbor.data.redis.support.RepositoryFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -72,7 +73,7 @@ public @interface EnableRedisRepositories {
     /**
      * Configures the bean name of the {@link RedisOperations} to be used. Defaulted to {@literal redisTemplate}.
      */
-    String redisTemplateRef() default "redisTemplate";
+    String redisTemplateRef() default CacheBeanName.cache_name;
 
 
     /**
