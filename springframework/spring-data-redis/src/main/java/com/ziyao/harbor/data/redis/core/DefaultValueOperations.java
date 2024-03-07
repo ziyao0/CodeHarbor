@@ -17,8 +17,8 @@ import java.util.concurrent.TimeUnit;
 public class DefaultValueOperations<V> extends AbstractOperations<V> implements ValueOperations<V> {
 
 
-    public DefaultValueOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
-        super(operations, timeout, metadata);
+    public DefaultValueOperations(RedisTemplate<String, V> operations, long timeout) {
+        super(operations, timeout);
     }
 
     @Override

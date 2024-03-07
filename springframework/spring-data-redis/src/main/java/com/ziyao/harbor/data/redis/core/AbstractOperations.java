@@ -1,12 +1,12 @@
 package com.ziyao.harbor.data.redis.core;
 
 import com.ziyao.harbor.core.utils.Assert;
-import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,25 +24,11 @@ public abstract class AbstractOperations<V> {
     @Setter
     protected String key;
 
-    public AbstractOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
+    public AbstractOperations(RedisTemplate<String, V> operations, long timeout) {
         this.operations = operations;
         this.timeout = timeout;
         // 设置redis序列化
-        this.initSerializer(metadata);
     }
-
-    private void initSerializer(SerializerInformation metadata) {
-        this.operations.setKeySerializer(metadata.getKeySerializer());
-        this.operations.setValueSerializer(metadata.getValueSerializer());
-        this.operations.setHashKeySerializer(metadata.getHashKeySerializer());
-        this.operations.setHashValueSerializer(metadata.getHashValueSerializer());
-        log.debug("init operations serializer :" +
-                this.operations.getKeySerializer().getTargetType().getTypeName()
-                + this.operations.getValueSerializer().getTargetType().getTypeName()
-                + this.operations.getHashKeySerializer().getTargetType().getTypeName()
-                + this.operations.getHashValueSerializer().getTargetType().getTypeName());
-    }
-
 
     protected void expire() {
         if (timeout > 0) {
@@ -61,5 +47,21 @@ public abstract class AbstractOperations<V> {
 
     public boolean deleteKey() {
         return Boolean.TRUE.equals(operations.delete(key));
+    }
+
+    public void setKeySerializer(RedisSerializer<?> serializer) {
+        operations.setKeySerializer(serializer);
+    }
+
+    public void setValueSerializer(RedisSerializer<?> serializer) {
+        operations.setValueSerializer(serializer);
+    }
+
+    public void setHashKeySerializer(RedisSerializer<?> serializer) {
+        operations.setHashKeySerializer(serializer);
+    }
+
+    public void setHashValueSerializer(RedisSerializer<?> serializer) {
+        operations.setHashValueSerializer(serializer);
     }
 }

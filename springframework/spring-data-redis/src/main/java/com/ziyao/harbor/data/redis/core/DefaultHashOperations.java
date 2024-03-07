@@ -15,8 +15,8 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultHashOperations<V, HK, HV> extends AbstractOperations<V> implements HashOperations<HK, HV> {
 
-    public DefaultHashOperations(RedisTemplate<String, V> operations, long timeout, SerializerInformation metadata) {
-        super(operations, timeout, metadata);
+    public DefaultHashOperations(RedisTemplate<String, V> operations, long timeout) {
+        super(operations, timeout);
     }
 
     @Override
