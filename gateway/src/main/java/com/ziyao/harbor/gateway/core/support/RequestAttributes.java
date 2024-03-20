@@ -1,7 +1,7 @@
 package com.ziyao.harbor.gateway.core.support;
 
 import com.google.common.collect.ImmutableSet;
-import com.ziyao.harbor.core.ParameterNames;
+import com.ziyao.harbor.gateway.support.ParameterNames;
 import com.ziyao.harbor.gateway.core.AuthorizerContext;
 import org.springframework.web.server.ServerWebExchange;
 

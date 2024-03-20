@@ -1,6 +1,6 @@
 package com.ziyao.harbor.web.client;
 
-import com.ziyao.harbor.core.SslSocketConstructor;
+import com.ziyao.harbor.web.SslSocketConstructor;
 import com.ziyao.harbor.core.utils.Strings;
 import okhttp3.*;
 

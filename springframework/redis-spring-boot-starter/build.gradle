@@ -8,4 +8,6 @@ dependencies {
     api(project(":springframework:spring-data-redis"))
     api(project(':springframework:spring-boot-autoconfigure'))
     optional('org.springframework.boot:spring-boot-autoconfigure')
+    // https://mvnrepository.com/artifact/org.redisson/redisson-spring-data-31
+    implementation 'org.redisson:redisson-spring-data-31:3.24.3'
 }
