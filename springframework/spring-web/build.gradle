@@ -14,4 +14,5 @@ dependencies {
     api('com.squareup.okhttp3:okhttp:4.9.3')
     api('com.squareup.okhttp3:logging-interceptor:4.9.3')
     api('com.alibaba:fastjson:2.0.32')
+    api('org.aspectj:aspectjweaver:1.9.6')
 }

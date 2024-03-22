@@ -15,18 +15,22 @@ public class AccessPostFilter extends AbstractGlobalFilter {
 
     @Override
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        return chain.filter(exchange).doFinally(signalType -> {
-            switch (signalType) {
-                case ON_ERROR:
-                    // TODO: 2023/5/22 发送异常日志
-                    break;
-                case ON_COMPLETE:
-                    // TODO: 2023/5/22 成功时调用
-                    break;
-                default:
-                    // TODO: 2023/5/22 默认调用
-            }
-        });
+        // @formatter:off
+        return chain.filter(exchange)
+                .doFinally(signalType -> {
+
+                    switch (signalType) {
+                        case ON_ERROR:
+                            // TODO: 2023/5/22 发送异常日志
+                            break;
+                        case ON_COMPLETE:
+                            // TODO: 2023/5/22 成功时调用
+                            break;
+                        default:
+                            // TODO: 2023/5/22 默认调用
+                    }
+                });
+        // @formatter:on
     }
 
     @Override
