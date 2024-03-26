@@ -78,4 +78,6 @@ include 'springframework:spring-security-oauth2'
 findProject(':springframework:spring-security-oauth2')?.name = 'spring-security-oauth2'
 include 'springframework:spring-data-redis'
 findProject(':springframework:spring-data-redis')?.name = 'spring-data-redis'
+include 'springframework:spring-oauth2-core'
+findProject(':springframework:spring-oauth2-core')?.name = 'spring-oauth2-core'
 

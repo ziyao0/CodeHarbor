@@ -1,14 +1,11 @@
-package com.ziyao.harbor.oauth2.core;
-
-import java.util.Date;
-import java.util.Map;
-import java.util.Set;
+package com.ziyao.oauth2.core;
 
 /**
  * @author ziyao zhang
- * @since 2024/2/27
+ * @since 2024/3/25
  */
-public interface OAuth2AccessToken {
+public interface OAuth2Tokens {
+
     public static String BEARER_TYPE = "Bearer";
 
     public static String OAUTH2_TYPE = "OAuth2";
@@ -42,27 +39,4 @@ public interface OAuth2AccessToken {
      * href="http://tools.ietf.org/html/draft-ietf-oauth-v2-22#section-3.3">Section 3.3</a>
      */
     public static String SCOPE = "scope";
-
-    /**
-     * The additionalInformation map is used by the token serializers to export any fields used by extensions of OAuth.
-     *
-     * @return a map from the field name in the serialized token to the value to be exported. The default serializers
-     * make use of Jackson's automatic JSON mapping for Java objects (for the Token Endpoint flows) or implicitly call
-     * .toString() on the "value" object (for the implicit flow) as part of the serialization process.
-     */
-    Map<String, Object> getAdditionalInformation();
-
-    Set<String> getScope();
-
-    OAuth2RefreshToken getRefreshToken();
-
-    String getTokenType();
-
-    boolean isExpired();
-
-    Date getExpiration();
-
-    int getExpiresIn();
-
-    String getValue();
 }
