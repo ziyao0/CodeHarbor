@@ -12,20 +12,17 @@ import java.util.Set;
  * @since 2024/2/27
  */
 @Getter
-public class OAuth2AccessToken extends AbstractOAuth2Token{
+public class OAuth2AccessToken extends AbstractOAuth2Token {
 
     /**
      * -- GETTER --
-     *  Returns the
-     * .
-     *
+     * Returns the
      */
     private final TokenType tokenType;
 
     /**
      * -- GETTER --
-     *  Returns the scope(s) associated to the token.
-     *
+     * Returns the scope(s) associated to the token.
      */
     private final Set<String> scopes;
 

@@ -18,7 +18,6 @@ public class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2Ac
 
         Instant issuedAt = Instant.now();
 
-
         return null;
     }
 }
