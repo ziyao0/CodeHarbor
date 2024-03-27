@@ -4,7 +4,7 @@ package com.ziyao.harbor.core;
  * @author ziyao zhang
  * @since 2023/9/14
  */
-public interface TokenValidator<V> extends Validator<String> {
+public interface TokenValidator<V> {
 
 
     /**
@@ -12,7 +12,6 @@ public interface TokenValidator<V> extends Validator<String> {
      *
      * @param text 给定字符串
      */
-    @Override
     void validate(String text) throws Exception;
 
     /**

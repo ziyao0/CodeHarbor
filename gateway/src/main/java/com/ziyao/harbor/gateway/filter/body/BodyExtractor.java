@@ -1,7 +1,5 @@
 package com.ziyao.harbor.gateway.filter.body;
 
-import com.ziyao.harbor.core.Extractor;
-import com.ziyao.harbor.core.Injector;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import reactor.core.publisher.Flux;
 
@@ -9,7 +7,7 @@ import reactor.core.publisher.Flux;
  * @author ziyao zhang
  * @since 2024/1/10
  */
-public abstract class BodyOperator implements Extractor<ServerHttpRequest, byte[]>, Injector<byte[], byte[]> {
+public abstract class BodyExtractor {
 
 
     public static Flux<byte[]> extractRequestBody(ServerHttpRequest request) {

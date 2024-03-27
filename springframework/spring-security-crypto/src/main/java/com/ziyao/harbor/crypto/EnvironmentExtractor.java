@@ -1,6 +1,5 @@
 package com.ziyao.harbor.crypto;
 
-import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.core.Properties;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
@@ -23,7 +22,7 @@ import java.io.IOException;
  * @author ziyao zhang
  * @since 2023/10/25
  */
-public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvironment, Properties<?>> {
+public abstract class EnvironmentExtractor {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EnvironmentExtractor.class);
 
@@ -40,7 +39,6 @@ public abstract class EnvironmentExtractor implements Extractor<ConfigurableEnvi
     }
 
 
-    @Override
     public Properties<?> extract(ConfigurableEnvironment environment) {
         try {
             if (null == environment) {

@@ -1,6 +1,5 @@
 package com.ziyao.harbor.usercenter.authenticate.support;
 
-import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authenticate.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.authenticate.codec.PasswordEncryptor;
@@ -10,7 +9,7 @@ import com.ziyao.harbor.usercenter.comm.exception.AuthenticateExceptions;
  * @author ziyao zhang
  * @since 2023/12/12
  */
-public abstract class PasswordValidator implements Validator<PasswordParameter> {
+public abstract class PasswordValidator {
 
     private final PasswordEncryptor passwordEncryptor = new BCryptPasswordEncryptor();
 
@@ -21,7 +20,6 @@ public abstract class PasswordValidator implements Validator<PasswordParameter> 
         }
     };
 
-    @Override
     public void validate(PasswordParameter parameter) {
 
         Assert.notNull(parameter, AuthenticateExceptions.createValidatedFailure());

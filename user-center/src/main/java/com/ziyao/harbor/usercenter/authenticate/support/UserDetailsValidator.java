@@ -1,13 +1,12 @@
 package com.ziyao.harbor.usercenter.authenticate.support;
 
-import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 
 /**
  * @author zhangziyao
  * @since 2023/4/24
  */
-public interface UserDetailsValidator extends Validator<UserDetails> {
+public interface UserDetailsValidator {
 
 
     /**

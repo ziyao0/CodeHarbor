@@ -1,22 +1,21 @@
 package com.ziyao.harbor.oauth2.client;
 
 import com.ziyao.harbor.oauth2.client.token.AccessTokenRequest;
-import com.ziyao.harbor.oauth2.core.OAuth2AccessToken;
 
 /**
  * @author ziyao zhang
  * @since 2024/2/27
  */
 public interface OAuth2ClientContext {
-    /**
-     * @return the current access token if any (may be null or empty)
-     */
-    OAuth2AccessToken getAccessToken();
-
-    /**
-     * @param accessToken the current access token
-     */
-    void setAccessToken(OAuth2AccessToken accessToken);
+//    /**
+//     * @return the current access token if any (may be null or empty)
+//     */
+//    OAuth2AccessToken getAccessToken();
+//
+//    /**
+//     * @param accessToken the current access token
+//     */
+//    void setAccessToken(OAuth2AccessToken accessToken);
 
     /**
      * @return the current request if any (may be null or empty)

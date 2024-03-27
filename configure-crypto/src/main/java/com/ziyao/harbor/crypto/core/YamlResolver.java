@@ -1,6 +1,5 @@
 package com.ziyao.harbor.crypto.core;
 
-import com.ziyao.harbor.core.Extractor;
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.Property;
@@ -15,11 +14,9 @@ import java.util.List;
  * @author ziyao zhang
  * @since 2023/10/27
  */
-public final class YamlResolver
-        implements Extractor<String, List<Property>> {
+public final class YamlResolver {
 
 
-    @Override
     public List<Property> extract(String location) {
         File propertiesFile = getPropertiesFile(location);
 //        extractYamlProperties(propertiesFile)
