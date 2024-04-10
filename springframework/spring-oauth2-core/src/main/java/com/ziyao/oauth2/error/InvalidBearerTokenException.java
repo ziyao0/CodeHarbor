@@ -3,6 +3,8 @@ package com.ziyao.oauth2.error;
 import java.io.Serial;
 
 /**
+ * token 无效抛出该异常
+ *
  * @author ziyao zhang
  * @since 2024/3/25
  */

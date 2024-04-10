@@ -1,4 +1,4 @@
-package com.ziyao.oauth2.token;
+package com.ziyao.oauth2.token.validate;
 
 import com.ziyao.oauth2.core.OAuth2Token;
 

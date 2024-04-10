@@ -16,11 +16,9 @@ import java.util.List;
  */
 public final class YamlResolver {
 
-
-    public List<Property> extract(String location) {
+    public static List<Property> extract(String location) throws IOException {
         File propertiesFile = getPropertiesFile(location);
-//        extractYamlProperties(propertiesFile)
-        return null;
+        return loadYaml(propertiesFile);
     }
 
     /**
@@ -42,9 +40,8 @@ public final class YamlResolver {
      *
      * @param inputStream 配置文件
      * @return 返回 {@link Property}
-     * @throws IOException 读取配置文件失败后所抛出的流异常
      */
-    public static List<Property> loadYaml(InputStream inputStream) throws IOException {
+    public static List<Property> loadYaml(InputStream inputStream) {
         if (inputStream == null) {
             return null;
         }

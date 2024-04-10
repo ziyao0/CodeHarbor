@@ -1,7 +1,8 @@
-package com.ziyao.oauth2.token;
+package com.ziyao.oauth2.token.generate;
 
 import com.ziyao.oauth2.core.OAuth2RefreshToken;
 import com.ziyao.oauth2.core.OAuth2TokenType;
+import com.ziyao.oauth2.token.OAuth2TokenContext;
 
 /**
  * @author ziyao zhang

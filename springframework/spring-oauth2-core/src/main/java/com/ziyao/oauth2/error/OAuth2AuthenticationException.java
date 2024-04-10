@@ -1,5 +1,6 @@
 package com.ziyao.oauth2.error;
 
+import lombok.Getter;
 import org.springframework.util.Assert;
 
 import java.io.Serial;
@@ -8,10 +9,16 @@ import java.io.Serial;
  * @author ziyao zhang
  * @since 2024/3/25
  */
+@Getter
 public class OAuth2AuthenticationException extends OAuth2Exception {
     @Serial
     private static final long serialVersionUID = 6276324810720064719L;
 
+    /**
+     * -- GETTER --
+     * Returns the
+     * .
+     */
     private final OAuth2Error error;
 
     /**
@@ -64,15 +71,6 @@ public class OAuth2AuthenticationException extends OAuth2Exception {
         super(message, cause);
         Assert.notNull(error, "error cannot be null");
         this.error = error;
-    }
-
-    /**
-     * Returns the {@link OAuth2Error OAuth 2.0 Error}.
-     *
-     * @return the {@link OAuth2Error}
-     */
-    public OAuth2Error getError() {
-        return this.error;
     }
 
 }
