@@ -1,12 +1,13 @@
-package com.ziyao.harbor.core;
+package com.ziyao.harbor.core.metrics;
 
-import com.ziyao.harbor.core.utils.Assert;
+
 import lombok.Getter;
 
 import java.text.NumberFormat;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -65,7 +66,7 @@ public final class StopWatch {
     }
 
     public StopWatch(final String taskId) {
-        Assert.notNull(taskId, "任务id不能为空！");
+        notNull(taskId, "任务id不能为空！");
         this.taskId = taskId;
         this.watches = new ConcurrentHashMap<>(INITIAL_CAPACITY);
         this.completedTasks = new LinkedList<>();
@@ -75,7 +76,7 @@ public final class StopWatch {
      * 启动总任务计时
      */
     public void start() {
-        Assert.notNull(this.taskId, "任务id不能为空！");
+        notNull(this.taskId, "任务id不能为空！");
         if (getWatches().containsKey(this.taskId)) {
             throw new IllegalStateException("Can't start StopWatch: it's already running. taskId=" + taskId);
         }
@@ -92,7 +93,7 @@ public final class StopWatch {
      * @param taskId 任务id
      */
     public void start(final String taskId) {
-        Assert.notNull(taskId, "任务id不能为空！");
+        notNull(taskId, "任务id不能为空！");
         if (getWatches().containsKey(taskId)) {
             throw new IllegalStateException("Can't start StopWatch: it's already running. taskId=" + taskId);
         }
@@ -122,7 +123,7 @@ public final class StopWatch {
      */
     public void stop() {
         Map<String, Task> taskList = getWatches();
-        Assert.notNull(taskList, "任务列表为空！");
+        notNull(taskList, "任务列表为空！");
         for (Task task : taskList.values()) {
             // 如果任务在运行执行停止
             if (task.isRunning()) {
@@ -142,9 +143,9 @@ public final class StopWatch {
      * @param taskId 任务id
      */
     public void stop(final String taskId) {
-        Assert.notNull(taskId, "任务id不能为空！");
+        notNull(taskId, "任务id不能为空！");
         Task task = watches.get(taskId);
-        Assert.notNull(task, "Can't stop StopWatch: it's not running");
+        notNull(task, "Can't stop StopWatch: it's not running");
         task.stop();
         watches.put(taskId, task);
         completedTasks.add(task);
@@ -232,5 +233,39 @@ public final class StopWatch {
             this.timeMillis = stopTime - startTime;
             this.running = false;
         }
+    }
+
+    /**
+     * Assert that a string is not {@code null}.
+     *
+     * @param value   要检查的字符串
+     * @param message 断言失败后返回的异常信息
+     */
+    public static void notNull(String value, String message) {
+        if (isEmpty(value)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+
+    /**
+     * Assert that an Object is not {@code null}.
+     *
+     * @param object  要断言的对象
+     * @param message 断言失败后返回的异常信息
+     */
+    public static void notNull(Object object, String message) {
+        if (Objects.isNull(object)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
+
+    /**
+     * 检查给定的对象（可能是 {@code String}）是否为空。
+     *
+     * @param str 候选对象（可能是 {@code String}）
+     */
+    public static boolean isEmpty(Object str) {
+        return (str == null || "".equals(str));
     }
 }

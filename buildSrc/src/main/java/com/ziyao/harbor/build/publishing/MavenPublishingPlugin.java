@@ -13,6 +13,7 @@ import org.gradle.api.publish.maven.MavenPublication;
  */
 public class MavenPublishingPlugin implements Plugin<Project> {
 
+    private static final String DEPENDENCY_MANAGEMENT = "dependencyManagement";
 
     @Override
     public void apply(Project project) {
@@ -22,7 +23,8 @@ public class MavenPublishingPlugin implements Plugin<Project> {
                         pom -> pom.withXml(
                                 xml -> {
                                     Node projectNode = xml.asNode();
-                                    Node dependencyManagement = findChild(projectNode, "dependencyManagement");
+                                    // 查找到特定的节点并删除
+                                    Node dependencyManagement = findChild(projectNode, DEPENDENCY_MANAGEMENT);
                                     if (dependencyManagement != null) {
                                         projectNode.remove(dependencyManagement);
                                     }
