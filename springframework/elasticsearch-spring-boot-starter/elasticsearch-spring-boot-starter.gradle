@@ -1,0 +1,5 @@
+dependencies {
+    api(project(":spring-elasticsearch"))
+    api(project(":spring-boot-autoconfigure"))
+    api('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+}

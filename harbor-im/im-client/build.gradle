@@ -1,3 +1,0 @@
-dependencies {
-    implementation(project(':harbor-im:im-core'))
-}

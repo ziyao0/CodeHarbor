@@ -5,8 +5,8 @@ plugins {
 dependencies {
     api("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
     api(project(':harbor-core'))
-    api(project(":springframework:spring-data-redis"))
-    api(project(':springframework:spring-boot-autoconfigure'))
+    api(project(":spring-data-redis"))
+    api(project(':spring-boot-autoconfigure'))
     optional('org.springframework.boot:spring-boot-autoconfigure')
     // https://mvnrepository.com/artifact/org.redisson/redisson-spring-data-31
     implementation 'org.redisson:redisson-spring-data-31:3.24.3'

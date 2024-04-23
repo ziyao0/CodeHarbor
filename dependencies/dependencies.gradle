@@ -1,0 +1,13 @@
+plugins {
+    id "java-platform"
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+dependencies {
+    constraints {
+        api "com.nimbusds:nimbus-jose-jwt:9.37.3"
+    }
+}

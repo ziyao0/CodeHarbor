@@ -24,12 +24,15 @@ import java.util.List;
 @SpringBootApplication
 public class UserCenterStarter implements CommandLineRunner {
 
+    public UserCenterStarter(MenuTreeRepository menuTreeRepository) {
+        this.menuTreeRepository = menuTreeRepository;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(UserCenterStarter.class, args);
     }
 
-    @Autowired
-    private MenuTreeRepository menuTreeRepository;
+    private final MenuTreeRepository menuTreeRepository;
 
     @Override
     public void run(String... args) throws Exception {

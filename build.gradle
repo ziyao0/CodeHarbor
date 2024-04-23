@@ -7,63 +7,71 @@ plugins {
 }
 
 allprojects {
-    apply plugin: 'java-library'
-    apply plugin: "io.spring.dependency-management"
-    apply plugin: "org.springframework.boot"
-    apply plugin: 'maven-publish'
 
-    group 'com.ziyao.harbor'
-    version "${projectVersion}"
-    sourceCompatibility = "${sourceCompatibilityVersion}"
-    compileJava.options.encoding = "UTF-8"
 
-    configurations.configureEach {
-        transitive = true
-    }
-    java {
-//        withJavadocJar() // 生成java-doc
-        withSourcesJar() // 生成源码
-    }
-    jar {
-        enabled = true //生成依赖jar包
-        archiveClassifier = '' //取消原来plain的后缀
-    }
-
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
-    }
-    // 仓库地址
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    ext {
-        set("sentinelVersion", "1.8.6")
-        set("httpclientVersion", "3.1")
-        set("commonslang3Version", "3.8.1")
-        set("servletapiVersion", "6.0.0")
-        set("validationapiVersion", "2.0.1.Final")
-        set("freemarkerVersion", "2.3.31")
-        set('mybatisplusVersion', "3.5.3.1")
-        set("mysqlconnectorjavaVersion", "8.0.29")
-        set("lombokVersion", "1.18.24")
-        set("fastjsonVersion", "2.0.15")
-        set("slf4japiVersion", "1.7.36")
-        set("jwtVersion", "3.19.0")
-        set("guavaVersion", "31.1-jre")
-    }
-
-    dependencies {
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
-    }
-    tasks.withType(JavaCompile).configureEach {
-        options.compilerArgs << "-Xlint:unchecked"
-    }
 }
 subprojects {
+
+    if (project.name != 'dependencies'){
+        apply plugin: 'java-library'
+        apply plugin: "io.spring.dependency-management"
+        apply plugin: "org.springframework.boot"
+        apply plugin: 'maven-publish'
+
+
+        group 'com.ziyao.harbor'
+        version "${projectVersion}"
+        sourceCompatibility = "${sourceCompatibilityVersion}"
+        compileJava.options.encoding = "UTF-8"
+
+        configurations.configureEach {
+            transitive = true
+        }
+        java {
+//        withJavadocJar() // 生成java-doc
+            withSourcesJar() // 生成源码
+        }
+        jar {
+            enabled = true //生成依赖jar包
+            archiveClassifier = '' //取消原来plain的后缀
+        }
+
+        configurations {
+            compileOnly {
+                extendsFrom annotationProcessor
+            }
+        }
+        // 仓库地址
+        repositories {
+            mavenLocal()
+            mavenCentral()
+        }
+        ext {
+            set("sentinelVersion", "1.8.6")
+            set("httpclientVersion", "3.1")
+            set("commonslang3Version", "3.8.1")
+            set("servletapiVersion", "6.0.0")
+            set("validationapiVersion", "2.0.1.Final")
+            set("freemarkerVersion", "2.3.31")
+            set('mybatisplusVersion', "3.5.3.1")
+            set("mysqlconnectorjavaVersion", "8.0.29")
+            set("lombokVersion", "1.18.24")
+            set("fastjsonVersion", "2.0.15")
+            set("slf4japiVersion", "1.7.36")
+            set("jwtVersion", "3.19.0")
+            set("guavaVersion", "31.1-jre")
+        }
+
+        dependencies {
+            compileOnly 'org.projectlombok:lombok'
+            annotationProcessor 'org.projectlombok:lombok'
+        }
+        tasks.withType(JavaCompile).configureEach {
+            options.compilerArgs << "-Xlint:unchecked"
+        }
+    }
+
+
     def springframeworkBom = ['harbor-core']
     def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
     def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
@@ -95,26 +103,6 @@ subprojects {
             imports {
                 mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
             }
-        }
-    }
-}
-
-//remove source
-sourceSets {
-    main {
-        java {
-            srcDirs = []
-        }
-        resources {
-            srcDirs = []
-        }
-    }
-    test {
-        java {
-            srcDirs = []
-        }
-        resources {
-            srcDirs = []
         }
     }
 }

@@ -1,36 +1,14 @@
 plugins {
     id "java-gradle-plugin"
+    id "java"
+    id "groovy"
 }
-
-
-group = 'com.ziyao.harbor'
-version = '1.0.0-SNAPSHOT'
 
 repositories {
     mavenCentral()
     gradlePluginPortal()
 }
 
-sourceCompatibility = 17
-targetCompatibility = 17
-
-gradlePlugin {
-    plugins {
-        optionalDependenciesPlugin {
-            id = "com.ziyao.harbor.optional-dependencies"
-            implementationClass = "com.ziyao.harbor.build.optional.OptionalDependenciesPlugin"
-        }
-        mavenPublishingPlugin {
-            id = "com.ziyao.harbor.maven-publish"
-            implementationClass = "com.ziyao.harbor.build.publishing.MavenPublishingPlugin"
-        }
-        copyPropertiesPlugin {
-            id = "com.ziyao.harbor.copy-properties"
-            implementationClass = "com.ziyao.harbor.build.task.CopyPropertiesPlugin"
-        }
-        addMavenBomPlugin {
-            id = "com.ziyao.harbor.add-bom"
-            implementationClass = "com.ziyao.harbor.build.bom.AddMavenBomPlugin"
-        }
-    }
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
 }
