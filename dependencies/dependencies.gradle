@@ -1,5 +1,6 @@
 plugins {
     id "java-platform"
+    id 'com.ziyao.harbor.import-deps'
 }
 
 javaPlatform {
@@ -14,12 +15,4 @@ dependencies {
     api platform("org.springframework.boot:spring-boot-dependencies:${springBootPluginVersion}")
     api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}")
     api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
-
-    constraints {
-        api("org.slf4j:slf4j-api:1.7.36")
-        api("com.auth0:java-jwt:3.19.0")
-        api("com.google.guava:guava:31.1-jre")
-        api('org.bouncycastle:bcprov-jdk18on:1.72')
-        api('org.projectlombok:lombok:1.18.24')
-    }
 }

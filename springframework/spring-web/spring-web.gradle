@@ -4,9 +4,9 @@ plugins {
 dependencies {
     api(project(":harbor-crypto"))
     api("jakarta.servlet:jakarta.servlet-api")
-    api("com.baomidou:mybatis-plus-annotation:${mybatisplusVersion}")
-    api("com.baomidou:mybatis-plus-extension:${mybatisplusVersion}")
-    api("javax.validation:validation-api:${validationapiVersion}")
+    api("com.baomidou:mybatis-plus-annotation")
+    api("com.baomidou:mybatis-plus-extension")
+    api("javax.validation:validation-api")
     api("org.springframework:spring-webmvc")
     api("org.springframework:spring-context")
     api("org.springframework.boot:spring-boot-autoconfigure")

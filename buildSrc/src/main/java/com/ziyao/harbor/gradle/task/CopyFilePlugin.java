@@ -26,7 +26,7 @@ public class CopyFilePlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         String input = project.getRootDir().getPath() + SUBPROJECTS_SUFFIX;
-        project.getTasks().register("copyProperties", Copy.class, task -> {
+        project.getTasks().register("copyFile", Copy.class, task -> {
             File inputFile = new File(input);
             if (inputFile.exists()) {
                 try {

@@ -14,16 +14,17 @@ public class ModulePlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
 
-        project.getConfigurations()
-                .configureEach(
-                        configuration -> configuration.setTransitive(true)
-                );
-
         PluginManager pluginManager = project.getPluginManager();
 
         pluginManager.apply("java-library");
         pluginManager.apply("maven-publish");
         pluginManager.apply(ManagementConfigurationPlugin.class);
         pluginManager.apply(OptionalDependenciesPlugin.class);
+
+        project.getConfigurations()
+                .configureEach(
+                        configuration -> configuration.setTransitive(true)
+                );
+
     }
 }

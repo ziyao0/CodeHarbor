@@ -2,10 +2,6 @@ plugins {
     id 'com.ziyao.harbor.root'
 }
 
-allprojects {
-
-
-}
 subprojects {
 
     if (project.name != 'dependencies') {
@@ -33,28 +29,6 @@ subprojects {
             compileOnly {
                 extendsFrom annotationProcessor
             }
-        }
-
-
-        // 仓库地址
-        repositories {
-            mavenLocal()
-            mavenCentral()
-        }
-        ext {
-            set("sentinelVersion", "1.8.6")
-            set("httpclientVersion", "3.1")
-            set("commonslang3Version", "3.8.1")
-            set("servletapiVersion", "6.0.0")
-            set("validationapiVersion", "2.0.1.Final")
-            set("freemarkerVersion", "2.3.31")
-            set('mybatisplusVersion', "3.5.3.1")
-            set("mysqlconnectorjavaVersion", "8.0.29")
-            set("lombokVersion", "1.18.24")
-            set("fastjsonVersion", "2.0.15")
-            set("slf4japiVersion", "1.7.36")
-            set("jwtVersion", "3.19.0")
-            set("guavaVersion", "31.1-jre")
         }
 
         dependencies {

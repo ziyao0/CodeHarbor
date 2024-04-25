@@ -7,8 +7,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-autoconfigure"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
     // 集成sentinel
-    implementation "com.alibaba.csp:sentinel-apache-dubbo3-adapter:${sentinelVersion}"
-    implementation "com.alibaba.csp:sentinel-transport-simple-http:${sentinelVersion}"
+    implementation "com.alibaba.csp:sentinel-apache-dubbo3-adapter"
+    implementation "com.alibaba.csp:sentinel-transport-simple-http"
     // 集成skywalking
     implementation "org.apache.dubbo:dubbo-metrics-api"
 //    implementation "org.apache.skywalking:apm-toolkit-micrometer-1.10:8.14.0"
@@ -16,9 +16,9 @@ dependencies {
     implementation "org.apache.dubbo:dubbo-spring-boot-actuator"
     implementation "org.springframework.boot:spring-boot-starter-actuator"
 //    implementation "org.springframework.boot:spring-boot-starter-web"
-    implementation "io.micrometer:micrometer-core:1.11.0"
-    implementation "io.micrometer:micrometer-observation:1.10.3"
-    implementation "io.micrometer:micrometer-registry-prometheus:1.11.0"
+    implementation "io.micrometer:micrometer-core"
+    implementation "io.micrometer:micrometer-observation"
+    implementation "io.micrometer:micrometer-registry-prometheus"
 
     implementation "org.apache.dubbo:dubbo-spring-boot-observability-starter"
 
