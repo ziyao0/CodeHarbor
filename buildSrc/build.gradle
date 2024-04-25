@@ -12,3 +12,8 @@ repositories {
 java {
     sourceCompatibility = JavaVersion.VERSION_17
 }
+
+dependencies {
+    implementation "com.github.ben-manes:gradle-versions-plugin:0.38.0"
+    implementation "io.github.gradle-nexus:publish-plugin:1.1.0"
+}

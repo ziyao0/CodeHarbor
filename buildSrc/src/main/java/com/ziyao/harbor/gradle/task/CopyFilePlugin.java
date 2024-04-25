@@ -1,4 +1,4 @@
-package com.ziyao.harbor.build.task;
+package com.ziyao.harbor.gradle.task;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -14,7 +14,7 @@ import java.util.List;
  * @author ziyao zhang
  * @since 2024/3/6
  */
-public class CopyPropertiesPlugin implements Plugin<Project> {
+public class CopyFilePlugin implements Plugin<Project> {
 
     // 需要拷贝的项目资源路径
     private static final String SUBPROJECTS_SUFFIX = "/resources/subprojects.txt";

@@ -1,9 +1,8 @@
 dependencies {
     implementation(project(":harbor-core"))
     implementation(project(':harbor-crypto'))
-//    implementation(project(":harbor-springframework:harbor-spring-web"))
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
     implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'

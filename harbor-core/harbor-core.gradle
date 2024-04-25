@@ -1,9 +1,25 @@
-plugins {
-    id "java-library"
-    id("com.ziyao.harbor.maven-publish")
-}
 dependencies {
-    api("org.slf4j:slf4j-api:${slf4japiVersion}")
-    api("com.auth0:java-jwt:${jwtVersion}")
-    api("com.google.guava:guava:${guavaVersion}")
+    api("org.slf4j:slf4j-api")
+    api("com.auth0:java-jwt")
+    api("com.google.guava:guava")
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+    repositories {
+        maven {
+            // 允许http访问
+            allowInsecureProtocol = true
+            // 私服仓库地址
+            url 'http://192.168.20.247:8081/repository/maven-releases/'
+            credentials {
+                username 'test'
+                password 'test'
+            }
+        }
+    }
 }

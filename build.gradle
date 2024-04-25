@@ -1,9 +1,5 @@
 plugins {
-
-    //     id 'java-library'
-    id "com.ziyao.harbor.copy-properties"
-    id 'org.springframework.boot' version "${springBootPluginVersion}"
-    id 'io.spring.dependency-management' version "${springDependencyPluginVersion}"
+    id 'com.ziyao.harbor.root'
 }
 
 allprojects {
@@ -12,11 +8,8 @@ allprojects {
 }
 subprojects {
 
-    if (project.name != 'dependencies'){
-        apply plugin: 'java-library'
-        apply plugin: "io.spring.dependency-management"
-        apply plugin: "org.springframework.boot"
-        apply plugin: 'maven-publish'
+    if (project.name != 'dependencies') {
+        apply  plugin: 'com.ziyao.harbor.module'
 
 
         group 'com.ziyao.harbor'
@@ -41,6 +34,8 @@ subprojects {
                 extendsFrom annotationProcessor
             }
         }
+
+
         // 仓库地址
         repositories {
             mavenLocal()
@@ -63,46 +58,13 @@ subprojects {
         }
 
         dependencies {
-            compileOnly 'org.projectlombok:lombok'
-            annotationProcessor 'org.projectlombok:lombok'
+            management platform(project(":dependencies"))
+
+            compileOnly 'org.projectlombok:lombok:1.18.24'
+            annotationProcessor 'org.projectlombok:lombok:1.18.24'
         }
         tasks.withType(JavaCompile).configureEach {
             options.compilerArgs << "-Xlint:unchecked"
-        }
-    }
-
-
-    def springframeworkBom = ['harbor-core']
-    def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
-    def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
-    def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
-
-    if (!springframeworkBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
-            }
-        }
-    }
-    if (!alibabaCloudBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
-            }
-        }
-    }
-    if (!springCloudBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-            }
-        }
-    }
-    if (!dubboBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
-            }
         }
     }
 }

@@ -1,4 +1,9 @@
+plugins {
+    id 'com.ziyao.harbor.management'
+}
 dependencies {
+    management platform(project(":dependencies"))
+
     api("com.alibaba.nacos:nacos-client")
     api("org.apache.dubbo:dubbo-spring-boot-starter")
 }
