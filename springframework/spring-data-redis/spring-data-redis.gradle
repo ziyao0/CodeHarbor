@@ -1,7 +1,7 @@
 dependencies {
     api(project(':harbor-core'))
     optional('org.springframework.data:spring-data-redis')
-    api("com.fasterxml.jackson.core:jackson-databind:2.12.7.1")
-    implementation 'org.redisson:redisson:3.27.2'
-    implementation 'org.aspectj:aspectjweaver:1.9.6'
+    api("com.fasterxml.jackson.core:jackson-databind")
+    implementation 'org.redisson:redisson'
+    implementation 'org.aspectj:aspectjweaver'
 }

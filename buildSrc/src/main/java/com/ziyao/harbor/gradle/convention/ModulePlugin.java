@@ -1,5 +1,6 @@
 package com.ziyao.harbor.gradle.convention;
 
+import com.ziyao.harbor.gradle.GradleConstantPool;
 import com.ziyao.harbor.gradle.management.ManagementConfigurationPlugin;
 import com.ziyao.harbor.gradle.optional.OptionalDependenciesPlugin;
 import org.gradle.api.Plugin;
@@ -16,8 +17,8 @@ public class ModulePlugin implements Plugin<Project> {
 
         PluginManager pluginManager = project.getPluginManager();
 
-        pluginManager.apply("java-library");
-        pluginManager.apply("maven-publish");
+        pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_library);
+        pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_maven_publish);
         pluginManager.apply(ManagementConfigurationPlugin.class);
         pluginManager.apply(OptionalDependenciesPlugin.class);
 

@@ -1,6 +1,7 @@
 package com.ziyao.harbor.gradle.optional;
 
 
+import com.ziyao.harbor.gradle.GradleConstantPool;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -19,14 +20,12 @@ import org.gradle.api.tasks.SourceSetContainer;
  */
 public class OptionalDependenciesPlugin implements Plugin<Project> {
 
-    /**
-     * Name of the {@code optional} configuration.
-     */
-    public static final String OPTIONAL_CONFIGURATION_NAME = "optional";
-
     @Override
     public void apply(Project project) {
-        Configuration optional = project.getConfigurations().create(OPTIONAL_CONFIGURATION_NAME);
+
+        Configuration optional = project.getConfigurations()
+                .create(GradleConstantPool.OPTIONAL_CONFIGURATION_NAME);
+
         optional.setCanBeConsumed(false);
         optional.setCanBeResolved(false);
         project.getPlugins().withType(JavaPlugin.class, (javaPlugin) -> {

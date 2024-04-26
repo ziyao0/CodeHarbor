@@ -1,5 +1,4 @@
 plugins {
-    id "java-platform"
     id 'com.ziyao.harbor.import-deps'
 }
 
