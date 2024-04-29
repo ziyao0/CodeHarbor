@@ -3,19 +3,12 @@ package com.ziyao.harbor.core.text;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
 
-import java.io.Serial;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
-
 /**
  * @author ziyao
  * @since 2023/4/23
  */
 public class StringFinder extends TextFinder {
 
-    @Serial
     private static final long serialVersionUID = -3893478424730695351L;
     private final CharSequence strToFind;
     private final boolean caseInsensitive;

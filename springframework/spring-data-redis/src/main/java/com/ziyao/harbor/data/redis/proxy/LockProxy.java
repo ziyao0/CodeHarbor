@@ -35,14 +35,14 @@ public class LockProxy {
         RuleMode rule = lock.rule();
         if (rLock.isLocked()) {
             switch (rule) {
-                case SKIP -> {
+                case SKIP: {
                     return invoke(lock.callback());
                 }
-                case AWAIT -> {
+                case AWAIT: {
                     return tryLock(rLock, lock, point);
                     // 执行锁等待逻辑
                 }
-                default -> {
+                default: {
                     return tryLock(rLock, lock, point);
                 }
             }

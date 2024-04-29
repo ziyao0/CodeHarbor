@@ -1,11 +1,9 @@
 package com.ziyao.harbor.core;
 
-import com.ziyao.harbor.core.utils.Charsets;
 import com.ziyao.harbor.core.utils.RegexPool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.net.URLDecoder;
 import java.util.regex.Matcher;
 
 /**
@@ -15,11 +13,6 @@ import java.util.regex.Matcher;
 public abstract class NetworkFinder {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NetworkFinder.class);
-
-    public static String find2(String source) {
-        source = URLDecoder.decode(source, Charsets.defaultCharset());
-        return find(source);
-    }
 
     public static String find(String source) {
         Matcher ipMatcher = RegexPool.IP4.forName().matcher(source);

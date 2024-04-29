@@ -1,5 +1,7 @@
 package io.ziyao.gradle;
 
+import org.gradle.internal.impldep.com.google.common.collect.Lists;
+
 import java.util.List;
 
 /**
@@ -18,9 +20,7 @@ public interface GradleConstantPool {
      */
     public static final String OPTIONAL_CONFIGURATION_NAME = "optional";
     public static final String MANAGEMENT_CONFIGURATION_NAME = "management";
-    // 源文件资源路径
-    public static final List<String> SOURCES = List.of("/resources/config/bootstrap-register.yml");
-    // 目标资源路径
+    public static final List<String> SOURCES = Lists.newArrayList("/resources/config/bootstrap-register.yml");
     public static final String TARGET_PATH = "/src/main/resources";
 
 }

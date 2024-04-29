@@ -21,7 +21,7 @@ public class DelegatingOAuth2TokenGenerator implements OAuth2TokenGenerator<OAut
     public DelegatingOAuth2TokenGenerator(OAuth2TokenGenerator<? extends OAuth2Token>... tokenGenerators) {
         Assert.notNull(tokenGenerators, "tokenGenerators cannot be empty");
         Assert.noNullElements(tokenGenerators, "tokenGenerator cannot be null");
-        this.tokenGenerators = List.copyOf(asList(tokenGenerators));
+        this.tokenGenerators = asList(tokenGenerators);
     }
 
     @Override

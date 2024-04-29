@@ -11,7 +11,7 @@ public class DefaultOAuth2TokenContext implements OAuth2TokenContext {
     private final Map<String, Object> context;
 
     private DefaultOAuth2TokenContext(Map<String, Object> context) {
-        this.context = Map.copyOf(context);
+        this.context = context;
     }
 
     @SuppressWarnings("unchecked")

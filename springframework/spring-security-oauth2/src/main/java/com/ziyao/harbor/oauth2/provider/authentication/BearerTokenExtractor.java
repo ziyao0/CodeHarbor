@@ -1,11 +1,10 @@
 package com.ziyao.harbor.oauth2.provider.authentication;
 
-import com.ziyao.harbor.oauth2.core.OAuth2AccessToken;
-import javax.servlet.http.HttpServletRequest;
 import com.ziyao.harbor.core.token.TokenType;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 
 /**

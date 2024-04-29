@@ -25,7 +25,7 @@ public class ImportConfigurePlugin implements Plugin<Project> {
                 // 拷贝文件
                 task.from(rootPath + source);
                 task.into(destDir);
-                System.out.println("copy properties from【" + source + "】into【" + destDir + "】");
+                System.out.println("copy properties from[" + source + "]into[" + destDir + "]");
             });
         });
     }

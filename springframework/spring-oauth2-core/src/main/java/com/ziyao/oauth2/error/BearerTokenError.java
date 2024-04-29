@@ -4,15 +4,13 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 
-import java.io.Serial;
-
 /**
  * @author ziyao zhang
  * @since 2024/3/25
  */
 @Getter
 public class BearerTokenError extends OAuth2Error {
-    @Serial
+
     private static final long serialVersionUID = 2409545955385590286L;
     /**
      * -- GETTER --

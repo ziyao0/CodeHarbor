@@ -6,7 +6,6 @@ import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
@@ -17,7 +16,6 @@ import java.util.function.Consumer;
  * @since 2024/3/25
  */
 public class OAuth2Authorization implements Serializable {
-    @Serial
     private static final long serialVersionUID = 161440620113264850L;
     @Getter
     private String id;
@@ -95,7 +93,7 @@ public class OAuth2Authorization implements Serializable {
 
     @Getter
     public static class Token<T extends OAuth2Token> implements Serializable {
-        @Serial
+
         private static final long serialVersionUID = 5452476839192606325L;
         protected static final String TOKEN_METADATA_NAMESPACE = "metadata.token.";
 
@@ -219,7 +217,7 @@ public class OAuth2Authorization implements Serializable {
      * A builder for {@link OAuth2Authorization}.
      */
     public static class Builder implements Serializable {
-        @Serial
+
         private static final long serialVersionUID = -5658976968224374315L;
 
         private String id;

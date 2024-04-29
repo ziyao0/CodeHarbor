@@ -2,7 +2,6 @@ package com.ziyao.oauth2.error;
 
 import org.springframework.util.Assert;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 /**
@@ -11,7 +10,7 @@ import java.io.Serializable;
  */
 public class OAuth2Error implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 4274212502376008373L;
 
     private final String errorCode;

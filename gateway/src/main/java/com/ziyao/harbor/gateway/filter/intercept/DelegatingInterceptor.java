@@ -22,7 +22,7 @@ public class DelegatingInterceptor implements Interceptor<InterceptContext> {
     public DelegatingInterceptor(Interceptor<? extends InterceptContext>... interceptors) {
         Assert.notNull(interceptors, "interceptors cannot be empty");
         Assert.noNullElements(interceptors, "interceptors cannot be null");
-        this.interceptors = List.copyOf(asList(interceptors));
+        this.interceptors = asList(interceptors);
     }
 
     @Override
