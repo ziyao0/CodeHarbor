@@ -2,20 +2,17 @@ plugins {
     id 'com.ziyao.harbor.root'
 }
 
+group 'com.ziyao.harbor'
+
 subprojects {
 
     if (project.name != 'dependencies') {
         apply  plugin: 'com.ziyao.harbor.module'
 
 
-        group 'com.ziyao.harbor'
-        version "${projectVersion}"
-        sourceCompatibility = "${sourceCompatibilityVersion}"
-        compileJava.options.encoding = "UTF-8"
 
-        configurations.configureEach {
-            transitive = true
-        }
+        sourceCompatibility = JavaVersion.VERSION_17
+
         java {
 //        withJavadocJar() // 生成java-doc
             withSourcesJar() // 生成源码
@@ -34,11 +31,8 @@ subprojects {
         dependencies {
             management platform(project(":dependencies"))
 
-            compileOnly 'org.projectlombok:lombok:1.18.24'
-            annotationProcessor 'org.projectlombok:lombok:1.18.24'
-        }
-        tasks.withType(JavaCompile).configureEach {
-            options.compilerArgs << "-Xlint:unchecked"
+            compileOnly 'org.projectlombok:lombok'
+            annotationProcessor 'org.projectlombok:lombok'
         }
     }
 }

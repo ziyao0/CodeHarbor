@@ -3,7 +3,7 @@ dependencies {
     implementation "com.alibaba.nacos:nacos-client"
     implementation "org.apache.dubbo:dubbo-spring-boot-starter"
     implementation 'org.springframework.boot:spring-boot-starter'
-    implementation 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-autoconfigure'
     implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"

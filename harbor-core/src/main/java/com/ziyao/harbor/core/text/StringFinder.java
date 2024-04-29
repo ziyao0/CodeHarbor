@@ -4,6 +4,10 @@ import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
 
 import java.io.Serial;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 
 /**
  * @author ziyao
@@ -61,5 +65,16 @@ public class StringFinder extends TextFinder {
             return -1;
         }
         return start + strToFind.length();
+    }
+
+
+    public static void main(String[] args) {
+
+        String dateString = "2024-04";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
+        TemporalAccessor temporalAccessor = formatter.parse(dateString);
+        LocalDate date = LocalDate.from(temporalAccessor);
+//        LocalDate lastDayOfJune = date.plusMonths(2).withDayOfMonth(date.plusMonths(2));
+//        System.out.println(lastDayOfJune);
     }
 }

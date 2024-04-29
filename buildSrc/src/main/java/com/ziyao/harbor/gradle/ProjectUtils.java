@@ -33,7 +33,17 @@ public abstract class ProjectUtils {
         return !(isSnapshot(project) || isMilestone(project));
     }
 
-    private static String projectVersion(Project project) {
+    public static String projectVersion(Project project) {
         return String.valueOf(project.getVersion());
+    }
+
+    public static String findProperty(String propertyName, Project project) {
+        Project rootProject = project.getRootProject();
+        Object property = rootProject.findProperty(propertyName);
+        if (property != null) {
+            System.out.println(property);
+            return property.toString();
+        }
+        return null;
     }
 }

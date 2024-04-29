@@ -14,4 +14,10 @@ dependencies {
     api platform("org.springframework.boot:spring-boot-dependencies:${springBootPluginVersion}")
     api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}")
     api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+
+    constraints {
+        api('org.slf4j:slf4j-api:1.7.36')
+        api('com.auth0:java-jwt:3.19.0')
+        api('com.google.guava:guava:31.1-jre')
+    }
 }

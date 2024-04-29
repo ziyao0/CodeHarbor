@@ -10,11 +10,6 @@ import org.gradle.api.plugins.JavaPluginExtension;
 import org.gradle.api.tasks.SourceSetContainer;
 
 /**
- * A {@code Plugin} that adds support for Maven-style optional dependencies. Creates a new
- * {@code optional} configuration. The {@code optional} configuration is part of the
- * project's compile and runtime classpaths but does not affect the classpath of dependent
- * projects.
- *
  * @author ziyao zhang
  * @since 2024/3/4
  */

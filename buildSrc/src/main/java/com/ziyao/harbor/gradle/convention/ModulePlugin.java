@@ -3,6 +3,7 @@ package com.ziyao.harbor.gradle.convention;
 import com.ziyao.harbor.gradle.GradleConstantPool;
 import com.ziyao.harbor.gradle.management.ManagementConfigurationPlugin;
 import com.ziyao.harbor.gradle.optional.OptionalDependenciesPlugin;
+import com.ziyao.harbor.gradle.project.SpringJavaPlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginManager;
@@ -21,11 +22,6 @@ public class ModulePlugin implements Plugin<Project> {
         pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_maven_publish);
         pluginManager.apply(ManagementConfigurationPlugin.class);
         pluginManager.apply(OptionalDependenciesPlugin.class);
-
-        project.getConfigurations()
-                .configureEach(
-                        configuration -> configuration.setTransitive(true)
-                );
-
+        pluginManager.apply(SpringJavaPlugin.class);
     }
 }

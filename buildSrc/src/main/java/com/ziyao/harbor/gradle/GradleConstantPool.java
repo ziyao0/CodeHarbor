@@ -1,5 +1,7 @@
 package com.ziyao.harbor.gradle;
 
+import java.util.List;
+
 /**
  * @author ziyao
  * @since 2023/4/23
@@ -15,4 +17,9 @@ public interface GradleConstantPool {
      * Name of the {@code optional} configuration.
      */
     public static final String OPTIONAL_CONFIGURATION_NAME = "optional";
+    // 源文件资源路径
+    public static final List<String> SOURCES = List.of("/resources/config/bootstrap-register.yml");
+    // 目标资源路径
+    public static final String TARGET_PATH = "/src/main/resources";
+
 }
