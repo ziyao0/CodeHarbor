@@ -1,6 +1,6 @@
-package com.ziyao.harbor.gradle.dependency;
+package io.ziyao.gradle.dependency;
 
-import com.ziyao.harbor.gradle.GradleConstantPool;
+import io.ziyao.gradle.GradleConstantPool;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.slf4j.Logger;
@@ -24,19 +24,18 @@ public class ImportDependencyPlugin implements Plugin<Project> {
         project.getPluginManager().apply(GradleConstantPool.GRADLE_PLUGIN_platform);
 
         try {
-            File file = new File(GradleConstantPool.LIBS);
+            File file = new File(project.getRootDir().getPath() + GradleConstantPool.LIBS);
 
             if (file.exists()) {
                 List<String> libs = Files.readAllLines(file.toPath());
                 if (!libs.isEmpty()) {
                     libs.stream().distinct().filter(lib -> {
-                        // 去掉空值和注释
+                        // Remove comments and spaces
                         if (lib == null || lib.isEmpty()) return false;
                         return !lib.startsWith(GradleConstantPool.WELL_NUMBER);
                     }).forEach(lib -> {
-                        // 添加依赖
-                        project.getDependencies().getConstraints()
-                                .add(GradleConstantPool.GRADLE_API, lib.trim());
+                        // Add dependencies
+                        project.getDependencies().getConstraints().add(GradleConstantPool.GRADLE_API, lib.trim());
                     });
                 }
             }

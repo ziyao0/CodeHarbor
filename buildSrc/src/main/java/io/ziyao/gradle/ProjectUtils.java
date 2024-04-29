@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gradle;
+package io.ziyao.gradle;
 
 import org.gradle.api.Project;
 
@@ -41,7 +41,6 @@ public abstract class ProjectUtils {
         Project rootProject = project.getRootProject();
         Object property = rootProject.findProperty(propertyName);
         if (property != null) {
-            System.out.println(property);
             return property.toString();
         }
         return null;

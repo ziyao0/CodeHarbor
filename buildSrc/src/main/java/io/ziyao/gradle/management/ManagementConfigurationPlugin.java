@@ -1,5 +1,6 @@
-package com.ziyao.harbor.gradle.management;
+package io.ziyao.gradle.management;
 
+import io.ziyao.gradle.GradleConstantPool;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.ConfigurationContainer;
@@ -17,12 +18,11 @@ import org.gradle.api.publish.maven.plugins.MavenPublishPlugin;
  */
 public class ManagementConfigurationPlugin implements Plugin<Project> {
 
-    public static final String MANAGEMENT_CONFIGURATION_NAME = "management";
 
     @Override
     public void apply(Project project) {
         ConfigurationContainer configurations = project.getConfigurations();
-        configurations.create(MANAGEMENT_CONFIGURATION_NAME, (management) -> {
+        configurations.create(GradleConstantPool.MANAGEMENT_CONFIGURATION_NAME, (management) -> {
             management.setVisible(false);
             management.setCanBeConsumed(false);
             management.setCanBeResolved(false);

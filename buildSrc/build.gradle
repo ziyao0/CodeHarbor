@@ -1,19 +1,10 @@
 plugins {
-    id "java-gradle-plugin"
-    id "java"
-    id "groovy"
+//    id "java"
+//    id "groovy"
+//    id "java-gradle-plugin"
 }
 
 repositories {
     mavenCentral()
     gradlePluginPortal()
-}
-
-java {
-    sourceCompatibility = JavaVersion.VERSION_17
-}
-
-dependencies {
-    implementation "com.github.ben-manes:gradle-versions-plugin:0.38.0"
-    implementation "io.github.gradle-nexus:publish-plugin:1.1.0"
 }

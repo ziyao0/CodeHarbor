@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gradle.project;
+package io.ziyao.gradle.project;
 
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
@@ -10,17 +10,16 @@ import org.gradle.api.Project;
 public class CopyPropertyFormRootProjectPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
-
-        copyPropertyFromRootProjectTo("group", project);
-        copyPropertyFromRootProjectTo("version", project);
-        copyPropertyFromRootProjectTo("description", project);
+        Project rootProject = project.getRootProject();
+        copyPropertyFromRootProjectTo("group", rootProject);
+        copyPropertyFromRootProjectTo("version", rootProject);
+        copyPropertyFromRootProjectTo("description", rootProject);
     }
 
     private void copyPropertyFromRootProjectTo(String propertyName, Project project) {
-        Project rootProject = project.getRootProject();
-        Object property = rootProject.findProperty(propertyName);
+
+        Object property = project.findProperty(propertyName);
         if (property != null) {
-            System.out.println(property);
             project.setProperty(propertyName, property);
         }
     }

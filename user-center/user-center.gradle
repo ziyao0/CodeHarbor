@@ -1,5 +1,4 @@
 dependencies {
-
     implementation(project(":dubbo-api"))
     implementation(project(":spring-web"))
     implementation(project(":elasticsearch-spring-boot-starter"))

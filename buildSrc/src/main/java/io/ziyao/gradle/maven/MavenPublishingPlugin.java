@@ -1,4 +1,4 @@
-package com.ziyao.harbor.gradle.maven;
+package io.ziyao.gradle.maven;
 
 import groovy.namespace.QName;
 import groovy.util.Node;

@@ -1,6 +1,6 @@
-package com.ziyao.harbor.gradle.project;
+package io.ziyao.gradle.project;
 
-import com.ziyao.harbor.gradle.maven.NexusPlugin;
+import io.ziyao.gradle.ProjectUtils;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.tasks.compile.JavaCompile;
@@ -15,19 +15,19 @@ public class SpringJavaPlugin implements Plugin<Project> {
     public void apply(Project project) {
 
         project.getPlugins().apply(CopyPropertyFormRootProjectPlugin.class);
-//        project.getPlugins().apply(NexusPlugin.class);
 
-        // 设置依赖传递
         project.getConfigurations().configureEach(
                 configuration -> configuration.setTransitive(true)
         );
 
-        // 设置字符集编码
+        // set encoding and sourceCompatibility
         project.getTasks().withType(
                 JavaCompile.class, javaCompile -> {
-                    Object property = project.findProperty("encoding");
-                    javaCompile.getOptions().setEncoding(String.valueOf(property));
+                    javaCompile.setSourceCompatibility(
+                            ProjectUtils.findProperty("sourceCompatibilityVersion", project));
 
+                    javaCompile.getOptions().setEncoding(
+                            ProjectUtils.findProperty("encoding", project));
                 });
     }
 }

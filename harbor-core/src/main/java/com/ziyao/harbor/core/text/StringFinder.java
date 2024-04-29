@@ -66,15 +66,4 @@ public class StringFinder extends TextFinder {
         }
         return start + strToFind.length();
     }
-
-
-    public static void main(String[] args) {
-
-        String dateString = "2024-04";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM");
-        TemporalAccessor temporalAccessor = formatter.parse(dateString);
-        LocalDate date = LocalDate.from(temporalAccessor);
-//        LocalDate lastDayOfJune = date.plusMonths(2).withDayOfMonth(date.plusMonths(2));
-//        System.out.println(lastDayOfJune);
-    }
 }

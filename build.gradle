@@ -1,17 +1,12 @@
 plugins {
-    id 'com.ziyao.harbor.root'
+    id 'io.ziyao.root'
 }
-
 group 'com.ziyao.harbor'
 
 subprojects {
-
     if (project.name != 'dependencies') {
-        apply  plugin: 'com.ziyao.harbor.module'
-
-
-
-        sourceCompatibility = JavaVersion.VERSION_17
+        // 添加模块代码的插件
+        apply plugin: 'io.ziyao.module'
 
         java {
 //        withJavadocJar() // 生成java-doc
@@ -22,6 +17,7 @@ subprojects {
             archiveClassifier = '' //取消原来plain的后缀
         }
 
+
         configurations {
             compileOnly {
                 extendsFrom annotationProcessor
@@ -30,7 +26,6 @@ subprojects {
 
         dependencies {
             management platform(project(":dependencies"))
-
             compileOnly 'org.projectlombok:lombok'
             annotationProcessor 'org.projectlombok:lombok'
         }

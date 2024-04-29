@@ -1,9 +1,10 @@
-package com.ziyao.harbor.gradle.convention;
+package io.ziyao.gradle.convention;
 
-import com.ziyao.harbor.gradle.GradleConstantPool;
-import com.ziyao.harbor.gradle.management.ManagementConfigurationPlugin;
-import com.ziyao.harbor.gradle.optional.OptionalDependenciesPlugin;
-import com.ziyao.harbor.gradle.project.SpringJavaPlugin;
+import io.ziyao.gradle.GradleConstantPool;
+import io.ziyao.gradle.management.ManagementConfigurationPlugin;
+import io.ziyao.gradle.maven.NexusPublishingPlugin;
+import io.ziyao.gradle.optional.OptionalDependenciesPlugin;
+import io.ziyao.gradle.project.SpringJavaPlugin;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.plugins.PluginManager;
@@ -12,7 +13,7 @@ import org.gradle.api.plugins.PluginManager;
  * @author ziyao
  * @since 2023/4/23
  */
-public class ModulePlugin implements Plugin<Project> {
+public class ModuleProjectPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
 
@@ -20,8 +21,9 @@ public class ModulePlugin implements Plugin<Project> {
 
         pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_library);
         pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_maven_publish);
+        pluginManager.apply(SpringJavaPlugin.class);
         pluginManager.apply(ManagementConfigurationPlugin.class);
         pluginManager.apply(OptionalDependenciesPlugin.class);
-        pluginManager.apply(SpringJavaPlugin.class);
+        pluginManager.apply(NexusPublishingPlugin.class);
     }
 }
