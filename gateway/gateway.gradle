@@ -1,0 +1,14 @@
+dependencies {
+    implementation(project(":harbor-core"))
+    implementation(project(':harbor-crypto'))
+    implementation 'org.springframework.boot:spring-boot-autoconfigure'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    implementation 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    implementation 'org.springframework.cloud:spring-cloud-starter-gateway'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery'
+    implementation 'com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config'
+    implementation 'org.springframework.cloud:spring-cloud-loadbalancer'
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
+    implementation 'org.apache.dubbo:dubbo-spring-boot-starter'
+    implementation 'org.lionsoul:ip2region'
+}

@@ -253,7 +253,8 @@ public enum RegexPool {
      * bcrypt 正则表达式
      */
     BCRYPT_PATTERN("\\A\\$2(a|y|b)?\\$(\\d\\d)\\$[./0-9A-Za-z]{53}"),
-    COLLECTION_PROPERTY("(\\S+)?\\[(\\d+)\\](\\.\\S+)?");
+    COLLECTION_PROPERTY("(\\S+)?\\[(\\d+)\\](\\.\\S+)?"),
+    HTTP_URI("(https?://[^/:]+(:\\d+)?)(/|$)");
 
     private final String regex;
 

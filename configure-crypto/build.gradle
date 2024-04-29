@@ -1,4 +1,0 @@
-dependencies {
-    implementation(project(':harbor-crypto'))
-    implementation('org.yaml:snakeyaml:2.0')
-}

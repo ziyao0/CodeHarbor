@@ -1,9 +1,0 @@
-plugins {
-    id "java-library"
-    id("com.ziyao.harbor.maven-publish")
-}
-dependencies {
-    api("org.slf4j:slf4j-api:${slf4japiVersion}")
-    api("com.auth0:java-jwt:${jwtVersion}")
-    api("com.google.guava:guava:${guavaVersion}")
-}

@@ -1,6 +1,6 @@
 package com.ziyao.harbor.gateway.cache;
 
-import com.ziyao.harbor.core.CacheBeanNames;
+import jakarta.annotation.Resource;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -11,8 +11,6 @@ import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSeriali
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-
-import javax.annotation.Resource;
 
 /**
  * @author ziyao zhang
@@ -25,7 +23,7 @@ public class ReactiveRedisAutoConfiguration {
     @Resource
     private ReactiveStringRedisTemplate reactiveStringRedisTemplate;
 
-    @Bean(CacheBeanNames.REACTIVE_REDIS_TEMPLATE)
+    @Bean
     public ReactiveRedisTemplate<String, Object> reactiveRedisTemplate(ReactiveRedisConnectionFactory reactiveRedisConnectionFactory) {
         RedisSerializer<String> keySerializer = new StringRedisSerializer();
         RedisSerializer<Object> valueSerializer = new GenericJackson2JsonRedisSerializer();

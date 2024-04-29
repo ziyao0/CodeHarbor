@@ -6,6 +6,7 @@ import com.ziyao.harbor.core.lang.Nullable;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.Property;
+import lombok.Setter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.DumperOptions;
@@ -30,9 +31,19 @@ public abstract class YamlProcessor {
 
     private ResolutionMethod resolutionMethod = ResolutionMethod.OVERRIDE;
     private InputStream[] streams = new InputStream[0];
+    @Setter
     private List<Property> properties = new ArrayList<>();
     private List<DocumentMatcher> documentMatchers = Collections.emptyList();
 
+    /**
+     * -- SETTER --
+     * Flag indicating that a document for which all the
+     * <p>
+     * abstain will
+     * nevertheless match. Default is
+     * .
+     */
+    @Setter
     private boolean matchDefault = true;
 
     private Set<String> supportedTypes = Collections.emptySet();
@@ -69,15 +80,6 @@ public abstract class YamlProcessor {
     }
 
     /**
-     * Flag indicating that a document for which all the
-     * {@link #setDocumentMatchers(DocumentMatcher...) document matchers} abstain will
-     * nevertheless match. Default is {@code true}.
-     */
-    public void setMatchDefault(boolean matchDefault) {
-        this.matchDefault = matchDefault;
-    }
-
-    /**
      * Method to use for resolving resources. Each resource will be converted to a Map,
      * so this property is used to decide which map entries to keep in the final output
      * from this factory. Default is {@link ResolutionMethod#OVERRIDE}.
@@ -89,10 +91,6 @@ public abstract class YamlProcessor {
 
     public void setStreams(InputStream... streams) {
         this.streams = streams;
-    }
-
-    public void setProperties(List<Property> properties) {
-        this.properties = properties;
     }
 
     /**

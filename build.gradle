@@ -1,141 +1,33 @@
 plugins {
-
-    //     id 'java-library'
-    id "com.ziyao.harbor.copy-properties"
-    id 'org.springframework.boot' version "${springBootPluginVersion}"
-    id 'io.spring.dependency-management' version "${springDependencyPluginVersion}"
+    id 'io.ziyao.root'
 }
+group 'com.ziyao.harbor'
 
-allprojects {
-    apply plugin: 'java-library'
-    apply plugin: "io.spring.dependency-management"
-    apply plugin: "org.springframework.boot"
-    apply plugin: 'maven-publish'
-
-    group 'com.ziyao.harbor'
-    version "${projectVersion}"
-    sourceCompatibility = "${sourceCompatibilityVersion}"
-    compileJava.options.encoding = "UTF-8"
-
-    configurations.configureEach {
-        transitive = true
-    }
-    def projectName = project.name;
-    java {
-//        withJavadocJar() // 生成java-doc
-        withSourcesJar() // 生成源码
-    }
-    jar {
-        enabled = true //生成依赖jar包
-        archiveClassifier = '' //取消原来plain的后缀
-    }
-
-    configurations {
-        compileOnly {
-            extendsFrom annotationProcessor
-        }
-    }
-    publishing {
-        publications {
-            maven(MavenPublication) {
-                from components.java
-            }
-        }
-        repositories {
-            maven {
-                // 允许http访问
-                allowInsecureProtocol = true
-                // 私服仓库地址
-                url 'http://127.0.0.1:8081/repository/maven-releases/'
-                credentials {
-                    username 'admin'
-                    password 'admin'
-                }
-            }
-        }
-    }
-
-    // 仓库地址
-    repositories {
-        mavenLocal()
-        mavenCentral()
-    }
-    ext {
-        set("sentinelVersion", "1.8.6")
-        set("httpclientVersion", "3.1")
-        set("commonslang3Version", "3.8.1")
-        set("servletapiVersion", "6.0.0")
-        set("validationapiVersion", "2.0.1.Final")
-        set("freemarkerVersion", "2.3.31")
-        set('mybatisplusVersion', "3.5.3.1")
-        set("mysqlconnectorjavaVersion", "8.0.29")
-        set("lombokVersion", "1.18.24")
-        set("fastjsonVersion", "2.0.15")
-        set("slf4japiVersion", "1.7.36")
-        set("jwtVersion", "3.19.0")
-        set("guavaVersion", "31.1-jre")
-    }
-
-    dependencies {
-        compileOnly 'org.projectlombok:lombok'
-        annotationProcessor 'org.projectlombok:lombok'
-    }
-    tasks.withType(JavaCompile).configureEach {
-        options.compilerArgs << "-Xlint:unchecked"
-    }
-}
 subprojects {
-    def springframeworkBom = ['harbor-core']
-    def alibabaCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
-    def springCloudBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter']
-    def dubboBom = ['harbor-core', 'spring-data-redis', 'redis-spring-boot-starter', 'spring-boot-autoconfigure']
+    if (project.name != 'dependencies') {
+        // 添加模块代码的插件
+        apply plugin: 'io.ziyao.module'
 
-    if (!springframeworkBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework:spring-framework-bom:${springVersion}"
-            }
+        java {
+//        withJavadocJar() // 生成java-doc
+            withSourcesJar() // 生成源码
         }
-    }
-    if (!alibabaCloudBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}"
-            }
+        jar {
+            enabled = true //生成依赖jar包
+            archiveClassifier = '' //取消原来plain的后缀
         }
-    }
-    if (!springCloudBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-            }
-        }
-    }
-    if (!dubboBom.contains(project.name)) {
-        dependencyManagement {
-            imports {
-                mavenBom "org.apache.dubbo:dubbo-bom:${dubboVersion}"
-            }
-        }
-    }
-}
 
-//remove source
-sourceSets {
-    main {
-        java {
-            srcDirs = []
+
+        configurations {
+            compileOnly {
+                extendsFrom annotationProcessor
+            }
         }
-        resources {
-            srcDirs = []
-        }
-    }
-    test {
-        java {
-            srcDirs = []
-        }
-        resources {
-            srcDirs = []
+
+        dependencies {
+            management platform(project(":dependencies"))
+            compileOnly 'org.projectlombok:lombok'
+            annotationProcessor 'org.projectlombok:lombok'
         }
     }
 }

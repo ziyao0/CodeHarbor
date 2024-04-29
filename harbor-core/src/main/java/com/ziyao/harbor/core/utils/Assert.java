@@ -221,4 +221,11 @@ public abstract class Assert {
     private static String nullSafeGet(@Nullable Supplier<String> messageSupplier) {
         return (messageSupplier != null ? messageSupplier.get() : null);
     }
+
+
+    public static void hasText(@Nullable String text, String message) {
+        if (!Strings.hasText(text)) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 }

@@ -1,6 +1,5 @@
 package com.ziyao.harbor.gateway.core;
 
-import com.ziyao.harbor.core.Validator;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.gateway.core.token.AccessToken;
 
@@ -8,7 +7,7 @@ import com.ziyao.harbor.gateway.core.token.AccessToken;
  * @author ziyao zhang
  * @since 2023/8/24
  */
-public abstract class AccessTokenValidator implements Validator<AccessToken> {
+public abstract class AccessTokenValidator {
 
     /**
      * 时间戳默认有效时长为 60秒.
@@ -27,7 +26,6 @@ public abstract class AccessTokenValidator implements Validator<AccessToken> {
     }
 
 
-    @Override
     public void validate(AccessToken accessToken) {
         // 校验认证参数
         doValidate(accessToken);

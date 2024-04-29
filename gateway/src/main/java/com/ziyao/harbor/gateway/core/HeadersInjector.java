@@ -1,7 +1,6 @@
 package com.ziyao.harbor.gateway.core;
 
 import com.auth0.jwt.interfaces.Claim;
-import com.ziyao.harbor.core.Injector;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.gateway.core.token.SuccessAuthorization;
@@ -15,21 +14,11 @@ import java.util.Map;
  * @author ziyao
  * @since 2023/4/23
  */
-public abstract class HeadersInjector implements Injector<ServerWebExchange, SuccessAuthorization> {
+public abstract class HeadersInjector {
 
-    private static final HeadersInjector INJECTOR;
-
-    static {
-        INJECTOR = new HeadersInjector() {
-            @Override
-            public void inject(ServerWebExchange exchange, SuccessAuthorization authorization) {
-                super.inject(exchange, authorization);
-            }
-        };
-    }
-
-    @Override
-    public void inject(ServerWebExchange exchange, SuccessAuthorization authorization) {
+    public static void inject(ServerWebExchange exchange, SuccessAuthorization authorization) {
+        Assert.notNull(exchange, "缺少注入对象(ServerWebExchange)");
+        Assert.notNull(authorization, "缺少要注入的信息(Authorization)");
         exchange.getRequest().mutate()
                 .headers(httpHeaders -> {
                     MultiValueMap<String, String> headers = new HttpHeaders();
@@ -42,10 +31,6 @@ public abstract class HeadersInjector implements Injector<ServerWebExchange, Suc
                 .build();
     }
 
-
-    public static void injectHeaders(ServerWebExchange exchange, SuccessAuthorization authorization) {
-        Assert.notNull(exchange, "缺少注入对象(ServerWebExchange)");
-        Assert.notNull(authorization, "缺少要注入的信息(Authorization)");
-        INJECTOR.inject(exchange, authorization);
+    private HeadersInjector() {
     }
 }

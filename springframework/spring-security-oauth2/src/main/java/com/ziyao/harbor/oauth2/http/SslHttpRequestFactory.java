@@ -20,7 +20,7 @@ import java.security.cert.X509Certificate;
 public class SslHttpRequestFactory extends SimpleClientHttpRequestFactory {
 
     public SslHttpRequestFactory() {
-        setOutputStreaming(false);
+//        setOutputStreaming(false);
     }
 
     @Override

@@ -1,0 +1,10 @@
+dependencies {
+    api(project(":harbor-core"))
+    api 'com.dyuproject.protostuff:protostuff-api'
+    api 'com.dyuproject.protostuff:protostuff-core'
+    api 'com.dyuproject.protostuff:protostuff-runtime'
+    api 'io.netty:netty-all'
+    api 'com.alibaba:fastjson'
+    api 'ch.qos.logback:logback-classic'
+
+}

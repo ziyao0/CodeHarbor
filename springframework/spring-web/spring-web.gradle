@@ -1,0 +1,15 @@
+dependencies {
+    api(project(":harbor-crypto"))
+    api("jakarta.servlet:jakarta.servlet-api")
+    api("com.baomidou:mybatis-plus-annotation")
+    api("com.baomidou:mybatis-plus-extension")
+    api("javax.validation:validation-api")
+    api("org.springframework:spring-webmvc")
+    api("org.springframework:spring-context")
+    api("org.springframework.boot:spring-boot-autoconfigure")
+    api("com.fasterxml.jackson.core:jackson-databind")
+    api('com.squareup.okhttp3:okhttp')
+    api('com.squareup.okhttp3:logging-interceptor')
+    api('com.alibaba:fastjson')
+    api('org.aspectj:aspectjweaver')
+}

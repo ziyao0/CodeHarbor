@@ -1,0 +1,17 @@
+plugins {
+    id 'io.ziyao.import-deps'
+}
+
+javaPlatform {
+    allowDependencies()
+}
+
+
+dependencies {
+    api platform("com.fasterxml.jackson:jackson-bom:2.17.0")
+    api platform("org.apache.dubbo:dubbo-bom:${dubboVersion}")
+    api platform("org.springframework:spring-framework-bom:${springVersion}")
+    api platform("org.springframework.boot:spring-boot-dependencies:${springBootPluginVersion}")
+    api platform("com.alibaba.cloud:spring-cloud-alibaba-dependencies:${springCloudAlibabaVersion}")
+    api platform("org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}")
+}

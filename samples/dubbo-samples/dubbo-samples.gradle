@@ -1,0 +1,25 @@
+dependencies {
+
+    implementation "com.alibaba.nacos:nacos-client"
+    implementation "org.apache.dubbo:dubbo-spring-boot-starter"
+    implementation "org.springframework.boot:spring-boot-starter-webflux"
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    implementation "org.springframework.boot:spring-boot-autoconfigure"
+    implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
+    // 集成sentinel
+    implementation "com.alibaba.csp:sentinel-apache-dubbo3-adapter"
+    implementation "com.alibaba.csp:sentinel-transport-simple-http"
+    // 集成skywalking
+    implementation "org.apache.dubbo:dubbo-metrics-api"
+//    implementation "org.apache.skywalking:apm-toolkit-micrometer-1.10:8.14.0"
+
+    implementation "org.apache.dubbo:dubbo-spring-boot-actuator"
+    implementation "org.springframework.boot:spring-boot-starter-actuator"
+//    implementation "org.springframework.boot:spring-boot-starter-web"
+    implementation "io.micrometer:micrometer-core"
+    implementation "io.micrometer:micrometer-observation"
+    implementation "io.micrometer:micrometer-registry-prometheus"
+
+//    implementation "org.apache.dubbo:dubbo-spring-boot-observability-starter:3.1.11"
+
+}

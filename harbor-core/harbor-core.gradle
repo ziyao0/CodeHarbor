@@ -1,0 +1,5 @@
+dependencies {
+    api("org.slf4j:slf4j-api")
+    api("com.auth0:java-jwt")
+    api("com.google.guava:guava")
+}

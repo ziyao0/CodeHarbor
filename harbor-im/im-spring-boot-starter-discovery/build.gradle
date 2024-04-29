@@ -1,3 +1,0 @@
-dependencies {
-    api(project(":harbor-im:im-spring-boot-starter"))
-}

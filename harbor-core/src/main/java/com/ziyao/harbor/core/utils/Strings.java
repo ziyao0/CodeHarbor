@@ -34,10 +34,6 @@ public abstract class Strings implements StrPool {
      * 字符串常量：空字符串 {@code ""}
      */
     public static final String EMPTY = "";
-    /**
-     * 字符串常量：空格符 {@code " "}
-     */
-    public static final String SPACE = " ";
 
     private Strings() {
     }
@@ -806,6 +802,60 @@ public abstract class Strings implements StrPool {
         return new StringFinder(searchStr, ignoreCase).setText(text).start(from);
     }
 
+    /**
+     * 指定范围内查找指定字符
+     *
+     * @param str        字符串
+     * @param searchChar 被查找的字符
+     * @return 位置
+     */
+    public static int indexOf(final CharSequence str, char searchChar) {
+        return indexOf(str, searchChar, 0);
+    }
+
+    /**
+     * 指定范围内查找指定字符
+     *
+     * @param str        字符串
+     * @param searchChar 被查找的字符
+     * @param start      起始位置，如果小于0，从0开始查找
+     * @return 位置
+     */
+    public static int indexOf(CharSequence str, char searchChar, int start) {
+        if (str instanceof String) {
+            return ((String) str).indexOf(searchChar, start);
+        } else {
+            return indexOf(str, searchChar, start, -1);
+        }
+    }
+
+    /**
+     * 指定范围内查找指定字符
+     *
+     * @param str        字符串
+     * @param searchChar 被查找的字符
+     * @param start      起始位置，如果小于0，从0开始查找
+     * @param end        终止位置，如果超过str.length()则默认查找到字符串末尾
+     * @return 位置
+     */
+    public static int indexOf(final CharSequence str, char searchChar, int start, int end) {
+        if (isEmpty(str)) {
+            return INDEX_NOT_FOUND;
+        }
+        final int len = str.length();
+        if (start < 0 || start > len) {
+            start = 0;
+        }
+        if (end > len || end < 0) {
+            end = len;
+        }
+        for (int i = start; i < end; i++) {
+            if (str.charAt(i) == searchChar) {
+                return i;
+            }
+        }
+        return INDEX_NOT_FOUND;
+    }
 
     /**
      * 将对象转为字符串<br>
@@ -871,7 +921,7 @@ public abstract class Strings implements StrPool {
             int count = 0;
 
             int idx;
-            for(int pos = 0; (idx = str.indexOf(sub, pos)) != -1; pos = idx + sub.length()) {
+            for (int pos = 0; (idx = str.indexOf(sub, pos)) != -1; pos = idx + sub.length()) {
                 ++count;
             }
 
@@ -880,7 +930,72 @@ public abstract class Strings implements StrPool {
             return 0;
         }
     }
+
     public static String[] split(@NonNull String value, @NonNull String regex) {
         return value.split(regex);
+    }
+
+    public static String hide(CharSequence str, int startInclude, int endExclude) {
+        return replace(str, startInclude, endExclude, '*');
+    }
+
+    /**
+     * 替换指定字符串的指定区间内字符为固定字符
+     *
+     * @param str          字符串
+     * @param startInclude 开始位置（包含）
+     * @param endExclude   结束位置（不包含）
+     * @param replacedChar 被替换的字符
+     * @return 替换后的字符串
+     * @since 3.2.1
+     */
+    public static String replace(CharSequence str, int startInclude, int endExclude, char replacedChar) {
+        if (isEmpty(str)) {
+            return toString(str);
+        }
+        final int strLength = str.length();
+        if (startInclude > strLength) {
+            return toString(str);
+        }
+        if (endExclude > strLength) {
+            endExclude = strLength;
+        }
+        if (startInclude > endExclude) {
+            // 如果起始位置大于结束位置，不替换
+            return toString(str);
+        }
+
+        final char[] chars = new char[strLength];
+        for (int i = 0; i < strLength; i++) {
+            if (i >= startInclude && i < endExclude) {
+                chars[i] = replacedChar;
+            } else {
+                chars[i] = str.charAt(i);
+            }
+        }
+        return new String(chars);
+    }
+
+    /**
+     * 重复某个字符
+     *
+     * <pre>
+     * StrUtil.repeat('e', 0)  = ""
+     * StrUtil.repeat('e', 3)  = "eee"
+     * StrUtil.repeat('e', -2) = ""
+     * </pre>
+     *
+     * @param c     被重复的字符
+     * @param count 重复的数目，如果小于等于0则返回""
+     * @return 重复字符字符串
+     */
+    public static String repeat(char c, int count) {
+        if (count <= 0) {
+            return EMPTY;
+        }
+
+        char[] result = new char[count];
+        java.util.Arrays.fill(result, c);
+        return new String(result);
     }
 }
