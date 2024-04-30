@@ -16,13 +16,13 @@ subprojects {
             enabled = true //生成依赖jar包
             archiveClassifier = '' //取消原来plain的后缀
         }
-
-
-        configurations {
-            compileOnly {
-                extendsFrom annotationProcessor
-            }
-        }
+//
+//
+//        configurations {
+//            compileOnly {
+//                extendsFrom annotationProcessor
+//            }
+//        }
 
         dependencies {
             management platform(project(":dependencies"))

@@ -21,10 +21,10 @@ public class SpringJavaPlugin implements Plugin<Project> {
                 configuration -> configuration.setTransitive(true)
         );
 
-        Configuration compileOnly = project.getConfigurations().create("compileOnly");
-
-        Configuration annotationProcessor = project.getConfigurations().getByName("annotationProcessor");
-        compileOnly.extendsFrom(annotationProcessor);
+//        Configuration compileOnly = project.getConfigurations().create("compileOnly");
+//
+//        Configuration annotationProcessor = project.getConfigurations().getByName("annotationProcessor");
+//        compileOnly.extendsFrom(annotationProcessor);
 
         // set encoding and sourceCompatibility
         project.getTasks().withType(

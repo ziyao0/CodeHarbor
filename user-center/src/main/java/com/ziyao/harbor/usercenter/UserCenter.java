@@ -6,7 +6,6 @@ import com.ziyao.harbor.usercenter.entity.MenuTree;
 import com.ziyao.harbor.usercenter.repository.redis.MenuTreeRepository;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -22,14 +21,14 @@ import java.util.List;
 @EnableDubbo
 @EnableDiscoveryClient
 @SpringBootApplication
-public class UserCenterStarter implements CommandLineRunner {
+public class UserCenter implements CommandLineRunner {
 
-    public UserCenterStarter(MenuTreeRepository menuTreeRepository) {
+    public UserCenter(MenuTreeRepository menuTreeRepository) {
         this.menuTreeRepository = menuTreeRepository;
     }
 
     public static void main(String[] args) {
-        SpringApplication.run(UserCenterStarter.class, args);
+        SpringApplication.run(UserCenter.class, args);
     }
 
     private final MenuTreeRepository menuTreeRepository;
