@@ -1,8 +1,9 @@
 package io.ziyao.gradle.dependency;
 
-import io.ziyao.gradle.GradleConstantPool;
+import io.ziyao.gradle.CommConstants;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
+import org.gradle.internal.impldep.com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,10 +22,10 @@ public class ImportDependencyPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
 
-        project.getPluginManager().apply(GradleConstantPool.GRADLE_PLUGIN_platform);
+        project.getPluginManager().apply(CommConstants.GRADLE_PLUGIN_platform);
 
         try {
-            File file = new File(project.getRootDir().getPath() + GradleConstantPool.LIBS);
+            File file = new File(project.getRootDir().getPath() + CommConstants.LIBS);
 
             if (file.exists()) {
                 List<String> libs = Files.readAllLines(file.toPath());
@@ -32,10 +33,10 @@ public class ImportDependencyPlugin implements Plugin<Project> {
                     libs.stream().distinct().filter(lib -> {
                         // Remove comments and spaces
                         if (lib == null || lib.isEmpty()) return false;
-                        return !lib.startsWith(GradleConstantPool.WELL_NUMBER);
+                        return !lib.startsWith(CommConstants.WELL_NUMBER);
                     }).forEach(lib -> {
                         // Add dependencies
-                        project.getDependencies().getConstraints().add(GradleConstantPool.GRADLE_API, lib.trim());
+                        project.getDependencies().getConstraints().add(CommConstants.GRADLE_API, lib.trim());
                     });
                 }
             }

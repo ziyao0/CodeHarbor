@@ -1,7 +1,7 @@
 package io.ziyao.gradle.optional;
 
 
-import io.ziyao.gradle.GradleConstantPool;
+import io.ziyao.gradle.CommConstants;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.Configuration;
@@ -19,7 +19,7 @@ public class OptionalDependenciesPlugin implements Plugin<Project> {
     public void apply(Project project) {
 
         Configuration optional = project.getConfigurations()
-                .create(GradleConstantPool.OPTIONAL_CONFIGURATION_NAME);
+                .create(CommConstants.OPTIONAL_CONFIGURATION_NAME);
 
         optional.setCanBeConsumed(false);
         optional.setCanBeResolved(false);

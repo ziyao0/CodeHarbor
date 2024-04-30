@@ -1,6 +1,6 @@
 package io.ziyao.gradle.management;
 
-import io.ziyao.gradle.GradleConstantPool;
+import io.ziyao.gradle.CommConstants;
 import org.gradle.api.Plugin;
 import org.gradle.api.Project;
 import org.gradle.api.artifacts.ConfigurationContainer;
@@ -22,7 +22,7 @@ public class ManagementConfigurationPlugin implements Plugin<Project> {
     @Override
     public void apply(Project project) {
         ConfigurationContainer configurations = project.getConfigurations();
-        configurations.create(GradleConstantPool.MANAGEMENT_CONFIGURATION_NAME, (management) -> {
+        configurations.create(CommConstants.MANAGEMENT_CONFIGURATION_NAME, (management) -> {
             management.setVisible(false);
             management.setCanBeConsumed(false);
             management.setCanBeResolved(false);

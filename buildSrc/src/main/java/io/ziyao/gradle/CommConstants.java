@@ -6,8 +6,8 @@ import java.util.List;
  * @author ziyao
  * @since 2023/4/23
  */
-public interface GradleConstantPool {
-    public static final String LIBS = "/dependencies/dependency.libs";
+public interface CommConstants {
+    public static final String LIBS = "/dependencies/libs/ziyao.dependencies";
     public static final String WELL_NUMBER = "#";
     public static final String GRADLE_API = "api";
     public static final String GRADLE_PLUGIN_platform = "java-platform";

@@ -1,6 +1,6 @@
 package io.ziyao.gradle.convention;
 
-import io.ziyao.gradle.GradleConstantPool;
+import io.ziyao.gradle.CommConstants;
 import io.ziyao.gradle.management.ManagementConfigurationPlugin;
 import io.ziyao.gradle.maven.NexusPublishingPlugin;
 import io.ziyao.gradle.optional.OptionalDependenciesPlugin;
@@ -19,8 +19,8 @@ public class ModuleProjectPlugin implements Plugin<Project> {
 
         PluginManager pluginManager = project.getPluginManager();
 
-        pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_library);
-        pluginManager.apply(GradleConstantPool.GRADLE_PLUGIN_maven_publish);
+        pluginManager.apply(CommConstants.GRADLE_PLUGIN_library);
+        pluginManager.apply(CommConstants.GRADLE_PLUGIN_maven_publish);
         pluginManager.apply(SpringJavaPlugin.class);
         pluginManager.apply(ManagementConfigurationPlugin.class);
         pluginManager.apply(OptionalDependenciesPlugin.class);
