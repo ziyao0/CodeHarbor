@@ -30,5 +30,4 @@ public abstract class AbstractAsymmetricCrypto<T extends AbstractAsymmetricCrypt
     public AbstractAsymmetricCrypto(String algorithm, PrivateKey privateKey, PublicKey publicKey) {
         super(algorithm, privateKey, publicKey);
     }
-// ------------------------------------------------------------------ Constructor end
 }

@@ -9,7 +9,6 @@ import java.util.stream.Stream;
  * @author ziyao
  * @since 2023/4/23
  */
-
 public record PropertyResolver(TextCipherProvider textCipherProvider) {
 
     /**
