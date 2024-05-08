@@ -1,4 +1,4 @@
-package com.ziyao.harbor.crypto.generator;
+package com.ziyao.security.generator;
 
 import com.ziyao.harbor.core.utils.HexUtils;
 import com.ziyao.harbor.crypto.symmetric.Mode;

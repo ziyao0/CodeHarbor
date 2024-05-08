@@ -1,10 +1,10 @@
-package com.ziyao.harbor.crypto.generator;
+package com.ziyao.security.generator;
 
 /**
  * @author ziyao
- * @since 2024/05/06 10:41:06
+ * @since 2024/05/06 11:26:38
  */
-public class SM2PairGenerator implements KeyPairGenerator {
+public class CodeBookGenerator implements KeyPairGenerator {
 
 
     @Override
@@ -14,6 +14,6 @@ public class SM2PairGenerator implements KeyPairGenerator {
 
     @Override
     public KeyPairType type() {
-        return KeyPairType.SM2;
+        return KeyPairType.CODE_BOOK;
     }
 }

@@ -1,4 +1,4 @@
-package com.ziyao.harbor.crypto.generator;
+package com.ziyao.security.generator;
 
 /**
  * 密码本
