@@ -1,8 +1,6 @@
 package com.ziyao.security.generator;
 
 import com.ziyao.harbor.core.utils.HexUtils;
-import com.ziyao.harbor.crypto.symmetric.Mode;
-import com.ziyao.harbor.crypto.symmetric.Padding;
 
 /**
  * @author ziyao
@@ -36,7 +34,7 @@ public interface KeyPair {
         return HexUtils.encodeHexStr(getIvBytes());
     }
 
-    Mode mode();
-
-    Padding padding();
+//    Mode mode();
+//
+//    Padding padding();
 }

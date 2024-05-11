@@ -4,7 +4,7 @@ package com.ziyao.security.generator;
  * @author ziyao
  * @since 2024/05/06 10:40:18
  */
-public interface KeyPairGenerator extends Generator<KeyPair, KeyPairContext> {
+public interface KeyPairGenerator {
     /**
      * 密钥生成器
      *
