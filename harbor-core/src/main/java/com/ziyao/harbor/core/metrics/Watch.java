@@ -1,7 +1,5 @@
 package com.ziyao.harbor.core.metrics;
 
-import com.ziyao.harbor.core.metrics.StopWatch;
-
 import java.lang.annotation.*;
 
 /**
@@ -11,7 +9,7 @@ import java.lang.annotation.*;
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Watches {
+public @interface Watch {
 
     /**
      * 秒表名称
