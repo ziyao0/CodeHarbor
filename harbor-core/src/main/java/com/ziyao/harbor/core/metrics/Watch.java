@@ -18,4 +18,6 @@ public @interface Watch {
      */
     String value();
 
+    String description() default "";
+
 }

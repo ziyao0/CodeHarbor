@@ -2,6 +2,7 @@ package com.ziyao.harbor.core.metrics;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.event.Level;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -23,6 +24,10 @@ public abstract class StopWatches {
 
     public static void stop() {
         StopWatchInterior.INSTANCE.stop();
+    }
+
+    public static void consolePrettyPrintOfLoggerOrOut() {
+        StopWatchInterior.INSTANCE.consolePrettyPrintOfLoggerOrOut();
     }
 
     public static void consolePrettyPrint() {
@@ -97,9 +102,32 @@ public abstract class StopWatches {
         }
 
         public void consolePrettyPrint() {
-            StopWatch stopWatch = stopWatchThreadLocal.get();
-            if (stopWatch != null) {
-                LOGGER.info(stopWatch.prettyPrint());
+            String prettyPrint = prettyPrint();
+
+            if (prettyPrint != null) {
+
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(prettyPrint);
+                } else {
+                    LOGGER.info("打印结果失败，当前日志级别为{},需要设置为DEBUG模式完成打印",
+                            LOGGER.isInfoEnabled()
+                                    ? Level.INFO.toString() : LOGGER.isErrorEnabled()
+                                    ? Level.ERROR.toString() : LOGGER.isErrorEnabled()
+                                    ? Level.WARN.toString() : "未知日志级别类型"
+                    );
+                }
+            }
+        }
+
+        public void consolePrettyPrintOfLoggerOrOut() {
+            String prettyPrint = prettyPrint();
+
+            if (prettyPrint != null) {
+                if (LOGGER.isDebugEnabled()) {
+                    LOGGER.debug(prettyPrint);
+                } else {
+                    System.out.println(prettyPrint);
+                }
             }
         }
 

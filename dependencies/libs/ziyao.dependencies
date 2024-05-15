@@ -36,6 +36,9 @@ com.alibaba:fastjson:1.2.83
 ch.qos.logback:logback-classic:1.2.9
 # netty lib end
 
+# ali pay
+com.alipay.sdk:alipay-sdk-java:4.39.70.ALL
+com.github.wechatpay-apiv3:wechatpay-java:0.2.12
 
 org.apache.rocketmq:rocketmq-spring-boot-starter:2.2.3
 org.redisson:redisson-spring-data-31:3.24.3
