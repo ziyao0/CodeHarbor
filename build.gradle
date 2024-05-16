@@ -1,5 +1,6 @@
 plugins {
     id 'io.ziyao.root'
+    id "org.sonarqube" version "5.0.0.4638"
 }
 group 'com.ziyao.harbor'
 
@@ -30,4 +31,10 @@ subprojects {
             annotationProcessor 'org.projectlombok:lombok'
         }
     }
+}
+sonar {
+  properties {
+    property "sonar.projectKey", "CodeHarbor"
+    property "sonar.projectName", "CodeHarbor"
+  }
 }
