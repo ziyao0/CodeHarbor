@@ -1,5 +1,6 @@
 plugins {
     id 'io.ziyao.root'
+    id "org.sonarqube" version "5.0.0.4638"
 }
 group 'com.ziyao.harbor'
 
@@ -16,18 +17,24 @@ subprojects {
             enabled = true //生成依赖jar包
             archiveClassifier = '' //取消原来plain的后缀
         }
-//
-//
-//        configurations {
-//            compileOnly {
-//                extendsFrom annotationProcessor
-//            }
-//        }
+
+
+        configurations {
+            compileOnly {
+                extendsFrom annotationProcessor
+            }
+        }
 
         dependencies {
             management platform(project(":dependencies"))
             compileOnly 'org.projectlombok:lombok'
             annotationProcessor 'org.projectlombok:lombok'
         }
+    }
+}
+sonar {
+    properties {
+        property "sonar.projectKey", "ziyao0_CodeHarbor_c954a6c5-b624-42c4-bae1-d963bb3cdff4"
+        property "sonar.projectName", "CodeHarbor"
     }
 }
