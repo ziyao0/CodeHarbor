@@ -28,7 +28,7 @@ public class AccessPreFilter extends AbstractGlobalFilter {
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 2023/9/9 从请求头提取请求路径，请求ip等相关信息，进行前置校验   快速失败
         DefaultAccessToken defaultAccessToken = AccessTokenExtractor.extractForHeaders(exchange);
-        return MonoOperator.just(defaultAccessToken)
+        return Mono.just(defaultAccessToken)
                 .flatMap(access -> {
                     accessChainFactory.filter(access);
                     GatewayStopWatches.stop(super.getBeanName(), exchange);

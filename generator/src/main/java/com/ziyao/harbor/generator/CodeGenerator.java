@@ -53,32 +53,30 @@ public class CodeGenerator {
                 .packageConfig(builder -> {
                     builder.moduleName(config.getModuleName())// 设置父包模块名
                             .parent(config.getParent()) // 设置父包名
-                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/Autowireds/mapper"));// 设置mapperXml生成路径
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/generate/mapper"));// 设置mapperXml生成路径
                 })
 
                 // 策略配置
-                .strategyConfig(builder -> {
-                    builder.addInclude(config.getInclude().split(","))
-                            // 实体类相关策略
-                            .entityBuilder()
-                            .enableFileOverride()
-                            .addTableFills(new Column("CREATED_BY", FieldFill.INSERT))
-                            .addTableFills(new Column("CREATED_AT", FieldFill.INSERT))
-                            .addTableFills(new Column("MODIFIED_BY", FieldFill.UPDATE))
-                            .addTableFills(new Column("MODIFIED_AT", FieldFill.UPDATE))
-                            //逻辑删除字段
-                            .logicDeleteColumnName("DELETED")
-                            .enableLombok()
-                            .naming(NamingStrategy.underline_to_camel)
-                            .columnNaming(NamingStrategy.underline_to_camel)
-                            // controller 相关策略
-                            .controllerBuilder()
-                            .superClass(config.getSuperControllerClass())
-                            .enableRestStyle()
-                            // service 相关策略
-                            .serviceBuilder()
-                            .formatServiceFileName("%sService");
-                })
+                .strategyConfig(builder -> builder.addInclude(config.getInclude().split(","))
+                        // 实体类相关策略
+                        .entityBuilder()
+                        .enableFileOverride()
+                        .addTableFills(new Column("CREATED_BY", FieldFill.INSERT))
+                        .addTableFills(new Column("CREATED_AT", FieldFill.INSERT))
+                        .addTableFills(new Column("MODIFIED_BY", FieldFill.UPDATE))
+                        .addTableFills(new Column("MODIFIED_AT", FieldFill.UPDATE))
+                        //逻辑删除字段
+                        .logicDeleteColumnName("DELETED")
+                        .enableLombok()
+                        .naming(NamingStrategy.underline_to_camel)
+                        .columnNaming(NamingStrategy.underline_to_camel)
+                        // controller 相关策略
+                        .controllerBuilder()
+                        .superClass(config.getSuperControllerClass())
+                        .enableRestStyle()
+                        // service 相关策略
+                        .serviceBuilder()
+                        .formatServiceFileName("%sService"))
                 // 自定义配置 可以生成自定义文件
                 .injectionConfig(builder -> {
                     Map<String, Object> map = new HashMap<>();
