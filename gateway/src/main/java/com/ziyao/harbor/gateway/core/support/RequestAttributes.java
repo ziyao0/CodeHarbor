@@ -27,7 +27,7 @@ public abstract class RequestAttributes {
      * 认证相关请求头key
      */
     public static final Set<String> AUTHORIZATION_HEADERS =
-            ImmutableSet.of(AUTHORIZATION, TIMESTAMP, REFRESH_TOKEN, DIGEST);
+            Set.of(AUTHORIZATION, TIMESTAMP, REFRESH_TOKEN, DIGEST);
 
     /**
      * 判断是否已经通过认证

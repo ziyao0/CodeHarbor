@@ -41,7 +41,7 @@ public class AuthorizationFilter extends AbstractGlobalFilter {
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 从请求头提取认证token
         DefaultAccessToken defaultAccessToken = AccessTokenExtractor.extractForHeaders(exchange);
-        return MonoOperator.just(defaultAccessToken).flatMap(access -> {
+        return Mono.just(defaultAccessToken).flatMap(access -> {
             boolean skip = SecurityPredicate.initSecurityApis(getSecurityApis()).skip(access.getApi());
             Mono<Void> filter;
             if (skip) {

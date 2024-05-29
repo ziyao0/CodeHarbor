@@ -15,7 +15,7 @@ public class SuccessAuthorization implements Authorization {
 
     @Serial
     private static final long serialVersionUID = 1906018666555325676L;
-    Map<String, Claim> claims;
+    private transient Map<String, Claim> claims;
     private String token;
 
     public SuccessAuthorization(String token) {
