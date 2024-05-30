@@ -1,3 +1,6 @@
+plugins{
+    id 'io.ziyao.import-config'
+}
 dependencies {
     implementation(project(":dubbo-api"))
     implementation(project(":spring-web"))
