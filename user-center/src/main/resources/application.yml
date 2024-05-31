@@ -1,9 +1,8 @@
 spring:
-  datasource:
-    password: '{SM4}9a9ab954111a3342f03042b195527d48'
-    driverClassName: com.mysql.cj.jdbc.Driver
-    url: '{SM4}75d5fa7c21f98c835bff5803d4fb55dfc2d3d9c3b277de34fa33a1188cbc6d882bf14e1b1ebe51a2a2d7f39f15fb31d6'
-    username: '{SM4}9a9ab954111a3342f03042b195527d48'
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
 mybatis-plus:
   global-config:
     db-config:

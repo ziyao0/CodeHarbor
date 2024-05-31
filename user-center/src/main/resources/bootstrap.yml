@@ -3,6 +3,6 @@ server:
 
 spring:
   application:
-    name: user-center-service
+    name: user-center
   profiles:
     active: register

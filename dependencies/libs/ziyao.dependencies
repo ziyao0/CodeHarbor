@@ -12,11 +12,11 @@ org.yaml:snakeyaml:2.0
 org.lionsoul:ip2region:2.7.0
 
 ###############mybatis-plus start###########################
-com.baomidou:mybatis-plus-generator:3.5.3.1
-com.baomidou:mybatis-plus-annotation:3.5.3.1
-com.baomidou:mybatis-plus-extension:3.5.3.1
-com.baomidou:mybatis-plus-boot-starter:3.5.3.1
-com.baomidou:mybatis-plus:3.5.3.1
+com.baomidou:mybatis-plus-generator:3.5.6
+com.baomidou:mybatis-plus-annotation:3.5.6
+com.baomidou:mybatis-plus-extension:3.5.6
+com.baomidou:mybatis-plus:3.5.6
+com.baomidou:mybatis-plus-spring-boot3-starter:3.5.6
 com.baomidou:mybatis-plus-generator:3.5.3.1
 com.github.jeffreyning:mybatisplus-plus:1.5.1-RELEASE
 ###############mybatis-plus end###########################

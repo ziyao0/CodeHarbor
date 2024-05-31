@@ -8,6 +8,10 @@ spring:
           enabled: false
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yml
+        shared-configs:
+          - data-id: db-config.yml
+            refresh: true
+
 
 dubbo:
   application:

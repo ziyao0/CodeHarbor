@@ -5,14 +5,17 @@ import com.harbor.boot.autoconfigure.redis.config.RepositoryConfiguration;
 import com.harbor.boot.autoconfigure.redis.config.RepositoryConfigurationExtension;
 import com.harbor.boot.autoconfigure.redis.config.RepositoryConfigurationSource;
 import org.springframework.beans.factory.parsing.BeanComponentDefinition;
-import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
+import org.springframework.core.ResolvableType;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.EnvironmentCapable;
 import org.springframework.core.env.StandardEnvironment;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.Nullable;
+import org.springframework.util.ClassUtils;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -27,7 +30,6 @@ public class RedisRepositoryConfigurationDelegate {
     private final RepositoryConfigurationSource configurationSource;
     private final ResourceLoader resourceLoader;
     private final Environment environment;
-    private static final String FACTORY_BEAN_OBJECT_TYPE = "factoryBeanObjectType";
 
     /**
      * Creates a new {@link org.springframework.data.repository.config.RepositoryConfigurationDelegate} for the given {@link RepositoryConfigurationSource} and
@@ -66,9 +68,10 @@ public class RedisRepositoryConfigurationDelegate {
 
             extension.postProcess(definitionBuilder, (AnnotationRepositoryConfigurationSource) configurationSource);
 
-            AbstractBeanDefinition beanDefinition = definitionBuilder.getBeanDefinition();
+            RootBeanDefinition beanDefinition = (RootBeanDefinition) definitionBuilder.getBeanDefinition();
 
-            beanDefinition.setAttribute(FACTORY_BEAN_OBJECT_TYPE, configuration.getRepositoryInterface());
+            beanDefinition.setTargetType(getRepositoryInterface(configuration));
+
             beanDefinition.setResourceDescription(configuration.getResourceDescription());
 
             String beanName = configurationSource.generateBeanName(beanDefinition);
@@ -89,7 +92,44 @@ public class RedisRepositoryConfigurationDelegate {
             return environment;
         }
 
-        return resourceLoader instanceof EnvironmentCapable ? ((EnvironmentCapable) resourceLoader).getEnvironment()
-                : new StandardEnvironment();
+        if (resourceLoader instanceof EnvironmentCapable environmentCapable) {
+            return environmentCapable.getEnvironment();
+        } else return new StandardEnvironment();
+    }
+
+    /**
+     * Returns the repository interface of the given {@link org.springframework.data.repository.config.RepositoryConfiguration} as loaded {@link Class}.
+     *
+     * @param configuration must not be {@literal null}.
+     * @return can be {@literal null}.
+     */
+    @Nullable
+    private ResolvableType getRepositoryInterface(RepositoryConfiguration<?> configuration) {
+
+        String interfaceName = configuration.getRepositoryInterface();
+        ClassLoader classLoader = resourceLoader.getClassLoader() == null
+                ? ClassUtils.getDefaultClassLoader()
+                : resourceLoader.getClassLoader();
+
+        classLoader = classLoader != null ? classLoader : getClass().getClassLoader();
+
+        Class<?> repositoryInterface = ReflectionUtils.loadIfPresent(interfaceName, classLoader);
+        Class<?> factoryBean = ReflectionUtils.loadIfPresent(configuration.getRepositoryFactoryBeanClassName(),
+                classLoader);
+        if (factoryBean == null) {
+            return null;
+        }
+        int numberOfGenerics = factoryBean.getTypeParameters().length;
+
+        Class<?>[] generics = new Class<?>[numberOfGenerics];
+        generics[0] = repositoryInterface;
+
+        if (numberOfGenerics > 1) {
+            for (int i = 1; i < numberOfGenerics; i++) {
+                generics[i] = Object.class;
+            }
+        }
+
+        return ResolvableType.forClassWithGenerics(factoryBean, generics);
     }
 }
