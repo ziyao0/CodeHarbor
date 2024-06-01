@@ -10,6 +10,8 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 
 /**
+ * 重定向
+ *
  * @author ziyao
  * @since 2024/05/28 10:59:33
  */

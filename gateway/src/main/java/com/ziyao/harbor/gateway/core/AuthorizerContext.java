@@ -5,6 +5,4 @@ package com.ziyao.harbor.gateway.core;
  * @since 2023/10/7
  */
 public interface AuthorizerContext {
-
-
 }

@@ -15,18 +15,18 @@ import org.springframework.web.server.ServerWebExchange;
 public abstract class AccessTokenExtractor {
 
 
-    private static final AccessTokenExtractor EXTRACTOR;
-
-    static {
-        EXTRACTOR = new AccessTokenExtractor() {
-            @Override
-            public DefaultAccessToken extract(ServerWebExchange request) {
-                return super.extract(request);
-            }
-        };
+    /**
+     * 从请求头提取认证token
+     *
+     * @param exchange {@link ServerWebExchange}
+     * @return 返回认证token
+     * @see AccessToken
+     */
+    public static DefaultAccessToken extractForHeaders(ServerWebExchange exchange) {
+        return doExtracted(exchange);
     }
 
-    public DefaultAccessToken extract(ServerWebExchange exchange) {
+    public static DefaultAccessToken doExtracted(ServerWebExchange exchange) {
         HttpHeaders headers = exchange.getRequest().getHeaders();
         String token = headers.getFirst(RequestAttributes.AUTHORIZATION);
 
@@ -39,18 +39,11 @@ public abstract class AccessTokenExtractor {
                 .resource(RequestAttributes.RESOURCE)
                 .api(exchange.getAttributes().get(ServerWebExchangeUtils.GATEWAY_PREDICATE_PATH_CONTAINER_ATTR).toString())
                 .ip(IpUtils.getIP(exchange))
+                .name("accessControl")
                 .build();
         // @formatter:on
     }
 
-    /**
-     * 从请求头提取认证token
-     *
-     * @param exchange {@link ServerWebExchange}
-     * @return 返回认证token
-     * @see AccessToken
-     */
-    public static DefaultAccessToken extractForHeaders(ServerWebExchange exchange) {
-        return EXTRACTOR.extract(exchange);
+    private AccessTokenExtractor() {
     }
 }

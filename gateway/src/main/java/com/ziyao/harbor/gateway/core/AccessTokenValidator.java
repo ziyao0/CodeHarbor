@@ -14,24 +14,16 @@ public abstract class AccessTokenValidator {
      */
     private static final long TIMESTAMP_EXPIRATION_TIME = 60 * 1000L;
 
-    private static final AccessTokenValidator ACCESS_TOKEN_VALIDATOR;
-
-    static {
-        ACCESS_TOKEN_VALIDATOR = new AccessTokenValidator() {
-            @Override
-            public void validate(AccessToken accessToken) {
-                super.validate(accessToken);
-            }
-        };
+    /**
+     * 快速校验访问令牌
+     *
+     * @param accessToken 访问令牌
+     */
+    public static void validateToken(AccessToken accessToken) {
+        doValidated(accessToken);
     }
 
-
-    public void validate(AccessToken accessToken) {
-        // 校验认证参数
-        doValidate(accessToken);
-    }
-
-    private void doValidate(AccessToken accessToken) {
+    private static void doValidated(AccessToken accessToken) {
         Assert.notNull(accessToken, "缺少安全验证信息");
         Assert.notNull(accessToken.getToken(), "缺少认证头(Authorization)");
         Assert.notNull(accessToken.getTimestamp(), "缺失时间戳(timestamp)");
@@ -42,12 +34,7 @@ public abstract class AccessTokenValidator {
         return TIMESTAMP_EXPIRATION_TIME;
     }
 
-    /**
-     * 快速校验访问令牌
-     *
-     * @param accessToken 访问令牌
-     */
-    public static void validateToken(AccessToken accessToken) {
-        ACCESS_TOKEN_VALIDATOR.validate(accessToken);
+
+    private AccessTokenValidator() {
     }
 }
