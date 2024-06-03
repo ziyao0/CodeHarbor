@@ -1,16 +1,15 @@
 package com.ziyao.harbor.web;
 
 
+import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.core.utils.CommUtils;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.harbor.web.exception.UnauthorizedException;
-import com.ziyao.harbor.core.error.StatusMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -44,7 +43,6 @@ public class GlobalExceptionHandlerAdvice {
         if (mex != null && mex.getBindingResult().hasErrors())
             return buildIllegalArgument(ExceptionUtils.buildExceptionMessage(mex));
         else
-            // TODO: 2023/9/24 400异常
             return ResponseBuilder.failed();
     }
 
@@ -140,7 +138,10 @@ public class GlobalExceptionHandlerAdvice {
         return ResponseBuilder.of(400, message);
     }
 
-    protected static abstract class ExceptionUtils {
+    protected abstract static class ExceptionUtils {
+
+        private ExceptionUtils() {
+        }
 
         public static String buildExceptionMessage(MethodArgumentTypeMismatchException e) {
 
@@ -188,22 +189,25 @@ public class GlobalExceptionHandlerAdvice {
             });
             return sb.toString();
         }
+
+
+        private static String buildBindingResultMessage(BindingResult bindingResult) {
+            if (bindingResult == null)
+                return CommUtils.EMPTY_CHAR;
+
+            List<ObjectError> errors = bindingResult.getAllErrors();
+            StringBuilder sb = new StringBuilder();
+            sb.append("参数校验失败: ");
+            errors.forEach(error -> {
+                sb.append("[");
+                if (error instanceof FieldError fieldError)
+                    sb.append(fieldError.getField()).append(":");
+                sb.append(error.getDefaultMessage());
+                sb.append("] ");
+            });
+            return sb.toString();
+        }
     }
 
-    private static String buildBindingResultMessage(BindingResult bindingResult) {
-        if (bindingResult == null)
-            return CommUtils.EMPTY_CHAR;
 
-        List<ObjectError> errors = bindingResult.getAllErrors();
-        StringBuilder sb = new StringBuilder();
-        sb.append("参数校验失败: ");
-        errors.forEach(error -> {
-            sb.append("[");
-            if (error instanceof FieldError)
-                sb.append(((FieldError) error).getField()).append(":");
-            sb.append(error.getDefaultMessage());
-            sb.append("] ");
-        });
-        return sb.toString();
-    }
 }

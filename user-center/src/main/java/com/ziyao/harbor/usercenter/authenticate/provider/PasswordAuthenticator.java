@@ -8,9 +8,7 @@ import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import com.ziyao.harbor.usercenter.authenticate.query.UserQuery;
 import com.ziyao.harbor.usercenter.authenticate.support.PasswordParameter;
-import com.ziyao.harbor.usercenter.authenticate.support.PasswordValidator;
 import com.ziyao.harbor.usercenter.authenticate.support.UserStatusValidator;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticateExceptions;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.service.UserService;
 import org.springframework.lang.NonNull;
@@ -48,7 +46,7 @@ public class PasswordAuthenticator implements Authenticator {
         // 检查用户密码
         PasswordParameter parameter = PasswordParameter.of(
                 authenticatedRequest.getPassword(), userDetails.getSecretKey());
-        PasswordValidator.validated(parameter);
+//        PasswordValidator.validated(parameter);
         // 组装验证成功的用户信息
         return createdValidatorSuccessfulAuthenticatedUser(userDetails);
     }
@@ -67,8 +65,7 @@ public class PasswordAuthenticator implements Authenticator {
     @Override
     public UserDetails loadUserDetails(UserQuery query) {
         User user = userService.loadUserDetails(query.appid(), query.username());
-        Assert.notNull(user, AuthenticateExceptions.createValidatedFailure());
+        Assert.notNull(user);
         return user;
     }
-
 }

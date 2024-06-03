@@ -6,7 +6,6 @@ import com.ziyao.harbor.gateway.support.RedisKeys;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.data.redis.core.ReactiveStringRedisTemplate;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -18,7 +17,7 @@ import java.time.Duration;
  * @author ziyao
  * @since 2024/05/28 09:37:54
  */
-@Component
+//@Component
 public class DebounceFilter extends AbstractAfterAuthenticationFilter {
 
 

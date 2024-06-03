@@ -35,6 +35,7 @@ public class AuthenticatedUser {
         public AuthenticatedUser build() {
             AuthenticatedUser authenticatedUser = new AuthenticatedUser();
             authenticatedUser.setUser(this.user);
+            authenticatedUser.setAuthenticated(true);
             return authenticatedUser;
         }
     }

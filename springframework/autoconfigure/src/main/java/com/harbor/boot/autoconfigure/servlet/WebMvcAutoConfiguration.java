@@ -15,9 +15,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.lang.Nullable;
 import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.List;
 
 /**
  * <p>
@@ -35,7 +39,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 @ConditionalOnClass({ Servlet.class, DispatcherServlet.class, WebMvcConfigurer.class })
-public class WebMvcAutoConfiguration implements ApplicationContextAware, InitializingBean {
+public class WebMvcAutoConfiguration implements WebMvcConfigurer, ApplicationContextAware, InitializingBean {
 
     @Bean
     public MetaFillHandler metaFillHandler() {
@@ -57,5 +61,11 @@ public class WebMvcAutoConfiguration implements ApplicationContextAware, Initial
     @Override
     public void afterPropertiesSet() throws Exception {
         log.debug("AutoWebConfiguration initialization.");
+    }
+
+    @Override
+    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+        // 移除默认的 StringHttpMessageConverter
+        converters.removeIf(StringHttpMessageConverter.class::isInstance);
     }
 }

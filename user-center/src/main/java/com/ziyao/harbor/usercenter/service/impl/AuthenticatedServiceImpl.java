@@ -36,8 +36,10 @@ public class AuthenticatedServiceImpl implements AuthenticatedService {
             }
             return null;
         } catch (AuthenticateException e) {
+            log.error(e.getMessage(), e);
             throw e;
         } catch (Exception e) {
+            log.error(e.getMessage(), e);
             throw new RuntimeException(e);
         }
     }
