@@ -1,6 +1,7 @@
 package com.ziyao.oauth2.core;
 
 import com.ziyao.harbor.core.utils.Strings;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
@@ -16,44 +17,38 @@ import java.util.function.Consumer;
  * @author ziyao zhang
  * @since 2024/3/25
  */
+@EqualsAndHashCode
 public class OAuth2Authorization implements Serializable {
     @Serial
     private static final long serialVersionUID = 161440620113264850L;
     @Getter
     private String id;
     @Getter
-    private String registeredClientId;
+    private String appid;
     /**
-     * -- GETTER --
-     * Returns the
-     * used for the authorization.
+     * 授权类型
      */
     @Getter
     private AuthorizationGrantType authorizationGrantType;
     /**
-     * -- GETTER --
-     * Returns the authorized scope(s).
+     * 授权范围
      */
     @Getter
     private Set<String> authorizedScopes;
+    /**
+     * oauth2 token
+     */
     private Map<Class<? extends OAuth2Token>, Token<?>> tokens;
+    /**
+     * 额外属性
+     */
     @Getter
     private Map<String, Object> attributes;
 
-    /**
-     * Returns the {@link Token} of type {@link OAuth2AccessToken}.
-     *
-     * @return the {@link Token} of type {@link OAuth2AccessToken}
-     */
     public Token<OAuth2AccessToken> getAccessToken() {
         return getToken(OAuth2AccessToken.class);
     }
 
-    /**
-     * Returns the {@link Token} of type {@link OAuth2RefreshToken}.
-     *
-     * @return the {@link Token} of type {@link OAuth2RefreshToken}, or {@code null} if not available
-     */
     @Nullable
     public Token<OAuth2RefreshToken> getRefreshToken() {
         return getToken(OAuth2RefreshToken.class);
@@ -71,20 +66,24 @@ public class OAuth2Authorization implements Serializable {
     @Nullable
     @SuppressWarnings("unchecked")
     public <T> T getAttribute(String name) {
-        Assert.hasText(name, "name cannot be empty");
+        Assert.hasText(name, "Get name cannot be empty");
         return (T) this.attributes.get(name);
     }
 
+    /**
+     * Returns a new {@link Builder}, initialized with the provided
+     */
+    public static Builder withRegisteredClient(String appid) {
+        Assert.notNull(appid, "application cannot be null");
+        return new Builder(appid);
+    }
 
     /**
-     * Returns a new {@link Builder}, initialized with the values from the provided {@code OAuth2Authorization}.
-     *
-     * @param authorization the {@code OAuth2Authorization} used for initializing the {@link Builder}
-     * @return the {@link Builder}
+     * 返回一个新的 {@link Builder}，该 {@code OAuth2Authorization} 中的值进行初始化。
      */
     public static Builder from(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
-        return new Builder(authorization.getRegisteredClientId())
+        return new Builder(authorization.getAppid())
                 .id(authorization.getId())
                 .authorizationGrantType(authorization.getAuthorizationGrantType())
                 .authorizedScopes(authorization.getAuthorizedScopes())
@@ -92,32 +91,27 @@ public class OAuth2Authorization implements Serializable {
                 .attributes(attrs -> attrs.putAll(authorization.getAttributes()));
     }
 
-
     @Getter
+    @EqualsAndHashCode
     public static class Token<T extends OAuth2Token> implements Serializable {
         @Serial
         private static final long serialVersionUID = 5452476839192606325L;
+
         protected static final String TOKEN_METADATA_NAMESPACE = "metadata.token.";
 
         /**
-         * The name of the metadata that indicates if the token has been invalidated.
+         * 令牌是否失效元数据名称
          */
         public static final String INVALIDATED_METADATA_NAME = TOKEN_METADATA_NAMESPACE.concat("invalidated");
 
         /**
-         * The name of the metadata used for the claims of the token.
+         * 用于令牌声明的元数据的名称
          */
         public static final String CLAIMS_METADATA_NAME = TOKEN_METADATA_NAMESPACE.concat("claims");
 
-        /**
-         * -- GETTER --
-         * Returns the token of type
-         * .
-         */
         private final T token;
         /**
-         * -- GETTER --
-         * Returns the metadata associated to the token.
+         * 返回与令牌关联的元数据。
          */
         private final Map<String, Object> metadata;
 
@@ -131,28 +125,21 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Returns {@code true} if the token has been invalidated (e.g. revoked).
-         * The default is {@code false}.
-         *
-         * @return {@code true} if the token has been invalidated, {@code false} otherwise
+         * 如果令牌已失效（例如，已撤销），则返回 {@code true}。默认值为 {@code false}。
          */
         public boolean isInvalidated() {
             return Boolean.TRUE.equals(getMetadata(INVALIDATED_METADATA_NAME));
         }
 
         /**
-         * Returns {@code true} if the token has expired.
-         *
-         * @return {@code true} if the token has expired, {@code false} otherwise
+         * 如果令牌已过期，则返回 {@code true}
          */
         public boolean isExpired() {
             return getToken().getExpiresAt() != null && Instant.now().isAfter(getToken().getExpiresAt());
         }
 
         /**
-         * Returns {@code true} if the token is before the time it can be used.
-         *
-         * @return {@code true} if the token is before the time it can be used, {@code false} otherwise
+         * 如果令牌早于可以使用的时间，则返回 {@code true}。
          */
         public boolean isBeforeUse() {
             Instant notBefore = null;
@@ -163,18 +150,14 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Returns {@code true} if the token is currently active.
-         *
-         * @return {@code true} if the token is currently active, {@code false} otherwise
+         * 如果令牌当前处于活跃状态，则返回 {@code true}。
          */
         public boolean isActive() {
             return !isInvalidated() && !isExpired() && !isBeforeUse();
         }
 
         /**
-         * Returns the claims associated to the token.
-         *
-         * @return a {@code Map} of the claims, or {@code null} if not available
+         * 返回与令牌关联的声明
          */
         @Nullable
         public Map<String, Object> getClaims() {
@@ -182,11 +165,7 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Returns the value of the metadata associated to the token.
-         *
-         * @param name the name of the metadata
-         * @param <V>  the value type of the metadata
-         * @return the value of the metadata, or {@code null} if not available
+         * 返回与令牌关联的元数据的值。
          */
         @Nullable
         @SuppressWarnings("unchecked")
@@ -201,43 +180,30 @@ public class OAuth2Authorization implements Serializable {
             return metadata;
         }
 
-        @Override
-        public boolean equals(Object o) {
-            if (this == o) return true;
-            if (o == null || getClass() != o.getClass()) return false;
-            Token<?> token1 = (Token<?>) o;
-            return Objects.equals(token, token1.token) && Objects.equals(metadata, token1.metadata);
-        }
-
-        @Override
-        public int hashCode() {
-            return Objects.hash(token, metadata);
-        }
     }
 
-    /**
-     * A builder for {@link OAuth2Authorization}.
-     */
     public static class Builder implements Serializable {
         @Serial
         private static final long serialVersionUID = -5658976968224374315L;
-
+        //标识符
         private String id;
-        private final String registeredClientId;
+        // 注册客户端ID
+        private final String appid;
+        // 授权类型
         private AuthorizationGrantType authorizationGrantType;
+        // 授权范围
         private Set<String> authorizedScopes;
+        // tokens
         private Map<Class<? extends OAuth2Token>, Token<?>> tokens = new HashMap<>();
+        // 授权相关属性
         private final Map<String, Object> attributes = new HashMap<>();
 
-        protected Builder(String registeredClientId) {
-            this.registeredClientId = registeredClientId;
+        protected Builder(String appid) {
+            this.appid = appid;
         }
 
         /**
-         * Sets the identifier for the authorization.
-         *
-         * @param id the identifier for the authorization
-         * @return the {@link Builder}
+         * 设置授权标识符
          */
         public Builder id(String id) {
             this.id = id;
@@ -245,10 +211,7 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Sets the {@link AuthorizationGrantType authorization grant type} used for the authorization.
-         *
-         * @param authorizationGrantType the {@link AuthorizationGrantType}
-         * @return the {@link Builder}
+         * 设置授权类型
          */
         public Builder authorizationGrantType(AuthorizationGrantType authorizationGrantType) {
             this.authorizationGrantType = authorizationGrantType;
@@ -256,11 +219,7 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Sets the authorized scope(s).
-         *
-         * @param authorizedScopes the {@code Set} of authorized scope(s)
-         * @return the {@link Builder}
-         * @since 0.4.0
+         * 设置授权范围
          */
         public Builder authorizedScopes(Set<String> authorizedScopes) {
             this.authorizedScopes = authorizedScopes;
@@ -268,7 +227,7 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Sets the {@link OAuth2AccessToken access token}.
+         * 设置认证token
          *
          * @param accessToken the {@link OAuth2AccessToken}
          * @return the {@link Builder}
@@ -278,7 +237,7 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Sets the {@link OAuth2RefreshToken refresh token}.
+         * 设置刷新token
          *
          * @param refreshToken the {@link OAuth2RefreshToken}
          * @return the {@link Builder}
@@ -288,24 +247,16 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Sets the {@link OAuth2Token token}.
-         *
-         * @param token the token
-         * @param <T>   the type of the token
-         * @return the {@link Builder}
+         * 设置token
          */
         public <T extends OAuth2Token> Builder token(T token) {
-            return token(token, (metadata) -> {
+            return token(token, metadata -> {
+
             });
         }
 
         /**
-         * Sets the {@link OAuth2Token token} and associated metadata.
-         *
-         * @param token            the token
-         * @param metadataConsumer a {@code Consumer} of the metadata {@code Map}
-         * @param <T>              the type of the token
-         * @return the {@link Builder}
+         * 设置 {@link OAuth2Token token} 并设置元数据信息
          */
         public <T extends OAuth2Token> Builder token(T token,
                                                      Consumer<Map<String, Object>> metadataConsumer) {
@@ -328,25 +279,17 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Adds an attribute associated to the authorization.
-         *
-         * @param name  the name of the attribute
-         * @param value the value of the attribute
-         * @return the {@link Builder}
+         * 添加授权相关属性
          */
         public Builder attribute(String name, Object value) {
-            Assert.hasText(name, "name cannot be empty");
+            Assert.hasText(name, "key cannot be empty");
             Assert.notNull(value, "value cannot be null");
             this.attributes.put(name, value);
             return this;
         }
 
         /**
-         * A {@code Consumer} of the attributes {@code Map}
-         * allowing the ability to add, replace, or remove.
-         *
-         * @param attributesConsumer a {@link Consumer} of the attributes {@code Map}
-         * @return the {@link Builder}
+         * 添加授权相关属性
          */
         public Builder attributes(Consumer<Map<String, Object>> attributesConsumer) {
             attributesConsumer.accept(this.attributes);
@@ -354,9 +297,7 @@ public class OAuth2Authorization implements Serializable {
         }
 
         /**
-         * Builds a new {@link OAuth2Authorization}.
-         *
-         * @return the {@link OAuth2Authorization}
+         * 构建 {@link OAuth2Authorization}.
          */
         public OAuth2Authorization build() {
             Assert.notNull(this.authorizationGrantType, "authorizationGrantType cannot be null");
@@ -365,7 +306,7 @@ public class OAuth2Authorization implements Serializable {
                 this.id = UUID.randomUUID().toString();
             }
             authorization.id = this.id;
-            authorization.registeredClientId = this.registeredClientId;
+            authorization.appid = this.appid;
             authorization.authorizationGrantType = this.authorizationGrantType;
             authorization.authorizedScopes =
                     Collections.unmodifiableSet(

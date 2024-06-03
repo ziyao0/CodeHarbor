@@ -25,6 +25,10 @@ public class DefaultOAuth2TokenContext implements OAuth2TokenContext {
         return this.context.containsKey(key);
     }
 
+    public static Builder builder() {
+        return new Builder();
+    }
+
     public static final class Builder extends AbstractBuilder<DefaultOAuth2TokenContext, Builder> {
 
         private Builder() {
