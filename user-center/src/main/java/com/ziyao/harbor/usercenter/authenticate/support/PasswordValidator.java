@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.authenticate.support;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authenticate.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.authenticate.codec.PasswordEncryptor;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticateExceptions;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticateExceptions;
 
 /**
  * @author ziyao zhang

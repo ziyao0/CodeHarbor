@@ -6,7 +6,7 @@ import com.ziyao.harbor.core.token.TokenType;
 import com.ziyao.harbor.core.utils.SecurityUtils;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticateException;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticateException;
 import com.ziyao.harbor.usercenter.entity.User;
 import org.springframework.stereotype.Service;
 

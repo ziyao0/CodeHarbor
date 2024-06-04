@@ -2,8 +2,8 @@ package com.ziyao.harbor.usercenter.authenticate.support;
 
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
-import com.ziyao.harbor.usercenter.comm.exception.Errors;
-import com.ziyao.harbor.usercenter.comm.exception.UserStatusException;
+import com.ziyao.harbor.usercenter.common.exception.Errors;
+import com.ziyao.harbor.usercenter.common.exception.UserStatusException;
 
 /**
  * 检查用户状态公共类

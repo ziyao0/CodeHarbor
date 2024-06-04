@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.authenticate;
 
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticateException;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticateException;
 
 /**
  * @author ziyao zhang

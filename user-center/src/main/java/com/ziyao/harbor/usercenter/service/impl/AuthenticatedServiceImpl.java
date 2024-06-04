@@ -4,7 +4,7 @@ import com.ziyao.harbor.usercenter.authenticate.AuthenticatedHandler;
 import com.ziyao.harbor.usercenter.authenticate.AuthenticatorManager;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.comm.exception.AuthenticateException;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticateException;
 import com.ziyao.harbor.usercenter.service.AuthenticatedService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
