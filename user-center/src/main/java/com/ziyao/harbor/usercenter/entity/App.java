@@ -41,8 +41,8 @@ public class App implements Serializable {
     /**
      * 系统访问路径
      */
-    @TableField("URL")
-    private String url;
+    @TableField("REDIRECT_URI")
+    private String redirectUri;
 
     /**
      * 系统介绍

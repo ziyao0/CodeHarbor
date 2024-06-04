@@ -37,7 +37,7 @@ public class AppDTO implements EntityDTO<App>, Serializable {
     /**
      * 系统访问路径
      */
-    private String url;
+    private String redirectUri;
     /**
      * 系统介绍
      */
@@ -74,7 +74,7 @@ public class AppDTO implements EntityDTO<App>, Serializable {
                 // 系统名称
                 .likeRight(Strings.hasLength(appName), App::getAppName, appName)
                 // 系统访问路径
-                .likeRight(Strings.hasLength(url), App::getUrl, url)
+                .likeRight(Strings.hasLength(redirectUri), App::getRedirectUri, redirectUri)
                 // 系统介绍
                 .likeRight(Strings.hasLength(introduce), App::getIntroduce, introduce)
                 // 删除状态 0正常 1 删除

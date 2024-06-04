@@ -7,7 +7,6 @@ import com.ziyao.harbor.usercenter.dto.AppDTO;
 import com.ziyao.harbor.usercenter.entity.App;
 import com.ziyao.harbor.usercenter.repository.mapper.AppMapper;
 import com.ziyao.harbor.usercenter.service.AppService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -22,8 +21,11 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppServiceImpl extends ServiceImpl<AppMapper, App> implements AppService {
 
-    @Autowired
-    private AppMapper appMapper;
+    private final AppMapper appMapper;
+
+    public AppServiceImpl(AppMapper appMapper) {
+        this.appMapper = appMapper;
+    }
 
     @Override
     public Page<App> page(Page<App> page, AppDTO appDTO) {
