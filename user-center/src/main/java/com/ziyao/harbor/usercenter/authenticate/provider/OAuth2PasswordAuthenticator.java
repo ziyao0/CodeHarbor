@@ -2,7 +2,6 @@ package com.ziyao.harbor.usercenter.authenticate.provider;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authenticate.Authenticator;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
@@ -11,6 +10,7 @@ import com.ziyao.harbor.usercenter.authenticate.support.PasswordParameter;
 import com.ziyao.harbor.usercenter.authenticate.support.UserStatusValidator;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.service.UserService;
+import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Service;
 
@@ -21,11 +21,11 @@ import org.springframework.stereotype.Service;
  * @since 2023/9/26
  */
 @Service
-public class PasswordAuthenticator implements Authenticator {
+public class OAuth2PasswordAuthenticator implements OAuth2Authenticator {
 
     private final UserService userService;
 
-    public PasswordAuthenticator(UserService userService) {
+    public OAuth2PasswordAuthenticator(UserService userService) {
         this.userService = userService;
     }
 
@@ -67,5 +67,10 @@ public class PasswordAuthenticator implements Authenticator {
         User user = userService.loadUserDetails(query.appid(), query.username());
         Assert.notNull(user);
         return user;
+    }
+
+    @Override
+    public AuthorizationGrantType getAuthorizationGrantType() {
+        return AuthorizationGrantType.PASSWORD;
     }
 }

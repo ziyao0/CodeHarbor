@@ -1,5 +1,6 @@
 package com.ziyao.harbor.usercenter.authenticate.core;
 
+import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import lombok.Data;
 
 /**
@@ -17,5 +18,5 @@ public class AuthenticatedRequest {
 
     private boolean authenticated;
 
-    private AuthenticationType authenticationType = AuthenticationType.passwd;
+    private AuthorizationGrantType authorizationGrantType = AuthorizationGrantType.PASSWORD;
 }

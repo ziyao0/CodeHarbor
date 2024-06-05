@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.authenticate.token.generate;
+package com.ziyao.harbor.usercenter.authenticate.token.generator;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authenticate.token.OAuth2TokenContext;
