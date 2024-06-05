@@ -1,8 +1,8 @@
 package com.ziyao.harbor.usercenter.authenticate.token;
 
-import com.ziyao.oauth2.core.AuthorizationGrantType;
-import com.ziyao.oauth2.core.OAuth2Authorization;
-import com.ziyao.oauth2.core.OAuth2TokenType;
+import com.ziyao.security.oauth2.core.AuthorizationGrantType;
+import com.ziyao.security.oauth2.core.OAuth2Authorization;
+import com.ziyao.security.oauth2.core.OAuth2TokenType;
 import org.springframework.util.Assert;
 
 import java.util.Collections;

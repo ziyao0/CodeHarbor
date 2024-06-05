@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.authenticate.token;
 
-import com.ziyao.oauth2.converter.ClaimConversionService;
+import com.ziyao.security.oauth2.converter.ClaimConversionService;
 import lombok.Getter;
 import org.springframework.core.convert.TypeDescriptor;
 import org.springframework.util.Assert;

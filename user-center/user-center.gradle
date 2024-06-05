@@ -8,7 +8,7 @@ dependencies {
     implementation(project(":redis-spring-boot-starter"))
     implementation(project(":spring-boot-autoconfigure"))
     implementation(project(":spring-security-crypto"))
-    implementation(project(":spring-oauth2-core"))
+    implementation(project(":security-oauth2-core"))
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"

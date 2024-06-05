@@ -1,12 +1,12 @@
 package com.ziyao.harbor.web.base;
 
-import lombok.Getter;
+import lombok.Data;
 
 /**
  * @author ziyao zhang
  * @since 2023/5/6
  */
-@Getter
+@Data
 public class PageParams<T> {
 
     private T params;
@@ -14,15 +14,7 @@ public class PageParams<T> {
     private PageI page = new PageI();
 
 
-    public void setParams(T params) {
-        this.params = params;
-    }
-
-    public void setPage(PageI page) {
-        this.page = page;
-    }
-
-    @Getter
+    @Data
     public static class PageI {
 
         /**
@@ -35,12 +27,5 @@ public class PageParams<T> {
          */
         private long current = 1;
 
-        public void setSize(long size) {
-            this.size = size;
-        }
-
-        public void setCurrent(long current) {
-            this.current = current;
-        }
     }
 }

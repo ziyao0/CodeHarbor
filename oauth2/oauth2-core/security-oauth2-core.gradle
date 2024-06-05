@@ -1,0 +1,5 @@
+dependencies {
+    implementation(project(":harbor-core"))
+    implementation('org.springframework:spring-web')
+    implementation 'com.github.ben-manes.caffeine:caffeine'
+}

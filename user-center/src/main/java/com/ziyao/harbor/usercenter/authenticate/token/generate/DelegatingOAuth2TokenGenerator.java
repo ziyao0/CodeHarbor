@@ -2,7 +2,7 @@ package com.ziyao.harbor.usercenter.authenticate.token.generate;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authenticate.token.OAuth2TokenContext;
-import com.ziyao.oauth2.core.OAuth2Token;
+import com.ziyao.security.oauth2.core.OAuth2Token;
 import lombok.Getter;
 
 import java.util.ArrayList;

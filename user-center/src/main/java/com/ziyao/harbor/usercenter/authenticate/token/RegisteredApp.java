@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.authenticate.token;
 
-import com.ziyao.oauth2.settings.TokenSettings;
+import com.ziyao.security.oauth2.settings.TokenSettings;
 import lombok.Data;
 
 /**
