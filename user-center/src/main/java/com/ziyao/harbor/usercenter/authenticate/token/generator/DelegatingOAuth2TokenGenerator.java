@@ -13,7 +13,7 @@ import java.util.List;
  * @since 2024/3/25
  */
 @Getter
-public class DelegatingOAuth2TokenGenerator implements OAuth2TokenGenerator<OAuth2Token> {
+public final class DelegatingOAuth2TokenGenerator implements OAuth2TokenGenerator<OAuth2Token> {
 
     private final List<OAuth2TokenGenerator<OAuth2Token>> tokenGenerators;
 

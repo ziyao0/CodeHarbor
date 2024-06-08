@@ -6,7 +6,6 @@ import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.entity.Department;
 import com.ziyao.harbor.web.orm.EntityDTO;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -19,7 +18,7 @@ import java.util.Objects;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 public class DepartmentDTO implements EntityDTO<Department>, Serializable {
@@ -69,7 +68,7 @@ public class DepartmentDTO implements EntityDTO<Department>, Serializable {
 
         return Wrappers.lambdaQuery(Department.class)
                 // 系统id
-                .eq(!ObjectUtils.isEmpty(appId), Department::getAppId, appId)
+                .eq(Objects.nonNull(appId), Department::getAppId, appId)
                 // 部门名称
                 .likeRight(Strings.hasLength(deptName), Department::getDeptName, deptName)
                 // 上级部门id

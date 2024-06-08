@@ -1,22 +1,24 @@
 package com.ziyao.security.oauth2.core;
 
+import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+
+import java.util.Objects;
+
 /**
  * @author ziyao zhang
  * @since 2024/3/25
  */
-public enum OAuth2TokenType {
+public record OAuth2TokenType(String value) {
 
-    ACCESS_TOKEN("access_token"),
-    REFRESH_TOKEN("refresh_token"),
-    ;
+    public static final OAuth2TokenType ACCESS_TOKEN = new OAuth2TokenType(OAuth2ParameterNames.ACCESS_TOKEN);
 
-    private final String value;
+    public static final OAuth2TokenType REFRESH_TOKEN = new OAuth2TokenType(OAuth2ParameterNames.REFRESH_TOKEN);
 
-    OAuth2TokenType(String value) {
-        this.value = value;
-    }
-
-    public String value() {
-        return this.value;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        OAuth2TokenType that = (OAuth2TokenType) o;
+        return Objects.equals(value, that.value);
     }
 }

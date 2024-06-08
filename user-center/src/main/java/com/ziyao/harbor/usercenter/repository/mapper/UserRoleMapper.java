@@ -5,11 +5,11 @@ import com.ziyao.harbor.usercenter.entity.UserRole;
 
 /**
  * <p>
- * Mapper 接口
+ *  Mapper 接口
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2024-06-08
  */
 public interface UserRoleMapper extends BaseMapper<UserRole> {
 

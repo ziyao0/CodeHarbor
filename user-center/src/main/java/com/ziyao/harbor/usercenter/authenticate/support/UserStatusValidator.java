@@ -32,11 +32,11 @@ public abstract class UserStatusValidator implements UserDetailsValidator {
     @Override
     public void validate(UserDetails userDetails) {
         // 账号
-        if (Strings.isEmpty(userDetails.getAccessKey())) {
+        if (Strings.isEmpty(userDetails.getUsername())) {
             throw new UserStatusException(Errors.ERROR_100005);
         }
         // 密码
-        if (Strings.isEmpty(userDetails.getSecretKey())) {
+        if (Strings.isEmpty(userDetails.getPassword())) {
             throw new UserStatusException(Errors.ERROR_100006);
         }
 

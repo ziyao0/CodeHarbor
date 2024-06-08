@@ -10,9 +10,8 @@ public interface UserOpenApi {
     /**
      * 通过系统ID和用户名获取用户信息
      *
-     * @param appid    系统ID
      * @param username 用户名
      * @return 返回用户信息
      */
-    UserVO getUser(Long appid, String username);
+    UserVO getUser(String username);
 }

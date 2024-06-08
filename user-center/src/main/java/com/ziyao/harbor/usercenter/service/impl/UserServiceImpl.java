@@ -34,12 +34,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
     }
 
     @Override
-    public User loadUserDetails(Long appid, String accessKey) {
+    public User loadUserDetails(String accessKey) {
         // 通过appid和accessKey获取用户信息
         return userMapper.selectOne(
                 Wrappers.lambdaQuery(User.class)
-                        .eq(User::getAppId, appid)
-                        .eq(User::getAccessKey, accessKey));
+                        .eq(User::getUsername, accessKey));
 
     }
 }

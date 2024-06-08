@@ -10,7 +10,6 @@ import lombok.Data;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 /**
  * <p>
@@ -18,7 +17,7 @@ import java.util.Objects;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 public class RoleDTO implements EntityDTO<Role>, Serializable {
@@ -27,13 +26,9 @@ public class RoleDTO implements EntityDTO<Role>, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色ID
+     * 角色id
      */
     private Long id;
-    /**
-     * 系统id
-     */
-    private Long appId;
     /**
      * 角色名称
      */
@@ -71,8 +66,6 @@ public class RoleDTO implements EntityDTO<Role>, Serializable {
     public LambdaQueryWrapper<Role> initWrapper() {
 
         return Wrappers.lambdaQuery(Role.class)
-                // 系统id
-                .eq(Objects.nonNull(appId), Role::getAppId, appId)
                 // 角色名称
                 .likeRight(Strings.hasLength(roleName), Role::getRoleName, roleName)
                 // 角色编码

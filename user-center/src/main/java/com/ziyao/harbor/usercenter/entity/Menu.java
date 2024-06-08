@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -65,7 +65,7 @@ public class Menu implements Serializable {
     /**
      * 资源级别
      */
-    private Integer level;
+    private Byte level;
 
     /**
      * 排序

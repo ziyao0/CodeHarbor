@@ -13,7 +13,7 @@ import java.util.Base64;
  * @author ziyao zhang
  * @since 2024/3/27
  */
-public class OAuth2RefreshTokenGenerator implements OAuth2TokenGenerator<OAuth2RefreshToken> {
+public final class OAuth2RefreshTokenGenerator implements OAuth2TokenGenerator<OAuth2RefreshToken> {
 
 
     private final StringKeyGenerator refreshTokenGenerator = new Base64StringKeyGenerator(

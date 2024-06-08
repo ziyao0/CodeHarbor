@@ -13,14 +13,14 @@ public interface UserDetails extends Serializable {
      *
      * @return username
      */
-    String getAccessKey();
+    String getUsername();
 
     /**
      * 用于校验的密码
      *
      * @return pd
      */
-    String getSecretKey();
+    String getPassword();
 
     /**
      * 表示账号是否过期，过期的账号不能登录

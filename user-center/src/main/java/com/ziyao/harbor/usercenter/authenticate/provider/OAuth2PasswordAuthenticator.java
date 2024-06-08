@@ -45,7 +45,7 @@ public class OAuth2PasswordAuthenticator implements OAuth2Authenticator {
         UserStatusValidator.validated(userDetails);
         // 检查用户密码
         PasswordParameter parameter = PasswordParameter.of(
-                authenticatedRequest.getPassword(), userDetails.getSecretKey());
+                authenticatedRequest.getPassword(), userDetails.getUsername());
 //        PasswordValidator.validated(parameter);
         // 组装验证成功的用户信息
         return createdValidatorSuccessfulAuthenticatedUser(userDetails);
@@ -64,7 +64,7 @@ public class OAuth2PasswordAuthenticator implements OAuth2Authenticator {
 
     @Override
     public UserDetails loadUserDetails(UserQuery query) {
-        User user = userService.loadUserDetails(query.appid(), query.username());
+        User user = userService.loadUserDetails(query.username());
         Assert.notNull(user);
         return user;
     }

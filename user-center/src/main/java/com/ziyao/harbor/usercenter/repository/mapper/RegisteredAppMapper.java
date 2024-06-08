@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.repository.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ziyao.harbor.usercenter.entity.App;
+import com.ziyao.harbor.usercenter.entity.RegisteredApp;
 
 /**
  * <p>
@@ -9,8 +9,8 @@ import com.ziyao.harbor.usercenter.entity.App;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2024-06-08
  */
-public interface AppMapper extends BaseMapper<App> {
+public interface RegisteredAppMapper extends BaseMapper<RegisteredApp> {
 
 }

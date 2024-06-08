@@ -1,6 +1,7 @@
 package com.ziyao.harbor.usercenter.controller;
 
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
 import com.ziyao.harbor.usercenter.service.AuthenticatedService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,6 +27,11 @@ public class AuthenticatedController {
     @PostMapping("/login")
     public String login(@RequestBody AuthenticatedRequest authenticatedRequest) {
         return authenticatedService.login(authenticatedRequest);
+    }
+
+    @PostMapping("/code/generate")
+    public String generateAuthenticationCode(@RequestBody AuthenticationRequest authenticationRequest) {
+        return authenticatedService.generateAuthenticationCode(authenticationRequest);
     }
 
 }

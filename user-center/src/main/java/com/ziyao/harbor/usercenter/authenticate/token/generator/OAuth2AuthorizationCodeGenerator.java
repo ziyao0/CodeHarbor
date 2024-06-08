@@ -13,7 +13,7 @@ import java.util.Base64;
  * @author ziyao zhang
  * @time 2024/6/4
  */
-public class OAuth2AuthorizationCodeGenerator implements OAuth2TokenGenerator<OAuth2AuthorizationCode> {
+public final class OAuth2AuthorizationCodeGenerator implements OAuth2TokenGenerator<OAuth2AuthorizationCode> {
 
     private final StringKeyGenerator authorizationCodeGenerator = new Base64StringKeyGenerator(
             Base64.getUrlEncoder().withoutPadding(), 16);

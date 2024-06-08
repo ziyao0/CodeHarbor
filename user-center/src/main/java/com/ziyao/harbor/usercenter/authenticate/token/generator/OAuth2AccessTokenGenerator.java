@@ -22,7 +22,7 @@ import java.util.*;
  * @author ziyao zhang
  * @since 2024/3/25
  */
-public class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
+public final class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OAuth2AccessToken> {
 
     private static final Logger log = LoggerFactory.getLogger(OAuth2AccessTokenGenerator.class);
 

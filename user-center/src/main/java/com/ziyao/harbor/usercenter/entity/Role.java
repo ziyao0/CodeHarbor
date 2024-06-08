@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -27,57 +27,48 @@ public class Role implements Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色ID
+     * 角色id
      */
-    @TableId(value = "ID", type = IdType.AUTO)
+    @TableId(value = "id", type = IdType.AUTO)
     private Long id;
-
-    /**
-     * 系统id
-     */
-    @TableField("APP_ID")
-    private Long appId;
 
     /**
      * 角色名称
      */
-    @TableField("ROLE_NAME")
     private String roleName;
 
     /**
      * 角色编码
      */
-    @TableField("ROLE_CODE")
     private String roleCode;
 
     /**
      * 角色描述
      */
-    @TableField("DESCRIPTION")
     private String description;
 
     /**
      * 创建人id
      */
-    @TableField(value = "CREATED_BY", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer createdBy;
 
     /**
      * 创建时间
      */
-    @TableField(value = "CREATED_AT", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
     /**
      * 修改人id
      */
-    @TableField(value = "MODIFIED_BY", fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.UPDATE)
     private Integer modifiedBy;
 
     /**
      * 修改时间
      */
-    @TableField(value = "MODIFIED_AT", fill = FieldFill.UPDATE)
+    @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime modifiedAt;
 
 

@@ -1,5 +1,6 @@
 package com.ziyao.harbor.usercenter.authenticate.token;
 
+import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;
@@ -27,7 +28,7 @@ public interface OAuth2TokenContext {
     }
 
     /**
-     * Returns the {@link RegisteredApp registered app}.
+     * 返回应用信息
      *
      * @return the {@link RegisteredApp}
      */
@@ -51,57 +52,70 @@ public interface OAuth2TokenContext {
     }
 
     abstract class AbstractBuilder<T extends OAuth2TokenContext, B extends AbstractBuilder<T, B>> {
-        private static final String AUTHORIZED_SCOPE_KEY =
-                OAuth2Authorization.class.getName().concat(".AUTHORIZED_SCOPE");
+        /**
+         * 授权范围
+         */
+        private static final String AUTHORIZED_SCOPE_KEY = OAuth2Authorization.class.getName().concat(".AUTHORIZED_SCOPE");
+        /**
+         * 用户主体信息
+         */
+        private static final String PRINCIPAL_AUTHENTICATION_KEY = OAuth2Authorization.class.getName().concat(".PRINCIPAL");
+        /**
+         * 授权上下文信息
+         */
         private final Map<String, Object> context = new HashMap<>();
 
 
         /**
-         * Sets the {@link OAuth2Authorization authorization}.
-         *
-         * @param authorization the {@link OAuth2Authorization}
-         * @return the {@link AbstractBuilder} for further configuration
+         * 设置 {@link OAuth2Authorization authorization}.
          */
         public B authorization(OAuth2Authorization authorization) {
             return put(OAuth2Authorization.class, authorization);
         }
 
         /**
-         * Sets the authorized scope(s).
+         * 设置授权范围
          *
-         * @param authorizedScopes the authorized scope(s)
-         * @return the {@link AbstractBuilder} for further configuration
+         * @param authorizedScopes 授权范围-->角色编码
          */
         public B authorizedScopes(Set<String> authorizedScopes) {
             return put(AUTHORIZED_SCOPE_KEY, authorizedScopes);
         }
 
         /**
-         * Sets the {@link OAuth2TokenType token type}.
-         *
-         * @param tokenType the {@link OAuth2TokenType}
-         * @return the {@link AbstractBuilder} for further configuration
+         * 设置token类型
          */
         public B tokenType(OAuth2TokenType tokenType) {
             return put(OAuth2TokenType.class, tokenType);
         }
 
         /**
-         * Sets the {@link AuthorizationGrantType authorization grant type}.
-         *
-         * @param authorizationGrantType the {@link AuthorizationGrantType}
-         * @return the {@link AbstractBuilder} for further configuration
+         * 设置授权类型
          */
         public B authorizationGrantType(AuthorizationGrantType authorizationGrantType) {
             return put(AuthorizationGrantType.class, authorizationGrantType);
         }
 
         /**
-         * Associates an attribute.
+         * 设置应用信息
+         */
+        public B registeredApp(RegisteredApp registeredApp) {
+            return put(RegisteredApp.class, registeredApp);
+        }
+
+        /**
+         * sets 用户信息
+         */
+        public B principal(User principal) {
+            return put(PRINCIPAL_AUTHENTICATION_KEY, principal);
+        }
+
+        /**
+         * 关联属性
          *
-         * @param key   the key for the attribute
-         * @param value the value of the attribute
-         * @return the {@link AbstractBuilder} for further configuration
+         * @param key   属性键
+         * @param value 属性值
+         * @return {@link AbstractBuilder}
          */
         public B put(String key, Object value) {
             Assert.notNull(key, "key cannot be null");
@@ -115,17 +129,16 @@ public interface OAuth2TokenContext {
         }
 
         /**
-         * A {@code Consumer} of the attributes {@code Map}
-         * allowing the ability to add, replace, or remove.
-         *
-         * @param contextConsumer a {@link Consumer} of the attributes {@code Map}
-         * @return the {@link AbstractBuilder} for further configuration
+         * 用于操作属性
          */
         public B context(Consumer<Map<String, Object>> contextConsumer) {
             contextConsumer.accept(this.context);
             return getThis();
         }
 
+        /**
+         * 获取属性
+         */
         @SuppressWarnings("unchecked")
         protected <V> V get(Object key) {
             return (V) this.context.get(key);
@@ -140,11 +153,6 @@ public interface OAuth2TokenContext {
             return (B) this;
         }
 
-        /**
-         * Builds a new {@link OAuth2TokenContext}.
-         *
-         * @return the {@link OAuth2TokenContext}
-         */
         public abstract T build();
 
     }

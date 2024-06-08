@@ -97,7 +97,7 @@ public class CodeGenerator {
 
 
 //        gc.setUrl("jdbc:mysql://localhost:3306/harbor"); ?useUnicode=true&useSSL=false&characterEncoding=utf8
-        gc.setUrl("jdbc:mysql://124.222.42.249:33306/harbor");
+        gc.setUrl("jdbc:mysql://123.249.103.68:3306/code-harbor");
         gc.setUserName("root");
         gc.setPassword("root");
 
@@ -105,15 +105,14 @@ public class CodeGenerator {
 
         gc.setParent("com.ziyao.harbor");
 
-//        gc.setSuperEntityClass("com.harbor.web.orm.BaseEntity");
+        gc.setSuperEntityClass("com.harbor.web.orm.BaseEntity");
 //
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
-        gc.setSuperControllerClass("com.ziyao.harbor.web.mvc.BaseController");
-        gc.setInclude("app");
-//        gc.setInclude("app,user,department,menu,role,user_role,role_menu");
+        gc.setSuperControllerClass("com.ziyao.harbor.web.base.BaseController");
+        gc.setInclude("registered_app,oauth2_authorization,user,department,menu,role,user_role,role_menu");
 
-        gc.setProjectDir(System.getProperty("user.dir") + "/user-center-service");
+        gc.setProjectDir(System.getProperty("user.dir") + "/user-center");
 
 
         return gc;

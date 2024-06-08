@@ -18,7 +18,7 @@ import java.util.Objects;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 public class UserDTO implements EntityDTO<User>, Serializable {
@@ -27,17 +27,13 @@ public class UserDTO implements EntityDTO<User>, Serializable {
     private static final long serialVersionUID = 1L;
 
     /**
-     * 用户ID
+     * 用户id
      */
     private Long id;
     /**
-     * 系统ID
-     */
-    private Long appId;
-    /**
      * 用户账号
      */
-    private String accessKey;
+    private String username;
     /**
      * 昵称
      */
@@ -45,13 +41,13 @@ public class UserDTO implements EntityDTO<User>, Serializable {
     /**
      * 用户凭证
      */
-    private String secretKey;
+    private String password;
     /**
      * 账号状态
      */
-    private Integer status;
+    private Byte status;
     /**
-     * 部门ID
+     * 部门id
      */
     private Long deptId;
     /**
@@ -65,7 +61,7 @@ public class UserDTO implements EntityDTO<User>, Serializable {
     /**
      * 删除状态 0正常 1 删除
      */
-    private Integer deleted;
+    private Byte deleted;
     /**
      * 创建人id
      */
@@ -75,7 +71,7 @@ public class UserDTO implements EntityDTO<User>, Serializable {
      */
     private LocalDateTime createdAt;
     /**
-     * 修改人id
+     * 修改人id 
      */
     private Integer modifiedBy;
     /**
@@ -91,17 +87,15 @@ public class UserDTO implements EntityDTO<User>, Serializable {
     public LambdaQueryWrapper<User> initWrapper() {
 
         return Wrappers.lambdaQuery(User.class)
-                // 系统ID
-                .eq(Objects.nonNull(appId), User::getAppId, appId)
                 // 用户账号
-                .likeRight(Strings.hasLength(accessKey), User::getAccessKey, accessKey)
+                .likeRight(Strings.hasLength(username), User::getUsername, username)
                 // 昵称
                 .likeRight(Strings.hasLength(nickname), User::getNickname, nickname)
                 // 用户凭证
-                .likeRight(Strings.hasLength(secretKey), User::getSecretKey, secretKey)
+                .likeRight(Strings.hasLength(password), User::getPassword, password)
                 // 账号状态
                 .eq(Objects.nonNull(status), User::getStatus, status)
-                // 部门ID
+                // 部门id
                 .eq(Objects.nonNull(deptId), User::getDeptId, deptId)
                 // 部门名称
                 .likeRight(Strings.hasLength(deptName), User::getDeptName, deptName)

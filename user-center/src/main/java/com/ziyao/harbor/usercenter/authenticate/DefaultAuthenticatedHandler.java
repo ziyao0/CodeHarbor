@@ -40,8 +40,7 @@ public class DefaultAuthenticatedHandler implements AuthenticatedHandler {
 
         Map<String, Object> payload = new HashMap<>();
         payload.put("id", user.getId());
-        payload.put("appid", user.getAppId());
-        payload.put("username", user.getAccessKey());
+        payload.put("username", user.getUsername());
         payload.put("nickname", user.getNickname());
         payload.put("deptName", user.getDeptName());
         payload.put("status", user.getStatus());

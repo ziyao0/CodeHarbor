@@ -3,6 +3,7 @@ package com.ziyao.harbor.usercenter.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,35 +13,30 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("user_role")
 public class UserRole implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 系统id
-     */
-    @TableId("APP_ID")
-    private Long appId;
-
-    @TableField("USER_ID")
+    @TableId("user_id")
     private Long userId;
 
-    @TableField("ROLE_ID")
+    @TableId("role_id")
     private Long roleId;
 
-    @TableField(value = "CREATED_AT", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
-    @TableField(value = "CREATED_BY", fill = FieldFill.INSERT)
+    @TableField(fill = FieldFill.INSERT)
     private Integer createdBy;
 
 
