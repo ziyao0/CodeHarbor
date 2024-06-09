@@ -21,4 +21,9 @@ public record OAuth2TokenType(String value) {
         OAuth2TokenType that = (OAuth2TokenType) o;
         return Objects.equals(value, that.value);
     }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
+    }
 }

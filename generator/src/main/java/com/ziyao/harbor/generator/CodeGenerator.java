@@ -53,7 +53,7 @@ public class CodeGenerator {
                 .packageConfig(builder -> {
                     builder.moduleName(config.getModuleName())// 设置父包模块名
                             .parent(config.getParent()) // 设置父包名
-                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/generate/mapper"));// 设置mapperXml生成路径
+                            .pathInfo(Collections.singletonMap(OutputFile.xml, config.getProjectDir() + "/src/main/resources/mapper/usercenter"));// 设置mapperXml生成路径
                 })
 
                 // 策略配置
@@ -110,8 +110,8 @@ public class CodeGenerator {
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
         gc.setSuperControllerClass("com.ziyao.harbor.web.base.BaseController");
-        gc.setInclude("registered_app,oauth2_authorization,user,department,menu,role,user_role,role_menu");
-
+//        gc.setInclude("registered_app,oauth2_authorization,user,department,menu,role,user_role,role_menu");
+        gc.setInclude("application");
         gc.setProjectDir(System.getProperty("user.dir") + "/user-center");
 
 

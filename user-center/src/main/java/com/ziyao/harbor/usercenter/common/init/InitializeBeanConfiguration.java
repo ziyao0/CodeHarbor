@@ -1,9 +1,17 @@
 package com.ziyao.harbor.usercenter.common.init;
 
 import com.ziyao.harbor.usercenter.authenticate.token.generator.*;
+import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
+import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
+import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepository;
+import com.ziyao.harbor.usercenter.repository.redis.RedisRegisteredAppRepository;
+import com.ziyao.harbor.usercenter.service.app.*;
+import com.ziyao.harbor.usercenter.service.oauth2.*;
 import com.ziyao.security.oauth2.core.OAuth2Token;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.List;
 
 /**
  * @author ziyao zhang
@@ -19,6 +27,29 @@ public class InitializeBeanConfiguration {
                 new OAuth2AuthorizationCodeGenerator(),
                 new OAuth2AccessTokenGenerator(),
                 new OAuth2RefreshTokenGenerator()
+        );
+    }
+
+    @Bean
+    public RegisteredAppService delegatingRegisteredAppService(ApplicationRepository applicationRepository,
+                                                               RedisRegisteredAppRepository redisRegisteredAppRepository) {
+        return new DelegatingRegisteredAppService(
+                List.of(new JpaRegisteredAppService(applicationRepository),
+                        new RedisRegisteredAppService(redisRegisteredAppRepository),
+                        new CaffeineRegisteredAppService())
+        );
+    }
+
+    @Bean
+    public OAuth2AuthorizationService delegatingOAuth2AuthorizationService(RegisteredAppService delegatingRegisteredAppService,
+                                                                           AuthorizationRepository authorizationRepository,
+                                                                           OAuth2AuthorizationRepository oAuth2AuthorizationRepository) {
+        return new DelegatingOAuth2AuthorizationService(
+                List.of(
+                        new JpaOAuth2AuthorizationService(delegatingRegisteredAppService, authorizationRepository),
+                        new RedisOAuth2AuthorizationService(oAuth2AuthorizationRepository),
+                        new CaffeineOAuth2AuthorizationService()
+                )
         );
     }
 

@@ -50,7 +50,7 @@ public final class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
 
         claimsBuilder
                 .subject(registeredApp.getAppName())
-                .audience(Collections.singletonList(String.valueOf(registeredApp.getAppid())))
+                .audience(Collections.singletonList(String.valueOf(registeredApp.getAppId())))
                 .issuedAt(issuedAt)
                 .expiresAt(expiresAt)
                 .notBefore(issuedAt)

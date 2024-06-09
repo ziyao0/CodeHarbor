@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 public class AuthenticationRequest {
 
-    private String appid;
+    private Long appid;
 
     private String grantType;
 

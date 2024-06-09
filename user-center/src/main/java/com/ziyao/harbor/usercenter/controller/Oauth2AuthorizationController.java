@@ -3,8 +3,8 @@ package com.ziyao.harbor.usercenter.controller;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;
 import com.ziyao.harbor.usercenter.dto.Oauth2AuthorizationDTO;
-import com.ziyao.harbor.usercenter.entity.Oauth2Authorization;
-import com.ziyao.harbor.usercenter.service.Oauth2AuthorizationService;
+import com.ziyao.harbor.usercenter.entity.Authorization;
+import com.ziyao.harbor.usercenter.service.AuthorizationService;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
@@ -28,10 +28,10 @@ import java.util.stream.Collectors;
  */
 @RestController
 @RequestMapping("/usercenter/oauth2-authorization")
-public class Oauth2AuthorizationController extends BaseController<Oauth2AuthorizationService, Oauth2Authorization> {
+public class Oauth2AuthorizationController extends BaseController<AuthorizationService, Authorization> {
 
     @Autowired
-    private Oauth2AuthorizationService oauth2AuthorizationService;
+    private AuthorizationService authorizationService;
 
     @PostMapping("/save")
     public void save(@RequestBody Oauth2AuthorizationDTO entityDTO) {
@@ -67,8 +67,8 @@ public class Oauth2AuthorizationController extends BaseController<Oauth2Authoriz
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Oauth2Authorization> getPage(@RequestBody PageParams<Oauth2AuthorizationDTO> pageQuery) {
-        Page<Oauth2Authorization> page = Pages.initPage(pageQuery, Oauth2Authorization.class);
-        return oauth2AuthorizationService.page(page, pageQuery.getParams());
+    public Page<Authorization> getPage(@RequestBody PageParams<Oauth2AuthorizationDTO> pageQuery) {
+        Page<Authorization> page = Pages.initPage(pageQuery, Authorization.class);
+        return authorizationService.page(page, pageQuery.getParams());
     }
 }

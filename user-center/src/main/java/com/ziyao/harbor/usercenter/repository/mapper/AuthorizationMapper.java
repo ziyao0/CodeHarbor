@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.repository.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.ziyao.harbor.usercenter.entity.Oauth2Authorization;
+import com.ziyao.harbor.usercenter.entity.Authorization;
 
 /**
  * <p>
@@ -11,6 +11,6 @@ import com.ziyao.harbor.usercenter.entity.Oauth2Authorization;
  * @author zhangziyao
  * @since 2024-06-08
  */
-public interface Oauth2AuthorizationMapper extends BaseMapper<Oauth2Authorization> {
+public interface AuthorizationMapper extends BaseMapper<Authorization> {
 
 }

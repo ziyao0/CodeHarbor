@@ -10,7 +10,7 @@ import org.springframework.lang.Nullable;
  * @author ziyao
  * @since 2023/4/23
  */
-public interface AuthenticatedService {
+public interface AuthenticationService {
     /**
      * 用户登陆功能
      *

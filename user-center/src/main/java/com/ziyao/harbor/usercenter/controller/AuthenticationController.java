@@ -2,7 +2,7 @@ package com.ziyao.harbor.usercenter.controller;
 
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
-import com.ziyao.harbor.usercenter.service.AuthenticatedService;
+import com.ziyao.harbor.usercenter.service.AuthenticationService;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,23 +15,23 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RequestMapping("/auth")
 @RestController
-public class AuthenticatedController {
+public class AuthenticationController {
 
-    private final AuthenticatedService authenticatedService;
+    private final AuthenticationService authenticationService;
 
-    public AuthenticatedController(AuthenticatedService authenticatedService) {
-        this.authenticatedService = authenticatedService;
+    public AuthenticationController(AuthenticationService authenticationService) {
+        this.authenticationService = authenticationService;
     }
 
 
     @PostMapping("/login")
     public String login(@RequestBody AuthenticatedRequest authenticatedRequest) {
-        return authenticatedService.login(authenticatedRequest);
+        return authenticationService.login(authenticatedRequest);
     }
 
     @PostMapping("/code/generate")
     public String generateAuthenticationCode(@RequestBody AuthenticationRequest authenticationRequest) {
-        return authenticatedService.generateAuthenticationCode(authenticationRequest);
+        return authenticationService.generateAuthenticationCode(authenticationRequest);
     }
 
 }

@@ -1,13 +1,12 @@
 package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * <p>
@@ -19,8 +18,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("registered_app")
-public class RegisteredApp implements Serializable {
+public class Application implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -32,7 +30,7 @@ public class RegisteredApp implements Serializable {
     private Long appId;
 
     /**
-     * 应用类型 0内部系统应用 1三方平台应用
+     * 应用类型 0内部系统应用 1三方平台应用 
      */
     private Integer appType;
 
@@ -42,6 +40,11 @@ public class RegisteredApp implements Serializable {
     private String authorizationGrantTypes;
 
     /**
+     * 授权范围
+     */
+    private String scopes;
+
+    /**
      * 删除状态 0正常 1失效
      */
     private Integer state;
@@ -49,7 +52,7 @@ public class RegisteredApp implements Serializable {
     /**
      * 颁发时间
      */
-    private LocalDateTime issuedAt;
+    private Instant issuedAt;
 
     /**
      * 应用秘钥
@@ -59,7 +62,7 @@ public class RegisteredApp implements Serializable {
     /**
      * 应用秘钥过期时间
      */
-    private LocalDateTime appSecretExpiresAt;
+    private Instant appSecretExpiresAt;
 
     /**
      * 应用名称
@@ -70,6 +73,10 @@ public class RegisteredApp implements Serializable {
      * 系统重定向路径
      */
     private String redirectUri;
+
+    private String postLogoutRedirectUri;
+
+    private String tokenSettings;
 
     /**
      * 系统简介

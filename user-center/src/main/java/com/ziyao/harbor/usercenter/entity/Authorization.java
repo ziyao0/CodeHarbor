@@ -6,7 +6,7 @@ import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.LocalDateTime;
+import java.time.Instant;
 
 /**
  * <p>
@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@TableName("oauth2_authorization")
-public class Oauth2Authorization implements Serializable {
+@TableName("authorization")
+public class Authorization implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -69,12 +69,12 @@ public class Oauth2Authorization implements Serializable {
     /**
      * 授权码颁发时间
      */
-    private LocalDateTime authorizationCodeIssuedAt;
+    private Instant authorizationCodeIssuedAt;
 
     /**
      * 授权码失效时间
      */
-    private LocalDateTime authorizationCodeExpiresAt;
+    private Instant authorizationCodeExpiresAt;
 
     /**
      * 授权码元数据信息
@@ -89,12 +89,12 @@ public class Oauth2Authorization implements Serializable {
     /**
      * 认证令牌颁发时间
      */
-    private LocalDateTime accessTokenIssuedAt;
+    private Instant accessTokenIssuedAt;
 
     /**
      * 认证临牌失效时间
      */
-    private LocalDateTime accessTokenExpiresAt;
+    private Instant accessTokenExpiresAt;
 
     /**
      * 认证令牌元数据信息
@@ -119,12 +119,12 @@ public class Oauth2Authorization implements Serializable {
     /**
      * 刷新令牌颁发时间
      */
-    private LocalDateTime refreshTokenIssuedAt;
+    private Instant refreshTokenIssuedAt;
 
     /**
      * 刷新令牌过期时间
      */
-    private LocalDateTime refreshTokenExpiresAt;
+    private Instant refreshTokenExpiresAt;
 
     /**
      * 元数据信息

@@ -1,26 +1,35 @@
 package com.ziyao.security.oauth2.core;
 
+import java.util.Objects;
+
 /**
  * @author ziyao zhang
  * @since 2024/3/25
  */
-public enum AuthorizationGrantType {
-    AUTHORIZATION_CODE("authorization_code"),
-    REFRESH_TOKEN("refresh_token"),
-    CLIENT_CREDENTIALS("client_credentials"),
-    PASSWORD("password"),
-    JWT_BEARER("urn:ietf:params:oauth:grant-type:jwt-bearer"),
-    DEVICE_CODE("urn:ietf:params:oauth:grant-type:device_code"),
-    ;
+public record AuthorizationGrantType(String value) {
 
+    public static final AuthorizationGrantType AUTHORIZATION_CODE = new AuthorizationGrantType("authorization_code");
 
-    private final String value;
+    public static final AuthorizationGrantType REFRESH_TOKEN = new AuthorizationGrantType("refresh_token");
 
-    AuthorizationGrantType(String value) {
-        this.value = value;
+    public static final AuthorizationGrantType CLIENT_CREDENTIALS = new AuthorizationGrantType("client_credentials");
+
+    public static final AuthorizationGrantType PASSWORD = new AuthorizationGrantType("password");
+
+    public static final AuthorizationGrantType JWT_BEARER = new AuthorizationGrantType("urn:ietf:params:oauth:grant-type:jwt-bearer");
+
+    public static final AuthorizationGrantType DEVICE_CODE = new AuthorizationGrantType("urn:ietf:params:oauth:grant-type:device_code");
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AuthorizationGrantType that = (AuthorizationGrantType) o;
+        return Objects.equals(value, that.value);
     }
 
-    public String value() {
-        return this.value;
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 }

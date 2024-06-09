@@ -5,15 +5,16 @@ import com.ziyao.harbor.usercenter.authenticate.AuthenticatorManager;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authenticate.token.DefaultOAuth2TokenContext;
+import com.ziyao.harbor.usercenter.authenticate.token.RegisteredApp;
 import com.ziyao.harbor.usercenter.authenticate.token.generator.OAuth2TokenGenerator;
 import com.ziyao.harbor.usercenter.common.exception.AuthenticateException;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
-import com.ziyao.harbor.usercenter.service.AuthenticatedService;
-import com.ziyao.security.oauth2.core.OAuth2Authorization;
-import com.ziyao.security.oauth2.core.OAuth2AuthorizationCode;
-import com.ziyao.security.oauth2.core.OAuth2Token;
-import com.ziyao.security.oauth2.core.OAuth2TokenType;
+import com.ziyao.harbor.usercenter.service.AuthenticationService;
+import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
+import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
+import com.ziyao.security.oauth2.core.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 /**
@@ -22,19 +23,26 @@ import org.springframework.stereotype.Service;
  */
 @Slf4j
 @Service
-public class AuthenticatedServiceImpl implements AuthenticatedService {
+public class AuthenticationServiceImpl implements AuthenticationService {
+
 
     private final AuthenticatorManager authenticatorManager;
     private final AuthenticatedHandler authenticatedHandler;
 
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+    private final RegisteredAppService registeredAppService;
+    private final OAuth2AuthorizationService authorizationService;
 
-    public AuthenticatedServiceImpl(AuthenticatorManager authenticatorManager,
-                                    AuthenticatedHandler authenticatedHandler,
-                                    OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+    public AuthenticationServiceImpl(AuthenticatorManager authenticatorManager,
+                                     AuthenticatedHandler authenticatedHandler,
+                                     OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+                                     RegisteredAppService registeredAppService,
+                                     OAuth2AuthorizationService authorizationService) {
         this.authenticatorManager = authenticatorManager;
         this.authenticatedHandler = authenticatedHandler;
         this.tokenGenerator = tokenGenerator;
+        this.registeredAppService = registeredAppService;
+        this.authorizationService = authorizationService;
     }
 
     @Override
@@ -57,14 +65,18 @@ public class AuthenticatedServiceImpl implements AuthenticatedService {
 
     @Override
     public String generateAuthenticationCode(AuthenticationRequest request) {
-        String appid = request.getAppid();
+
+        RegisteredApp registeredApp = registeredAppService.findById(request.getAppid());
+
+        if (registeredApp == null) {
+            throw new DataRetrievalFailureException(
+                    "The RegisteredClient with id '" + request.getAppid() + "' was not found in the RegisteredClientRepository.");
+        }
 
         DefaultOAuth2TokenContext context = DefaultOAuth2TokenContext.builder()
                 .tokenType(new OAuth2TokenType(request.getGrantType()))
+                .registeredApp(registeredApp)
                 // 填充用户信息
-                .principal(null)
-                // 填充用户信息
-                .registeredApp(null)
                 .build();
 
         OAuth2Token auth2Token = this.tokenGenerator.generate(context);
@@ -72,8 +84,14 @@ public class AuthenticatedServiceImpl implements AuthenticatedService {
             return null;
         }
         OAuth2AuthorizationCode authorizationCode = (OAuth2AuthorizationCode) auth2Token;
-        // 存储
-        //返回
+
+        OAuth2Authorization authorization = OAuth2Authorization.withRegisteredAppId(registeredApp.getAppId())
+                .token(authorizationCode)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .build();
+
+        authorizationService.save(authorization);
+
         return "";
     }
 

@@ -2,9 +2,9 @@ package com.ziyao.harbor.usercenter.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;
-import com.ziyao.harbor.usercenter.dto.RegisteredAppDTO;
-import com.ziyao.harbor.usercenter.entity.RegisteredApp;
-import com.ziyao.harbor.usercenter.service.RegisteredAppService;
+import com.ziyao.harbor.usercenter.dto.ApplicationDTO;
+import com.ziyao.harbor.usercenter.entity.Application;
+import com.ziyao.harbor.usercenter.service.ApplicationService;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
@@ -27,24 +27,24 @@ import java.util.stream.Collectors;
  * @since 2024-06-08
  */
 @RestController
-@RequestMapping("/usercenter/registered-app")
-public class RegisteredAppController extends BaseController<RegisteredAppService, RegisteredApp> {
+@RequestMapping("/usercenter/application")
+public class ApplicationController extends BaseController<ApplicationService, Application> {
 
     @Autowired
-    private RegisteredAppService registeredAppService;
+    private ApplicationService applicationService;
 
     @PostMapping("/save")
-    public void save(@RequestBody RegisteredAppDTO entityDTO) {
+    public void save(@RequestBody ApplicationDTO entityDTO) {
         super.iService.save(entityDTO.getInstance());
     }
 
     @PostMapping("/saveOrUpdate")
-    public void saveOrUpdate(@RequestBody RegisteredAppDTO entityDTO) {
+    public void saveOrUpdate(@RequestBody ApplicationDTO entityDTO) {
         super.iService.saveOrUpdate(entityDTO.getInstance());
     }
 
     @PostMapping("/updateById")
-    public void updateById(@RequestBody RegisteredAppDTO entityDTO) {
+    public void updateById(@RequestBody ApplicationDTO entityDTO) {
         if (ObjectUtils.isEmpty(entityDTO.getId())) {
             throw Exceptions.createIllegalArgumentException(null);
         }
@@ -56,8 +56,8 @@ public class RegisteredAppController extends BaseController<RegisteredAppService
      */
     @PostMapping("/saveBatch")
     public void saveBatch(@RequestBody List
-            <RegisteredAppDTO> entityDTOList) {
-        super.iService.saveBatch(entityDTOList.stream().map(RegisteredAppDTO::getInstance).collect(Collectors.toList()), 500);
+            <ApplicationDTO> entityDTOList) {
+        super.iService.saveBatch(entityDTOList.stream().map(ApplicationDTO::getInstance).collect(Collectors.toList()), 500);
     }
 
     /**
@@ -67,8 +67,8 @@ public class RegisteredAppController extends BaseController<RegisteredAppService
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<RegisteredApp> getPage(@RequestBody PageParams<RegisteredAppDTO> pageQuery) {
-        Page<RegisteredApp> page = Pages.initPage(pageQuery, RegisteredApp.class);
-        return registeredAppService.page(page, pageQuery.getParams());
+    public Page<Application> getPage(@RequestBody PageParams<ApplicationDTO> pageQuery) {
+        Page<Application> page = Pages.initPage(pageQuery, Application.class);
+        return applicationService.page(page, pageQuery.getParams());
     }
 }

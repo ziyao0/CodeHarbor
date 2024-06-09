@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.dto;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.entity.Oauth2Authorization;
+import com.ziyao.harbor.usercenter.entity.Authorization;
 import com.ziyao.harbor.web.orm.EntityDTO;
 import lombok.Data;
 
@@ -21,7 +21,7 @@ import java.util.Objects;
  * @since 2024-06-08
  */
 @Data
-public class Oauth2AuthorizationDTO implements EntityDTO<Oauth2Authorization>, Serializable {
+public class Oauth2AuthorizationDTO implements EntityDTO<Authorization>, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -120,56 +120,56 @@ public class Oauth2AuthorizationDTO implements EntityDTO<Oauth2Authorization>, S
      *
      * @see LambdaQueryWrapper
      */
-    public LambdaQueryWrapper<Oauth2Authorization> initWrapper() {
+    public LambdaQueryWrapper<Authorization> initWrapper() {
 
-        return Wrappers.lambdaQuery(Oauth2Authorization.class)
+        return Wrappers.lambdaQuery(Authorization.class)
                 // 应用系统id
-                .eq(Objects.nonNull(appid), Oauth2Authorization::getAppid, appid)
+                .eq(Objects.nonNull(appid), Authorization::getAppid, appid)
                 // 应用名称
-                .likeRight(Strings.hasLength(appName), Oauth2Authorization::getAppName, appName)
+                .likeRight(Strings.hasLength(appName), Authorization::getAppName, appName)
                 // 
-                .eq(Objects.nonNull(userId), Oauth2Authorization::getUserId, userId)
+                .eq(Objects.nonNull(userId), Authorization::getUserId, userId)
                 // 授权类型
-                .likeRight(Strings.hasLength(authorizationGrantType), Oauth2Authorization::getAuthorizationGrantType, authorizationGrantType)
+                .likeRight(Strings.hasLength(authorizationGrantType), Authorization::getAuthorizationGrantType, authorizationGrantType)
                 // 授权范围
-                .likeRight(Strings.hasLength(authorizedScopes), Oauth2Authorization::getAuthorizedScopes, authorizedScopes)
+                .likeRight(Strings.hasLength(authorizedScopes), Authorization::getAuthorizedScopes, authorizedScopes)
                 // 授权附加属性
-                .likeRight(Strings.hasLength(attributes), Oauth2Authorization::getAttributes, attributes)
+                .likeRight(Strings.hasLength(attributes), Authorization::getAttributes, attributes)
                 // 状态 1正常 2失效
-                .eq(Objects.nonNull(state), Oauth2Authorization::getState, state)
+                .eq(Objects.nonNull(state), Authorization::getState, state)
                 // 授权码值
-                .likeRight(Strings.hasLength(authorizationCodeValue), Oauth2Authorization::getAuthorizationCodeValue, authorizationCodeValue)
+                .likeRight(Strings.hasLength(authorizationCodeValue), Authorization::getAuthorizationCodeValue, authorizationCodeValue)
                 // 授权码颁发时间
-                .eq(Objects.nonNull(authorizationCodeIssuedAt), Oauth2Authorization::getAuthorizationCodeIssuedAt, authorizationCodeIssuedAt)
+                .eq(Objects.nonNull(authorizationCodeIssuedAt), Authorization::getAuthorizationCodeIssuedAt, authorizationCodeIssuedAt)
                 // 授权码失效时间
-                .eq(Objects.nonNull(authorizationCodeExpiresAt), Oauth2Authorization::getAuthorizationCodeExpiresAt, authorizationCodeExpiresAt)
+                .eq(Objects.nonNull(authorizationCodeExpiresAt), Authorization::getAuthorizationCodeExpiresAt, authorizationCodeExpiresAt)
                 // 授权码元数据信息
-                .likeRight(Strings.hasLength(authorizationCodeMetadata), Oauth2Authorization::getAuthorizationCodeMetadata, authorizationCodeMetadata)
+                .likeRight(Strings.hasLength(authorizationCodeMetadata), Authorization::getAuthorizationCodeMetadata, authorizationCodeMetadata)
                 // 认证令牌值
-                .likeRight(Strings.hasLength(accessTokenValue), Oauth2Authorization::getAccessTokenValue, accessTokenValue)
+                .likeRight(Strings.hasLength(accessTokenValue), Authorization::getAccessTokenValue, accessTokenValue)
                 // 认证令牌颁发时间
-                .eq(Objects.nonNull(accessTokenIssuedAt), Oauth2Authorization::getAccessTokenIssuedAt, accessTokenIssuedAt)
+                .eq(Objects.nonNull(accessTokenIssuedAt), Authorization::getAccessTokenIssuedAt, accessTokenIssuedAt)
                 // 认证临牌失效时间
-                .eq(Objects.nonNull(accessTokenExpiresAt), Oauth2Authorization::getAccessTokenExpiresAt, accessTokenExpiresAt)
+                .eq(Objects.nonNull(accessTokenExpiresAt), Authorization::getAccessTokenExpiresAt, accessTokenExpiresAt)
                 // 认证令牌元数据信息
-                .likeRight(Strings.hasLength(accessTokenMetadata), Oauth2Authorization::getAccessTokenMetadata, accessTokenMetadata)
+                .likeRight(Strings.hasLength(accessTokenMetadata), Authorization::getAccessTokenMetadata, accessTokenMetadata)
                 // 认证令牌类型
-                .likeRight(Strings.hasLength(accessTokenType), Oauth2Authorization::getAccessTokenType, accessTokenType)
+                .likeRight(Strings.hasLength(accessTokenType), Authorization::getAccessTokenType, accessTokenType)
                 // 认证令牌范围
-                .likeRight(Strings.hasLength(accessTokenScopes), Oauth2Authorization::getAccessTokenScopes, accessTokenScopes)
+                .likeRight(Strings.hasLength(accessTokenScopes), Authorization::getAccessTokenScopes, accessTokenScopes)
                 // 刷新令牌值
-                .likeRight(Strings.hasLength(refreshTokenValue), Oauth2Authorization::getRefreshTokenValue, refreshTokenValue)
+                .likeRight(Strings.hasLength(refreshTokenValue), Authorization::getRefreshTokenValue, refreshTokenValue)
                 // 刷新令牌颁发时间
-                .eq(Objects.nonNull(refreshTokenIssuedAt), Oauth2Authorization::getRefreshTokenIssuedAt, refreshTokenIssuedAt)
+                .eq(Objects.nonNull(refreshTokenIssuedAt), Authorization::getRefreshTokenIssuedAt, refreshTokenIssuedAt)
                 // 刷新令牌过期时间
-                .eq(Objects.nonNull(refreshTokenExpiresAt), Oauth2Authorization::getRefreshTokenExpiresAt, refreshTokenExpiresAt)
+                .eq(Objects.nonNull(refreshTokenExpiresAt), Authorization::getRefreshTokenExpiresAt, refreshTokenExpiresAt)
                 // 元数据信息
-                .likeRight(Strings.hasLength(refreshTokenMetadata), Oauth2Authorization::getRefreshTokenMetadata, refreshTokenMetadata)
+                .likeRight(Strings.hasLength(refreshTokenMetadata), Authorization::getRefreshTokenMetadata, refreshTokenMetadata)
                 ;
     }
 
     @Override
-    public Oauth2Authorization getEntity() {
-        return new Oauth2Authorization();
+    public Authorization getEntity() {
+        return new Authorization();
     }
 }
