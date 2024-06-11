@@ -6,7 +6,6 @@ import lombok.Getter;
 
 import java.io.Serial;
 import java.util.Collection;
-import java.util.Set;
 import java.util.function.Consumer;
 
 /**
@@ -48,9 +47,10 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
     private Byte status;
 
 
-    private Set<GrantedAuthority> authorities;
+    private Collection<? extends GrantedAuthority> authorities;
 
-    public SimpleUser(Long id, String username, String nickname, String password, Byte status, Set<GrantedAuthority> authorities) {
+    public SimpleUser(Long id, String username, String nickname,
+                      String password, Byte status, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.nickname = nickname;
@@ -140,7 +140,7 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
         private String nickname;
         private String password;
         private Byte status;
-        private Set<GrantedAuthority> authorities;
+        private Collection<? extends GrantedAuthority> authorities;
 
         public UserBuilder id(Long id) {
             this.id = id;
@@ -167,12 +167,12 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
             return this;
         }
 
-        public UserBuilder authorities(Set<GrantedAuthority> authorities) {
+        public UserBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
             this.authorities = authorities;
             return this;
         }
 
-        public UserBuilder authorities(Consumer<Set<GrantedAuthority>> authoritiesConsumer) {
+        public UserBuilder authorities(Consumer<Collection<? extends GrantedAuthority>> authoritiesConsumer) {
             authoritiesConsumer.accept(this.authorities);
             return this;
         }

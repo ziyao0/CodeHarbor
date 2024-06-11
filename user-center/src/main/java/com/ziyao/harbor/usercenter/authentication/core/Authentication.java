@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.authentication.core;
 import com.ziyao.harbor.usercenter.authentication.core.authority.GrantedAuthority;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * @author ziyao
@@ -11,11 +11,11 @@ import java.util.Set;
  */
 public interface Authentication extends Serializable {
 
-    String getUsername();
+    Object getPrincipal();
 
-    String getCredentials();
+    Object getCredentials();
 
-    Set<? extends GrantedAuthority> getAuthorities();
+    Collection<? extends GrantedAuthority> getAuthorities();
 
     Additional getAdditional();
 

@@ -7,7 +7,6 @@ import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authentication.core.UserDetails;
 import com.ziyao.harbor.usercenter.authentication.query.UserQuery;
 import com.ziyao.harbor.usercenter.authentication.support.PasswordParameter;
-import com.ziyao.harbor.usercenter.authentication.support.UserStatusValidator;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.service.UserService;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
