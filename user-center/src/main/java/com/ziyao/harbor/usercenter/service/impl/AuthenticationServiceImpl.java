@@ -1,12 +1,12 @@
 package com.ziyao.harbor.usercenter.service.impl;
 
-import com.ziyao.harbor.usercenter.authenticate.AuthenticatedHandler;
-import com.ziyao.harbor.usercenter.authenticate.AuthenticatorManager;
-import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
-import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.authenticate.token.DefaultOAuth2TokenContext;
-import com.ziyao.harbor.usercenter.authenticate.token.RegisteredApp;
-import com.ziyao.harbor.usercenter.authenticate.token.generator.OAuth2TokenGenerator;
+import com.ziyao.harbor.usercenter.authentication.AuthenticatedHandler;
+import com.ziyao.harbor.usercenter.authentication.AuthenticatorManager;
+import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedUser;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
 import com.ziyao.harbor.usercenter.common.exception.AuthenticateException;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
 import com.ziyao.harbor.usercenter.service.AuthenticationService;

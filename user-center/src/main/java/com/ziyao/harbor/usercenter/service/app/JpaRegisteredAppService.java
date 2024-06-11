@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.service.app;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authenticate.token.RegisteredApp;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.entity.Application;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.security.oauth2.settings.TokenSettings;

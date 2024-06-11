@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authenticate.token.RegisteredApp;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.entity.Authorization;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;

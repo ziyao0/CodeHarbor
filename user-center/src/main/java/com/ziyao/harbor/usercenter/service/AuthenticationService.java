@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.service;
 
-import com.ziyao.harbor.usercenter.authenticate.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;

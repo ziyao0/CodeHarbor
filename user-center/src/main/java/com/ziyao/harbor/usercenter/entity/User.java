@@ -2,12 +2,9 @@ package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -20,11 +17,7 @@ import java.time.LocalDateTime;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class User implements UserDetails, Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class User {
     /**
      * 用户id
      */
@@ -83,7 +76,7 @@ public class User implements UserDetails, Serializable {
     private LocalDateTime createdAt;
 
     /**
-     * 修改人id 
+     * 修改人id
      */
     @TableField(fill = FieldFill.UPDATE)
     private Integer modifiedBy;
@@ -94,24 +87,4 @@ public class User implements UserDetails, Serializable {
     @TableField(fill = FieldFill.UPDATE)
     private LocalDateTime modifiedAt;
 
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

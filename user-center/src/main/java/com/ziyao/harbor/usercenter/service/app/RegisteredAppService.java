@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.service.app;
 
-import com.ziyao.harbor.usercenter.authenticate.token.RegisteredApp;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import org.springframework.lang.Nullable;
 
 /**

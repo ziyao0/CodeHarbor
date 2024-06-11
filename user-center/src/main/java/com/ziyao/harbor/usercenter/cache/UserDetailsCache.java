@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.cache;
 
-import com.ziyao.harbor.usercenter.authenticate.core.UserDetails;
+import com.ziyao.harbor.usercenter.authentication.core.UserDetails;
 
 import java.util.function.Function;
 

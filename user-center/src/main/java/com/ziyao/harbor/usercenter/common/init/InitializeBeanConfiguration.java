@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.common.init;
 
-import com.ziyao.harbor.usercenter.authenticate.token.generator.*;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.*;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepository;
