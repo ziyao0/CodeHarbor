@@ -23,5 +23,4 @@ public abstract class AuthorizationGrantTypes {
         }
         return new AuthorizationGrantType(authorizationGrantType);
     }
-
 }

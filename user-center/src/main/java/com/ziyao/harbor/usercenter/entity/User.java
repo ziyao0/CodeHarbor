@@ -2,6 +2,8 @@ package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,12 +17,14 @@ import java.time.LocalDateTime;
  * @author zhangziyao
  * @since 2024-06-08
  */
+@Entity(name = "user")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class User {
     /**
      * 用户id
      */
+    @Id
     private Long id;
 
     /**

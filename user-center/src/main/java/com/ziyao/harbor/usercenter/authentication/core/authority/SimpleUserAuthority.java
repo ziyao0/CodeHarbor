@@ -4,6 +4,7 @@ import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authentication.core.Permission;
 
 import java.io.Serial;
+import java.util.Collection;
 import java.util.Objects;
 import java.util.Set;
 
@@ -17,13 +18,13 @@ public class SimpleUserAuthority implements GrantedAuthority {
 
     private final String role;
 
-    private final Set<Permission> permissions;
+    private final Collection<Permission> permissions;
 
     public SimpleUserAuthority(String role) {
         this(role, Set.of());
     }
 
-    public SimpleUserAuthority(String role, Set<Permission> permissions) {
+    public SimpleUserAuthority(String role, Collection<Permission> permissions) {
         Assert.hasText(role, "role must not be empty");
         this.role = role;
         this.permissions = permissions;
@@ -35,7 +36,7 @@ public class SimpleUserAuthority implements GrantedAuthority {
     }
 
     @Override
-    public Set<Permission> getPermissions() {
+    public Collection<Permission> getPermissions() {
         return this.permissions;
     }
 

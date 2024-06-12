@@ -6,6 +6,8 @@ import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.core.UserDetails;
 import com.ziyao.harbor.usercenter.authentication.support.UserDetailsValidator;
 import com.ziyao.harbor.usercenter.authentication.token.UsernamePasswordAuthenticationToken;
+import com.ziyao.harbor.usercenter.common.exception.Errors;
+import com.ziyao.harbor.usercenter.common.exception.UserStatusException;
 import com.ziyao.harbor.usercenter.service.user.UserDetailsService;
 
 /**
@@ -35,8 +37,8 @@ public class UsernamePasswordAuthenticator implements OAuth2Authenticator {
         // 输入的密码
         String credentials = (String) authenticationToken.getCredentials();
 
-        if (passwordEncryptor.matches(credentials, userDetails.getPassword())) {
-
+        if (!passwordEncryptor.matches(credentials, userDetails.getPassword())) {
+            throw new UserStatusException(Errors.ERROR_100009);
         }
 
         UserDetailsValidator.validated(userDetails);

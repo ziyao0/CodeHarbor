@@ -10,3 +10,7 @@ logging:
   level:
     org:
       springframework: info
+spring:
+  jpa:
+    database: mysql
+    show-sql: true

@@ -1,21 +1,21 @@
 package com.ziyao.harbor.usercenter.authentication.provider;
 
-import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
-import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedUser;
-import com.ziyao.security.oauth2.core.AuthorizationGrantType;
+import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 
 /**
  * @author ziyao zhang
  * @time 2024/6/4
  */
 public class OAuth2RefreshTokenAuthenticator implements OAuth2Authenticator {
+
+
     @Override
-    public AuthenticatedUser authenticate(AuthenticatedRequest authenticatedRequest) {
+    public Authentication authenticate(Authentication authentication) {
         return null;
     }
 
     @Override
-    public AuthorizationGrantType getAuthorizationGrantType() {
-        return AuthorizationGrantType.REFRESH_TOKEN;
+    public boolean supports(Class<?> authenticationClass) {
+        return false;
     }
 }

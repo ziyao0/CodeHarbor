@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.authentication.token.oauth2;
 
-import com.ziyao.harbor.usercenter.entity.User;
+import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;
@@ -106,7 +106,7 @@ public interface OAuth2TokenContext {
         /**
          * sets 用户信息
          */
-        public B principal(User principal) {
+        public B principal(SimpleUser principal) {
             return put(PRINCIPAL_AUTHENTICATION_KEY, principal);
         }
 

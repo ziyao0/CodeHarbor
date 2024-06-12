@@ -3,7 +3,6 @@ package com.ziyao.harbor.usercenter.service.impl;
 import com.ziyao.harbor.usercenter.authentication.AuthenticatedHandler;
 import com.ziyao.harbor.usercenter.authentication.AuthenticatorManager;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
-import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedUser;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
@@ -48,11 +47,11 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     @Override
     public String login(AuthenticatedRequest request) {
         try {
-            preprocess(request);
-            AuthenticatedUser authenticate = authenticatorManager.authenticate(request);
-            if (authenticate.isAuthenticated()) {
-                return authenticatedHandler.onSuccessful(authenticate).getToken();
-            }
+//            preprocess(request);
+//            AuthenticatedUser authenticate = authenticatorManager.authenticate(request);
+//            if (authenticate.isAuthenticated()) {
+//                return authenticatedHandler.onSuccessful(authenticate).getToken();
+//            }
             return null;
         } catch (AuthenticateException e) {
             log.error(e.getMessage(), e);
@@ -64,7 +63,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     }
 
     @Override
-    public String generateAuthenticationCode(AuthenticationRequest request) {
+    public OAuth2AuthorizationCode generateAuthenticationCode(AuthenticationRequest request) {
 
         RegisteredApp registeredApp = registeredAppService.findById(request.getAppid());
 
@@ -92,7 +91,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         authorizationService.save(authorization);
 
-        return "";
+        return authorizationCode;
     }
 
     @Override

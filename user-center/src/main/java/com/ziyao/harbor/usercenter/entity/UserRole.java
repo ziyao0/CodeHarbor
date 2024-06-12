@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -13,7 +15,7 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author zhangziyao
@@ -22,15 +24,15 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("user_role")
+@Entity(name = "user_role")
 public class UserRole implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
-
+    @Id
     @TableId("user_id")
     private Long userId;
 
-    @TableId("role_id")
     private Long roleId;
 
     @TableField(fill = FieldFill.INSERT)

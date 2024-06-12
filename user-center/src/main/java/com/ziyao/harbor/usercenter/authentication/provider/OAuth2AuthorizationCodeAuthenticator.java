@@ -1,11 +1,13 @@
 package com.ziyao.harbor.usercenter.authentication.provider;
 
 import com.ziyao.harbor.usercenter.authentication.core.Authentication;
+import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AuthorizationCodeAuthenticationToken;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
 import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
-import com.ziyao.security.oauth2.core.OAuth2Authorization;
-import com.ziyao.security.oauth2.core.OAuth2AuthorizationCode;
-import com.ziyao.security.oauth2.core.OAuth2TokenType;
+import com.ziyao.harbor.web.exception.ServiceException;
+import com.ziyao.security.oauth2.core.*;
 import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
 
 /**
@@ -16,8 +18,12 @@ public class OAuth2AuthorizationCodeAuthenticator implements OAuth2Authenticator
 
     private final OAuth2AuthorizationService authorizationService;
 
-    public OAuth2AuthorizationCodeAuthenticator(OAuth2AuthorizationService authorizationService) {
+    private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
+
+    public OAuth2AuthorizationCodeAuthenticator(OAuth2AuthorizationService authorizationService,
+                                                OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
         this.authorizationService = authorizationService;
+        this.tokenGenerator = tokenGenerator;
     }
 
     @Override
@@ -27,13 +33,27 @@ public class OAuth2AuthorizationCodeAuthenticator implements OAuth2Authenticator
         String code = codeAuthenticationToken.getCode();
 
         OAuth2Authorization authorization = authorizationService.findByToken(code, new OAuth2TokenType(OAuth2ParameterNames.CODE));
-
-        OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationToken = authorization.getToken(OAuth2AuthorizationCode.class);
+        if (authorization == null) {
+            throw new ServiceException();
+        }
+        OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCodeToken = authorization.getToken(OAuth2AuthorizationCode.class);
 
         // 验证
+        SimpleUser principal = (SimpleUser) codeAuthenticationToken.getPrincipal();
+
+
+        DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
+                .authorization(authorization)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .principal(principal);
+//                .registeredApp()
+
+        DefaultOAuth2TokenContext tokenContext = tokenContextBuilder.build();
+        OAuth2Token oAuth2Token = this.tokenGenerator.generate(tokenContext);
 
         return null;
     }
+
 
     @Override
     public boolean supports(Class<?> authenticationClass) {

@@ -30,7 +30,6 @@ public class RoleMenu implements Serializable {
     /**
      * 系统id
      */
-    @TableId("app_id")
     private Long appId;
 
     /**
@@ -42,7 +41,6 @@ public class RoleMenu implements Serializable {
     /**
      * 菜单id
      */
-    @TableId("menu_id")
     private Long menuId;
 
     /**

@@ -20,6 +20,11 @@ public record AuthorizationGrantType(String value) {
 
     public static final AuthorizationGrantType DEVICE_CODE = new AuthorizationGrantType("urn:ietf:params:oauth:grant-type:device_code");
 
+
+    public boolean isMatches(String code) {
+        return Objects.equals(this.value, code);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

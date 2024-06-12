@@ -1,5 +1,10 @@
 package com.ziyao.harbor.usercenter.common.init;
 
+import com.ziyao.harbor.usercenter.authentication.converter.AuthenticationConverter;
+import com.ziyao.harbor.usercenter.authentication.converter.OAuth2AuthorizationCodeAuthenticationConverter;
+import com.ziyao.harbor.usercenter.authentication.converter.OAuth2RefreshTokenAuthenticationConverter;
+import com.ziyao.harbor.usercenter.authentication.converter.UsernamePasswordAuthenticationConverter;
+import com.ziyao.harbor.usercenter.authentication.provider.DelegatingAuthenticationConverter;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.*;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
@@ -31,8 +36,9 @@ public class InitializeBeanConfiguration {
     }
 
     @Bean
-    public RegisteredAppService delegatingRegisteredAppService(ApplicationRepository applicationRepository,
-                                                               RedisRegisteredAppRepository redisRegisteredAppRepository) {
+    public RegisteredAppService delegatingRegisteredAppService(
+            ApplicationRepository applicationRepository, RedisRegisteredAppRepository redisRegisteredAppRepository) {
+
         return new DelegatingRegisteredAppService(
                 List.of(new JpaRegisteredAppService(applicationRepository),
                         new RedisRegisteredAppService(redisRegisteredAppRepository),
@@ -49,6 +55,17 @@ public class InitializeBeanConfiguration {
                         new JpaOAuth2AuthorizationService(delegatingRegisteredAppService, authorizationRepository),
                         new RedisOAuth2AuthorizationService(oAuth2AuthorizationRepository),
                         new CaffeineOAuth2AuthorizationService()
+                )
+        );
+    }
+
+    @Bean
+    public AuthenticationConverter authenticationConverter() {
+        return new DelegatingAuthenticationConverter(
+                List.of(
+                        new UsernamePasswordAuthenticationConverter(),
+                        new OAuth2AuthorizationCodeAuthenticationConverter(),
+                        new OAuth2RefreshTokenAuthenticationConverter()
                 )
         );
     }

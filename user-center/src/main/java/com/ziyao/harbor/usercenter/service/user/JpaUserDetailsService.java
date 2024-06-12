@@ -28,7 +28,7 @@ public class JpaUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         return userRepository.findByUsername(username)
-                .map(user -> toObject(user, userRoleRepository.findRolesByUserId(user.getId())))
+                .map(user -> toObject(user, userRoleRepository.findByUserId(user.getId())))
                 .orElse(null);
     }
 

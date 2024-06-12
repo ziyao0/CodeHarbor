@@ -140,7 +140,7 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
         private String nickname;
         private String password;
         private Byte status;
-        private Collection<? extends GrantedAuthority> authorities;
+        private Collection<GrantedAuthority> authorities;
 
         public UserBuilder id(Long id) {
             this.id = id;
@@ -167,12 +167,12 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
             return this;
         }
 
-        public UserBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
+        public UserBuilder authorities(Collection<GrantedAuthority> authorities) {
             this.authorities = authorities;
             return this;
         }
 
-        public UserBuilder authorities(Consumer<Collection<? extends GrantedAuthority>> authoritiesConsumer) {
+        public UserBuilder authorities(Consumer<Collection<GrantedAuthority>> authoritiesConsumer) {
             authoritiesConsumer.accept(this.authorities);
             return this;
         }

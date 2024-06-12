@@ -35,4 +35,8 @@ public class OAuth2AuthorizationGrantAuthenticationToken extends AbstractAuthent
     public Object getCredentials() {
         return Strings.EMPTY;
     }
+
+    public AuthorizationGrantType getGrantType() {
+        return this.authorizationGrantType;
+    }
 }

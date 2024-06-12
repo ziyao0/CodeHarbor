@@ -1,6 +1,8 @@
 package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,6 +18,7 @@ import java.time.Instant;
  * @author zhangziyao
  * @since 2024-06-08
  */
+@Entity(name = "application")
 @Data
 @EqualsAndHashCode(callSuper = false)
 public class Application implements Serializable {
@@ -26,6 +29,7 @@ public class Application implements Serializable {
     /**
      * 主键id
      */
+    @Id
     @TableId("app_id")
     private Long appId;
 

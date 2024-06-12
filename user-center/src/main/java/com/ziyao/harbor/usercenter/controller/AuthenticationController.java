@@ -3,6 +3,7 @@ package com.ziyao.harbor.usercenter.controller;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
 import com.ziyao.harbor.usercenter.service.AuthenticationService;
+import com.ziyao.security.oauth2.core.OAuth2AuthorizationCode;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,7 +31,7 @@ public class AuthenticationController {
     }
 
     @PostMapping("/code/generate")
-    public String generateAuthenticationCode(@RequestBody AuthenticationRequest authenticationRequest) {
+    public OAuth2AuthorizationCode generateAuthenticationCode(@RequestBody AuthenticationRequest authenticationRequest) {
         return authenticationService.generateAuthenticationCode(authenticationRequest);
     }
 

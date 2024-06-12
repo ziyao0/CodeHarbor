@@ -4,7 +4,7 @@ import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.usercenter.authentication.core.Permission;
 
 import java.io.Serializable;
-import java.util.Set;
+import java.util.Collection;
 
 /**
  * @author ziyao
@@ -22,7 +22,7 @@ public interface GrantedAuthority extends Serializable {
      *
      * @return 如果返回结果为null获取为集合为空，则代表能操作该角色下的任何功能
      */
-    Set<Permission> getPermissions();
+    Collection<Permission> getPermissions();
 
     /**
      * 是否要继续进行授权

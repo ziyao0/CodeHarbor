@@ -1,10 +1,12 @@
 package com.ziyao.harbor.usercenter.authentication;
 
-import com.ziyao.harbor.core.utils.Assert;
+import com.ziyao.harbor.usercenter.authentication.converter.AuthenticationConverter;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedUser;
+import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.provider.OAuth2Authenticator;
 import com.ziyao.harbor.usercenter.common.exception.AuthenticateExceptions;
+import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import lombok.extern.slf4j.Slf4j;
@@ -33,21 +35,27 @@ public class DefaultAuthenticatorManager implements AuthenticatorManager {
 
     private final Map<AuthorizationGrantType, OAuth2Authenticator> authenticatorsMapping;
 
+    private AuthenticationConverter authenticationConverter;
+
     public DefaultAuthenticatorManager() {
         List<OAuth2Authenticator> OAuth2Authenticators = ApplicationContextUtils.getBeansOfType(OAuth2Authenticator.class);
-        Assert.notNull(OAuth2Authenticators, "providers can not be empty.");
-        this.authenticatorsMapping = this.initBeanMapping(OAuth2Authenticators);
+//        Assert.notNull(OAuth2Authenticators, "providers can not be empty.");
+//        this.authenticatorsMapping = this.initBeanMapping(OAuth2Authenticators);
+        this.authenticatorsMapping = null;
     }
 
     @Override
-    public AuthenticatedUser authenticate(AuthenticatedRequest request) {
-        OAuth2Authenticator OAuth2Authenticator = authenticatorsMapping.get(request.getAuthorizationGrantType());
+    public Authentication authenticate(AuthenticationRequest request) {
+        OAuth2Authenticator OAuth2Authenticator = authenticatorsMapping.get(request.getGrantType());
         if (OAuth2Authenticator != null) {
             if (!OAuth2Authenticator.supports(OAuth2Authenticator.getClass())) {
                 log.error("当前认证处理不支持. {}", OAuth2Authenticator.getClass());
                 throw AuthenticateExceptions.createValidatedFailure();
             }
-            return OAuth2Authenticator.authenticate(request);
+
+            Authentication authentication = authenticationConverter.convert(request);
+
+            return OAuth2Authenticator.authenticate(authentication);
         } else
             throw AuthenticateExceptions.createValidatedFailure();
     }
