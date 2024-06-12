@@ -131,11 +131,15 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         Authorization entity = new Authorization();
         entity.setId(authorization.getId());
         entity.setAppid(authorization.getRegisteredAppId());
-        entity.setUserId(null);
+        //TODO
+        entity.setAppName("aaaaa");
+        entity.setUserId(111L);
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().value());
         entity.setAuthorizedScopes(Strings.collectionToDelimitedString(authorization.getAuthorizedScopes(), ","));
         entity.setAttributes(writeMap(authorization.getAttributes()));
         entity.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
+        //TODO
+        entity.setState(1);
 
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
                 authorization.getToken(OAuth2AuthorizationCode.class);

@@ -2,7 +2,9 @@ package com.ziyao.harbor.usercenter.service.app;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.harbor.usercenter.authentication.jackson2.OAuth2AuthorizationServerJackson2Module;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.entity.Application;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
@@ -21,10 +23,14 @@ public class JpaRegisteredAppService implements RegisteredAppService {
 
     private final ApplicationRepository applicationRepository;
 
-    private final ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper;
 
     public JpaRegisteredAppService(ApplicationRepository applicationRepository) {
         this.applicationRepository = applicationRepository;
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        this.objectMapper = objectMapper;
     }
 
     @Override
@@ -71,11 +77,9 @@ public class JpaRegisteredAppService implements RegisteredAppService {
                     scopes.addAll(appScopes);
                 });
 
-        TokenSettings tokenSettings = TokenSettings.withSettings(tokenSettingsMap).build();
+        TokenSettings tokenSettings = TokenSettings.withSettings(tokenSettingsMap).reuseRefreshTokens(true).build();
 
-        builder.tokenSettings(tokenSettings);
-
-        return builder.build();
+        return builder.tokenSettings(tokenSettings).build();
     }
 
     private Application toEntity(RegisteredApp registeredApp) {
@@ -112,5 +116,4 @@ public class JpaRegisteredAppService implements RegisteredAppService {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
     }
-
 }

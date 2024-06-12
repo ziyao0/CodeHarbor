@@ -1,5 +1,7 @@
 package com.ziyao.harbor.usercenter.common.init;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.ziyao.harbor.usercenter.authentication.converter.AuthenticationConverter;
 import com.ziyao.harbor.usercenter.authentication.converter.OAuth2AuthorizationCodeAuthenticationConverter;
 import com.ziyao.harbor.usercenter.authentication.converter.OAuth2RefreshTokenAuthenticationConverter;
@@ -68,6 +70,13 @@ public class InitializeBeanConfiguration {
                         new OAuth2RefreshTokenAuthenticationConverter()
                 )
         );
+    }
+
+    @Bean
+    public ObjectMapper objectMapper() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        return objectMapper;
     }
 
 }

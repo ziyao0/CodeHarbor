@@ -4,4 +4,5 @@ dependencies {
     api("com.fasterxml.jackson.core:jackson-databind")
     implementation 'org.redisson:redisson'
     implementation 'org.aspectj:aspectjweaver'
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
 }

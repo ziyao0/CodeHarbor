@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.function.Consumer;
 
@@ -50,13 +51,13 @@ public class RegisteredApp implements Serializable {
         private static final long serialVersionUID = 6495205880660410126L;
         private Long appId;
         private Integer appType;
-        private Set<AuthorizationGrantType> authorizationGrantTypes;
+        private Set<AuthorizationGrantType> authorizationGrantTypes = new HashSet<>();
         private Integer state;
         private Instant issuedAt;
         private String appSecret;
         private Instant appSecretExpiresAt;
         private String appName;
-        private Set<String> scopes;
+        private Set<String> scopes = new HashSet<>();
         private String redirectUri;
         private String postLogoutRedirectUri;
         private TokenSettings tokenSettings;

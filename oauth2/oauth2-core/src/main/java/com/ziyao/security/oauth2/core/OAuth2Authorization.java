@@ -191,7 +191,7 @@ public class OAuth2Authorization implements Serializable {
         // 授权类型
         private AuthorizationGrantType authorizationGrantType;
         // 授权范围
-        private Set<String> authorizedScopes;
+        private Set<String> authorizedScopes = new HashSet<>();
         // tokens
         private Map<Class<? extends OAuth2Token>, Token<?>> tokens = new HashMap<>();
         // 授权相关属性
@@ -301,7 +301,13 @@ public class OAuth2Authorization implements Serializable {
         public OAuth2Authorization build() {
             Assert.notNull(this.authorizationGrantType, "authorizationGrantType cannot be null");
             OAuth2Authorization authorization = new OAuth2Authorization();
-            // TODO 如果id为空自动生成ID
+            if (null == this.id) {
+                Random random = new Random();
+
+                // Generate a random number between 1000 and 9999 (inclusive)
+                int randomNumber = 1000 + random.nextInt(9000);
+                this.id = (long) randomNumber;
+            }
             authorization.id = this.id;
             authorization.registeredAppId = this.registeredAppId;
             authorization.authorizationGrantType = this.authorizationGrantType;

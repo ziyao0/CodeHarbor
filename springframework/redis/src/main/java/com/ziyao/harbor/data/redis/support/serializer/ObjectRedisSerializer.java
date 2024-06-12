@@ -2,6 +2,7 @@ package com.ziyao.harbor.data.redis.support.serializer;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.lang.Nullable;
@@ -19,7 +20,9 @@ public class ObjectRedisSerializer<T> implements RedisSerializer<T> {
     private final Class<T> entityClass;
 
     public ObjectRedisSerializer(Class<T> entityClass) {
-        this.mapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        this.mapper = objectMapper;
         this.entityClass = entityClass;
     }
 

@@ -129,6 +129,7 @@ public class GlobalExceptionHandlerAdvice {
      */
     @ExceptionHandler(value = Exception.class)
     public StatusMessage exceptionHandler(Exception e) {
+        LOGGER.error(e.getMessage(), e);
         return ResponseBuilder.of(500, e.getClass().getName(),
                 "服务器内部异常" + e.getMessage());
     }
