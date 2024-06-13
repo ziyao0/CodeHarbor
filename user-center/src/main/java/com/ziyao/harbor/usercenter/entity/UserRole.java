@@ -2,7 +2,6 @@ package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -31,11 +30,8 @@ public class UserRole implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @TableId("user_id")
     private Long userId;
 
-    @Id
-    @TableId("role_id")
     private Long roleId;
 
     @TableField("role")

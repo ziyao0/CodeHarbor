@@ -1,0 +1,19 @@
+package com.ziyao.harbor.usercenter.authentication.jackson2;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+
+import java.util.Set;
+
+/**
+ * @author ziyao zhang
+ * @time 2024/6/13
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS)
+abstract class HashSetMixin {
+
+    @JsonCreator
+    HashSetMixin(Set<?> set) {
+    }
+
+}
