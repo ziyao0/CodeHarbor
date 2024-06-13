@@ -46,13 +46,13 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
     /**
      * 账号状态
      */
-    private Byte status;
+    private Integer status;
 
 
     private Collection<? extends GrantedAuthority> authorities;
 
     public SimpleUser(Long id, String username, String nickname,
-                      String password, Byte status, Collection<? extends GrantedAuthority> authorities) {
+                      String password, Integer status, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.nickname = nickname;
@@ -141,7 +141,7 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
         private String username;
         private String nickname;
         private String password;
-        private Byte status;
+        private Integer status;
         private List<GrantedAuthority> authorities = new ArrayList<>();
 
         public UserBuilder id(Long id) {
@@ -164,7 +164,7 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
             return this;
         }
 
-        public UserBuilder status(Byte status) {
+        public UserBuilder status(Integer status) {
             this.status = status;
             return this;
         }

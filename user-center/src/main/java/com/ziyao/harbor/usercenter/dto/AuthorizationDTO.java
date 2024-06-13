@@ -14,14 +14,14 @@ import java.util.Objects;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author zhangziyao
- * @since 2024-06-08
+ * @since 2024-06-13
  */
 @Data
-public class Oauth2AuthorizationDTO implements EntityDTO<Authorization>, Serializable {
+public class AuthorizationDTO implements EntityDTO<Authorization>, Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -35,11 +35,7 @@ public class Oauth2AuthorizationDTO implements EntityDTO<Authorization>, Seriali
      */
     private Long appid;
     /**
-     * 应用名称
-     */
-    private String appName;
-    /**
-     *
+     * 
      */
     private Long userId;
     /**
@@ -125,8 +121,6 @@ public class Oauth2AuthorizationDTO implements EntityDTO<Authorization>, Seriali
         return Wrappers.lambdaQuery(Authorization.class)
                 // 应用系统id
                 .eq(Objects.nonNull(appid), Authorization::getAppid, appid)
-                // 应用名称
-                .likeRight(Strings.hasLength(appName), Authorization::getAppName, appName)
                 // 
                 .eq(Objects.nonNull(userId), Authorization::getUserId, userId)
                 // 授权类型

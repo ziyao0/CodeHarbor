@@ -65,6 +65,8 @@ public class CodeGenerator {
                         .addTableFills(new Column("CREATED_AT", FieldFill.INSERT))
                         .addTableFills(new Column("MODIFIED_BY", FieldFill.UPDATE))
                         .addTableFills(new Column("MODIFIED_AT", FieldFill.UPDATE))
+                        .enableTableFieldAnnotation()
+                        .logicDeleteColumnName("deleted")
                         //逻辑删除字段
                         .logicDeleteColumnName("DELETED")
                         .enableLombok()
@@ -97,7 +99,7 @@ public class CodeGenerator {
 
 
 //        gc.setUrl("jdbc:mysql://localhost:3306/harbor"); ?useUnicode=true&useSSL=false&characterEncoding=utf8
-        gc.setUrl("jdbc:mysql://123.249.103.68:3306/code-harbor");
+        gc.setUrl("jdbc:mysql://123.249.103.68:3306/code-harbor?useUnicode=true&useSSL=false&characterEncoding=utf8");
         gc.setUserName("root");
         gc.setPassword("root");
 
@@ -105,13 +107,13 @@ public class CodeGenerator {
 
         gc.setParent("com.ziyao.harbor");
 
-        gc.setSuperEntityClass("com.harbor.web.orm.BaseEntity");
-//
+//        gc.setSuperEntityClass("com.harbor.web.orm.BaseEntity");
+
 //        gc.setSuperEntityColumns("id,CREATED_BY,CREATED_AT,MODIFIED_BY,MODIFIED_AT");
 
         gc.setSuperControllerClass("com.ziyao.harbor.web.base.BaseController");
-//        gc.setInclude("registered_app,oauth2_authorization,user,department,menu,role,user_role,role_menu");
-        gc.setInclude("application");
+
+        gc.setInclude("authorization,user,role,user_role,application,department,menu,role_menu");
         gc.setProjectDir(System.getProperty("user.dir") + "/user-center");
 
 

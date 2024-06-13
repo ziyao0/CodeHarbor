@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -17,11 +19,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2024-06-08
+ * @since 2024-06-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @TableName("role_menu")
+@Entity(name = "role_menu")
 public class RoleMenu implements Serializable {
 
     @Serial
@@ -30,29 +33,28 @@ public class RoleMenu implements Serializable {
     /**
      * 系统id
      */
+    @Id
+    @TableId("app_id")
     private Long appId;
 
     /**
      * 角色id
      */
+    @Id
     @TableId("role_id")
     private Long roleId;
 
     /**
      * 菜单id
      */
+    @Id
+    @TableId("menu_id")
     private Long menuId;
-
-    /**
-     * 创建人id
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private String createdBy;
 
     /**
      * 创建时间
      */
-    @TableField(fill = FieldFill.INSERT)
+    @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
 

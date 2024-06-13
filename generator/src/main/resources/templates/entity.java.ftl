@@ -4,6 +4,8 @@ import java.io.Serial;
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -33,6 +35,7 @@ import lombok.experimental.Accessors;
 </#if>
 <#if table.convert>
 @TableName("${table.name}")
+    @Entity(name = "${table.name}")
 </#if>
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
@@ -58,10 +61,13 @@ public class ${entity} implements Serializable {
     <#if field.keyFlag>
         <#-- 主键 -->
         <#if field.keyIdentityFlag>
+            @Id
     @TableId(value = "${field.annotationColumnName}", type = IdType.AUTO)
         <#elseif idType??>
+            @Id
     @TableId(value = "${field.annotationColumnName}", type = IdType.${idType})
         <#elseif field.convert>
+            @Id
     @TableId("${field.annotationColumnName}")
         </#if>
         <#-- 普通字段 -->

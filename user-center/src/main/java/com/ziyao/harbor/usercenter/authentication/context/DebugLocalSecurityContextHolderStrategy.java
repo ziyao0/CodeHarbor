@@ -46,7 +46,7 @@ public class DebugLocalSecurityContextHolderStrategy implements SecurityContextH
         SimpleUser user = SimpleUser.withId(100001L)
                 .username("admin")
                 .nickname("小张")
-                .status((byte) 1)
+                .status(1)
                 .authorities(authorities -> authorities.add(new SimpleUserAuthority("ADMIN")))
                 .build();
         return UsernamePasswordAuthenticationToken.authenticated(user, null, user.getAuthorities());

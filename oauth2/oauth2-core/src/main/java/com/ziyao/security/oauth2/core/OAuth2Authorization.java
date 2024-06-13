@@ -24,6 +24,8 @@ public class OAuth2Authorization implements Serializable {
     private Long id;
     @Getter
     private Long registeredAppId;
+    @Getter
+    private Long userId;
     /**
      * 授权类型
      */
@@ -84,6 +86,7 @@ public class OAuth2Authorization implements Serializable {
         Assert.notNull(authorization, "authorization cannot be null");
         return new Builder(authorization.getRegisteredAppId())
                 .id(authorization.getId())
+                .userId(authorization.getUserId())
                 .authorizationGrantType(authorization.getAuthorizationGrantType())
                 .authorizedScopes(authorization.getAuthorizedScopes())
                 .tokens(authorization.tokens)
@@ -186,6 +189,8 @@ public class OAuth2Authorization implements Serializable {
         private static final long serialVersionUID = -5658976968224374315L;
         //标识符
         private Long id;
+        // 用户标识
+        private Long userId;
         // 注册客户端ID
         private final Long registeredAppId;
         // 授权类型
@@ -206,6 +211,14 @@ public class OAuth2Authorization implements Serializable {
          */
         public Builder id(Long id) {
             this.id = id;
+            return this;
+        }
+
+        /**
+         * 设置授权标识符
+         */
+        public Builder userId(Long userId) {
+            this.userId = userId;
             return this;
         }
 
@@ -309,6 +322,7 @@ public class OAuth2Authorization implements Serializable {
                 this.id = (long) randomNumber;
             }
             authorization.id = this.id;
+            authorization.userId = this.userId;
             authorization.registeredAppId = this.registeredAppId;
             authorization.authorizationGrantType = this.authorizationGrantType;
             authorization.authorizedScopes =

@@ -5,6 +5,7 @@ import com.ziyao.harbor.usercenter.authentication.AuthenticatorManager;
 import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
 import com.ziyao.harbor.usercenter.authentication.core.Authentication;
+import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
@@ -89,7 +90,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
         OAuth2AuthorizationCode authorizationCode = (OAuth2AuthorizationCode) auth2Token;
 
+        SimpleUser principal = (SimpleUser) authentication.getPrincipal();
+
         OAuth2Authorization authorization = OAuth2Authorization.withRegisteredAppId(registeredApp.getAppId())
+                .userId(principal.getId())
                 .token(authorizationCode)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .build();

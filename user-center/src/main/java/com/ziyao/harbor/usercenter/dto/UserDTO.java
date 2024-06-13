@@ -95,10 +95,6 @@ public class UserDTO implements EntityDTO<User>, Serializable {
                 .likeRight(Strings.hasLength(password), User::getPassword, password)
                 // 账号状态
                 .eq(Objects.nonNull(status), User::getStatus, status)
-                // 部门id
-                .eq(Objects.nonNull(deptId), User::getDeptId, deptId)
-                // 部门名称
-                .likeRight(Strings.hasLength(deptName), User::getDeptName, deptName)
                 // 排序
                 .eq(Objects.nonNull(sort), User::getSort, sort)
                 // 删除状态 0正常 1 删除

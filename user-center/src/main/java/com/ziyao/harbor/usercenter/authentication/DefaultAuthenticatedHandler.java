@@ -42,7 +42,6 @@ public class DefaultAuthenticatedHandler implements AuthenticatedHandler {
         payload.put("id", user.getId());
         payload.put("username", user.getUsername());
         payload.put("nickname", user.getNickname());
-        payload.put("deptName", user.getDeptName());
         payload.put("status", user.getStatus());
         return payload;
     }

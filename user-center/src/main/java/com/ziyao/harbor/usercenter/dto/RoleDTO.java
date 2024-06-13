@@ -67,9 +67,9 @@ public class RoleDTO implements EntityDTO<Role>, Serializable {
 
         return Wrappers.lambdaQuery(Role.class)
                 // 角色名称
-                .likeRight(Strings.hasLength(roleName), Role::getRoleName, roleName)
+                .likeRight(Strings.hasLength(roleName), Role::getName, roleName)
                 // 角色编码
-                .likeRight(Strings.hasLength(roleCode), Role::getRoleCode, roleCode)
+                .likeRight(Strings.hasLength(roleCode), Role::getRole, roleCode)
                 // 角色描述
                 .likeRight(Strings.hasLength(description), Role::getDescription, description)
                 ;

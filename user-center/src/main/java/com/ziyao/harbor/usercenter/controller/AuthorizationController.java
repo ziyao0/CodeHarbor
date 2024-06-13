@@ -2,7 +2,7 @@ package com.ziyao.harbor.usercenter.controller;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;
-import com.ziyao.harbor.usercenter.dto.Oauth2AuthorizationDTO;
+import com.ziyao.harbor.usercenter.dto.AuthorizationDTO;
 import com.ziyao.harbor.usercenter.entity.Authorization;
 import com.ziyao.harbor.usercenter.service.AuthorizationService;
 import com.ziyao.harbor.web.base.BaseController;
@@ -24,27 +24,27 @@ import java.util.stream.Collectors;
  * </p>
  *
  * @author zhangziyao
- * @since 2024-06-08
+ * @since 2024-06-13
  */
 @RestController
-@RequestMapping("/usercenter/oauth2-authorization")
-public class Oauth2AuthorizationController extends BaseController<AuthorizationService, Authorization> {
+@RequestMapping("/usercenter/authorization")
+public class AuthorizationController extends BaseController<AuthorizationService, Authorization> {
 
     @Autowired
     private AuthorizationService authorizationService;
 
     @PostMapping("/save")
-    public void save(@RequestBody Oauth2AuthorizationDTO entityDTO) {
+    public void save(@RequestBody AuthorizationDTO entityDTO) {
         super.iService.save(entityDTO.getInstance());
     }
 
     @PostMapping("/saveOrUpdate")
-    public void saveOrUpdate(@RequestBody Oauth2AuthorizationDTO entityDTO) {
+    public void saveOrUpdate(@RequestBody AuthorizationDTO entityDTO) {
         super.iService.saveOrUpdate(entityDTO.getInstance());
     }
 
     @PostMapping("/updateById")
-    public void updateById(@RequestBody Oauth2AuthorizationDTO entityDTO) {
+    public void updateById(@RequestBody AuthorizationDTO entityDTO) {
         if (ObjectUtils.isEmpty(entityDTO.getId())) {
             throw Exceptions.createIllegalArgumentException(null);
         }
@@ -56,8 +56,8 @@ public class Oauth2AuthorizationController extends BaseController<AuthorizationS
      */
     @PostMapping("/saveBatch")
     public void saveBatch(@RequestBody List
-            <Oauth2AuthorizationDTO> entityDTOList) {
-        super.iService.saveBatch(entityDTOList.stream().map(Oauth2AuthorizationDTO::getInstance).collect(Collectors.toList()), 500);
+            <AuthorizationDTO> entityDTOList) {
+        super.iService.saveBatch(entityDTOList.stream().map(AuthorizationDTO::getInstance).collect(Collectors.toList()), 500);
     }
 
     /**
@@ -67,7 +67,7 @@ public class Oauth2AuthorizationController extends BaseController<AuthorizationS
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Authorization> getPage(@RequestBody PageParams<Oauth2AuthorizationDTO> pageQuery) {
+    public Page<Authorization> getPage(@RequestBody PageParams<AuthorizationDTO> pageQuery) {
         Page<Authorization> page = Pages.initPage(pageQuery, Authorization.class);
         return authorizationService.page(page, pageQuery.getParams());
     }
