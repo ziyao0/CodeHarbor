@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.authentication.converter;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authentication.context.AuthenticationContextHolder;
+import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
 import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AuthorizationCodeAuthenticationToken;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
@@ -22,7 +22,7 @@ public class OAuth2AuthorizationCodeAuthenticationConverter implements Authentic
             return null;
         }
 
-        Authentication appPrincipal = AuthenticationContextHolder.getContext().getAuthentication();
+        Authentication appPrincipal = SecurityContextHolder.getContext().getAuthentication();
 
         String code = request.getCode();
 

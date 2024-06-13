@@ -1,5 +1,7 @@
 package com.ziyao.harbor.usercenter;
 
+import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
+import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -21,6 +23,10 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 public class UserCenter {
 
     public static void main(String[] args) {
+        System.setProperty(SecurityContextHolder.SYSTEM_PROPERTY, SecurityContextHolder.MODE_DEBUG);
         SpringApplication.run(UserCenter.class, args);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication);
     }
 }

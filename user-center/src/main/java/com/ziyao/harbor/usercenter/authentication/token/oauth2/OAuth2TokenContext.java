@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.authentication.token.oauth2;
 
-import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
+import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;
@@ -18,15 +18,6 @@ import java.util.function.Consumer;
  */
 public interface OAuth2TokenContext {
 
-    <V> V get(String key);
-
-    boolean hasKey(String key);
-
-    default <V> V get(Class<V> key) {
-        Assert.notNull(key, "key cannot be null");
-        return get(key.getSimpleName());
-    }
-
     /**
      * 返回应用信息
      *
@@ -34,6 +25,16 @@ public interface OAuth2TokenContext {
      */
     default RegisteredApp getRegisteredApp() {
         return get(RegisteredApp.class);
+    }
+
+    /**
+     * Returns the {@link Authentication}
+     *
+     * @param <T> {@link Authentication}
+     * @return {@link Authentication}
+     */
+    default <T extends Authentication> T getPrincipal() {
+        return get(AbstractBuilder.PRINCIPAL_AUTHENTICATION_KEY);
     }
 
 
@@ -50,6 +51,17 @@ public interface OAuth2TokenContext {
     default AuthorizationGrantType getAuthorizationGrantType() {
         return get(AuthorizationGrantType.class);
     }
+
+
+    <V> V get(String key);
+
+    boolean hasKey(String key);
+
+    default <V> V get(Class<V> key) {
+        Assert.notNull(key, "key cannot be null");
+        return get(key.getSimpleName());
+    }
+
 
     abstract class AbstractBuilder<T extends OAuth2TokenContext, B extends AbstractBuilder<T, B>> {
         /**
@@ -106,7 +118,7 @@ public interface OAuth2TokenContext {
         /**
          * sets 用户信息
          */
-        public B principal(SimpleUser principal) {
+        public B principal(Authentication principal) {
             return put(PRINCIPAL_AUTHENTICATION_KEY, principal);
         }
 

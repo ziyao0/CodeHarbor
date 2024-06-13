@@ -8,7 +8,7 @@ import java.util.function.Supplier;
  * @author ziyao zhang
  * @time 2024/6/11
  */
-public class ThreadLocalAuthenticationContextHolderStrategy implements AuthenticationContextHolderStrategy {
+public class ThreadLocalSecurityContextHolderStrategy implements SecurityContextHolderStrategy {
 
     private static final ThreadLocal<Supplier<AuthenticationContext>> contextHolder = new ThreadLocal<>();
 

@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.authentication.converter;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authentication.context.AuthenticationContextHolder;
+import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
 import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2RefreshTokenAuthenticationToken;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
@@ -32,7 +32,7 @@ public class OAuth2RefreshTokenAuthenticationConverter implements Authentication
                     OAuth2EndpointUtils.ACCESS_TOKEN_REQUEST_ERROR_URI);
         }
 
-        Authentication authentication = AuthenticationContextHolder.getContext().getAuthentication();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         Set<String> scopes = request.getScopes();
 

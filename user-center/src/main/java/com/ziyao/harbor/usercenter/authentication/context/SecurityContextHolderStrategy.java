@@ -6,7 +6,7 @@ import java.util.function.Supplier;
  * @author ziyao zhang
  * @time 2024/6/11
  */
-public interface AuthenticationContextHolderStrategy {
+public interface SecurityContextHolderStrategy {
 
     /**
      * 清理当前上下文

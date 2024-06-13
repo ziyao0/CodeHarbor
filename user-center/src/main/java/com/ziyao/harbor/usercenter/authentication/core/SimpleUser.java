@@ -5,7 +5,9 @@ import com.ziyao.harbor.usercenter.entity.User;
 import lombok.Getter;
 
 import java.io.Serial;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Consumer;
 
 /**
@@ -140,7 +142,7 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
         private String nickname;
         private String password;
         private Byte status;
-        private Collection<GrantedAuthority> authorities;
+        private List<GrantedAuthority> authorities = new ArrayList<>();
 
         public UserBuilder id(Long id) {
             this.id = id;
@@ -167,8 +169,8 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
             return this;
         }
 
-        public UserBuilder authorities(Collection<GrantedAuthority> authorities) {
-            this.authorities = authorities;
+        public UserBuilder authorities(Collection<? extends GrantedAuthority> authorities) {
+            this.authorities = new ArrayList<>(authorities);
             return this;
         }
 

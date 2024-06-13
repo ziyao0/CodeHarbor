@@ -1,7 +1,6 @@
 package com.ziyao.harbor.usercenter.authentication.provider;
 
 import com.ziyao.harbor.usercenter.authentication.core.Authentication;
-import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AuthorizationCodeAuthenticationToken;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
@@ -39,7 +38,7 @@ public class OAuth2AuthorizationCodeAuthenticator implements OAuth2Authenticator
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCodeToken = authorization.getToken(OAuth2AuthorizationCode.class);
 
         // 验证
-        SimpleUser principal = (SimpleUser) codeAuthenticationToken.getPrincipal();
+        Authentication principal = (Authentication) codeAuthenticationToken.getPrincipal();
 
 
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()

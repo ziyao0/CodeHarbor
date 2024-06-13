@@ -2,7 +2,9 @@ package com.ziyao.harbor.usercenter.service.impl;
 
 import com.ziyao.harbor.usercenter.authentication.AuthenticatedHandler;
 import com.ziyao.harbor.usercenter.authentication.AuthenticatorManager;
+import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedRequest;
+import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
@@ -72,10 +74,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                     "The RegisteredClient with id '" + request.getAppid() + "' was not found in the RegisteredClientRepository.");
         }
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         DefaultOAuth2TokenContext context = DefaultOAuth2TokenContext.builder()
                 .tokenType(new OAuth2TokenType(request.getGrantType()))
                 .registeredApp(registeredApp)
                 // 填充用户信息
+                .principal(authentication)
                 .build();
 
         OAuth2Token auth2Token = this.tokenGenerator.generate(context);
