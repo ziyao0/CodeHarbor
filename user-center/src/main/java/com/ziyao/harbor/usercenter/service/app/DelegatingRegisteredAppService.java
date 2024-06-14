@@ -44,7 +44,7 @@ public class DelegatingRegisteredAppService implements RegisteredAppService {
             if (registeredApp == null) {
                 registeredApp = this.jpaRegisteredAppService.findById(appId);
                 if (registeredApp != null) {
-//                    this.redisRegisteredAppService.save(registeredApp);
+                    this.redisRegisteredAppService.save(registeredApp);
                     this.memoryRegisteredAppService.save(registeredApp);
                 }
             } else {

@@ -16,25 +16,21 @@ import java.util.function.Consumer;
  * @author ziyao zhang
  * @since 2024/3/25
  */
+@Getter
 @EqualsAndHashCode
 public class OAuth2Authorization implements Serializable {
     @Serial
     private static final long serialVersionUID = 161440620113264850L;
-    @Getter
     private Long id;
-    @Getter
     private Long registeredAppId;
-    @Getter
     private Long userId;
     /**
      * 授权类型
      */
-    @Getter
     private AuthorizationGrantType authorizationGrantType;
     /**
      * 授权范围
      */
-    @Getter
     private Set<String> authorizedScopes;
     /**
      * oauth2 token
@@ -43,7 +39,6 @@ public class OAuth2Authorization implements Serializable {
     /**
      * 额外属性
      */
-    @Getter
     private Map<String, Object> attributes;
 
     public Token<OAuth2AccessToken> getAccessToken() {

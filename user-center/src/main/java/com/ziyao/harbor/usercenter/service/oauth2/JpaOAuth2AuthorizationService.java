@@ -35,6 +35,11 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
     public JpaOAuth2AuthorizationService(RegisteredAppService registeredAppService, AuthorizationRepository authorizationRepository) {
         this.registeredAppService = registeredAppService;
         this.authorizationRepository = authorizationRepository;
+
+//        ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
+//        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+//        this.objectMapper.registerModules(securityModules);
+//        this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
     }
 
 
@@ -131,13 +136,12 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         Authorization entity = new Authorization();
         entity.setId(authorization.getId());
         entity.setAppid(authorization.getRegisteredAppId());
-        //TODO
-        entity.setUserId(111L);
+        entity.setUserId(authorization.getUserId());
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().value());
         entity.setAuthorizedScopes(Strings.collectionToDelimitedString(authorization.getAuthorizedScopes(), ","));
         entity.setAttributes(writeMap(authorization.getAttributes()));
         entity.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
-        //TODO
+        //设置状态
         entity.setState(1);
 
         OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCode =
@@ -207,5 +211,23 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }
+    }
+
+    public static void main(String[] args) {
+        OAuth2AuthorizationCode authorizationCode = new OAuth2AuthorizationCode(
+                "  entity.getAuthorizationCodeValue()",
+                Instant.now(),
+                Instant.now());
+
+        System.out.println(authorizationCode);
+
+        OAuth2Authorization token = OAuth2Authorization.withRegisteredAppId(111L)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .token(authorizationCode).build();
+
+        System.out.println(token);
+        OAuth2Authorization.Token<OAuth2AuthorizationCode> token1 = token.getToken(OAuth2AuthorizationCode.class);
+        OAuth2AuthorizationCode token2 = token1.getToken();
+        System.out.println();
     }
 }

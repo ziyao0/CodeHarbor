@@ -1,7 +1,11 @@
 package com.ziyao.harbor.usercenter.authentication.token.oauth2;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Collections;
+import com.ziyao.harbor.usercenter.authentication.jackson2.RegisteredAppDeserializer;
+import com.ziyao.harbor.usercenter.authentication.jackson2.RegisteredAppSerializer;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import com.ziyao.security.oauth2.settings.TokenSettings;
 import lombok.Getter;
@@ -19,19 +23,21 @@ import java.util.function.Consumer;
  * @time 2024/6/4
  */
 @Getter
+@JsonSerialize(using = RegisteredAppSerializer.class)
+@JsonDeserialize(using = RegisteredAppDeserializer.class)
 public class RegisteredApp implements Serializable {
 
     @Serial
     private static final long serialVersionUID = -5766646592402572432L;
 
     private Long appId;
+    private String appName;
     private Integer appType;
     private Set<AuthorizationGrantType> authorizationGrantTypes;
     private Integer state;
     private Instant issuedAt;
     private String appSecret;
     private Instant appSecretExpiresAt;
-    private String appName;
     private Set<String> scopes;
     private String redirectUri;
     private String postLogoutRedirectUri;
