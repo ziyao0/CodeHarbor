@@ -1,5 +1,9 @@
 package com.ziyao.security.oauth2.core;
 
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationDeserializer;
+import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.lang.Nullable;
@@ -18,11 +22,13 @@ import java.util.function.Consumer;
  */
 @Getter
 @EqualsAndHashCode
+@JsonSerialize(using = OAuth2AuthorizationSerializer.class)
+@JsonDeserialize(using = OAuth2AuthorizationDeserializer.class)
 public class OAuth2Authorization implements Serializable {
     @Serial
     private static final long serialVersionUID = 161440620113264850L;
     private Long id;
-    private Long registeredAppId;
+    private Long appId;
     private Long userId;
     /**
      * 授权类型
@@ -69,9 +75,17 @@ public class OAuth2Authorization implements Serializable {
     /**
      * Returns a new {@link Builder}, initialized with the provided
      */
-    public static Builder withRegisteredAppId(Long appid) {
+    public static Builder withAppId(Long appid) {
         Assert.notNull(appid, "application cannot be null");
         return new Builder(appid);
+    }
+
+    /**
+     * Returns a new {@link Builder}, initialized with the provided
+     */
+    public static Builder withId(Long id) {
+        Assert.notNull(id, "application cannot be null");
+        return new Builder(id);
     }
 
     /**
@@ -79,7 +93,7 @@ public class OAuth2Authorization implements Serializable {
      */
     public static Builder from(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization cannot be null");
-        return new Builder(authorization.getRegisteredAppId())
+        return new Builder(authorization.getAppId())
                 .id(authorization.getId())
                 .userId(authorization.getUserId())
                 .authorizationGrantType(authorization.getAuthorizationGrantType())
@@ -187,7 +201,7 @@ public class OAuth2Authorization implements Serializable {
         // 用户标识
         private Long userId;
         // 注册客户端ID
-        private final Long registeredAppId;
+        private final Long appId;
         // 授权类型
         private AuthorizationGrantType authorizationGrantType;
         // 授权范围
@@ -197,8 +211,8 @@ public class OAuth2Authorization implements Serializable {
         // 授权相关属性
         private final Map<String, Object> attributes = new HashMap<>();
 
-        protected Builder(Long registeredAppId) {
-            this.registeredAppId = registeredAppId;
+        protected Builder(Long appId) {
+            this.appId = appId;
         }
 
         /**
@@ -318,7 +332,7 @@ public class OAuth2Authorization implements Serializable {
             }
             authorization.id = this.id;
             authorization.userId = this.userId;
-            authorization.registeredAppId = this.registeredAppId;
+            authorization.appId = this.appId;
             authorization.authorizationGrantType = this.authorizationGrantType;
             authorization.authorizedScopes =
                     Collections.unmodifiableSet(

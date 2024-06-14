@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.authentication.jackson2;
+package com.ziyao.security.oauth2.jackson2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -13,13 +13,13 @@ import java.util.*;
 public abstract class JsonNodeUtils {
 
 
-    static final TypeReference<Set<String>> STRING_SET = new TypeReference<>() {
+    public static final TypeReference<Set<String>> STRING_SET = new TypeReference<>() {
     };
 
-    static final TypeReference<Map<String, Object>> STRING_OBJECT_MAP = new TypeReference<>() {
+    public static final TypeReference<Map<String, Object>> STRING_OBJECT_MAP = new TypeReference<>() {
     };
 
-    static Long findLongValue(JsonNode jsonNode, String fieldName) {
+    public static Long findLongValue(JsonNode jsonNode, String fieldName) {
         if (jsonNode == null) {
             return null;
         }
@@ -27,7 +27,7 @@ public abstract class JsonNodeUtils {
         return (value != null && value.isNumber()) ? value.asLong() : null;
     }
 
-    static Integer findIntegerValue(JsonNode jsonNode, String fieldName) {
+    public static Integer findIntegerValue(JsonNode jsonNode, String fieldName) {
         if (jsonNode == null) {
             return null;
         }
@@ -35,7 +35,7 @@ public abstract class JsonNodeUtils {
         return (value != null && value.isNumber()) ? value.asInt() : null;
     }
 
-    static String findStringValue(JsonNode jsonNode, String fieldName) {
+    public static String findStringValue(JsonNode jsonNode, String fieldName) {
         if (jsonNode == null) {
             return null;
         }
@@ -43,7 +43,7 @@ public abstract class JsonNodeUtils {
         return (value != null && value.isTextual()) ? value.asText() : null;
     }
 
-    static List<String> findArrayValue(JsonNode jsonNode, String fieldName) {
+    public static List<String> findArrayValue(JsonNode jsonNode, String fieldName) {
         if (jsonNode == null) {
             return null;
         }
@@ -61,8 +61,8 @@ public abstract class JsonNodeUtils {
         return null;
     }
 
-    static <T> T findValue(JsonNode jsonNode, String fieldName, TypeReference<T> valueTypeReference,
-                           ObjectMapper mapper) {
+    public static <T> T findValue(JsonNode jsonNode, String fieldName, TypeReference<T> valueTypeReference,
+                                  ObjectMapper mapper) {
         if (jsonNode == null) {
             return null;
         }
@@ -70,7 +70,7 @@ public abstract class JsonNodeUtils {
         return (value != null && value.isContainerNode()) ? mapper.convertValue(value, valueTypeReference) : null;
     }
 
-    static JsonNode findObjectNode(JsonNode jsonNode, String fieldName) {
+    public static JsonNode findObjectNode(JsonNode jsonNode, String fieldName) {
         if (jsonNode == null) {
             return null;
         }

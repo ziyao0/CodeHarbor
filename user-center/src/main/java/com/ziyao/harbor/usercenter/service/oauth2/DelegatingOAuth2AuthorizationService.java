@@ -51,7 +51,7 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
     public OAuth2Authorization findById(Long id) {
         // 先从内存中查询
         OAuth2Authorization authorization = memoryOAuth2AuthorizationService.findById(id);
-        if (authorization == null) {
+        if (authorization != null) {
             // 从redis查询
             authorization = redisOAuth2AuthorizationService.findById(id);
             if (authorization == null) {

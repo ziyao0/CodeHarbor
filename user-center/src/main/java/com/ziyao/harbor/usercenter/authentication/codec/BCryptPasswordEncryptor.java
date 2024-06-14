@@ -25,7 +25,7 @@ public final class BCryptPasswordEncryptor implements PasswordEncryptor {
 
     public BCryptPasswordEncryptor() {
         this.version = BCryptVersion.$2A;
-        this.strength = -1;
+        this.strength = 8;
         this.random = Randoms.getSecureRandom();
     }
 
@@ -40,7 +40,7 @@ public final class BCryptPasswordEncryptor implements PasswordEncryptor {
     public boolean matches(CharSequence plaintext, String ciphertext) {
         Assert.notNull(plaintext, "明文不能为空！");
         Assert.isTrue(plaintext.isEmpty(), "明文不能为空！");
-        Assert.notNull(ciphertext, "秘闻不能为空！");
+        Assert.notNull(ciphertext, "密文不能为空！");
         Assert.isTrue(!this.BCRYPT_PATTERN.matcher(ciphertext).matches(), "Encoded password does not look like BCrypt");
         return BCrypt.checkpw(plaintext.toString(), ciphertext);
     }
@@ -54,7 +54,7 @@ public final class BCryptPasswordEncryptor implements PasswordEncryptor {
 
     public static void main(String[] args) {
         BCryptPasswordEncryptor BCryptPasswordAuthenticator = new BCryptPasswordEncryptor();
-        System.out.println(BCryptPasswordAuthenticator.encrypt("admin"));
+        System.out.println(BCryptPasswordAuthenticator.encrypt("1qaz@WSX"));
 
         String pd = "$2a$10$VlNsaSfV6KTFadxJ3BkSo.wPvkdblhAWdX9ymJhJ6D2k7PLVbcEnC";
         System.out.println(BCryptPasswordAuthenticator.BCRYPT_PATTERN.matcher(pd).matches());

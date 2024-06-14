@@ -94,7 +94,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
             throw new DataRetrievalFailureException(
                     "The RegisteredClient with id '" + entity.getAppid() + "' was not found in the RegisteredClientRepository.");
         }
-        OAuth2Authorization.Builder builder = OAuth2Authorization.withRegisteredAppId(registeredApp.getAppId())
+        OAuth2Authorization.Builder builder = OAuth2Authorization.withAppId(registeredApp.getAppId())
                 .id(entity.getId())
                 //.principalName(entity.getPrincipalName())
                 .authorizationGrantType(AuthorizationGrantTypes.resolve(entity.getAuthorizationGrantType()))
@@ -135,7 +135,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
     private Authorization toEntity(OAuth2Authorization authorization) {
         Authorization entity = new Authorization();
         entity.setId(authorization.getId());
-        entity.setAppid(authorization.getRegisteredAppId());
+        entity.setAppid(authorization.getAppId());
         entity.setUserId(authorization.getUserId());
         entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().value());
         entity.setAuthorizedScopes(Strings.collectionToDelimitedString(authorization.getAuthorizedScopes(), ","));
@@ -213,21 +213,4 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         }
     }
 
-    public static void main(String[] args) {
-        OAuth2AuthorizationCode authorizationCode = new OAuth2AuthorizationCode(
-                "  entity.getAuthorizationCodeValue()",
-                Instant.now(),
-                Instant.now());
-
-        System.out.println(authorizationCode);
-
-        OAuth2Authorization token = OAuth2Authorization.withRegisteredAppId(111L)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .token(authorizationCode).build();
-
-        System.out.println(token);
-        OAuth2Authorization.Token<OAuth2AuthorizationCode> token1 = token.getToken(OAuth2AuthorizationCode.class);
-        OAuth2AuthorizationCode token2 = token1.getToken();
-        System.out.println();
-    }
 }

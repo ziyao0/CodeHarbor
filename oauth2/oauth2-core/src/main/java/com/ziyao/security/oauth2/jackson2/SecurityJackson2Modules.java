@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.authentication.jackson2;
+package com.ziyao.security.oauth2.jackson2;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;

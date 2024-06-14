@@ -9,6 +9,7 @@ import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
+import com.ziyao.security.oauth2.jackson2.JsonNodeUtils;
 import com.ziyao.security.oauth2.settings.TokenSettings;
 
 import java.io.IOException;

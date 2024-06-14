@@ -92,13 +92,15 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         SimpleUser principal = (SimpleUser) authentication.getPrincipal();
 
-        OAuth2Authorization authorization = OAuth2Authorization.withRegisteredAppId(registeredApp.getAppId())
+        OAuth2Authorization authorization = OAuth2Authorization.withAppId(registeredApp.getAppId())
                 .userId(principal.getId())
                 .token(authorizationCode)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .build();
 
         authorizationService.save(authorization);
+
+        OAuth2Authorization byId = authorizationService.findById(authorization.getId());
 
         return authorizationCode;
     }

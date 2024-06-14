@@ -1,14 +1,14 @@
-package com.ziyao.harbor.usercenter.authentication.jackson2;
+package com.ziyao.security.oauth2.jackson2;
 
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
+import com.ziyao.harbor.core.utils.Strings;
+import com.ziyao.security.oauth2.core.OAuth2AccessToken;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
-import com.ziyao.security.oauth2.core.OAuth2AuthorizationCode;
 import com.ziyao.security.oauth2.core.OAuth2Token;
 
 import java.io.IOException;
-import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,8 +26,8 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
         if (authorization.getId() != null)
             jsonGenerator.writeNumberField("id", authorization.getId());
 
-        if (authorization.getRegisteredAppId() != null)
-            jsonGenerator.writeNumberField("registeredAppId", authorization.getRegisteredAppId());
+        if (authorization.getAppId() != null)
+            jsonGenerator.writeNumberField("appId", authorization.getAppId());
 
         if (authorization.getUserId() != null)
             jsonGenerator.writeNumberField("userId", authorization.getUserId());
@@ -44,6 +44,8 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
         jsonGenerator.writeObjectField("tokens", writeMap(authorization.getTokens()));
 
         jsonGenerator.writeObjectField("attributes", authorization.getAttributes());
+
+        jsonGenerator.writeEndObject();
     }
 
     private Map<String, Object> writeMap(Map<Class<? extends OAuth2Token>, OAuth2Authorization.Token<?>> tokens) {
@@ -51,13 +53,21 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
 
         for (Map.Entry<Class<? extends OAuth2Token>, OAuth2Authorization.Token<?>> entry : tokens.entrySet()) {
 
-            map.put(entry.getKey().getSimpleName(), entry.getValue().getToken());
+            Class<? extends OAuth2Token> key = entry.getKey();
+
+            OAuth2Token token = entry.getValue().getToken();
+
+            Map<String, String> writeMap = new HashMap<>(Map.of("tokenValue", token.getTokenValue(),
+                    "issuedAt", token.getIssuedAt().toString(),
+                    "expiresAt", token.getExpiresAt().toString()));
+
+            if (OAuth2AccessToken.class.isAssignableFrom(key)) {
+                OAuth2AccessToken accessToken = (OAuth2AccessToken) token;
+                writeMap.put("tokenType", accessToken.getTokenType().getValue());
+                writeMap.put("scopes", Strings.collectionToCommaDelimitedString(accessToken.getScopes()));
+            }
+            map.put(key.getSimpleName(), writeMap);
         }
         return map;
-    }
-
-    public static void main(String[] args) {
-        OAuth2AuthorizationCode code = new OAuth2AuthorizationCode("1111", Instant.now(), Instant.now());
-
     }
 }
