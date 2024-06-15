@@ -55,7 +55,10 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
 
             Class<? extends OAuth2Token> key = entry.getKey();
 
-            OAuth2Token token = entry.getValue().getToken();
+            OAuth2Authorization.Token<?> authorizationToken = entry.getValue();
+            OAuth2Token token = authorizationToken.getToken();
+
+            Map<String, Object> metadata = authorizationToken.getMetadata();
 
             Map<String, String> writeMap = new HashMap<>(Map.of("tokenValue", token.getTokenValue(),
                     "issuedAt", token.getIssuedAt().toString(),
@@ -67,6 +70,7 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
                 writeMap.put("scopes", Strings.collectionToCommaDelimitedString(accessToken.getScopes()));
             }
             map.put(key.getSimpleName(), writeMap);
+            map.put("metadata", metadata);
         }
         return map;
     }

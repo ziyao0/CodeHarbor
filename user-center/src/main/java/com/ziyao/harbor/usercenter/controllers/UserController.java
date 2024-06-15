@@ -1,4 +1,4 @@
-package com.ziyao.harbor.usercenter.controller;
+package com.ziyao.harbor.usercenter.controllers;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;

@@ -1,10 +1,10 @@
-package com.ziyao.harbor.usercenter.controller;
+package com.ziyao.harbor.usercenter.controllers;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;
-import com.ziyao.harbor.usercenter.dto.AuthorizationDTO;
-import com.ziyao.harbor.usercenter.entity.Authorization;
-import com.ziyao.harbor.usercenter.service.AuthorizationService;
+import com.ziyao.harbor.usercenter.dto.RoleMenuDTO;
+import com.ziyao.harbor.usercenter.entity.RoleMenu;
+import com.ziyao.harbor.usercenter.service.RoleMenuService;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
@@ -20,31 +20,31 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 前端控制器
+ * 角色菜单表 前端控制器
  * </p>
  *
  * @author zhangziyao
- * @since 2024-06-13
+ * @since 2023-05-06
  */
 @RestController
-@RequestMapping("/usercenter/authorization")
-public class AuthorizationController extends BaseController<AuthorizationService, Authorization> {
+@RequestMapping("/usercenter/role-menu")
+public class RoleMenuController extends BaseController<RoleMenuService, RoleMenu> {
 
     @Autowired
-    private AuthorizationService authorizationService;
+    private RoleMenuService roleMenuService;
 
     @PostMapping("/save")
-    public void save(@RequestBody AuthorizationDTO entityDTO) {
+    public void save(@RequestBody RoleMenuDTO entityDTO) {
         super.iService.save(entityDTO.getInstance());
     }
 
     @PostMapping("/saveOrUpdate")
-    public void saveOrUpdate(@RequestBody AuthorizationDTO entityDTO) {
+    public void saveOrUpdate(@RequestBody RoleMenuDTO entityDTO) {
         super.iService.saveOrUpdate(entityDTO.getInstance());
     }
 
     @PostMapping("/updateById")
-    public void updateById(@RequestBody AuthorizationDTO entityDTO) {
+    public void updateById(@RequestBody RoleMenuDTO entityDTO) {
         if (ObjectUtils.isEmpty(entityDTO.getId())) {
             throw Exceptions.createIllegalArgumentException(null);
         }
@@ -55,20 +55,19 @@ public class AuthorizationController extends BaseController<AuthorizationService
      * 默认一次插入500条
      */
     @PostMapping("/saveBatch")
-    public void saveBatch(@RequestBody List
-            <AuthorizationDTO> entityDTOList) {
-        super.iService.saveBatch(entityDTOList.stream().map(AuthorizationDTO::getInstance).collect(Collectors.toList()), 500);
+    public void saveBatch(@RequestBody List<RoleMenuDTO> entityDTOList) {
+        super.iService.saveBatch(entityDTOList.stream().map(RoleMenuDTO::getInstance).collect(Collectors.toList()), 500);
     }
 
     /**
      * 条件分页查询
      *
-     * @param pageQuery 分页参数
+     * @param pageParams 分页参数
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Authorization> getPage(@RequestBody PageParams<AuthorizationDTO> pageQuery) {
-        Page<Authorization> page = Pages.initPage(pageQuery, Authorization.class);
-        return authorizationService.page(page, pageQuery.getParams());
+    public Page<RoleMenu> getPage(@RequestBody PageParams<RoleMenuDTO> pageParams) {
+        Page<RoleMenu> page = Pages.initPage(pageParams, RoleMenu.class);
+        return roleMenuService.page(page, pageParams.getParams());
     }
 }

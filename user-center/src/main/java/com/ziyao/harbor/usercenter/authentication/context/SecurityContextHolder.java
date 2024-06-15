@@ -83,6 +83,14 @@ public abstract class SecurityContextHolder {
         return strategy.createEmptyContext();
     }
 
+    public static boolean isAuthorized() {
+        return strategy.isAuthentication();
+    }
+
+    public static boolean isUnauthorized() {
+        return !strategy.isAuthentication();
+    }
+
     public SecurityContextHolder() {
     }
 

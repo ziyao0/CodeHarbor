@@ -1,10 +1,10 @@
-package com.ziyao.harbor.usercenter.controller;
+package com.ziyao.harbor.usercenter.controllers;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;
-import com.ziyao.harbor.usercenter.dto.RoleDTO;
-import com.ziyao.harbor.usercenter.entity.Role;
-import com.ziyao.harbor.usercenter.service.RoleService;
+import com.ziyao.harbor.usercenter.dto.ApplicationDTO;
+import com.ziyao.harbor.usercenter.entity.Application;
+import com.ziyao.harbor.usercenter.service.ApplicationService;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
@@ -20,31 +20,31 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 角色表 前端控制器
+ * 应用系统 前端控制器
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2024-06-08
  */
 @RestController
-@RequestMapping("/usercenter/role")
-public class RoleController extends BaseController<RoleService, Role> {
+@RequestMapping("/usercenter/application")
+public class ApplicationController extends BaseController<ApplicationService, Application> {
 
     @Autowired
-    private RoleService roleService;
+    private ApplicationService applicationService;
 
     @PostMapping("/save")
-    public void save(@RequestBody RoleDTO entityDTO) {
+    public void save(@RequestBody ApplicationDTO entityDTO) {
         super.iService.save(entityDTO.getInstance());
     }
 
     @PostMapping("/saveOrUpdate")
-    public void saveOrUpdate(@RequestBody RoleDTO entityDTO) {
+    public void saveOrUpdate(@RequestBody ApplicationDTO entityDTO) {
         super.iService.saveOrUpdate(entityDTO.getInstance());
     }
 
     @PostMapping("/updateById")
-    public void updateById(@RequestBody RoleDTO entityDTO) {
+    public void updateById(@RequestBody ApplicationDTO entityDTO) {
         if (ObjectUtils.isEmpty(entityDTO.getId())) {
             throw Exceptions.createIllegalArgumentException(null);
         }
@@ -55,19 +55,20 @@ public class RoleController extends BaseController<RoleService, Role> {
      * 默认一次插入500条
      */
     @PostMapping("/saveBatch")
-    public void saveBatch(@RequestBody List<RoleDTO> entityDTOList) {
-        super.iService.saveBatch(entityDTOList.stream().map(RoleDTO::getInstance).collect(Collectors.toList()), 500);
+    public void saveBatch(@RequestBody List
+            <ApplicationDTO> entityDTOList) {
+        super.iService.saveBatch(entityDTOList.stream().map(ApplicationDTO::getInstance).collect(Collectors.toList()), 500);
     }
 
     /**
      * 条件分页查询
      *
-     * @param pageParams 分页参数
+     * @param pageQuery 分页参数
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<Role> getPage(@RequestBody PageParams<RoleDTO> pageParams) {
-        Page<Role> page = Pages.initPage(pageParams, Role.class);
-        return roleService.page(page, pageParams.getParams());
+    public Page<Application> getPage(@RequestBody PageParams<ApplicationDTO> pageQuery) {
+        Page<Application> page = Pages.initPage(pageQuery, Application.class);
+        return applicationService.page(page, pageQuery.getParams());
     }
 }

@@ -2,11 +2,10 @@ package com.ziyao.harbor.usercenter.common.init;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.ziyao.harbor.usercenter.authentication.converter.AuthenticationConverter;
-import com.ziyao.harbor.usercenter.authentication.converter.OAuth2AuthorizationCodeAuthenticationConverter;
-import com.ziyao.harbor.usercenter.authentication.converter.OAuth2RefreshTokenAuthenticationConverter;
-import com.ziyao.harbor.usercenter.authentication.converter.UsernamePasswordAuthenticationConverter;
-import com.ziyao.harbor.usercenter.authentication.provider.DelegatingAuthenticationConverter;
+import com.ziyao.harbor.usercenter.authentication.AuthenticationManager;
+import com.ziyao.harbor.usercenter.authentication.PrimaryAuthenticationManager;
+import com.ziyao.harbor.usercenter.authentication.converter.*;
+import com.ziyao.harbor.usercenter.authentication.provider.OAuth2Authenticator;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.*;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
@@ -14,6 +13,7 @@ import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepositor
 import com.ziyao.harbor.usercenter.repository.redis.RedisRegisteredAppRepository;
 import com.ziyao.harbor.usercenter.service.app.*;
 import com.ziyao.harbor.usercenter.service.oauth2.*;
+import com.ziyao.harbor.web.ApplicationContextUtils;
 import com.ziyao.security.oauth2.core.OAuth2Token;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -79,4 +79,9 @@ public class InitializeBeanConfiguration {
         return objectMapper;
     }
 
+    @Bean
+    public AuthenticationManager authenticationManager() {
+        List<OAuth2Authenticator> authenticators = ApplicationContextUtils.getBeansOfType(OAuth2Authenticator.class);
+        return new PrimaryAuthenticationManager(authenticators);
+    }
 }

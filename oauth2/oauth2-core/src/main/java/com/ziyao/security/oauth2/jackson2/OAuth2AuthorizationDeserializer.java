@@ -62,15 +62,16 @@ public class OAuth2AuthorizationDeserializer extends JsonDeserializer<OAuth2Auth
             Map<String, String> tokenMap = (Map<String, String>) entry.getValue();
 
             String tokenValue = tokenMap.get("tokenValue");
-            Instant issuedAt = Optional.of(tokenMap.get("issuedAt")).map(Instant::parse).orElse(null);
-            Instant expiresAt = Optional.of(tokenMap.get("expiresAt")).map(Instant::parse).orElse(null);
+            Instant issuedAt = Optional.ofNullable(tokenMap.get("issuedAt")).map(Instant::parse).orElse(null);
+            Instant expiresAt = Optional.ofNullable(tokenMap.get("expiresAt")).map(Instant::parse).orElse(null);
+            Map<String,Object> metadata = Optional.ofNullable(tokenMap.get("metadata")).map(m->mapper.convertValue(m, JsonNodeUtils.STRING_OBJECT_MAP)).orElse(Map.of());
 
             if (OAuth2AuthorizationCode.class.getSimpleName().equals(tokenClassName)) {
                 // 创建授权码
-                builder.token(new OAuth2AuthorizationCode(tokenValue, issuedAt, expiresAt));
+                builder.token(new OAuth2AuthorizationCode(tokenValue, issuedAt, expiresAt),md-> md.putAll(metadata));
             } else if (OAuth2RefreshToken.class.getSimpleName().equals(tokenClassName)) {
                 // 创建刷新token
-                builder.token(new OAuth2RefreshToken(tokenValue, issuedAt, expiresAt));
+                builder.token(new OAuth2RefreshToken(tokenValue, issuedAt, expiresAt),md-> md.putAll(metadata));
             } else if (OAuth2AccessToken.class.getSimpleName().equals(tokenClassName)) {
                 // 创建认证token
                 OAuth2AccessToken.TokenType tokenType = Optional.ofNullable(tokenMap.get("tokenType"))
@@ -80,7 +81,7 @@ public class OAuth2AuthorizationDeserializer extends JsonDeserializer<OAuth2Auth
                 Set<String> scopes = Optional.ofNullable(tokenMap.get("scopes"))
                         .map(Strings::commaDelimitedListToSet)
                         .orElse(Set.of());
-                builder.token(new OAuth2AccessToken(tokenType, tokenValue, issuedAt, expiresAt, scopes));
+                builder.token(new OAuth2AccessToken(tokenType, tokenValue, issuedAt, expiresAt, scopes),md-> md.putAll(metadata));
             }
         }
         return builder.build();

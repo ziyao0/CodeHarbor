@@ -1,10 +1,10 @@
-package com.ziyao.harbor.usercenter.controller;
+package com.ziyao.harbor.usercenter.controllers;
 
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.ziyao.harbor.core.error.Exceptions;
-import com.ziyao.harbor.usercenter.dto.RoleMenuDTO;
-import com.ziyao.harbor.usercenter.entity.RoleMenu;
-import com.ziyao.harbor.usercenter.service.RoleMenuService;
+import com.ziyao.harbor.usercenter.dto.RoleDTO;
+import com.ziyao.harbor.usercenter.entity.Role;
+import com.ziyao.harbor.usercenter.service.RoleService;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
@@ -20,31 +20,31 @@ import java.util.stream.Collectors;
 
 /**
  * <p>
- * 角色菜单表 前端控制器
+ * 角色表 前端控制器
  * </p>
  *
  * @author zhangziyao
  * @since 2023-05-06
  */
 @RestController
-@RequestMapping("/usercenter/role-menu")
-public class RoleMenuController extends BaseController<RoleMenuService, RoleMenu> {
+@RequestMapping("/usercenter/role")
+public class RoleController extends BaseController<RoleService, Role> {
 
     @Autowired
-    private RoleMenuService roleMenuService;
+    private RoleService roleService;
 
     @PostMapping("/save")
-    public void save(@RequestBody RoleMenuDTO entityDTO) {
+    public void save(@RequestBody RoleDTO entityDTO) {
         super.iService.save(entityDTO.getInstance());
     }
 
     @PostMapping("/saveOrUpdate")
-    public void saveOrUpdate(@RequestBody RoleMenuDTO entityDTO) {
+    public void saveOrUpdate(@RequestBody RoleDTO entityDTO) {
         super.iService.saveOrUpdate(entityDTO.getInstance());
     }
 
     @PostMapping("/updateById")
-    public void updateById(@RequestBody RoleMenuDTO entityDTO) {
+    public void updateById(@RequestBody RoleDTO entityDTO) {
         if (ObjectUtils.isEmpty(entityDTO.getId())) {
             throw Exceptions.createIllegalArgumentException(null);
         }
@@ -55,8 +55,8 @@ public class RoleMenuController extends BaseController<RoleMenuService, RoleMenu
      * 默认一次插入500条
      */
     @PostMapping("/saveBatch")
-    public void saveBatch(@RequestBody List<RoleMenuDTO> entityDTOList) {
-        super.iService.saveBatch(entityDTOList.stream().map(RoleMenuDTO::getInstance).collect(Collectors.toList()), 500);
+    public void saveBatch(@RequestBody List<RoleDTO> entityDTOList) {
+        super.iService.saveBatch(entityDTOList.stream().map(RoleDTO::getInstance).collect(Collectors.toList()), 500);
     }
 
     /**
@@ -66,8 +66,8 @@ public class RoleMenuController extends BaseController<RoleMenuService, RoleMenu
      * @return 返回分页查询信息
      */
     @PostMapping("/page/get")
-    public Page<RoleMenu> getPage(@RequestBody PageParams<RoleMenuDTO> pageParams) {
-        Page<RoleMenu> page = Pages.initPage(pageParams, RoleMenu.class);
-        return roleMenuService.page(page, pageParams.getParams());
+    public Page<Role> getPage(@RequestBody PageParams<RoleDTO> pageParams) {
+        Page<Role> page = Pages.initPage(pageParams, Role.class);
+        return roleService.page(page, pageParams.getParams());
     }
 }

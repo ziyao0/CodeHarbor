@@ -30,4 +30,10 @@ public interface SecurityContextHolderStrategy {
     }
 
     AuthenticationContext createEmptyContext();
+
+    default boolean isAuthentication() {
+        if (getContext() != null) {
+            return getContext().getAuthentication().isAuthenticated();
+        } else return false;
+    }
 }

@@ -96,7 +96,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         }
         OAuth2Authorization.Builder builder = OAuth2Authorization.withAppId(registeredApp.getAppId())
                 .id(entity.getId())
-                //.principalName(entity.getPrincipalName())
+                .userId(entity.getUserId())
                 .authorizationGrantType(AuthorizationGrantTypes.resolve(entity.getAuthorizationGrantType()))
                 .authorizedScopes(StringUtils.commaDelimitedListToSet(entity.getAuthorizedScopes()))
                 .attributes(attributes -> attributes.putAll(parseMap(entity.getAttributes())));
@@ -198,7 +198,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     private Map<String, Object> parseMap(String data) {
         try {
-            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
+            return this.objectMapper.readValue(data, new TypeReference<>() {
             });
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
