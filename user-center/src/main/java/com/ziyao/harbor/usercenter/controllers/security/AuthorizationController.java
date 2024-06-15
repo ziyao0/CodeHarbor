@@ -9,6 +9,7 @@ import com.ziyao.harbor.usercenter.response.OAuth2AuthorizationCodeResponse;
 import com.ziyao.harbor.usercenter.service.security.AuthorizationServer;
 import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ import java.util.Optional;
  * @author zhangziyao
  * @since 2024-06-13
  */
+@Slf4j
 @RestController
 public class AuthorizationController {
 
@@ -52,9 +54,14 @@ public class AuthorizationController {
 
     @GetMapping("/token")
     public AccessTokenResponse token(HttpServletRequest request) {
+        try {
+            Authentication authentication = authenticationConverter.convert(request);
 
-        Authentication authentication = authenticationConverter.convert(request);
+            return authorizationServer.token(authentication);
+        } catch (Exception e) {
+            log.error("{}", e.getMessage(), e);
+            throw e;
+        }
 
-        return authorizationServer.token(authentication);
     }
 }

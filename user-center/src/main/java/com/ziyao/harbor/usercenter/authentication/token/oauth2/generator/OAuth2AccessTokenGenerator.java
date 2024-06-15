@@ -73,7 +73,7 @@ public final class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
     }
 
     @Getter
-    private static final class OAuth2AccessTokenClaims extends OAuth2AccessToken {
+    public static final class OAuth2AccessTokenClaims extends OAuth2AccessToken {
 
         private final Map<String, Object> claims;
 

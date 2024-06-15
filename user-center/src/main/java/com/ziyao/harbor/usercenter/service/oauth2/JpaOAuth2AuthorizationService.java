@@ -1,6 +1,7 @@
 package com.ziyao.harbor.usercenter.service.oauth2;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
@@ -9,12 +10,16 @@ import com.ziyao.harbor.usercenter.entity.Authorization;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
 import com.ziyao.security.oauth2.core.*;
+import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationServerJackson2Module;
+import com.ziyao.security.oauth2.jackson2.SecurityJackson2Modules;
 import com.ziyao.security.oauth2.support.AuthorizationGrantTypes;
 import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.util.StringUtils;
 
 import java.time.Instant;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Consumer;
@@ -36,10 +41,10 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         this.registeredAppService = registeredAppService;
         this.authorizationRepository = authorizationRepository;
 
-//        ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
-//        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
-//        this.objectMapper.registerModules(securityModules);
-//        this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
+        ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
+        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+        this.objectMapper.registerModules(securityModules);
+        this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
     }
 
 
@@ -207,7 +212,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     private String writeMap(Map<String, Object> metadata) {
         try {
-            return this.objectMapper.writeValueAsString(metadata);
+            return this.objectMapper.writeValueAsString(new HashMap<>(metadata));
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);
         }

@@ -13,14 +13,14 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
 
 
     private OAuth2AuthorizationService jpaOAuth2AuthorizationService;
-    private OAuth2AuthorizationService memoryOAuth2AuthorizationService;
+    private OAuth2AuthorizationService caffeineOAuth2AuthorizationService;
     private OAuth2AuthorizationService redisOAuth2AuthorizationService;
 
     public DelegatingOAuth2AuthorizationService(List<OAuth2AuthorizationService> authorizationServices) {
         for (OAuth2AuthorizationService authorizationService : authorizationServices) {
             switch (authorizationService.model()) {
                 case jpa -> this.jpaOAuth2AuthorizationService = authorizationService;
-                case caffeine -> this.memoryOAuth2AuthorizationService = authorizationService;
+                case caffeine -> this.caffeineOAuth2AuthorizationService = authorizationService;
                 case redis -> this.redisOAuth2AuthorizationService = authorizationService;
                 default -> throw new IllegalStateException("Unexpected value: " + authorizationService);
             }
@@ -35,12 +35,12 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
         // 保存redis
         redisOAuth2AuthorizationService.save(authorization);
         // 在内存中保存数据
-        memoryOAuth2AuthorizationService.save(authorization);
+        caffeineOAuth2AuthorizationService.save(authorization);
     }
 
     @Override
     public void remove(OAuth2Authorization authorization) {
-        memoryOAuth2AuthorizationService.remove(authorization);
+        caffeineOAuth2AuthorizationService.remove(authorization);
 
         redisOAuth2AuthorizationService.remove(authorization);
 
@@ -50,7 +50,7 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
     @Override
     public OAuth2Authorization findById(Long id) {
         // 先从内存中查询
-        OAuth2Authorization authorization = memoryOAuth2AuthorizationService.findById(id);
+        OAuth2Authorization authorization = caffeineOAuth2AuthorizationService.findById(id);
         if (authorization != null) {
             // 从redis查询
             authorization = redisOAuth2AuthorizationService.findById(id);
@@ -60,11 +60,11 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
                 if (authorization != null) {
                     // 如果数据库查询出来的值不为空则分别给redis和内存中都存储一份
                     redisOAuth2AuthorizationService.save(authorization);
-                    memoryOAuth2AuthorizationService.save(authorization);
+                    caffeineOAuth2AuthorizationService.save(authorization);
                 }
             } else {
                 // 如果redis查询到的结果不为空 则向内存中存储一份
-                memoryOAuth2AuthorizationService.save(authorization);
+                caffeineOAuth2AuthorizationService.save(authorization);
             }
         }
         return authorization;
@@ -73,7 +73,7 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
     @Override
     public OAuth2Authorization findByToken(String token, OAuth2TokenType tokenType) {
         // 先从内存中查询
-        OAuth2Authorization authorization = memoryOAuth2AuthorizationService.findByToken(token, tokenType);
+        OAuth2Authorization authorization = caffeineOAuth2AuthorizationService.findByToken(token, tokenType);
         if (authorization == null) {
             // 从redis查询
             authorization = redisOAuth2AuthorizationService.findByToken(token, tokenType);
@@ -83,11 +83,11 @@ public class DelegatingOAuth2AuthorizationService implements OAuth2Authorization
                 if (authorization != null) {
                     // 如果数据库查询出来的值不为空则分别给redis和内存中都存储一份
                     redisOAuth2AuthorizationService.save(authorization);
-                    memoryOAuth2AuthorizationService.save(authorization);
+                    caffeineOAuth2AuthorizationService.save(authorization);
                 }
             } else {
                 // 如果redis查询到的结果不为空 则向内存中存储一份
-                memoryOAuth2AuthorizationService.save(authorization);
+                caffeineOAuth2AuthorizationService.save(authorization);
             }
         }
         return authorization;

@@ -1,56 +1,88 @@
 package com.ziyao.harbor.usercenter.authentication.provider;
 
+import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
 import com.ziyao.harbor.usercenter.authentication.core.Authentication;
+import com.ziyao.harbor.usercenter.authentication.token.OAuth2AccessTokenAuthenticationToken;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AuthorizationCodeAuthenticationToken;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
+import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2AccessTokenGenerator;
 import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
+import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
 import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
 import com.ziyao.harbor.web.exception.ServiceException;
 import com.ziyao.security.oauth2.core.*;
 import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * @author ziyao zhang
  * @time 2024/6/4
  */
+@Component
 public class OAuth2AuthorizationCodeAuthenticator implements OAuth2Authenticator {
 
     private final OAuth2AuthorizationService authorizationService;
 
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
 
+    private final RegisteredAppService registeredAppService;
+
     public OAuth2AuthorizationCodeAuthenticator(OAuth2AuthorizationService authorizationService,
-                                                OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator) {
+                                                OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+                                                RegisteredAppService registeredAppService) {
         this.authorizationService = authorizationService;
         this.tokenGenerator = tokenGenerator;
+        this.registeredAppService = registeredAppService;
     }
 
     @Override
     public Authentication authenticate(Authentication authentication) {
         OAuth2AuthorizationCodeAuthenticationToken codeAuthenticationToken = (OAuth2AuthorizationCodeAuthenticationToken) authentication;
-
+        // 授权码
         String code = codeAuthenticationToken.getCode();
 
         OAuth2Authorization authorization = authorizationService.findByToken(code, new OAuth2TokenType(OAuth2ParameterNames.CODE));
         if (authorization == null) {
             throw new ServiceException();
         }
-        OAuth2Authorization.Token<OAuth2AuthorizationCode> authorizationCodeToken = authorization.getToken(OAuth2AuthorizationCode.class);
+        Optional<OAuth2Authorization.Token<OAuth2AuthorizationCode>> tokenOptional = Optional.ofNullable(authorization.getToken(OAuth2AuthorizationCode.class));
+
+
+        if (!tokenOptional.map(OAuth2Authorization.Token::isActive).orElse(false)) {
+            // TODO 无效令牌
+        }
 
         // 验证
-        Authentication principal = (Authentication) codeAuthenticationToken.getPrincipal();
 
+        RegisteredApp registeredApp = registeredAppService.findById(authorization.getAppId());
 
         DefaultOAuth2TokenContext.Builder tokenContextBuilder = DefaultOAuth2TokenContext.builder()
                 .authorization(authorization)
-                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-                .principal(principal);
-//                .registeredApp()
+                .registeredApp(registeredApp);
 
-        DefaultOAuth2TokenContext tokenContext = tokenContextBuilder.build();
-        OAuth2Token oAuth2Token = this.tokenGenerator.generate(tokenContext);
+        DefaultOAuth2TokenContext context1 = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
+        OAuth2RefreshToken refreshToken = (OAuth2RefreshToken) this.tokenGenerator.generate(context1);
 
-        return null;
+        DefaultOAuth2TokenContext context2 = tokenContextBuilder.tokenType(OAuth2TokenType.ACCESS_TOKEN).build();
+
+        OAuth2AccessTokenGenerator.OAuth2AccessTokenClaims accessToken = (OAuth2AccessTokenGenerator.OAuth2AccessTokenClaims) this.tokenGenerator.generate(context2);
+
+
+        OAuth2Authorization authorization1 = OAuth2Authorization.from(authorization)
+                .token(refreshToken)
+                .token(new OAuth2AccessToken(accessToken.getTokenType(), accessToken.getTokenValue(),
+                        accessToken.getIssuedAt(), accessToken.getExpiresAt(), accessToken.getScopes()), metadata -> metadata.putAll(accessToken.getClaims()))
+                .build();
+
+        authorizationService.save(authorization1);
+
+        Authentication principal = SecurityContextHolder.getContext().getAuthentication();
+
+        return new OAuth2AccessTokenAuthenticationToken(
+                principal, registeredApp, accessToken, refreshToken);
     }
 
 

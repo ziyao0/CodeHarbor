@@ -9,11 +9,13 @@ import com.ziyao.harbor.usercenter.authentication.token.UsernamePasswordAuthenti
 import com.ziyao.harbor.usercenter.common.exception.Errors;
 import com.ziyao.harbor.usercenter.common.exception.UserStatusException;
 import com.ziyao.harbor.usercenter.service.user.UserDetailsService;
+import org.springframework.stereotype.Component;
 
 /**
  * @author ziyao zhang
  * @time 2024/6/11
  */
+@Component
 public class UsernamePasswordAuthenticator implements OAuth2Authenticator {
 
     private final UserDetailsService userDetailsService;
