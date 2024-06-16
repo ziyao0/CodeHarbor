@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.service.app;
 
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
+import com.ziyao.security.oauth2.core.RegisteredApp;
 
 import java.util.List;
 

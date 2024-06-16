@@ -1,6 +1,7 @@
 package com.ziyao.harbor.usercenter.authentication.token;
 
-import com.ziyao.harbor.usercenter.authentication.core.Authentication;
+import com.ziyao.harbor.usercenter.authentication.provider.OAuth2AuthorizationCodeAuthenticationProvider;
+import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import lombok.Getter;
 import org.springframework.util.Assert;
@@ -10,6 +11,8 @@ import java.io.Serial;
 /**
  * @author ziyao zhang
  * @time 2024/6/11
+ * @see com.ziyao.harbor.usercenter.authentication.token.OAuth2AuthorizationGrantAuthenticationToken
+ * @see OAuth2AuthorizationCodeAuthenticationProvider
  */
 @Getter
 public class OAuth2AuthorizationCodeAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {

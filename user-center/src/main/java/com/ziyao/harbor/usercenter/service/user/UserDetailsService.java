@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.service.user;
 
 import com.ziyao.harbor.core.lang.Nullable;
-import com.ziyao.harbor.usercenter.authentication.core.UserDetails;
+import com.ziyao.security.oauth2.core.UserDetails;
 
 /**
  * @author ziyao

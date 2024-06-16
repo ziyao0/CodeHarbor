@@ -1,11 +1,11 @@
 package com.ziyao.harbor.usercenter.service.user;
 
 import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
-import com.ziyao.harbor.usercenter.authentication.core.UserDetails;
-import com.ziyao.harbor.usercenter.authentication.core.authority.SimpleUserAuthority;
+import com.ziyao.harbor.usercenter.authentication.core.SimpleUserAuthority;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.repository.jpa.UserRepository;
 import com.ziyao.harbor.usercenter.repository.jpa.UserRoleRepository;
+import com.ziyao.security.oauth2.core.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.Set;

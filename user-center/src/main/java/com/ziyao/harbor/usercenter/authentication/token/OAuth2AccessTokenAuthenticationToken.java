@@ -1,11 +1,7 @@
 package com.ziyao.harbor.usercenter.authentication.token;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authentication.core.Authentication;
-import com.ziyao.harbor.usercenter.authentication.core.authority.GrantedAuthority;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
-import com.ziyao.security.oauth2.core.OAuth2AccessToken;
-import com.ziyao.security.oauth2.core.OAuth2RefreshToken;
+import com.ziyao.security.oauth2.core.*;
 import lombok.Getter;
 
 import java.io.Serial;
@@ -22,7 +18,7 @@ public class OAuth2AccessTokenAuthenticationToken extends AbstractAuthentication
     @Serial
     private static final long serialVersionUID = -3997191320888560056L;
     /**
-     * 经过认证的用户
+     * 经过认证的用法身份信息
      */
     private final Authentication appPrincipal;
     /**

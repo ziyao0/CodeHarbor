@@ -1,8 +1,8 @@
 package com.ziyao.harbor.usercenter.authentication.support;
 
-import com.ziyao.harbor.usercenter.authentication.core.UserDetails;
 import com.ziyao.harbor.usercenter.common.exception.Errors;
 import com.ziyao.harbor.usercenter.common.exception.UserStatusException;
+import com.ziyao.security.oauth2.core.UserDetails;
 
 /**
  * @author zhangziyao

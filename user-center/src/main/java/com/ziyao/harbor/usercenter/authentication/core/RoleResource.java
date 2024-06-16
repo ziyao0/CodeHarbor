@@ -1,6 +1,7 @@
 package com.ziyao.harbor.usercenter.authentication.core;
 
 import com.google.common.collect.Sets;
+import com.ziyao.security.oauth2.core.Permission;
 
 import java.util.Arrays;
 import java.util.Set;

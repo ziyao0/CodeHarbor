@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.authentication.token;
 
-import com.ziyao.harbor.usercenter.authentication.core.authority.GrantedAuthority;
+import com.ziyao.security.oauth2.core.GrantedAuthority;
 
 import java.io.Serial;
 import java.util.Collection;

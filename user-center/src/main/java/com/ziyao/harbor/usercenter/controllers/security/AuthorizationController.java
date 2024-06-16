@@ -1,12 +1,12 @@
 package com.ziyao.harbor.usercenter.controllers.security;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
 import com.ziyao.harbor.usercenter.authentication.converter.AuthenticationConverter;
-import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.response.AccessTokenResponse;
 import com.ziyao.harbor.usercenter.response.OAuth2AuthorizationCodeResponse;
 import com.ziyao.harbor.usercenter.service.security.AuthorizationServer;
+import com.ziyao.security.oauth2.context.SecurityContextHolder;
+import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;

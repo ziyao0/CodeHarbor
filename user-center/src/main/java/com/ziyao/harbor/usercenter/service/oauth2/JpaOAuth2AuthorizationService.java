@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.entity.Authorization;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;

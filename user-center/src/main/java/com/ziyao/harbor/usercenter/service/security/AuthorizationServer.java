@@ -1,8 +1,8 @@
 package com.ziyao.harbor.usercenter.service.security;
 
-import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.response.AccessTokenResponse;
 import com.ziyao.harbor.usercenter.response.OAuth2AuthorizationCodeResponse;
+import com.ziyao.security.oauth2.core.Authentication;
 
 /**
  * @author ziyao zhang

@@ -1,10 +1,10 @@
 package com.ziyao.harbor.usercenter.authentication.converter;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
-import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2RefreshTokenAuthenticationToken;
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
+import com.ziyao.security.oauth2.context.SecurityContextHolder;
+import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import com.ziyao.security.oauth2.error.OAuth2ErrorCodes;
 import com.ziyao.security.oauth2.support.OAuth2EndpointUtils;

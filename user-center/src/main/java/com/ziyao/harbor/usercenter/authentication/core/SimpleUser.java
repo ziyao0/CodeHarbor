@@ -1,7 +1,9 @@
 package com.ziyao.harbor.usercenter.authentication.core;
 
-import com.ziyao.harbor.usercenter.authentication.core.authority.GrantedAuthority;
 import com.ziyao.harbor.usercenter.entity.User;
+import com.ziyao.security.oauth2.core.CredentialsContainer;
+import com.ziyao.security.oauth2.core.GrantedAuthority;
+import com.ziyao.security.oauth2.core.UserDetails;
 import lombok.Getter;
 
 import java.io.Serial;

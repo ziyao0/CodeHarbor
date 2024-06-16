@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.repository.redis;
 import com.ziyao.harbor.data.redis.core.Expired;
 import com.ziyao.harbor.data.redis.core.RedisKey;
 import com.ziyao.harbor.data.redis.repository.HashRepository;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
+import com.ziyao.security.oauth2.core.RegisteredApp;
 import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.TimeUnit;

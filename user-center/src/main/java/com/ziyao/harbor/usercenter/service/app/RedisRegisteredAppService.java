@@ -1,8 +1,8 @@
 package com.ziyao.harbor.usercenter.service.app;
 
 import com.ziyao.harbor.core.utils.Assert;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
 import com.ziyao.harbor.usercenter.repository.redis.RedisRegisteredAppRepository;
+import com.ziyao.security.oauth2.core.RegisteredApp;
 
 /**
  * @author ziyao

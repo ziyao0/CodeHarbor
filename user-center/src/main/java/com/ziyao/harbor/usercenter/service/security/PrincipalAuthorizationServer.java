@@ -1,19 +1,17 @@
 package com.ziyao.harbor.usercenter.service.security;
 
 import com.ziyao.harbor.usercenter.authentication.AuthenticationManager;
-import com.ziyao.harbor.usercenter.authentication.context.SecurityContextHolder;
-import com.ziyao.harbor.usercenter.authentication.core.Authentication;
 import com.ziyao.harbor.usercenter.authentication.core.SimpleUser;
 import com.ziyao.harbor.usercenter.authentication.support.SecurityUtils;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AccessTokenAuthenticationToken;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.DefaultOAuth2TokenContext;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.RegisteredApp;
-import com.ziyao.harbor.usercenter.authentication.token.oauth2.generator.OAuth2TokenGenerator;
+import com.ziyao.harbor.usercenter.authentication.token.OAuth2TokenGenerator;
 import com.ziyao.harbor.usercenter.response.AccessTokenResponse;
 import com.ziyao.harbor.usercenter.response.OAuth2AuthorizationCodeResponse;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
 import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
+import com.ziyao.security.oauth2.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.*;
+import com.ziyao.security.oauth2.token.DefaultOAuth2TokenContext;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
@@ -79,12 +77,10 @@ public class PrincipalAuthorizationServer implements AuthorizationServer {
 
     @Override
     public AccessTokenResponse token(Authentication authentication) {
-        Authentication authenticate = this.authenticationManager.authenticate(authentication);
+        OAuth2AccessTokenAuthenticationToken authenticationToken = (OAuth2AccessTokenAuthenticationToken) this.authenticationManager.authenticate(authentication);
         if (SecurityUtils.isUnauthorized(authentication)) {
             // TODO
         }
-        OAuth2AccessTokenAuthenticationToken authenticationToken = (OAuth2AccessTokenAuthenticationToken) authenticate;
-
 
         return AccessTokenResponse.witchTokenType(authenticationToken.getAccessToken().getTokenType().getValue())
                 .accessToken(authenticationToken.getAccessToken().getTokenValue())
