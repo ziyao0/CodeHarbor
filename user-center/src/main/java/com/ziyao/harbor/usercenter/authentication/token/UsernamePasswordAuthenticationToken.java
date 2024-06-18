@@ -11,7 +11,6 @@ import java.util.Collection;
  */
 public class UsernamePasswordAuthenticationToken extends AbstractAuthenticationToken {
 
-
     @Serial
     private static final long serialVersionUID = 5517018814206006638L;
 
