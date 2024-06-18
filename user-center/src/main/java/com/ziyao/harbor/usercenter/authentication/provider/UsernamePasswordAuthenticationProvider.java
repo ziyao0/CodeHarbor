@@ -4,8 +4,8 @@ import com.ziyao.harbor.usercenter.authentication.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.authentication.codec.PasswordEncryptor;
 import com.ziyao.harbor.usercenter.authentication.support.UserDetailsValidator;
 import com.ziyao.harbor.usercenter.authentication.token.UsernamePasswordAuthenticationToken;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticationFailureException;
 import com.ziyao.harbor.usercenter.common.exception.Errors;
-import com.ziyao.harbor.usercenter.common.exception.UserStatusException;
 import com.ziyao.harbor.usercenter.service.user.UserDetailsService;
 import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.UserDetails;
@@ -40,7 +40,7 @@ public class UsernamePasswordAuthenticationProvider implements AuthenticationPro
         String credentials = (String) authenticationToken.getCredentials();
 
         if (!passwordEncryptor.matches(credentials, userDetails.getPassword())) {
-            throw new UserStatusException(Errors.ERROR_100009);
+            throw new AuthenticationFailureException(Errors.ERROR_100009);
         }
 
         UserDetailsValidator.validated(userDetails);

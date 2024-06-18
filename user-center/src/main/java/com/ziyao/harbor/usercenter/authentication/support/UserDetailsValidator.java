@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.authentication.support;
 
+import com.ziyao.harbor.usercenter.common.exception.AuthenticationFailureException;
 import com.ziyao.harbor.usercenter.common.exception.Errors;
-import com.ziyao.harbor.usercenter.common.exception.UserStatusException;
 import com.ziyao.security.oauth2.core.UserDetails;
 
 /**
@@ -17,7 +17,7 @@ public abstract class UserDetailsValidator {
      */
     public static void assertExists(UserDetails check) {
         if (check == null) {
-            throw new UserStatusException(Errors.ERROR_100005);
+            throw new AuthenticationFailureException(Errors.ERROR_100005);
         }
     }
 
@@ -29,16 +29,16 @@ public abstract class UserDetailsValidator {
      */
     public static void validated(UserDetails check) {
         if (!check.isAccountNonLocked()) {
-            throw new UserStatusException(Errors.ERROR_100001);
+            throw new AuthenticationFailureException(Errors.ERROR_100001);
         }
         if (!check.isEnabled()) {
-            throw new UserStatusException(Errors.ERROR_100002);
+            throw new AuthenticationFailureException(Errors.ERROR_100002);
         }
         if (!check.isAccountNonExpired()) {
-            throw new UserStatusException(Errors.ERROR_100003);
+            throw new AuthenticationFailureException(Errors.ERROR_100003);
         }
         if (!check.isCredentialsNonExpired()) {
-            throw new UserStatusException(Errors.ERROR_100004);
+            throw new AuthenticationFailureException(Errors.ERROR_100004);
         }
     }
 

@@ -7,17 +7,17 @@ import lombok.Data;
  * @since 2023/4/23
  */
 @Data
-public abstract class AuthenticateExceptions {
+public abstract class AuthenticationExceptions {
 
 
     /**
      * 创建验证密码失败异常
      */
-    public static AuthenticateException createValidatedFailure() {
-        throw new AuthenticateException(Errors.ERROR_100006);
+    public static AuthenticationFailureException createValidatedFailure() {
+        throw new AuthenticationFailureException(Errors.ERROR_100006);
     }
 
-    private AuthenticateExceptions() {
+    private AuthenticationExceptions() {
         throw new IllegalStateException();
     }
 }

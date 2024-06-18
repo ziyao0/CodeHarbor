@@ -3,7 +3,7 @@ package com.ziyao.harbor.usercenter.authentication.support;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.authentication.codec.BCryptPasswordEncryptor;
 import com.ziyao.harbor.usercenter.authentication.codec.PasswordEncryptor;
-import com.ziyao.harbor.usercenter.common.exception.AuthenticateExceptions;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticationExceptions;
 
 /**
  * @author ziyao zhang
@@ -22,9 +22,9 @@ public abstract class PasswordValidator {
 
     public void validate(PasswordParameter parameter) {
 
-        Assert.notNull(parameter, AuthenticateExceptions.createValidatedFailure());
-        Assert.notNull(parameter.plaintext(), AuthenticateExceptions.createValidatedFailure());
-        Assert.notNull(parameter.ciphertext(), AuthenticateExceptions.createValidatedFailure());
+        Assert.notNull(parameter, AuthenticationExceptions.createValidatedFailure());
+        Assert.notNull(parameter.plaintext(), AuthenticationExceptions.createValidatedFailure());
+        Assert.notNull(parameter.ciphertext(), AuthenticationExceptions.createValidatedFailure());
         doValidated(parameter);
 
 
@@ -32,7 +32,7 @@ public abstract class PasswordValidator {
 
     private void doValidated(PasswordParameter parameter) {
         if (!passwordEncryptor.matches(parameter.plaintext(), parameter.ciphertext())) {
-            throw AuthenticateExceptions.createValidatedFailure();
+            throw AuthenticationExceptions.createValidatedFailure();
         }
     }
 

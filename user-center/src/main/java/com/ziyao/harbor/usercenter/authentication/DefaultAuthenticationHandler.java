@@ -5,7 +5,7 @@ import com.ziyao.harbor.core.token.JwtInfo;
 import com.ziyao.harbor.core.token.TokenType;
 import com.ziyao.harbor.core.utils.SecurityUtils;
 import com.ziyao.harbor.usercenter.authentication.core.AuthenticatedUser;
-import com.ziyao.harbor.usercenter.common.exception.AuthenticateException;
+import com.ziyao.harbor.usercenter.common.exception.AuthenticationFailureException;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.security.oauth2.core.UserDetails;
 import org.springframework.stereotype.Service;
@@ -47,7 +47,7 @@ public class DefaultAuthenticationHandler implements AuthenticationHandler {
     }
 
     @Override
-    public void onFailure(AuthenticatedUser authenticatedUser, AuthenticateException exception) {
+    public void onFailure(AuthenticatedUser authenticatedUser, AuthenticationFailureException exception) {
 
     }
 }

@@ -14,7 +14,7 @@ public class AuthenticatedUser {
 
     private UserDetails user;
 
-    private Set<? extends Resource> resources;
+    private Set<?> resources;
 
     private boolean authenticated;
 
