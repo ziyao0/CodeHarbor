@@ -43,8 +43,16 @@ public abstract class ThrowErrors {
         throwError(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, description, null));
     }
 
+    public static void serverError(String description, String uri) {
+        throwError(new OAuth2Error(OAuth2ErrorCodes.SERVER_ERROR, description, uri));
+    }
+
     public static void invalidClientError(String description) {
         throwError(new OAuth2Error(OAuth2ErrorCodes.INVALID_CLIENT, description, null));
+    }
+
+    public static void invalidGrantError(String description) {
+        throwError(new OAuth2Error(OAuth2ErrorCodes.INVALID_GRANT, description, null));
     }
 
     public static void unsupportedGrantTypeError(String description) {

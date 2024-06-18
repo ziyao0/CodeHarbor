@@ -13,7 +13,7 @@ import java.util.Set;
  * @author ziyao
  * @since 2024/06/11 11:02:23
  */
-public class SimpleUserAuthority implements GrantedAuthority {
+public class UserGrantedAuthority implements GrantedAuthority {
     @Serial
     private static final long serialVersionUID = 1944660992125502463L;
 
@@ -21,11 +21,11 @@ public class SimpleUserAuthority implements GrantedAuthority {
 
     private final Collection<Permission> permissions;
 
-    public SimpleUserAuthority(String role) {
+    public UserGrantedAuthority(String role) {
         this(role, Set.of());
     }
 
-    public SimpleUserAuthority(String role, Collection<Permission> permissions) {
+    public UserGrantedAuthority(String role, Collection<Permission> permissions) {
         Assert.hasText(role, "role must not be empty");
         this.role = role;
         this.permissions = permissions;
@@ -45,7 +45,7 @@ public class SimpleUserAuthority implements GrantedAuthority {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SimpleUserAuthority that = (SimpleUserAuthority) o;
+        UserGrantedAuthority that = (UserGrantedAuthority) o;
         return Objects.equals(role, that.role) && Objects.equals(permissions, that.permissions);
     }
 

@@ -17,7 +17,7 @@ import java.util.function.Consumer;
  * @since 2024/06/11 14:53:31
  */
 
-public class SimpleUser implements UserDetails, CredentialsContainer {
+public class UserInfo implements UserDetails, CredentialsContainer {
 
 
     @Serial
@@ -27,18 +27,18 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
      * 用户id
      */
     @Getter
-    private Long id;
+    private final Long id;
 
     /**
      * 用户账号
      */
-    private String username;
+    private final String username;
 
     /**
      * 昵称
      */
     @Getter
-    private String nickname;
+    private final String nickname;
 
     /**
      * 用户凭证
@@ -48,13 +48,13 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
     /**
      * 账号状态
      */
-    private Integer status;
+    private final Integer status;
 
 
-    private Collection<? extends GrantedAuthority> authorities;
+    private final Collection<? extends GrantedAuthority> authorities;
 
-    public SimpleUser(Long id, String username, String nickname,
-                      String password, Integer status, Collection<? extends GrantedAuthority> authorities) {
+    public UserInfo(Long id, String username, String nickname,
+                    String password, Integer status, Collection<? extends GrantedAuthority> authorities) {
         this.id = id;
         this.username = username;
         this.nickname = nickname;
@@ -181,8 +181,8 @@ public class SimpleUser implements UserDetails, CredentialsContainer {
             return this;
         }
 
-        public SimpleUser build() {
-            return new SimpleUser(id, username, nickname, password, status, authorities);
+        public UserInfo build() {
+            return new UserInfo(id, username, nickname, password, status, authorities);
         }
     }
 }

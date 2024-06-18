@@ -15,7 +15,7 @@ import java.util.Set;
 public interface UserRoleRepository extends JpaRepository<UserRole, Long> {
 
 
-    @Query("select roleId from user_role where userId=:userId")
+    @Query("select role from user_role where userId=:userId")
     Set<String> findByUserId(Long userId);
 
 }
