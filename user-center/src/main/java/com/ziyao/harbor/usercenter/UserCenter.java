@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter;
 
-import com.ziyao.security.oauth2.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.Authentication;
+import com.ziyao.security.oauth2.core.context.SecurityContextHolder;
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

@@ -1,6 +1,6 @@
 package com.ziyao.security.oauth2.core;
 
-import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 
 import java.util.Objects;
 

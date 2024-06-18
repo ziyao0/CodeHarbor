@@ -5,7 +5,7 @@ import com.ziyao.harbor.usercenter.authentication.token.UsernamePasswordAuthenti
 import com.ziyao.harbor.usercenter.request.AuthenticationRequest;
 import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
-import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.util.Optional;

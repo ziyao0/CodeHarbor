@@ -2,8 +2,8 @@ package com.ziyao.security.oauth2.core;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationDeserializer;
-import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationSerializer;
+import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationDeserializer;
+import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import org.springframework.lang.Nullable;

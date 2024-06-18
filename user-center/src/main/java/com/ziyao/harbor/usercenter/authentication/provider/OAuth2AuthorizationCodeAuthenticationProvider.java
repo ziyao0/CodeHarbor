@@ -7,10 +7,10 @@ import com.ziyao.harbor.usercenter.authentication.token.OAuth2TokenGenerator;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
 import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
 import com.ziyao.harbor.web.exception.ServiceException;
-import com.ziyao.security.oauth2.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.*;
-import com.ziyao.security.oauth2.token.DefaultOAuth2TokenContext;
-import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+import com.ziyao.security.oauth2.core.context.SecurityContextHolder;
+import com.ziyao.security.oauth2.core.token.DefaultOAuth2TokenContext;
+import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;

@@ -5,9 +5,9 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.ziyao.harbor.core.lang.NonNull;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.security.oauth2.jackson2.RegisteredAppDeserializer;
-import com.ziyao.security.oauth2.jackson2.RegisteredAppSerializer;
-import com.ziyao.security.oauth2.settings.TokenSettings;
+import com.ziyao.security.oauth2.core.jackson2.RegisteredAppDeserializer;
+import com.ziyao.security.oauth2.core.jackson2.RegisteredAppSerializer;
+import com.ziyao.security.oauth2.core.settings.TokenSettings;
 import lombok.Getter;
 
 import java.io.Serial;

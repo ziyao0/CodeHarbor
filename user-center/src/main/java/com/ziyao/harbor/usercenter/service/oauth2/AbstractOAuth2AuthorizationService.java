@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.service.oauth2;
 
 import com.ziyao.security.oauth2.core.*;
-import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 import org.springframework.lang.Nullable;
 
 /**

@@ -9,9 +9,9 @@ import com.ziyao.harbor.usercenter.response.AccessTokenResponse;
 import com.ziyao.harbor.usercenter.response.OAuth2AuthorizationCodeResponse;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
 import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
-import com.ziyao.security.oauth2.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.*;
-import com.ziyao.security.oauth2.token.DefaultOAuth2TokenContext;
+import com.ziyao.security.oauth2.core.context.SecurityContextHolder;
+import com.ziyao.security.oauth2.core.token.DefaultOAuth2TokenContext;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 

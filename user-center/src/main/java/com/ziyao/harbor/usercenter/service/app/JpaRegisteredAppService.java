@@ -8,10 +8,10 @@ import com.ziyao.harbor.usercenter.entity.Application;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.service.oauth2.JpaOAuth2AuthorizationService;
 import com.ziyao.security.oauth2.core.RegisteredApp;
-import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationServerJackson2Module;
-import com.ziyao.security.oauth2.jackson2.SecurityJackson2Modules;
-import com.ziyao.security.oauth2.settings.TokenSettings;
-import com.ziyao.security.oauth2.support.AuthorizationGrantTypes;
+import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationServerJackson2Module;
+import com.ziyao.security.oauth2.core.jackson2.SecurityJackson2Modules;
+import com.ziyao.security.oauth2.core.settings.TokenSettings;
+import com.ziyao.security.oauth2.core.support.AuthorizationGrantTypes;
 import org.springframework.util.StringUtils;
 
 import java.util.List;

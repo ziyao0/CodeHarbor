@@ -9,10 +9,10 @@ import com.ziyao.harbor.usercenter.entity.Authorization;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
 import com.ziyao.security.oauth2.core.*;
-import com.ziyao.security.oauth2.jackson2.OAuth2AuthorizationServerJackson2Module;
-import com.ziyao.security.oauth2.jackson2.SecurityJackson2Modules;
-import com.ziyao.security.oauth2.support.AuthorizationGrantTypes;
-import com.ziyao.security.oauth2.token.OAuth2ParameterNames;
+import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationServerJackson2Module;
+import com.ziyao.security.oauth2.core.jackson2.SecurityJackson2Modules;
+import com.ziyao.security.oauth2.core.support.AuthorizationGrantTypes;
+import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.util.StringUtils;
 
