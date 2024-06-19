@@ -22,9 +22,9 @@ public abstract class OAuth2AuthenticationUtils {
         builder.token(accessToken, metadata -> {
 
             // TODO 如何设置额外数据
-//            if (token instanceof ClaimAccessor claimAccessor) {
-//                metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, claimAccessor.getClaims());
-//            }
+            if (token instanceof ClaimAccessor claimAccessor) {
+                metadata.put(OAuth2Authorization.Token.CLAIMS_METADATA_NAME, claimAccessor.getClaims());
+            }
             metadata.put(OAuth2Authorization.Token.INVALIDATED_METADATA_NAME, false);
             metadata.put(OAuth2TokenFormat.class.getName(), accessTokenFormat.value());
         });

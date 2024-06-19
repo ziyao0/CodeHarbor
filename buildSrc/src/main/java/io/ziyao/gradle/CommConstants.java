@@ -7,7 +7,7 @@ import java.util.List;
  * @since 2023/4/23
  */
 public interface CommConstants {
-    public static final String LIBS = "/dependencies/libs/ziyao.dependencies";
+    public static final String LIBS = "/dependencies/libs/dependencies.lib";
     public static final String WELL_NUMBER = "#";
     public static final String GRADLE_API = "api";
     public static final String GRADLE_PLUGIN_platform = "java-platform";

@@ -10,7 +10,6 @@ import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
 import com.ziyao.harbor.web.context.ContextManager;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,14 +28,23 @@ import java.util.stream.Collectors;
 @RequestMapping("/usercenter/user")
 public class UserController extends BaseController<UserService, User> {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
+
+    /**
+     * 保存用户信息
+     */
     @PostMapping("/save")
     public void save(@RequestBody UserDTO entityDTO) {
         super.iService.save(entityDTO.getInstance());
     }
 
+    /**
+     * 保存或更新
+     */
     @PostMapping("/saveOrUpdate")
     public void saveOrUpdate(@RequestBody UserDTO entityDTO) {
         super.iService.saveOrUpdate(entityDTO.getInstance());

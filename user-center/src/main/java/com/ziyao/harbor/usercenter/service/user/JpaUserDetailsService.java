@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.service.user;
 
-import com.ziyao.harbor.usercenter.authentication.core.UserGrantedAuthority;
+import com.ziyao.harbor.usercenter.authentication.core.SimpleGrantedAuthority;
 import com.ziyao.harbor.usercenter.authentication.core.UserInfo;
 import com.ziyao.harbor.usercenter.entity.User;
 import com.ziyao.harbor.usercenter.repository.jpa.UserRepository;
@@ -37,7 +37,7 @@ public class JpaUserDetailsService implements UserDetailsService {
         return UserInfo.from(user)
                 .authorities(
                         authorities -> roles.forEach(
-                                role -> authorities.add(new UserGrantedAuthority(role))
+                                role -> authorities.add(new SimpleGrantedAuthority(role))
                         )
                 )
                 .build();

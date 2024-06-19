@@ -152,6 +152,34 @@ public class Authorization implements Serializable {
      */
     @TableField("refresh_token_metadata")
     private String refreshTokenMetadata;
+    /**
+     * id令牌
+     */
+    @TableField("oidc_id_token_value")
+    private String oidcIdTokenValue;
+
+    /**
+     * id令牌颁发时间
+     */
+    @TableField("oidc_id_token_issued_at")
+    private Instant oidcIdTokenIssuedAT;
+
+    /**
+     * id令牌过期时间
+     */
+    @TableField("oidc_id_token_expires_at")
+    private Instant oidcIdTokenExpiresAt;
+    /**
+     * id令牌声明
+     */
+    @TableField("oidc_id_token_claims")
+    private Instant oidcIdTokenClaims;
+
+    /**
+     * id令牌元数据信息
+     */
+    @TableField("oidc_id_token_metadata")
+    private String oidcIdTokenMetadata;
 
 
 }

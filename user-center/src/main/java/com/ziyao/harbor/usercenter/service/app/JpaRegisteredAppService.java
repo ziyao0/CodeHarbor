@@ -12,7 +12,6 @@ import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationServerJackson2
 import com.ziyao.security.oauth2.core.jackson2.SecurityJackson2Modules;
 import com.ziyao.security.oauth2.core.settings.TokenSettings;
 import com.ziyao.security.oauth2.core.support.AuthorizationGrantTypes;
-import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Map;
@@ -87,8 +86,8 @@ public class JpaRegisteredAppService implements RegisteredAppService {
         application.setAppId(registeredApp.getAppId());
         application.setAppName(registeredApp.getAppName());
         application.setState(registeredApp.getState());
-        application.setAuthorizationGrantTypes(StringUtils.collectionToCommaDelimitedString(registeredApp.getAuthorizationGrantTypes()));
-        application.setScopes(StringUtils.collectionToCommaDelimitedString(registeredApp.getScopes()));
+        application.setAuthorizationGrantTypes(Strings.collectionToCommaDelimitedString(registeredApp.getAuthorizationGrantTypes()));
+        application.setScopes(Strings.collectionToCommaDelimitedString(registeredApp.getScopes()));
         application.setAppType(registeredApp.getAppType());
         application.setAppSecret(registeredApp.getAppSecret());
         application.setIssuedAt(registeredApp.getIssuedAt());

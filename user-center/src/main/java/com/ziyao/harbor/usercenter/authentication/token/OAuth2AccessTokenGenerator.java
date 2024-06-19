@@ -4,13 +4,13 @@ import com.alibaba.fastjson2.JSON;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.crypto.keygen.Base64StringKeyGenerator;
 import com.ziyao.harbor.crypto.keygen.StringKeyGenerator;
+import com.ziyao.security.oauth2.core.ClaimAccessor;
 import com.ziyao.security.oauth2.core.OAuth2AccessToken;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;
 import com.ziyao.security.oauth2.core.RegisteredApp;
 import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 import com.ziyao.security.oauth2.core.token.OAuth2TokenClaimsSet;
 import com.ziyao.security.oauth2.core.token.OAuth2TokenContext;
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -73,8 +73,8 @@ public final class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
         return accessToken;
     }
 
-    @Getter
-    public static final class OAuth2AccessTokenClaims extends OAuth2AccessToken {
+
+    public static final class OAuth2AccessTokenClaims extends OAuth2AccessToken implements ClaimAccessor {
 
         private final Map<String, Object> claims;
 
@@ -84,5 +84,9 @@ public final class OAuth2AccessTokenGenerator implements OAuth2TokenGenerator<OA
             this.claims = claims;
         }
 
+        @Override
+        public Map<String, Object> getClaims() {
+            return this.claims;
+        }
     }
 }

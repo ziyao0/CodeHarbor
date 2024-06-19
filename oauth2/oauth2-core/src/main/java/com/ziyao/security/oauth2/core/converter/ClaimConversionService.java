@@ -43,6 +43,8 @@ public class ClaimConversionService extends GenericConversionService {
     public static void addConverters(ConverterRegistry converterRegistry) {
         converterRegistry.addConverter(new ObjectToStringConverter());
         converterRegistry.addConverter(new ObjectToBooleanConverter());
+        converterRegistry.addConverter(new ObjectToIntegerConverter());
+        converterRegistry.addConverter(new ObjectToLongConverter());
         converterRegistry.addConverter(new ObjectToInstantConverter());
         converterRegistry.addConverter(new ObjectToURLConverter());
         converterRegistry.addConverter(new ObjectToListStringConverter());

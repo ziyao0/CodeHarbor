@@ -14,7 +14,6 @@ import com.ziyao.security.oauth2.core.jackson2.SecurityJackson2Modules;
 import com.ziyao.security.oauth2.core.support.AuthorizationGrantTypes;
 import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
 import org.springframework.dao.DataRetrievalFailureException;
-import org.springframework.util.StringUtils;
 
 import java.time.Instant;
 import java.util.HashMap;
@@ -102,7 +101,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                 .id(entity.getId())
                 .userId(entity.getUserId())
                 .authorizationGrantType(AuthorizationGrantTypes.resolve(entity.getAuthorizationGrantType()))
-                .authorizedScopes(StringUtils.commaDelimitedListToSet(entity.getAuthorizedScopes()))
+                .authorizedScopes(Strings.commaDelimitedListToSet(entity.getAuthorizedScopes()))
                 .attributes(attributes -> attributes.putAll(parseMap(entity.getAttributes())));
 
         if (entity.getState() != null) {
@@ -122,7 +121,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                     entity.getAccessTokenValue(),
                     entity.getAccessTokenIssuedAt(),
                     entity.getAccessTokenExpiresAt(),
-                    StringUtils.commaDelimitedListToSet(entity.getAccessTokenScopes()));
+                    Strings.commaDelimitedListToSet(entity.getAccessTokenScopes()));
             builder.token(accessToken, metadata -> metadata.putAll(parseMap(entity.getAccessTokenMetadata())));
         }
 
@@ -133,6 +132,17 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                     entity.getRefreshTokenExpiresAt());
             builder.token(refreshToken, metadata -> metadata.putAll(parseMap(entity.getRefreshTokenMetadata())));
         }
+
+        if (entity.getOidcIdTokenValue() != null) {
+            OidcIdToken oidcIdToken = new OidcIdToken(
+                    entity.getOidcIdTokenValue(),
+                    entity.getOidcIdTokenIssuedAT(),
+                    entity.getOidcIdTokenExpiresAt(),
+                    null
+            );
+            builder.token(oidcIdToken, metadata -> metadata.putAll(parseMap(entity.getOidcIdTokenMetadata())));
+        }
+
         return builder.build();
     }
 
@@ -168,7 +178,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                 entity::setAccessTokenMetadata
         );
         if (accessToken != null && accessToken.getToken().getScopes() != null) {
-            entity.setAccessTokenScopes(StringUtils.collectionToDelimitedString(accessToken.getToken().getScopes(), ","));
+            entity.setAccessTokenScopes(Strings.collectionToDelimitedString(accessToken.getToken().getScopes(), ","));
         }
 
         OAuth2Authorization.Token<OAuth2RefreshToken> refreshToken =
@@ -181,6 +191,15 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
                 entity::setRefreshTokenMetadata
         );
 
+        OAuth2Authorization.Token<OidcIdToken> oidcToken =
+                authorization.getToken(OidcIdToken.class);
+        setTokenValues(
+                oidcToken,
+                entity::setRefreshTokenValue,
+                entity::setRefreshTokenIssuedAt,
+                entity::setRefreshTokenExpiresAt,
+                entity::setRefreshTokenMetadata
+        );
         return entity;
     }
 
