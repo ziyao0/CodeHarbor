@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -21,6 +22,7 @@ import java.time.Instant;
  * @since 2024-06-13
  */
 @Data
+@RedisHash
 @EqualsAndHashCode(callSuper = false)
 @TableName("authorization")
 @Entity(name = "authorization")

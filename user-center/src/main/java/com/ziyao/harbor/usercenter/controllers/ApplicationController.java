@@ -8,7 +8,7 @@ import com.ziyao.harbor.usercenter.service.ApplicationService;
 import com.ziyao.harbor.web.base.BaseController;
 import com.ziyao.harbor.web.base.PageParams;
 import com.ziyao.harbor.web.base.Pages;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,11 +27,12 @@ import java.util.stream.Collectors;
  * @since 2024-06-08
  */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/usercenter/application")
 public class ApplicationController extends BaseController<ApplicationService, Application> {
 
-    @Autowired
-    private ApplicationService applicationService;
+
+    private final ApplicationService applicationService;
 
     @PostMapping("/save")
     public void save(@RequestBody ApplicationDTO entityDTO) {

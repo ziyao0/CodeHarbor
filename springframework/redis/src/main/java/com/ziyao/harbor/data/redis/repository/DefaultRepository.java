@@ -2,7 +2,9 @@ package com.ziyao.harbor.data.redis.repository;
 
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.data.redis.core.*;
+import com.ziyao.harbor.data.redis.core.Expired;
+import com.ziyao.harbor.data.redis.core.RedisKey;
+import com.ziyao.harbor.data.redis.core.RepositoryInformation;
 import com.ziyao.harbor.data.redis.support.RedisKeyFormatter;
 import com.ziyao.harbor.data.redis.support.TimeoutUtils;
 import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
@@ -15,29 +17,25 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao zhang
  * @since 2024/2/2
  */
-public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, HashRepository<HK, HV> {
+public class DefaultRepository<T> implements KeyValueRepository<T> {
 
     private static final Log log = LogFactory.getLog(DefaultRepository.class);
     private static final SerializerInformationCreator created = new DefaultSerializerInformationCreator();
     private final SerializerInformation metadata;
-    private final RedisTemplate<String, V> operations;
+    private final RedisTemplate<String, T> operations;
     private final String key;
     private final String keyFormat;
     @Getter
     private final long timeout;
-    private final HashOperations<HK, HV> hashOperations;
-    private final ValueOperations<V> valueOperations;
-    private final ListOperations<V> listOperations;
-    private final SetOperations<V> setOperations;
-    private final ZSetOperations<V> zSetOperations;
 
-    public DefaultRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, V> operations) {
+    public DefaultRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, T> operations) {
         // 设置序列化
         this.operations = operations;
         Class<?> repositoryInterfaceClass = repositoryInformation.getRepositoryInterface();
@@ -52,17 +50,11 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         if (log.isDebugEnabled()) {
             log.debug("repositoryInterfaceClass [" + repositoryInformation.getRepositoryInterface().getName() + "],metadata:" + metadata);
         }
-
         this.operations.setKeySerializer(metadata.getKeySerializer());
         this.operations.setValueSerializer(metadata.getValueSerializer());
         this.operations.setHashKeySerializer(metadata.getHashKeySerializer());
         this.operations.setHashValueSerializer(metadata.getHashValueSerializer());
 
-        this.hashOperations = new DefaultHashOperations<>(this.operations, this.timeout);
-        this.valueOperations = new DefaultValueOperations<>(this.operations, this.timeout);
-        this.listOperations = new DefaultListOperations<>(this.operations, this.timeout);
-        this.setOperations = new DefaultSetOperations<>(this.operations, this.timeout);
-        this.zSetOperations = new DefaultZSetOperations<>(this.operations, this.timeout);
     }
 
     private long extractTimeout(Class<?> repositoryInterfaceClass) {
@@ -74,35 +66,6 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         return timeout > 0 ? timeout : -1;
     }
 
-    @Override
-    public HashOperations<HK, HV> opsForHash(String... arguments) {
-        hashOperations.setKey(getKey(arguments));
-        return hashOperations;
-    }
-
-    @Override
-    public ListOperations<V> opsForList(String... arguments) {
-        listOperations.setKey(getKey(arguments));
-        return listOperations;
-    }
-
-    @Override
-    public SetOperations<V> opsForSet(String... arguments) {
-        setOperations.setKey(getKey(arguments));
-        return setOperations;
-    }
-
-    @Override
-    public ZSetOperations<V> opsForZSet(String... arguments) {
-        zSetOperations.setKey(getKey(arguments));
-        return zSetOperations;
-    }
-
-    @Override
-    public ValueOperations<V> opsForValue(String... arguments) {
-        valueOperations.setKey(getKey(arguments));
-        return valueOperations;
-    }
 
     @Override
     public boolean hasKey(String... arguments) {
@@ -147,5 +110,25 @@ public class DefaultRepository<V, HK, HV> implements KeyValueRepository<V>, Hash
         Assert.isTrue(RedisKeyFormatter.countOccurrencesOf(this.keyFormat) == arguments.length,
                 "KEY中需要替换的字符串[" + this.keyFormat + "]和传入的数值[" + Arrays.toString(arguments) + "]长度不匹配，请核对传入的数据！");
         return RedisKeyFormatter.format(this.keyFormat, arguments);
+    }
+
+    @Override
+    public Optional<T> findById(String id) {
+        return Optional.ofNullable(operations.opsForValue().get(id));
+    }
+
+    @Override
+    public void save(T value) {
+
+    }
+
+    @Override
+    public void delete(T value) {
+
+    }
+
+    @Override
+    public void deleteById(String id) {
+
     }
 }

@@ -11,8 +11,14 @@ import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepository;
 import com.ziyao.harbor.usercenter.repository.redis.RedisRegisteredAppRepository;
-import com.ziyao.harbor.usercenter.service.app.*;
-import com.ziyao.harbor.usercenter.service.oauth2.*;
+import com.ziyao.harbor.usercenter.service.app.CaffeineRegisteredAppService;
+import com.ziyao.harbor.usercenter.service.app.DelegatingRegisteredAppService;
+import com.ziyao.harbor.usercenter.service.app.JpaRegisteredAppService;
+import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
+import com.ziyao.harbor.usercenter.service.oauth2.CaffeineOAuth2AuthorizationService;
+import com.ziyao.harbor.usercenter.service.oauth2.DelegatingOAuth2AuthorizationService;
+import com.ziyao.harbor.usercenter.service.oauth2.JpaOAuth2AuthorizationService;
+import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
 import com.ziyao.harbor.web.ApplicationContextUtils;
 import com.ziyao.security.oauth2.core.OAuth2Token;
 import org.springframework.beans.BeansException;
@@ -51,7 +57,7 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
 
         return new DelegatingRegisteredAppService(
                 List.of(new JpaRegisteredAppService(applicationRepository),
-                        new RedisRegisteredAppService(redisRegisteredAppRepository),
+//                        new RedisRegisteredAppService(redisRegisteredAppRepository),
                         new CaffeineRegisteredAppService())
         );
     }
@@ -63,7 +69,7 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
         return new DelegatingOAuth2AuthorizationService(
                 List.of(
                         new JpaOAuth2AuthorizationService(delegatingRegisteredAppService, authorizationRepository),
-                        new RedisOAuth2AuthorizationService(oAuth2AuthorizationRepository),
+//                        new RedisOAuth2AuthorizationService(oAuth2AuthorizationRepository),
                         new CaffeineOAuth2AuthorizationService()
                 )
         );

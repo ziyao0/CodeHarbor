@@ -1,40 +1,36 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.*;
+import com.ziyao.harbor.data.redis.core.Repository;
 import org.springframework.data.repository.NoRepositoryBean;
+
+import java.util.Optional;
 
 /**
  * @author ziyao
  * @since 2023/4/23
  */
 @NoRepositoryBean
-public interface KeyValueRepository<V> extends Repository {
-    /**
-     * Returns the operations performed on simple values (or Strings in Redis terminology).
-     *
-     * @return value operations
-     */
-    ValueOperations<V> opsForValue(String... arguments);
+public interface KeyValueRepository<T> extends Repository {
 
     /**
-     * Returns the operations performed on list values.
-     *
-     * @return list operations
+     * 通过key获取对象
      */
-    ListOperations<V> opsForList(String... arguments);
-
+    Optional<T> findById(String id);
 
     /**
-     * Returns the operations performed on set values.
-     *
-     * @return set operations
+     * 保存
      */
-    SetOperations<V> opsForSet(String... arguments);
+    void save(T value);
 
     /**
-     * Returns the operations performed on ZSet values (also known as sorted sets).
-     *
-     * @return ZSet operations
+     * 删除
      */
-    ZSetOperations<V> opsForZSet(String... arguments);
+    void delete(T value);
+
+    /**
+     * 通过key删除
+     */
+    void deleteById(String id);
+
+
 }
