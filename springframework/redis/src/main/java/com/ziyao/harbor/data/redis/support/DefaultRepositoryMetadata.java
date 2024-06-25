@@ -27,7 +27,7 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
     private final TypeInformation<?> typeInformation;
     private final Class<?> repositoryInterface;
     private final TypeInformation<?> keyTypeInformation;
-    private TypeInformation<?> valueTypeInformation;
+    private final TypeInformation<?> valueTypeInformation;
     private TypeInformation<?> hashKeyTypeInformation;
     private TypeInformation<?> hashValueTypeInformation;
 
