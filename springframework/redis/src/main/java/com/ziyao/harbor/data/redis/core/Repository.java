@@ -1,6 +1,5 @@
 package com.ziyao.harbor.data.redis.core;
 
-import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import org.springframework.stereotype.Indexed;
 
 import java.util.concurrent.TimeUnit;
@@ -15,33 +14,22 @@ public interface Repository {
     /**
      * 判断缓存中有没有这个key
      */
-    boolean hasKey(String... arguments);
+    boolean hasKey(String key);
 
     /**
      * 删除key
      */
-    boolean delete(String... arguments);
-
     boolean delete(String key);
 
-
-    /**
-     * 获取key
-     */
-    String getKey(String... arguments);
-
     /**
      * 刷新过期时间
      */
-    void refresh(String... arguments);
+    void expire(String key, long timeout, TimeUnit timeUnit);
 
     /**
-     * 刷新过期时间
+     * 设置过期时间
      */
-    void refresh(long timeout, TimeUnit unit, String... arguments);
-
-
-    SerializerInformation getInformation();
+    void expire(String key);
 
     default String version() {
         return "v1.0";

@@ -3,7 +3,10 @@ package com.ziyao.harbor.data.redis.support;
 import com.ziyao.harbor.data.redis.core.Repository;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
-import com.ziyao.harbor.data.redis.repository.DefaultRepository;
+import com.ziyao.harbor.data.redis.repository.DefaultHashRepository;
+import com.ziyao.harbor.data.redis.repository.DefaultKeyValueRepository;
+import com.ziyao.harbor.data.redis.repository.HashRepository;
+import com.ziyao.harbor.data.redis.repository.KeyValueRepository;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.aop.framework.ProxyFactory;
@@ -15,7 +18,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.util.ReflectionUtils;
 import org.springframework.lang.NonNull;
-import org.springframework.transaction.interceptor.TransactionalProxy;
 import org.springframework.util.ClassUtils;
 
 import java.lang.reflect.Constructor;
@@ -32,12 +34,16 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
     @Setter
-    private Class<?> repositoryBaseClass;
+    private Class<?> keyValueRepositoryBaseClass;
+    @Setter
+    private Class<?> hashRepositoryBaseClass;
+
     private final RedisOperations<?, ?> redisOperations;
 
     public DefaultRepositoryFactory(RedisOperations<?, ?> redisOperations) {
         this.redisOperations = redisOperations;
-        this.repositoryBaseClass = DefaultRepository.class;
+        this.keyValueRepositoryBaseClass = DefaultKeyValueRepository.class;
+        this.hashRepositoryBaseClass = DefaultHashRepository.class;
     }
 
     /**
@@ -73,7 +79,13 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
         if (!isCacheRepository(metadata.getRepositoryInterface())) {
             throw new IllegalArgumentException("redis query Support has not been implemented yet.");
         }
-        return this.repositoryBaseClass;
+        if (HashRepository.class.isAssignableFrom(metadata.getRepositoryInterface())) {
+            return hashRepositoryBaseClass;
+        }
+        if (KeyValueRepository.class.isAssignableFrom(metadata.getRepositoryInterface())) {
+            return keyValueRepositoryBaseClass;
+        }
+        throw new IllegalArgumentException("redis query Support has not been implemented yet.");
     }
 
 

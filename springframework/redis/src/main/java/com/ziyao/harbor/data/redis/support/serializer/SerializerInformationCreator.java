@@ -8,5 +8,11 @@ import com.ziyao.harbor.data.redis.core.RepositoryInformation;
  */
 public interface SerializerInformationCreator {
 
+    SerializerInformation<?, ?, ?, ?> getKeyValueInformation(RepositoryInformation repositoryInformation);
+
+    SerializerInformation<?, ?, ?, ?> getHashInformation(RepositoryInformation repositoryInformation);
+
     SerializerInformation<?, ?, ?, ?> getInformation(RepositoryInformation repositoryInformation);
+
+
 }

@@ -10,6 +10,20 @@ public class DefaultSerializerInformationCreator implements SerializerInformatio
 
 
     @Override
+    public SerializerInformation<?, ?, ?, ?> getKeyValueInformation(RepositoryInformation repositoryInformation) {
+        // 创建默认实体信息
+        return new DefaultSerializerInformation<>(repositoryInformation.getKeyType(),
+                repositoryInformation.getValueType(),
+                repositoryInformation.getHashKeyType(),
+                repositoryInformation.getHashValueType());
+    }
+
+    @Override
+    public SerializerInformation<?, ?, ?, ?> getHashInformation(RepositoryInformation repositoryInformation) {
+        return null;
+    }
+
+    @Override
     public SerializerInformation<?, ?, ?, ?> getInformation(RepositoryInformation repositoryInformation) {
         // 创建默认实体信息
         return new DefaultSerializerInformation<>(repositoryInformation.getKeyType(),

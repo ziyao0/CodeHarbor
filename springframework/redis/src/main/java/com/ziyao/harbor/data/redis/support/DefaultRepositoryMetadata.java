@@ -3,6 +3,7 @@ package com.ziyao.harbor.data.redis.support;
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.data.redis.core.Repository;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
+import com.ziyao.harbor.data.redis.repository.HashRepository;
 import com.ziyao.harbor.data.redis.repository.KeyValueRepository;
 import lombok.Getter;
 import org.springframework.data.util.TypeInformation;
@@ -55,7 +56,7 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         }
         // HashRepository
         TypeInformation<?> hashTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(Repository.class);
+                .getSuperTypeInformation(HashRepository.class);
         if (hashTypeInformation != null) {
             List<TypeInformation<?>> hashArguments = hashTypeInformation.getTypeArguments();
             if (Collections.nonNull(hashArguments)) {

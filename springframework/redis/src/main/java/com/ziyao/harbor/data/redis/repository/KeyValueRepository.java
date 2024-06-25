@@ -4,6 +4,7 @@ import com.ziyao.harbor.data.redis.core.Repository;
 import org.springframework.data.repository.NoRepositoryBean;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao
@@ -11,6 +12,7 @@ import java.util.Optional;
  */
 @NoRepositoryBean
 public interface KeyValueRepository<T> extends Repository {
+
 
     /**
      * 通过key获取对象
@@ -20,17 +22,11 @@ public interface KeyValueRepository<T> extends Repository {
     /**
      * 保存
      */
-    void save(T value);
+    void save(String id, T value);
 
     /**
-     * 删除
+     * 保存
      */
-    void delete(T value);
-
-    /**
-     * 通过key删除
-     */
-    void deleteById(String id);
-
+    void save(String id, T value, long timeout, TimeUnit timeUnit);
 
 }

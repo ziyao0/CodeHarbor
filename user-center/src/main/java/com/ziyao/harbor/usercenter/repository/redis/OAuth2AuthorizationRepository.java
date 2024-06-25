@@ -1,7 +1,8 @@
 package com.ziyao.harbor.usercenter.repository.redis;
 
 import com.ziyao.harbor.data.redis.core.Expired;
-import com.ziyao.harbor.data.redis.core.RedisKey;
+import com.ziyao.harbor.data.redis.repository.HashRepository;
+import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import org.springframework.stereotype.Repository;
 
 import java.util.concurrent.TimeUnit;
@@ -12,6 +13,5 @@ import java.util.concurrent.TimeUnit;
  */
 @Repository
 @Expired(timeout = 90, unit = TimeUnit.DAYS)
-@RedisKey(format = "ziyao:harbor:user_center:oauth2:authorization")
-public interface OAuth2AuthorizationRepository /*extends HashRepository<Long, OAuth2Authorization> */ {
+public interface OAuth2AuthorizationRepository extends HashRepository<Long, OAuth2Authorization> {
 }

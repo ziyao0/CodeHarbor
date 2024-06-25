@@ -26,6 +26,9 @@ public interface RegisteredAppService {
     @Nullable
     RegisteredApp findById(Long appId);
 
+    /**
+     * @return {@link Model}
+     */
     default Model model() {
         return null;
     }
