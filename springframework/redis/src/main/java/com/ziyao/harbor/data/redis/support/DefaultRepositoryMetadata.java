@@ -4,8 +4,11 @@ import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.data.redis.core.Repository;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
 import com.ziyao.harbor.data.redis.repository.RedisHashRepository;
+import com.ziyao.harbor.data.redis.repository.RedisListRepository;
+import com.ziyao.harbor.data.redis.repository.RedisSetRepository;
 import com.ziyao.harbor.data.redis.repository.RedisValueRepository;
 import lombok.Getter;
+import org.springframework.data.util.ClassTypeInformation;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
 
@@ -25,7 +28,7 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
     private final TypeInformation<?> typeInformation;
     private final Class<?> repositoryInterface;
     private final TypeInformation<?> keyTypeInformation;
-    private TypeInformation<?> valueTypeInformation;
+    private final TypeInformation<?> valueTypeInformation;
     private TypeInformation<?> hashKeyTypeInformation;
     private TypeInformation<?> hashValueTypeInformation;
 
@@ -40,27 +43,19 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         Assert.isTrue(repositoryInterface.isInterface(), "Given type must be an interface");
 
         this.repositoryInterface = repositoryInterface;
-        this.typeInformation = TypeInformation.of(repositoryInterface);
-        this.keyTypeInformation = TypeInformation.of(String.class);
+        this.typeInformation = ClassTypeInformation.from(repositoryInterface);
+        this.keyTypeInformation = ClassTypeInformation.from(String.class);
         Assert.isTrue(Repository.class.isAssignableFrom(repositoryInterface), MUST_BE_A_REPOSITORY);
 
         // KeyValueRepository
-        TypeInformation<?> keyValueTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(RedisValueRepository.class);
-        if (keyValueTypeInformation != null) {
-            List<TypeInformation<?>> keyvalueArguments = keyValueTypeInformation.getTypeArguments();
-            if (Collections.nonNull(keyvalueArguments)) {
-                this.valueTypeInformation = resolveTypeParameter(keyvalueArguments, 0,
-                        () -> String.format("Could not resolve id type of %s", repositoryInterface));
-            }
-        }
+        this.valueTypeInformation = resolveTypeParameter();
+
         // HashRepository
-        TypeInformation<?> hashTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(RedisHashRepository.class);
+        ClassTypeInformation<?> classTypeInformation = ClassTypeInformation.from(repositoryInterface);
+        TypeInformation<?> hashTypeInformation = classTypeInformation.getSuperTypeInformation(RedisHashRepository.class);
         if (hashTypeInformation != null) {
             List<TypeInformation<?>> hashArguments = hashTypeInformation.getTypeArguments();
             if (Collections.nonNull(hashArguments)) {
-
                 this.hashKeyTypeInformation = resolveTypeParameter(hashArguments, 0,
                         () -> String.format("Could not resolve id type of %s", repositoryInterface));
                 this.hashValueTypeInformation = resolveTypeParameter(hashArguments, 1,
@@ -68,6 +63,25 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
             }
         }
     }
+
+    private TypeInformation<?> resolveTypeParameter() {
+        TypeInformation<?> superTypeInformation = typeInformation.getSuperTypeInformation(RedisValueRepository.class);
+        if (superTypeInformation == null) {
+            superTypeInformation = typeInformation.getSuperTypeInformation(RedisListRepository.class);
+            if (superTypeInformation == null) {
+                superTypeInformation = typeInformation.getSuperTypeInformation(RedisSetRepository.class);
+            }
+        }
+        if (superTypeInformation != null) {
+            List<TypeInformation<?>> keyvalueArguments = superTypeInformation.getTypeArguments();
+            if (Collections.nonNull(keyvalueArguments)) {
+                return resolveTypeParameter(keyvalueArguments, 0,
+                        () -> String.format("Could not resolve id type of %s", repositoryInterface));
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Creates a new {@link com.ziyao.harbor.data.redis.core.RepositoryMetadata} for the given repository interface.
@@ -84,22 +98,22 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
 
     @Override
     public TypeInformation<?> getKeyTypeInformation() {
-        return Objects.requireNonNullElseGet(this.keyTypeInformation, () -> TypeInformation.of(String.class));
+        return requireNonNullElseGet(this.keyTypeInformation, () -> ClassTypeInformation.from(String.class));
     }
 
     @Override
     public TypeInformation<?> getValueTypeInformation() {
-        return Objects.requireNonNullElseGet(this.valueTypeInformation, () -> TypeInformation.of(Object.class));
+        return requireNonNullElseGet(this.valueTypeInformation, () -> ClassTypeInformation.from(Object.class));
     }
 
     @Override
     public TypeInformation<?> getHashKeyTypeInformation() {
-        return Objects.requireNonNullElseGet(this.hashKeyTypeInformation, () -> TypeInformation.of(Object.class));
+        return requireNonNullElseGet(this.hashKeyTypeInformation, () -> ClassTypeInformation.from(Object.class));
     }
 
     @Override
     public TypeInformation<?> getHashValueTypeInformation() {
-        return Objects.requireNonNullElseGet(this.hashValueTypeInformation, () -> TypeInformation.of(Object.class));
+        return requireNonNullElseGet(this.hashValueTypeInformation, () -> ClassTypeInformation.from(Object.class));
     }
 
     @Override
@@ -115,5 +129,10 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         }
 
         return arguments.get(index);
+    }
+
+    private static <T> T requireNonNullElseGet(T obj, Supplier<? extends T> supplier) {
+        return (obj != null) ? obj
+                : Objects.requireNonNull(Objects.requireNonNull(supplier, "supplier").get(), "supplier.get()");
     }
 }
