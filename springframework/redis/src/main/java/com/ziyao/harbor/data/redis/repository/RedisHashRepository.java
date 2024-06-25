@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 09:10:50
  */
-public interface HashRepository<HK, HV> extends Repository {
+public interface RedisHashRepository<HK, HV> extends Repository {
 
     /**
      * 通过ID 获取存储的hash数据
@@ -23,12 +23,12 @@ public interface HashRepository<HK, HV> extends Repository {
      * @param hashKey hash 键
      * @return 返回 hash 值
      */
-    Optional<HV> findByHK(String id, Object hashKey);
+    Optional<HV> findByHashKey(String id, Object hashKey);
 
     /**
      * 通过hk删除
      */
-    Long deleteByHK(String id, Object... hashKey);
+    Long deleteByHashKey(String id, Object... hashKey);
 
     /**
      * 保存

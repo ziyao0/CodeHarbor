@@ -3,8 +3,8 @@ package com.ziyao.harbor.data.redis.support;
 import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.data.redis.core.Repository;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
-import com.ziyao.harbor.data.redis.repository.HashRepository;
-import com.ziyao.harbor.data.redis.repository.KeyValueRepository;
+import com.ziyao.harbor.data.redis.repository.RedisHashRepository;
+import com.ziyao.harbor.data.redis.repository.RedisValueRepository;
 import lombok.Getter;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
@@ -46,7 +46,7 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
 
         // KeyValueRepository
         TypeInformation<?> keyValueTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(KeyValueRepository.class);
+                .getSuperTypeInformation(RedisValueRepository.class);
         if (keyValueTypeInformation != null) {
             List<TypeInformation<?>> keyvalueArguments = keyValueTypeInformation.getTypeArguments();
             if (Collections.nonNull(keyvalueArguments)) {
@@ -56,7 +56,7 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         }
         // HashRepository
         TypeInformation<?> hashTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(HashRepository.class);
+                .getSuperTypeInformation(RedisHashRepository.class);
         if (hashTypeInformation != null) {
             List<TypeInformation<?>> hashArguments = hashTypeInformation.getTypeArguments();
             if (Collections.nonNull(hashArguments)) {

@@ -1,7 +1,7 @@
 package com.ziyao.harbor.usercenter.service.oauth2;
 
 import com.ziyao.harbor.core.utils.Assert;
-import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepository;
+import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepositoryRedis;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;
 
@@ -13,9 +13,9 @@ import java.util.Map;
  */
 public class RedisOAuth2AuthorizationService extends AbstractOAuth2AuthorizationService {
 
-    private final OAuth2AuthorizationRepository authorizationRepository;
+    private final OAuth2AuthorizationRepositoryRedis authorizationRepository;
 
-    public RedisOAuth2AuthorizationService(OAuth2AuthorizationRepository authorizationRepository) {
+    public RedisOAuth2AuthorizationService(OAuth2AuthorizationRepositoryRedis authorizationRepository) {
         this.authorizationRepository = authorizationRepository;
     }
 
@@ -27,12 +27,12 @@ public class RedisOAuth2AuthorizationService extends AbstractOAuth2Authorization
 
     @Override
     public void remove(OAuth2Authorization authorization) {
-        authorizationRepository.deleteByHK("oauth2authorization", authorization.getId());
+        authorizationRepository.deleteByHashKey("oauth2authorization", authorization.getId());
     }
 
     @Override
     public OAuth2Authorization findById(Long id) {
-        return authorizationRepository.findByHK("oauth2authorization", id).orElse(null);
+        return authorizationRepository.findByHashKey("oauth2authorization", id).orElse(null);
     }
 
     @Override
