@@ -6,3 +6,5 @@ spring:
     name: user-center
   profiles:
     active: register
+  main:
+    allow-bean-definition-overriding: true
