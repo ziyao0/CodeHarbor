@@ -23,10 +23,10 @@ public abstract class AbstractOAuth2AuthorizationService implements OAuth2Author
                     matchesAccessToken(authorization, token) ||
                     matchesRefreshToken(authorization, token);
         }
-        else if (OAuth2ParameterNames.STATE.equals(tokenType.value())) {
+        else if (OAuth2ParameterNames.STATE.equals(tokenType.getValue())) {
             return matchesState(authorization, token);
         }
-        else if (OAuth2ParameterNames.CODE.equals(tokenType.value())) {
+        else if (OAuth2ParameterNames.CODE.equals(tokenType.getValue())) {
             return matchesAuthorizationCode(authorization, token);
         }
         else if (OAuth2TokenType.ACCESS_TOKEN.equals(tokenType)) {

@@ -1,11 +1,10 @@
 package com.ziyao.harbor.usercenter.service.oauth2;
 
+import com.google.common.collect.Maps;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepository;
 import com.ziyao.security.oauth2.core.OAuth2Authorization;
 import com.ziyao.security.oauth2.core.OAuth2TokenType;
-
-import java.util.Map;
 
 /**
  * @author ziyao
@@ -41,7 +40,7 @@ public class RedisOAuth2AuthorizationService extends AbstractOAuth2Authorization
         Assert.notNull(tokenType, "tokenType must not be null");
 
         for (OAuth2Authorization authorization :
-                authorizationRepository.findById("oauth2authorization").orElse(Map.of()).values()) {
+                authorizationRepository.findById("oauth2authorization").orElse(Maps.newHashMap()).values()) {
             if (hasToken(authorization, token, tokenType)) {
                 return authorization;
             }

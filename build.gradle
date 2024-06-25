@@ -1,6 +1,5 @@
 plugins {
     id 'io.ziyao.root'
-    id "org.sonarqube" version "5.0.0.4638"
 }
 group 'com.ziyao.harbor'
 
@@ -30,11 +29,9 @@ subprojects {
             compileOnly 'org.projectlombok:lombok'
             annotationProcessor 'org.projectlombok:lombok'
         }
-    }
-}
-sonar {
-    properties {
-        property "sonar.projectKey", "ziyao0_CodeHarbor_c954a6c5-b624-42c4-bae1-d963bb3cdff4"
-        property "sonar.projectName", "CodeHarbor"
+        configurations.configureEach {
+            exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
+            exclude(group: "org.apache.logging.log4j", module: "log4j-api")
+        }
     }
 }

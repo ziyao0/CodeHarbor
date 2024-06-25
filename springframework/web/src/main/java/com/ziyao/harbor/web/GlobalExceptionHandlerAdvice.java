@@ -204,8 +204,8 @@ public class GlobalExceptionHandlerAdvice {
             sb.append("参数校验失败: ");
             errors.forEach(error -> {
                 sb.append("[");
-                if (error instanceof FieldError fieldError)
-                    sb.append(fieldError.getField()).append(":");
+                if (error instanceof FieldError)
+                    sb.append(((FieldError) error).getField()).append(":");
                 sb.append(error.getDefaultMessage());
                 sb.append("] ");
             });

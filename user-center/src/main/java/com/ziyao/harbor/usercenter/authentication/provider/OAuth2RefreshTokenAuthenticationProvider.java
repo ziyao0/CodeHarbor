@@ -101,12 +101,12 @@ public class OAuth2RefreshTokenAuthenticationProvider implements AuthenticationP
             OAuth2TokenContext context = tokenContextBuilder.tokenType(OAuth2TokenType.REFRESH_TOKEN).build();
             OAuth2Token generatedRefreshToken = this.tokenGenerator.generate(context);
             if (generatedRefreshToken != null) {
-                if (generatedRefreshToken instanceof OAuth2RefreshToken refToken) {
+                if (generatedRefreshToken instanceof OAuth2RefreshToken) {
 
                     if (log.isDebugEnabled()) {
                         log.debug("Generated Refresh token: {}", generatedRefreshToken);
                     }
-                    currentRefToken = refToken;
+                    currentRefToken = (OAuth2RefreshToken) generatedRefreshToken;
                     authorizationBuilder.refreshToken(currentRefToken);
                 } else {
                     ThrowErrors.serverError("The token generator failed to generate a valid refresh token.", ERROR_URI);

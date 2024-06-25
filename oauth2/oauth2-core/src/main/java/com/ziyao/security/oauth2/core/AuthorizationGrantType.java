@@ -1,12 +1,17 @@
 package com.ziyao.security.oauth2.core;
 
+import lombok.Getter;
+
 import java.util.Objects;
 
 /**
  * @author ziyao zhang
  * @since 2024/3/25
  */
-public record AuthorizationGrantType(String value) {
+@Getter
+public final class AuthorizationGrantType {
+
+    private final String value;
 
     public static final AuthorizationGrantType AUTHORIZATION_CODE = new AuthorizationGrantType("authorization_code");
 
@@ -19,6 +24,10 @@ public record AuthorizationGrantType(String value) {
     public static final AuthorizationGrantType JWT_BEARER = new AuthorizationGrantType("urn:ietf:params:oauth:grant-type:jwt-bearer");
 
     public static final AuthorizationGrantType DEVICE_CODE = new AuthorizationGrantType("urn:ietf:params:oauth:grant-type:device_code");
+
+    public AuthorizationGrantType(String value) {
+        this.value = value;
+    }
 
 
     public boolean matches(String code) {

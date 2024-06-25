@@ -1,6 +1,7 @@
 package com.ziyao.harbor.crypto;
 
 import com.ziyao.harbor.core.utils.Strings;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.stream.Stream;
@@ -9,7 +10,14 @@ import java.util.stream.Stream;
  * @author ziyao
  * @since 2023/4/23
  */
-public record PropertyResolver(TextCipherProvider textCipherProvider) {
+@Getter
+public class PropertyResolver {
+
+    private final TextCipherProvider textCipherProvider;
+
+    public PropertyResolver(TextCipherProvider textCipherProvider) {
+        this.textCipherProvider = textCipherProvider;
+    }
 
     /**
      * 解析配置属性值并对配置属性值进行解析，
@@ -24,7 +32,7 @@ public record PropertyResolver(TextCipherProvider textCipherProvider) {
         if (Strings.hasText(value)) {
             if (isMatchPrefix(value)) {
                 // 满足前缀匹配算法
-                TextCipher textCipher = matchingTextCipher(textCipherProvider().textCiphers(), value);
+                TextCipher textCipher = matchingTextCipher(textCipherProvider.getTextCiphers(), value);
                 property.setValue(value.substring(getPrefix(textCipher.getAlgorithm()).length()));
                 property.setAlgorithm(textCipher.getAlgorithm());
                 property.setTextCipher(textCipher);
@@ -59,8 +67,4 @@ public record PropertyResolver(TextCipherProvider textCipherProvider) {
         return "{" + algorithm + "}";
     }
 
-    @Override
-    public TextCipherProvider textCipherProvider() {
-        return textCipherProvider;
-    }
 }

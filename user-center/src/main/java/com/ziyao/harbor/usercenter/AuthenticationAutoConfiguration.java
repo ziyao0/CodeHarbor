@@ -2,6 +2,7 @@ package com.ziyao.harbor.usercenter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.google.common.collect.Lists;
 import com.ziyao.harbor.usercenter.authentication.AuthenticationManager;
 import com.ziyao.harbor.usercenter.authentication.PrimaryAuthenticationManager;
 import com.ziyao.harbor.usercenter.authentication.converter.*;
@@ -50,7 +51,7 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
             ApplicationRepository applicationRepository, RedisRegisteredAppRepository redisRegisteredAppRepository) {
 
         return new DelegatingRegisteredAppService(
-                List.of(new JpaRegisteredAppService(applicationRepository),
+                Lists.newArrayList(new JpaRegisteredAppService(applicationRepository),
                         new RedisRegisteredAppService(redisRegisteredAppRepository),
                         new CaffeineRegisteredAppService())
         );
@@ -61,7 +62,7 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
                                                                            AuthorizationRepository authorizationRepository,
                                                                            OAuth2AuthorizationRepository oAuth2AuthorizationRepository) {
         return new DelegatingOAuth2AuthorizationService(
-                List.of(
+                Lists.newArrayList(
                         new JpaOAuth2AuthorizationService(delegatingRegisteredAppService, authorizationRepository),
                         new RedisOAuth2AuthorizationService(oAuth2AuthorizationRepository),
                         new CaffeineOAuth2AuthorizationService()
@@ -72,7 +73,7 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
     @Bean
     public AuthenticationConverter authenticationConverter() {
         return new DelegatingAuthenticationConverter(
-                List.of(
+                Lists.newArrayList(
                         new UsernamePasswordAuthenticationConverter(),
                         new OAuth2AuthorizationCodeAuthenticationConverter(),
                         new OAuth2RefreshTokenAuthenticationConverter()

@@ -1,12 +1,11 @@
 package com.ziyao.harbor.usercenter.authentication.token;
 
+import com.google.common.collect.Sets;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.security.oauth2.core.*;
 import lombok.Getter;
 
-import java.io.Serial;
 import java.util.Collection;
-import java.util.Set;
 
 /**
  * @author ziyao
@@ -15,7 +14,7 @@ import java.util.Set;
 @Getter
 public class OAuth2AccessTokenAuthenticationToken extends AbstractAuthenticationToken {
 
-    @Serial
+
     private static final long serialVersionUID = -3997191320888560056L;
     /**
      * 经过认证的用法身份信息
@@ -43,7 +42,7 @@ public class OAuth2AccessTokenAuthenticationToken extends AbstractAuthentication
 
     public OAuth2AccessTokenAuthenticationToken(Authentication appPrincipal, RegisteredApp registeredApp,
                                                 OAuth2AccessToken accessToken, OAuth2RefreshToken refreshToken) {
-        this(appPrincipal, registeredApp, accessToken, refreshToken, Set.of());
+        this(appPrincipal, registeredApp, accessToken, refreshToken, Sets.newHashSet());
     }
 
     public OAuth2AccessTokenAuthenticationToken(Authentication appPrincipal, RegisteredApp registeredApp,

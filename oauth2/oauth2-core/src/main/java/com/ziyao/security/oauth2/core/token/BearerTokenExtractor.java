@@ -31,7 +31,7 @@ public abstract class BearerTokenExtractor {
             if ((value.toLowerCase().startsWith(TokenType.Bearer.getType().toLowerCase()))) {
                 String authHeaderValue = value.substring(TokenType.Bearer.getType().length()).trim();
                 // Add this here for the auth details later. Would be better to change the signature of this method.
-                request.mutate().header(OAuth2TokenType.ACCESS_TOKEN.value(),
+                request.mutate().header(OAuth2TokenType.ACCESS_TOKEN.getValue(),
                         value.substring(0, TokenType.Bearer.getType().length()).trim());
                 int commaIndex = authHeaderValue.indexOf(',');
                 if (commaIndex > 0) {

@@ -4,8 +4,8 @@ package ${package.Entity};
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.EqualsAndHashCode;

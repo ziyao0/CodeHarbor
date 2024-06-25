@@ -1,20 +1,19 @@
 package com.ziyao.harbor.usercenter.authentication.core;
 
+import com.google.common.collect.Sets;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.security.oauth2.core.GrantedAuthority;
 import com.ziyao.security.oauth2.core.Permission;
 
-import java.io.Serial;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author ziyao
  * @since 2024/06/11 11:02:23
  */
 public class SimpleGrantedAuthority implements GrantedAuthority {
-    @Serial
+
     private static final long serialVersionUID = 1944660992125502463L;
 
     private final String role;
@@ -22,7 +21,7 @@ public class SimpleGrantedAuthority implements GrantedAuthority {
     private final Collection<Permission> permissions;
 
     public SimpleGrantedAuthority(String role) {
-        this(role, Set.of());
+        this(role, Sets.newHashSet());
     }
 
     public SimpleGrantedAuthority(String role, Collection<Permission> permissions) {

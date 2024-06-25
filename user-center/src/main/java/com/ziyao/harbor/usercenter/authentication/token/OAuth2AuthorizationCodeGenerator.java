@@ -21,7 +21,7 @@ public final class OAuth2AuthorizationCodeGenerator implements OAuth2TokenGenera
 
     @Override
     public OAuth2AuthorizationCode generate(OAuth2TokenContext context) {
-        if (context.getTokenType() == null || !OAuth2ParameterNames.CODE.equals(context.getTokenType().value())) {
+        if (context.getTokenType() == null || !OAuth2ParameterNames.CODE.equals(context.getTokenType().getValue())) {
             return null;
         }
         Instant issuedAt = Instant.now();

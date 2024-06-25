@@ -9,7 +9,8 @@ import com.ziyao.security.oauth2.core.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.error.OAuth2ErrorCodes;
 import com.ziyao.security.oauth2.core.support.OAuth2EndpointUtils;
 import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
-import jakarta.servlet.http.HttpServletRequest;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author ziyao

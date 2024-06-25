@@ -13,10 +13,10 @@ import java.util.*;
 public abstract class JsonNodeUtils {
 
 
-    public static final TypeReference<Set<String>> STRING_SET = new TypeReference<>() {
+    public static final TypeReference<Set<String>> STRING_SET = new TypeReference<Set<String>>() {
     };
 
-    public static final TypeReference<Map<String, Object>> STRING_OBJECT_MAP = new TypeReference<>() {
+    public static final TypeReference<Map<String, Object>> STRING_OBJECT_MAP = new TypeReference<Map<String, Object>>() {
     };
 
     public static Long findLongValue(JsonNode jsonNode, String fieldName) {

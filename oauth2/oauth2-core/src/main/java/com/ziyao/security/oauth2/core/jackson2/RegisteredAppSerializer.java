@@ -29,7 +29,7 @@ public class RegisteredAppSerializer extends JsonSerializer<RegisteredApp> {
 
         jsonGenerator.writeArrayFieldStart("authorizationGrantTypes");
         for (AuthorizationGrantType grantType : registeredApp.getAuthorizationGrantTypes()) {
-            jsonGenerator.writeString(grantType.value());
+            jsonGenerator.writeString(grantType.getValue());
         }
         jsonGenerator.writeEndArray();
         if (registeredApp.getState() != null)
@@ -67,8 +67,8 @@ public class RegisteredAppSerializer extends JsonSerializer<RegisteredApp> {
                 settings.remove(entry.getKey());
             }
 
-            if (entry.getValue() instanceof Duration duration) {
-                settingsMap.put(entry.getKey(), duration.toString());
+            if (entry.getValue() instanceof Duration) {
+                settingsMap.put(entry.getKey(), entry.getValue().toString());
             } else
                 settingsMap.put(entry.getKey(), entry.getValue());
         }

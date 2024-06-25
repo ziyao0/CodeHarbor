@@ -1,9 +1,9 @@
 package com.ziyao.security.oauth2.core.settings;
 
+import com.google.common.collect.Maps;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 @Getter
 public abstract class AbstractSettings implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = -4608865879686757972L;
 
     /**
@@ -27,7 +27,7 @@ public abstract class AbstractSettings implements Serializable {
 
     protected AbstractSettings(Map<String, Object> settings) {
         Assert.notEmpty(settings, "settings cannot be empty");
-        this.settings = Map.copyOf(settings);
+        this.settings = Maps.newHashMap(settings);
     }
 
     /**

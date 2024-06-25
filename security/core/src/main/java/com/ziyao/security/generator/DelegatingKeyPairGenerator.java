@@ -1,5 +1,7 @@
 package com.ziyao.security.generator;
 
+import com.google.common.collect.Lists;
+
 import java.util.List;
 
 /**
@@ -11,7 +13,7 @@ public class DelegatingKeyPairGenerator implements KeyPairGenerator {
     private final List<KeyPairGenerator> generators;
 
     public DelegatingKeyPairGenerator(KeyPairGenerator... generators) {
-        this.generators = List.copyOf(List.of(generators));
+        this.generators = Lists.newArrayList(generators);
     }
 
     @Override

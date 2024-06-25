@@ -71,13 +71,13 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
 
         Optional<Authorization> result;
-        if (OAuth2ParameterNames.CODE.equals(tokenType.value())) {
+        if (OAuth2ParameterNames.CODE.equals(tokenType.getValue())) {
             result = authorizationRepository.findByAuthorizationCodeValue(token);
-        } else if (OAuth2ParameterNames.REFRESH_TOKEN.equals(tokenType.value())) {
+        } else if (OAuth2ParameterNames.REFRESH_TOKEN.equals(tokenType.getValue())) {
             result = authorizationRepository.findByRefreshTokenValue(token);
-        } else if (OAuth2ParameterNames.ACCESS_TOKEN.equals(tokenType.value())) {
+        } else if (OAuth2ParameterNames.ACCESS_TOKEN.equals(tokenType.getValue())) {
             result = authorizationRepository.findByAccessTokenValue(token);
-        } else if (OAuth2ParameterNames.STATE.equals(tokenType.value())) {
+        } else if (OAuth2ParameterNames.STATE.equals(tokenType.getValue())) {
             result = authorizationRepository.findByState(Integer.parseInt(token));
         } else {
             result = Optional.empty();
@@ -151,7 +151,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
         entity.setId(authorization.getId());
         entity.setAppid(authorization.getAppId());
         entity.setUserId(authorization.getUserId());
-        entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().value());
+        entity.setAuthorizationGrantType(authorization.getAuthorizationGrantType().getValue());
         entity.setAuthorizedScopes(Strings.collectionToDelimitedString(authorization.getAuthorizedScopes(), ","));
         entity.setAttributes(writeMap(authorization.getAttributes()));
         entity.setState(authorization.getAttribute(OAuth2ParameterNames.STATE));
@@ -221,7 +221,7 @@ public class JpaOAuth2AuthorizationService implements OAuth2AuthorizationService
 
     private Map<String, Object> parseMap(String data) {
         try {
-            return this.objectMapper.readValue(data, new TypeReference<>() {
+            return this.objectMapper.readValue(data, new TypeReference<Map<String, Object>>() {
             });
         } catch (Exception ex) {
             throw new IllegalArgumentException(ex.getMessage(), ex);

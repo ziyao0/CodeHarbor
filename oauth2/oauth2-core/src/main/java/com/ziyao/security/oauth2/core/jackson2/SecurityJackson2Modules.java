@@ -2,7 +2,6 @@ package com.ziyao.security.oauth2.core.jackson2;
 
 import com.fasterxml.jackson.annotation.JacksonAnnotation;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.cfg.MapperConfig;
 import com.fasterxml.jackson.databind.jsontype.*;
@@ -13,7 +12,6 @@ import org.springframework.core.log.LogMessage;
 import org.springframework.util.ClassUtils;
 
 import java.io.IOException;
-import java.io.Serial;
 import java.util.*;
 
 /**
@@ -88,7 +86,7 @@ public final class SecurityJackson2Modules {
 
     static class AllowlistTypeResolverBuilder extends ObjectMapper.DefaultTypeResolverBuilder {
 
-        @Serial
+
         private static final long serialVersionUID = 3135761660950949610L;
 
         AllowlistTypeResolverBuilder(ObjectMapper.DefaultTyping defaultTyping) {

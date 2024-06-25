@@ -1,5 +1,6 @@
 package com.ziyao.harbor.web;
 
+import com.google.common.collect.Lists;
 import com.ziyao.harbor.core.error.StatusMessage;
 import com.ziyao.harbor.web.context.ContextInfo;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -47,12 +48,14 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
             return body;
         }
         // 如果 body 是 Map 类型并且包含异常信息的字段
-        if (body instanceof Map map && map.keySet().containsAll(paramNames)) {
-
-            return ResponseBuilder.of(
-                    Integer.parseInt(String.valueOf(map.get("status"))),
-                    map.get("error").toString(),
-                    map.get("path"));
+        if (body instanceof Map) {
+            Map map = (Map) body;
+            if (map.keySet().containsAll(paramNames)) {
+                return ResponseBuilder.of(
+                        Integer.parseInt(String.valueOf(map.get("status"))),
+                        map.get("error").toString(),
+                        map.get("path"));
+            }
         }
 
 
@@ -60,5 +63,5 @@ public class GlobalResponseHandlerAdvice implements ResponseBodyAdvice<Object> {
 
     }
 
-    private static final List<String> paramNames = List.of("timestamp", "status", "error", "path");
+    private static final List<String> paramNames = Lists.newArrayList("timestamp", "status", "error", "path");
 }

@@ -1,8 +1,8 @@
 package com.ziyao.harbor.gateway.core.support;
 
-import com.google.common.collect.ImmutableSet;
-import com.ziyao.harbor.gateway.support.ParameterNames;
+import com.google.common.collect.Sets;
 import com.ziyao.harbor.gateway.core.AuthorizerContext;
+import com.ziyao.harbor.gateway.support.ParameterNames;
 import org.springframework.web.server.ServerWebExchange;
 
 import java.util.Set;
@@ -27,7 +27,7 @@ public abstract class RequestAttributes {
      * 认证相关请求头key
      */
     public static final Set<String> AUTHORIZATION_HEADERS =
-            Set.of(AUTHORIZATION, TIMESTAMP, REFRESH_TOKEN, DIGEST);
+            Sets.newHashSet(AUTHORIZATION, TIMESTAMP, REFRESH_TOKEN, DIGEST);
 
     /**
      * 判断是否已经通过认证

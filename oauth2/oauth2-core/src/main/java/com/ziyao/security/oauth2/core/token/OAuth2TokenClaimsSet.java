@@ -1,5 +1,6 @@
 package com.ziyao.security.oauth2.core.token;
 
+import com.google.common.collect.Maps;
 import com.ziyao.security.oauth2.core.converter.ClaimConversionService;
 import lombok.Getter;
 import org.springframework.core.convert.TypeDescriptor;
@@ -23,7 +24,7 @@ public class OAuth2TokenClaimsSet {
     private final Map<String, Object> claims;
 
     private OAuth2TokenClaimsSet(Map<String, Object> claims) {
-        this.claims = Map.copyOf(claims);
+        this.claims = Maps.newHashMap(claims);
     }
 
 

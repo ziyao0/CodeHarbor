@@ -1,6 +1,6 @@
 package com.ziyao.security.oauth2.core;
 
-import java.io.Serial;
+
 
 /**
  * @author ziyao
@@ -8,7 +8,7 @@ import java.io.Serial;
  */
 public abstract class AuthenticationException extends RuntimeException {
 
-    @Serial
+
     private static final long serialVersionUID = -5592880436851278628L;
 
     public AuthenticationException(String message) {

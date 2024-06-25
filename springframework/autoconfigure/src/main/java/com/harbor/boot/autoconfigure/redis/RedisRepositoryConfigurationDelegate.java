@@ -92,8 +92,8 @@ public class RedisRepositoryConfigurationDelegate {
             return environment;
         }
 
-        if (resourceLoader instanceof EnvironmentCapable environmentCapable) {
-            return environmentCapable.getEnvironment();
+        if (resourceLoader instanceof EnvironmentCapable) {
+            return ((EnvironmentCapable) resourceLoader).getEnvironment();
         } else return new StandardEnvironment();
     }
 

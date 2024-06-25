@@ -4,7 +4,6 @@ import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
 import lombok.Getter;
 
-import java.io.Serial;
 import java.util.Set;
 
 /**
@@ -14,7 +13,7 @@ import java.util.Set;
 @Getter
 public class OAuth2RefreshTokenAuthenticationToken extends OAuth2AuthorizationGrantAuthenticationToken {
 
-    @Serial
+
     private static final long serialVersionUID = 2954034450231107021L;
 
     private final String refreshToken;

@@ -2,7 +2,6 @@ package com.ziyao.security.oauth2.core.settings;
 
 import org.springframework.util.Assert;
 
-import java.io.Serial;
 import java.time.Duration;
 import java.util.Map;
 
@@ -12,7 +11,7 @@ import java.util.Map;
  */
 public final class TokenSettings extends AbstractSettings {
 
-    @Serial
+
     private static final long serialVersionUID = 6298615176749557599L;
 
     private TokenSettings(Map<String, Object> settings) {

@@ -16,6 +16,7 @@ com.baomidou:mybatis-plus-generator:3.5.6
 com.baomidou:mybatis-plus-annotation:3.5.6
 com.baomidou:mybatis-plus-extension:3.5.6
 com.baomidou:mybatis-plus:3.5.6
+com.baomidou:mybatis-plus-boot-starter:3.5.3.1
 com.baomidou:mybatis-plus-spring-boot3-starter:3.5.6
 com.baomidou:mybatis-plus-generator:3.5.3.1
 com.github.jeffreyning:mybatisplus-plus:1.5.1-RELEASE
@@ -44,7 +45,7 @@ org.apache.rocketmq:rocketmq-spring-boot-starter:2.2.3
 org.redisson:redisson-spring-data-31:3.24.3
 org.redisson:redisson:3.27.2
 org.aspectj:aspectjweaver:1.9.6
-com.github.ben-manes.caffeine:caffeine:3.1.8
+com.github.ben-manes.caffeine:caffeine:2.9.0
 com.alibaba:druid-spring-boot-starter:1.2.20
 com.squareup.okhttp3:okhttp:4.9.3
 com.squareup.okhttp3:logging-interceptor:4.9.3

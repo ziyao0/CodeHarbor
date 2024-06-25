@@ -1,11 +1,11 @@
 package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.*;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 

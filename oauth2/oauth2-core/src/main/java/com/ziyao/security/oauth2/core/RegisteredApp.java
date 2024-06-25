@@ -2,6 +2,7 @@ package com.ziyao.security.oauth2.core;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.google.common.collect.Sets;
 import com.ziyao.harbor.core.lang.NonNull;
 import com.ziyao.harbor.core.utils.Assert;
 import com.ziyao.harbor.core.utils.Collections;
@@ -10,7 +11,6 @@ import com.ziyao.security.oauth2.core.jackson2.RegisteredAppSerializer;
 import com.ziyao.security.oauth2.core.settings.TokenSettings;
 import lombok.Getter;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.HashSet;
@@ -26,7 +26,7 @@ import java.util.function.Consumer;
 @JsonDeserialize(using = RegisteredAppDeserializer.class)
 public class RegisteredApp implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = -5766646592402572432L;
 
     private Long appId;
@@ -52,7 +52,7 @@ public class RegisteredApp implements Serializable {
 
     public static class Builder implements Serializable {
 
-        @Serial
+
         private static final long serialVersionUID = 6495205880660410126L;
         private Long appId;
         private Integer appType;
@@ -179,13 +179,13 @@ public class RegisteredApp implements Serializable {
             RegisteredApp registeredApp = new RegisteredApp();
             registeredApp.appId = this.appId;
             registeredApp.appType = this.appType;
-            registeredApp.authorizationGrantTypes = Set.copyOf(this.authorizationGrantTypes);
+            registeredApp.authorizationGrantTypes = Sets.newHashSet(this.authorizationGrantTypes);
             registeredApp.state = this.state;
             registeredApp.issuedAt = this.issuedAt;
             registeredApp.appSecret = this.appSecret;
             registeredApp.appSecretExpiresAt = this.appSecretExpiresAt;
             registeredApp.appName = this.appName;
-            registeredApp.scopes = Set.copyOf(this.scopes);
+            registeredApp.scopes = Sets.newHashSet(this.scopes);
             registeredApp.redirectUri = this.redirectUri;
             registeredApp.postLogoutRedirectUri = this.postLogoutRedirectUri;
             registeredApp.tokenSettings = this.tokenSettings;

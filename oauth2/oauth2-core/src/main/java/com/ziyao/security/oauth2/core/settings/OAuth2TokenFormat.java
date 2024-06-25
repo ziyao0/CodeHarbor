@@ -1,8 +1,8 @@
 package com.ziyao.security.oauth2.core.settings;
 
+import lombok.Getter;
 import org.springframework.util.Assert;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -10,8 +10,15 @@ import java.util.Objects;
  * @author ziyao zhang
  * @time 2024/6/4
  */
-public record OAuth2TokenFormat(String value) implements Serializable {
-    @Serial
+@Getter
+public class OAuth2TokenFormat implements Serializable {
+
+    /**
+     * -- GETTER --
+     * Returns the value of the token format.
+     */
+    private final String value;
+
     private static final long serialVersionUID = -5595881899154576597L;
 
     /**
@@ -32,18 +39,9 @@ public record OAuth2TokenFormat(String value) implements Serializable {
      *
      * @param value the value of the token format
      */
-    public OAuth2TokenFormat {
+    public OAuth2TokenFormat(String value) {
         Assert.hasText(value, "value cannot be empty");
-    }
-
-    /**
-     * Returns the value of the token format.
-     *
-     * @return the value of the token format
-     */
-    @Override
-    public String value() {
-        return this.value;
+        this.value = value;
     }
 
     @Override

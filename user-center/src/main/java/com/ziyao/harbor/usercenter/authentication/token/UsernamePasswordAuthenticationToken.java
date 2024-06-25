@@ -2,7 +2,6 @@ package com.ziyao.harbor.usercenter.authentication.token;
 
 import com.ziyao.security.oauth2.core.GrantedAuthority;
 
-import java.io.Serial;
 import java.util.Collection;
 
 /**
@@ -11,7 +10,7 @@ import java.util.Collection;
  */
 public class UsernamePasswordAuthenticationToken extends AbstractAuthenticationToken {
 
-    @Serial
+
     private static final long serialVersionUID = 5517018814206006638L;
 
     private final Object principal;

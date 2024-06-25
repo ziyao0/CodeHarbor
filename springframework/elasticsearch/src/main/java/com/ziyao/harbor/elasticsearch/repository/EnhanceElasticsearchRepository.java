@@ -3,8 +3,6 @@ package com.ziyao.harbor.elasticsearch.repository;
 import co.elastic.clients.elasticsearch._types.query_dsl.Operator;
 import com.ziyao.harbor.elasticsearch.query.BetweenQueries;
 import com.ziyao.harbor.elasticsearch.support.EntityPropertyExtractor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.*;
 import org.springframework.data.elasticsearch.core.*;
 import org.springframework.data.elasticsearch.core.mapping.ElasticsearchPersistentEntity;
@@ -31,7 +29,6 @@ import java.util.stream.Collectors;
  */
 public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepository<T, ID> {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EnhanceElasticsearchRepository.class);
     private final EntityPropertyExtractor<T> entityPropertyExtractor;
     protected ElasticsearchOperations operations;
     protected IndexOperations indexOperations;
@@ -412,7 +409,7 @@ public class EnhanceElasticsearchRepository<T, ID> implements ElasticsearchRepos
                     criteria.or(condition);
                     break;
                 default:
-                    LOGGER.error("未知的操作类型:{}", operator.jsonValue());
+                    System.out.println("未知的操作类型:" + operator.jsonValue());
             }
         });
         return criteria;

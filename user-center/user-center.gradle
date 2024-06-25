@@ -18,7 +18,8 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-autoconfigure"
     implementation "com.baomidou:mybatis-plus"
     implementation "mysql:mysql-connector-java"
-    implementation "com.baomidou:mybatis-plus-spring-boot3-starter"
+//    implementation "com.baomidou:mybatis-plus-spring-boot-starter"
+    implementation "com.baomidou:mybatis-plus-boot-starter"
     implementation 'javax.annotation:javax.annotation-api'
     implementation "com.auth0:java-jwt"
     implementation "com.github.jeffreyning:mybatisplus-plus"

@@ -1,11 +1,9 @@
 package com.ziyao.harbor.usercenter.authentication.token;
 
+import com.google.common.collect.Lists;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.AuthorizationGrantType;
-
-import java.io.Serial;
-import java.util.List;
 
 /**
  * @author ziyao zhang
@@ -13,7 +11,7 @@ import java.util.List;
  */
 public class OAuth2AuthorizationGrantAuthenticationToken extends AbstractAuthenticationToken {
 
-    @Serial
+
     private static final long serialVersionUID = -2867200150211134714L;
 
     private final AuthorizationGrantType authorizationGrantType;
@@ -21,7 +19,7 @@ public class OAuth2AuthorizationGrantAuthenticationToken extends AbstractAuthent
     private final Authentication appPrincipal;
 
     public OAuth2AuthorizationGrantAuthenticationToken(AuthorizationGrantType authorizationGrantType, Authentication appPrincipal) {
-        super(List.of());
+        super(Lists.newArrayList());
         this.authorizationGrantType = authorizationGrantType;
         this.appPrincipal = appPrincipal;
     }

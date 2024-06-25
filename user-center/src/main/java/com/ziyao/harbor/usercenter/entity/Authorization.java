@@ -3,13 +3,12 @@ package com.ziyao.harbor.usercenter.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.data.redis.core.RedisHash;
 
-import java.io.Serial;
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.io.Serializable;
 import java.time.Instant;
 
@@ -28,7 +27,7 @@ import java.time.Instant;
 @Entity(name = "authorization")
 public class Authorization implements Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 1L;
 
     /**

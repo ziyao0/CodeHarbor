@@ -6,7 +6,6 @@ import com.ziyao.security.oauth2.core.GrantedAuthority;
 import com.ziyao.security.oauth2.core.UserDetails;
 import lombok.Getter;
 
-import java.io.Serial;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.function.Consumer;
 public class UserInfo implements UserDetails, CredentialsContainer {
 
 
-    @Serial
     private static final long serialVersionUID = 5236617915182892884L;
 
     /**

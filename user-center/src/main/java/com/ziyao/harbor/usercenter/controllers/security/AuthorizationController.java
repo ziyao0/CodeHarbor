@@ -8,11 +8,11 @@ import com.ziyao.harbor.usercenter.service.security.AuthorizationServer;
 import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.token.OAuth2ParameterNames;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 /**

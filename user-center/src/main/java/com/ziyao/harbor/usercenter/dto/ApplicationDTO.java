@@ -7,7 +7,6 @@ import com.ziyao.harbor.usercenter.entity.Application;
 import com.ziyao.harbor.web.orm.EntityDTO;
 import lombok.Data;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -23,7 +22,7 @@ import java.util.Objects;
 @Data
 public class ApplicationDTO implements EntityDTO<Application>, Serializable {
 
-    @Serial
+
     private static final long serialVersionUID = 1L;
 
     /**

@@ -3,18 +3,16 @@ package com.ziyao.harbor.usercenter.authentication.token;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.security.oauth2.core.*;
 
-import java.io.Serial;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * @author ziyao
  * @since 2024/06/11 17:21:03
  */
 public abstract class AbstractAuthenticationToken implements Authentication, CredentialsContainer {
-    @Serial
+
     private static final long serialVersionUID = 6449672296011987802L;
 
     private final Collection<? extends GrantedAuthority> authorities;
@@ -25,7 +23,7 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
 
     public AbstractAuthenticationToken(Collection<? extends GrantedAuthority> authorities) {
         if (authorities == null) {
-            this.authorities = Set.of();
+            this.authorities = new HashSet<>();
             return;
         }
         Collection<GrantedAuthority> f = new HashSet<>();
@@ -60,16 +58,16 @@ public abstract class AbstractAuthenticationToken implements Authentication, Cre
         if (getPrincipal() == null) {
             return Strings.EMPTY;
         }
-        if (getPrincipal() instanceof UserDetails userDetails) {
-            return userDetails.getUsername();
+        if (getPrincipal() instanceof UserDetails) {
+            return ((UserDetails) getPrincipal()).getUsername();
         }
         return getPrincipal().toString();
     }
 
     @Override
     public void eraseCredentials() {
-        if (getCredentials() instanceof CredentialsContainer credentialsContainer) {
-            credentialsContainer.eraseCredentials();
+        if (getCredentials() instanceof CredentialsContainer) {
+            ((CredentialsContainer) getCredentials()).eraseCredentials();
         }
     }
 }

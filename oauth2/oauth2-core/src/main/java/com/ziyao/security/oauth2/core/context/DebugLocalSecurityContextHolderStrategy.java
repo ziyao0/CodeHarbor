@@ -1,13 +1,12 @@
 package com.ziyao.security.oauth2.core.context;
 
+import com.google.common.collect.Lists;
 import com.ziyao.security.oauth2.core.Additional;
 import com.ziyao.security.oauth2.core.Authentication;
 import com.ziyao.security.oauth2.core.GrantedAuthority;
 import com.ziyao.security.oauth2.core.UserDetails;
 
-import java.io.Serial;
 import java.util.Collection;
-import java.util.List;
 import java.util.function.Supplier;
 
 /**
@@ -48,7 +47,7 @@ public class DebugLocalSecurityContextHolderStrategy implements SecurityContextH
     private Authentication createAuthenticatedToken() {
 
         UserDetails userDetails = new UserDetails() {
-            @Serial
+
             private static final long serialVersionUID = 3445961897468761978L;
 
             @Override
@@ -83,12 +82,12 @@ public class DebugLocalSecurityContextHolderStrategy implements SecurityContextH
 
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return List.of();
+                return Lists.newArrayList();
             }
         };
 
         return new Authentication() {
-            @Serial
+
             private static final long serialVersionUID = 7615063167518644592L;
 
             @Override
@@ -103,7 +102,7 @@ public class DebugLocalSecurityContextHolderStrategy implements SecurityContextH
 
             @Override
             public Collection<? extends GrantedAuthority> getAuthorities() {
-                return List.of();
+                return Lists.newArrayList();
             }
 
             @Override

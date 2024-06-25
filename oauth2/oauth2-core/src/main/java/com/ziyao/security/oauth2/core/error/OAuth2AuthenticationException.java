@@ -4,7 +4,7 @@ import com.ziyao.security.oauth2.core.AuthenticationException;
 import lombok.Getter;
 import org.springframework.util.Assert;
 
-import java.io.Serial;
+
 
 /**
  * @author ziyao zhang
@@ -12,7 +12,7 @@ import java.io.Serial;
  */
 @Getter
 public class OAuth2AuthenticationException extends AuthenticationException {
-    @Serial
+
     private static final long serialVersionUID = 6276324810720064719L;
 
     /**

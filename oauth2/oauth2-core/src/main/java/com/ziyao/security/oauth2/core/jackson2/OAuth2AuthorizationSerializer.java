@@ -32,7 +32,7 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
         if (authorization.getUserId() != null)
             jsonGenerator.writeNumberField("userId", authorization.getUserId());
 
-        jsonGenerator.writeStringField("authorizationGrantType", authorization.getAuthorizationGrantType().value());
+        jsonGenerator.writeStringField("authorizationGrantType", authorization.getAuthorizationGrantType().getValue());
 
         jsonGenerator.writeArrayFieldStart("authorizedScopes");
         for (String authorizedScope : authorization.getAuthorizedScopes()) {
@@ -60,9 +60,15 @@ public class OAuth2AuthorizationSerializer extends JsonSerializer<OAuth2Authoriz
 
             Map<String, Object> metadata = authorizationToken.getMetadata();
 
-            Map<String, String> writeMap = new HashMap<>(Map.of("tokenValue", token.getTokenValue(),
-                    "issuedAt", token.getIssuedAt().toString(),
-                    "expiresAt", token.getExpiresAt().toString()));
+            Map<String, String> writeMap = new HashMap<String, String>() {
+                private static final long serialVersionUID = -3057056046066055488L;
+
+                {
+                    put("tokenValue", token.getTokenValue());
+                    put("issuedAt", token.getIssuedAt().toString());
+                    put("expiresAt", token.getExpiresAt().toString());
+                }
+            };
 
             if (OAuth2AccessToken.class.isAssignableFrom(key)) {
                 OAuth2AccessToken accessToken = (OAuth2AccessToken) token;
