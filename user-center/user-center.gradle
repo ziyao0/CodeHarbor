@@ -1,3 +1,6 @@
+plugins {
+    id 'io.ziyao.import-config'
+}
 dependencies {
     implementation(project(":dubbo-api"))
     implementation(project(":spring-web"))
@@ -5,6 +8,7 @@ dependencies {
     implementation(project(":redis-spring-boot-starter"))
     implementation(project(":spring-boot-autoconfigure"))
     implementation(project(":spring-security-crypto"))
+    implementation(project(":security-oauth2-core"))
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-config"
     implementation "com.alibaba.cloud:spring-cloud-starter-alibaba-nacos-discovery"
     implementation "org.springframework.cloud:spring-cloud-starter-bootstrap"
@@ -14,8 +18,9 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-autoconfigure"
     implementation "com.baomidou:mybatis-plus"
     implementation "mysql:mysql-connector-java"
-    implementation "com.baomidou:mybatis-plus-boot-starter"
+    implementation "com.baomidou:mybatis-plus-spring-boot3-starter"
     implementation 'javax.annotation:javax.annotation-api'
     implementation "com.auth0:java-jwt"
     implementation "com.github.jeffreyning:mybatisplus-plus"
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa"
 }

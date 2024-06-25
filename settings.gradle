@@ -16,7 +16,10 @@ pluginManagement {
 
 dependencyResolutionManagement {
     repositories {
-        mavenLocal()
+        maven {
+            name = 'local'
+            url = uri('/Users/zhangziyao/workspace/software/maven/repo')
+        }
         maven {
             url 'https://maven.aliyun.com/repository/public/'
         }
@@ -28,7 +31,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = 'CodeHarbor'
-
 
 
 def buildFiles = fileTree(rootDir) {

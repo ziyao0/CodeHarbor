@@ -17,7 +17,7 @@ import java.util.Objects;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 public class MenuDTO implements EntityDTO<Menu>, Serializable {
@@ -56,7 +56,7 @@ public class MenuDTO implements EntityDTO<Menu>, Serializable {
     /**
      * 资源级别
      */
-    private Integer level;
+    private Byte level;
     /**
      * 排序
      */

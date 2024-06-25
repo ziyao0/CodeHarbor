@@ -10,6 +10,8 @@ import java.nio.charset.Charset;
  */
 public abstract class DigestUtils {
 
+    private DigestUtils() {
+    }
 
     /**
      * 计算32位MD5摘要值

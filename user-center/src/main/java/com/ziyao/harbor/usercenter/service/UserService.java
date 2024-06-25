@@ -23,9 +23,8 @@ public interface UserService extends IService<User> {
     /**
      * 获取用户信息
      *
-     * @param appid     系统ID
-     * @param accessKey 用户登陆凭证
+     * @param username 用户登陆凭证
      * @return 返回用户信息
      */
-    User loadUserDetails(Long appid, String accessKey);
+    User loadUserDetails(String username);
 }

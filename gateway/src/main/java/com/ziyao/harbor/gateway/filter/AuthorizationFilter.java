@@ -1,10 +1,12 @@
 package com.ziyao.harbor.gateway.filter;
 
 import com.ziyao.harbor.gateway.config.GatewayConfig;
-import com.ziyao.harbor.gateway.core.*;
+import com.ziyao.harbor.gateway.core.AccessTokenExtractor;
+import com.ziyao.harbor.gateway.core.AccessTokenValidator;
+import com.ziyao.harbor.gateway.core.AuthorizerManager;
+import com.ziyao.harbor.gateway.core.GatewayStopWatches;
 import com.ziyao.harbor.gateway.core.support.RequestAttributes;
 import com.ziyao.harbor.gateway.core.support.SecurityPredicate;
-import com.ziyao.harbor.gateway.core.token.Authorization;
 import com.ziyao.harbor.gateway.core.token.DefaultAccessToken;
 import com.ziyao.harbor.gateway.error.GatewayErrors;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +14,6 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.MonoOperator;
 
 import java.util.Set;
 
@@ -31,8 +32,7 @@ public class AuthorizationFilter extends AbstractGlobalFilter {
     private final GatewayConfig gatewayConfig;
 
     public AuthorizationFilter(
-            AuthorizerManager authorizerManager,
-            GatewayConfig gatewayConfig) {
+            AuthorizerManager authorizerManager, GatewayConfig gatewayConfig) {
         this.authorizerManager = authorizerManager;
         this.gatewayConfig = gatewayConfig;
     }
@@ -41,7 +41,7 @@ public class AuthorizationFilter extends AbstractGlobalFilter {
     protected Mono<Void> doFilter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // 从请求头提取认证token
         DefaultAccessToken defaultAccessToken = AccessTokenExtractor.extractForHeaders(exchange);
-        return MonoOperator.just(defaultAccessToken).flatMap(access -> {
+        return Mono.just(defaultAccessToken).flatMap(access -> {
             boolean skip = SecurityPredicate.initSecurityApis(getSecurityApis()).skip(access.getApi());
             Mono<Void> filter;
             if (skip) {

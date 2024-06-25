@@ -9,7 +9,7 @@ import com.ziyao.harbor.usercenter.entity.Department;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-06
+ * @since 2024-06-08
  */
 public interface DepartmentMapper extends BaseMapper<Department> {
 

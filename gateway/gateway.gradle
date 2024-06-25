@@ -1,3 +1,6 @@
+plugins{
+    id 'io.ziyao.import-config'
+}
 dependencies {
     implementation(project(":harbor-core"))
     implementation(project(':harbor-crypto'))

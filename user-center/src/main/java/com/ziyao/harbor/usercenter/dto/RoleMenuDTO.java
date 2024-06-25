@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.ziyao.harbor.usercenter.entity.RoleMenu;
 import com.ziyao.harbor.web.orm.EntityDTO;
 import lombok.Data;
-import org.springframework.util.ObjectUtils;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -16,7 +15,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-08
  */
 @Data
 public class RoleMenuDTO implements EntityDTO<RoleMenu>, Serializable {
@@ -53,10 +52,6 @@ public class RoleMenuDTO implements EntityDTO<RoleMenu>, Serializable {
     public LambdaQueryWrapper<RoleMenu> initWrapper() {
 
         return Wrappers.lambdaQuery(RoleMenu.class)
-                // 角色id
-                .eq(!ObjectUtils.isEmpty(roleId), RoleMenu::getRoleId, roleId)
-                // 菜单id
-                .eq(!ObjectUtils.isEmpty(menuId), RoleMenu::getMenuId, menuId)
                 ;
     }
 

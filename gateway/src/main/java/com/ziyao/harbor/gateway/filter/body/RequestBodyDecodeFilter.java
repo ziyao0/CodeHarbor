@@ -4,7 +4,6 @@ import com.ziyao.harbor.gateway.filter.AbstractAfterAuthenticationFilter;
 import com.ziyao.harbor.gateway.rewrite.DecodeRewriteFunction;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.factory.rewrite.ModifyRequestBodyGatewayFilterFactory;
-import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
@@ -12,7 +11,7 @@ import reactor.core.publisher.Mono;
  * @author ziyao zhang
  * @since 2024/1/2
  */
-@Component
+//@Component
 public class RequestBodyDecodeFilter extends AbstractAfterAuthenticationFilter {
 
 

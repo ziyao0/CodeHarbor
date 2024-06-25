@@ -25,12 +25,11 @@ public class DubboUserService implements UserOpenApi {
     }
 
     @Override
-    public UserVO getUser(Long appid, String username) {
+    public UserVO getUser(String username) {
 
         User user = userMapper.selectOne(
                 Wrappers.lambdaQuery(User.class)
-                        .eq(User::getAppId, appid)
-                        .eq(User::getAccessKey, username));
+                        .eq(User::getUsername, username));
 
         if (!ObjectUtils.isEmpty(user)) {
             UserVO userVo = new UserVO();

@@ -18,7 +18,7 @@ public class MessageResponse<T> implements StatusMessage {
 
     private String message;
     @Getter
-    private T data;
+    private transient T data;
 
     @Override
     public Integer getStatus() {
@@ -33,16 +33,16 @@ public class MessageResponse<T> implements StatusMessage {
     public MessageResponse() {
     }
 
-    public MessageResponse(StatusMessage StatusMessage) {
-        Checker.checked(StatusMessage);
-        this.state = StatusMessage.getStatus();
-        this.message = StatusMessage.getMessage();
+    public MessageResponse(StatusMessage statusMessage) {
+        Checker.checked(statusMessage);
+        this.state = statusMessage.getStatus();
+        this.message = statusMessage.getMessage();
     }
 
-    public MessageResponse(StatusMessage StatusMessage, T data) {
-        Checker.checked(StatusMessage, data);
-        this.state = StatusMessage.getStatus();
-        this.message = StatusMessage.getMessage();
+    public MessageResponse(StatusMessage statusMessage, T data) {
+        Checker.checked(statusMessage, data);
+        this.state = statusMessage.getStatus();
+        this.message = statusMessage.getMessage();
         this.data = data;
     }
 
@@ -60,7 +60,10 @@ public class MessageResponse<T> implements StatusMessage {
         this.data = data;
     }
 
-    protected abstract static class Checker {
+    public abstract static class Checker {
+
+        private Checker() {
+        }
 
         public static void checked(Integer state) {
             if (null == state) {
@@ -86,12 +89,12 @@ public class MessageResponse<T> implements StatusMessage {
             }
         }
 
-        public static void checked(StatusMessage StatusMessage) {
-            checked(StatusMessage.getStatus(), StatusMessage.getMessage());
+        public static void checked(StatusMessage statusMessage) {
+            checked(statusMessage.getStatus(), statusMessage.getMessage());
         }
 
-        public static void checked(StatusMessage StatusMessage, Object data) {
-            checked(StatusMessage.getStatus(), StatusMessage.getMessage(), data);
+        public static void checked(StatusMessage statusMessage, Object data) {
+            checked(statusMessage.getStatus(), statusMessage.getMessage(), data);
         }
     }
 }

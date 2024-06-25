@@ -8,5 +8,5 @@ spring:
 config:
   gateway:
     skip-apis:
-      - /user-center-service/usercenter/app/list
-      - /user-center-service/auth/login
+      - /user-center/usercenter/app/list
+      - /user-center/auth/login

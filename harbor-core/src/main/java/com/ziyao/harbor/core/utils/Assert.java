@@ -40,22 +40,20 @@ public abstract class Assert {
     }
 
     public static <T> void notNull(T value) {
-        if (value instanceof String) {
-            if (Strings.isEmpty(value)) {
+        if (value instanceof String && Strings.isEmpty(value)) {
                 throw new IllegalArgumentException("传入不能为空");
             }
-        }
+
         if (Objects.isNull(value)) {
             throw new IllegalArgumentException("传入不能为空");
         }
     }
 
     public static <T> void notNull(T value, RuntimeException exception) {
-        if (value instanceof String) {
-            if (Strings.isEmpty(value)) {
+        if (value instanceof String && Strings.isEmpty(value)) {
                 throw exception;
             }
-        }
+
         if (Objects.isNull(value)) {
             throw exception;
         }

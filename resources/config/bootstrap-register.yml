@@ -2,12 +2,15 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 124.222.42.249:8848
+        server-addr: '{SM4}c4c52def3d31331a15d7c662e4fec2651dea0a0446273019476fb0623443715d'
       config:
         import-check:
           enabled: false
         server-addr: ${spring.cloud.nacos.discovery.server-addr}
         file-extension: yml
+        shared-configs:
+          - data-id: db-config.yml
+          - data-id: redis.yml
 
 dubbo:
   application:

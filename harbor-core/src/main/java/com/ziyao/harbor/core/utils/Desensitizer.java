@@ -75,10 +75,13 @@ public abstract class Desensitizer {
      * @return 脱敏后的姓名
      */
     public static String chineseName(String fullName) {
-        if (Strings.isEmpty(fullName)) {
-            return Strings.EMPTY;
+        if (Strings.isEmpty(fullName) || fullName.length() < 2) {
+            return fullName;
         }
-        return Strings.hide(fullName, 1, fullName.length());
+        if (fullName.length() == 2)
+            return Strings.hide(fullName, 1, fullName.length());
+        else
+            return Strings.hide(fullName, 1, fullName.length() - 1);
     }
 
     /**

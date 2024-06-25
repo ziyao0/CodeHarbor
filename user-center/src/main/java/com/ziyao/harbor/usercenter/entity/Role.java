@@ -1,9 +1,11 @@
 package com.ziyao.harbor.usercenter.entity;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
-import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -16,67 +18,82 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("role")
+@Entity(name = "role")
 public class Role implements Serializable {
 
 
     private static final long serialVersionUID = 1L;
 
     /**
-     * 角色ID
+     * 角色id
      */
-    @TableId(value = "ID", type = IdType.AUTO)
+    @Id
+    @TableId("id")
     private Long id;
-
-    /**
-     * 系统id
-     */
-    @TableField("APP_ID")
-    private Long appId;
 
     /**
      * 角色名称
      */
-    @TableField("ROLE_NAME")
-    private String roleName;
+    @TableField("name")
+    private String name;
 
     /**
      * 角色编码
      */
-    @TableField("ROLE_CODE")
-    private String roleCode;
+    @TableField("role")
+    private String role;
+
+    @TableField("type")
+    private Integer type;
+
+    /**
+     * 角色类别 1 权限角色 2 组织角色
+     */
+    @TableField("category")
+    private Integer category;
+
+    @TableField("access_level")
+    private String accessLevel;
+
+    /**
+     * 1 启用 0禁用
+     */
+    @TableField("active")
+    private Boolean active;
 
     /**
      * 角色描述
      */
-    @TableField("DESCRIPTION")
+    @TableField("description")
     private String description;
 
     /**
      * 创建人id
      */
-    @TableField(value = "CREATED_BY", fill = FieldFill.INSERT)
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private Integer createdBy;
 
     /**
      * 创建时间
      */
-    @TableField(value = "CREATED_AT", fill = FieldFill.INSERT)
+    @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
     /**
      * 修改人id
      */
-    @TableField(value = "MODIFIED_BY", fill = FieldFill.UPDATE)
+    @TableField(value = "modified_by", fill = FieldFill.UPDATE)
     private Integer modifiedBy;
 
     /**
      * 修改时间
      */
-    @TableField(value = "MODIFIED_AT", fill = FieldFill.UPDATE)
+    @TableField(value = "modified_at", fill = FieldFill.UPDATE)
     private LocalDateTime modifiedAt;
 
 

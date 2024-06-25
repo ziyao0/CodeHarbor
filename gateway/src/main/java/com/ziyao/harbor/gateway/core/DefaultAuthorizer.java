@@ -29,9 +29,9 @@ public class DefaultAuthorizer implements Authorizer {
         String token = accessToken.getToken();
         try {
             Map<String, Claim> claims = Jwts.getClaims(token, SecurityUtils.loadJwtTokenSecret());
-            return MonoOperator.just(new SuccessAuthorization(claims, token));
+            return Mono.just(new SuccessAuthorization(claims, token));
         } catch (JWTVerificationException e) {
-            return MonoOperator.just(new FailureAuthorization(e.getMessage()));
+            return Mono.just(new FailureAuthorization(e.getMessage()));
         }
     }
 

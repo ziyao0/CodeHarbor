@@ -26,7 +26,7 @@ public class Base64StringKeyGenerator implements StringKeyGenerator {
     public Base64StringKeyGenerator(Base64.Encoder encoder, int keyLength) {
         if (encoder == null) {
             throw new IllegalArgumentException("encode cannot be null");
-        } else if (keyLength < 32) {
+        } else if (keyLength < 8) {
             throw new IllegalArgumentException("keyLength must be greater than or equal to32");
         } else {
             this.encoder = encoder;

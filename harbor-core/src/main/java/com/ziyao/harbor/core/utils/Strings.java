@@ -3,6 +3,7 @@ package com.ziyao.harbor.core.utils;
 
 import com.ziyao.harbor.core.Filter;
 import com.ziyao.harbor.core.lang.NonNull;
+import com.ziyao.harbor.core.lang.Nullable;
 import com.ziyao.harbor.core.text.StrPool;
 import com.ziyao.harbor.core.text.StringFinder;
 import com.ziyao.harbor.core.text.StringFormatter;
@@ -24,7 +25,7 @@ import java.util.*;
 public abstract class Strings implements StrPool {
 
     public static final int INDEX_NOT_FOUND = -1;
-
+    private static final String[] EMPTY_STRING_ARRAY = new String[0];
     /**
      * 字符串常量：{@code "null"} <br>
      * 注意：{@code "null" != null}
@@ -997,5 +998,67 @@ public abstract class Strings implements StrPool {
         char[] result = new char[count];
         java.util.Arrays.fill(result, c);
         return new String(result);
+    }
+
+    public static String[] commaDelimitedListToStringArray(@Nullable String str) {
+        return delimitedListToStringArray(str, ",");
+    }
+
+    public static Set<String> commaDelimitedListToSet(@Nullable String str) {
+        String[] tokens = commaDelimitedListToStringArray(str);
+        return new LinkedHashSet<>(java.util.Arrays.asList(tokens));
+    }
+
+    public static String[] delimitedListToStringArray(@Nullable String str, @Nullable String delimiter) {
+        return delimitedListToStringArray(str, delimiter, (String) null);
+    }
+
+    public static String[] delimitedListToStringArray(@Nullable String str, @Nullable String delimiter, @Nullable String charsToDelete) {
+        if (str == null) {
+            return EMPTY_STRING_ARRAY;
+        } else if (delimiter == null) {
+            return new String[]{str};
+        } else {
+            List<String> result = new ArrayList<>();
+            int pos;
+            if (delimiter.isEmpty()) {
+                for (pos = 0; pos < str.length(); ++pos) {
+                    result.add(deleteAny(str.substring(pos, pos + 1), charsToDelete));
+                }
+            } else {
+                int delPos;
+                for (pos = 0; (delPos = str.indexOf(delimiter, pos)) != -1; pos = delPos + delimiter.length()) {
+                    result.add(deleteAny(str.substring(pos, delPos), charsToDelete));
+                }
+
+                if (!str.isEmpty() && pos <= str.length()) {
+                    result.add(deleteAny(str.substring(pos), charsToDelete));
+                }
+            }
+
+            return toStringArray(result);
+        }
+    }
+
+    public static String deleteAny(String inString, @Nullable String charsToDelete) {
+        if (hasLength(inString) && hasLength(charsToDelete)) {
+            int lastCharIndex = 0;
+            char[] result = new char[inString.length()];
+
+            for (int i = 0; i < inString.length(); ++i) {
+                char c = inString.charAt(i);
+                if (charsToDelete.indexOf(c) == -1) {
+                    result[lastCharIndex++] = c;
+                }
+            }
+
+            if (lastCharIndex == inString.length()) {
+                return inString;
+            } else {
+                return new String(result, 0, lastCharIndex);
+            }
+        } else {
+            return inString;
+        }
     }
 }

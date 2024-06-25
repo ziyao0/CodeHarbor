@@ -1,8 +1,8 @@
 server:
-  port: 10000
+  port: 10001
 
 spring:
   application:
-    name: user-center-service
+    name: user-center
   profiles:
     active: register

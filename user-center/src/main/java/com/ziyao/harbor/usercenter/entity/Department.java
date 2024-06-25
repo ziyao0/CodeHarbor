@@ -3,6 +3,9 @@ package com.ziyao.harbor.usercenter.entity;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -15,10 +18,12 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author zhangziyao
- * @since 2023-05-09
+ * @since 2024-06-13
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
+@TableName("department")
+@Entity(name = "department")
 public class Department implements Serializable {
 
 
@@ -27,49 +32,50 @@ public class Department implements Serializable {
     /**
      * 主键id
      */
-    @TableId("ID")
+    @Id
+    @TableId("id")
     private Long id;
 
     /**
      * 系统id
      */
-    @TableField("APP_ID")
+    @TableField("app_id")
     private Long appId;
 
     /**
      * 部门名称
      */
-    @TableField("DEPT_NAME")
+    @TableField("dept_name")
     private String deptName;
 
     /**
      * 上级部门id
      */
-    @TableField("PARENT_ID")
+    @TableField("parent_id")
     private Long parentId;
 
     /**
      * 创建人id
      */
-    @TableField(value = "CREATED_BY", fill = FieldFill.INSERT)
+    @TableField(value = "created_by", fill = FieldFill.INSERT)
     private Integer createdBy;
 
     /**
      * 创建时间
      */
-    @TableField(value = "CREATED_AT", fill = FieldFill.INSERT)
+    @TableField(value = "created_at", fill = FieldFill.INSERT)
     private LocalDateTime createdAt;
 
     /**
      * 修改人id
      */
-    @TableField(value = "MODIFIED_BY", fill = FieldFill.UPDATE)
+    @TableField(value = "modified_by", fill = FieldFill.UPDATE)
     private Integer modifiedBy;
 
     /**
      * 修改时间
      */
-    @TableField(value = "MODIFIED_AT", fill = FieldFill.UPDATE)
+    @TableField(value = "modified_at", fill = FieldFill.UPDATE)
     private LocalDateTime modifiedAt;
 
 

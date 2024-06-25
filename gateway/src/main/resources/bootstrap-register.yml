@@ -2,7 +2,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: 124.222.42.249:8848
+        server-addr: 123.249.103.68:8848
       config:
         import-check:
           enabled: false

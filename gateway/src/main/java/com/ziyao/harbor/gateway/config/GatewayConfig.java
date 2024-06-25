@@ -6,6 +6,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao zhang
@@ -19,6 +20,12 @@ public class GatewayConfig {
      * 是否跳过授权，默认不跳过
      */
     private boolean skip;
+
+    private boolean enableDebounced = true;
+    /**
+     * 防抖时间设为2秒
+     */
+    private long debounceTimes = TimeUnit.SECONDS.toMillis(2);
     /**
      * 默认跳过授权api集合
      */

@@ -17,3 +17,6 @@ com:
         - spring.datasource.url
         - spring.datasource.username
         - spring.cloud.nacos.discovery.server-addr
+        - spring.data.redis.host
+        - spring.data.redis.port
+        - spring.data.redis.password
