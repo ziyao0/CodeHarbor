@@ -4,6 +4,8 @@ import com.ziyao.harbor.core.utils.Collections;
 import com.ziyao.harbor.data.redis.core.Repository;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
 import com.ziyao.harbor.data.redis.repository.RedisHashRepository;
+import com.ziyao.harbor.data.redis.repository.RedisListRepository;
+import com.ziyao.harbor.data.redis.repository.RedisSetRepository;
 import com.ziyao.harbor.data.redis.repository.RedisValueRepository;
 import lombok.Getter;
 import org.springframework.data.util.TypeInformation;
@@ -45,15 +47,8 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
         Assert.isTrue(Repository.class.isAssignableFrom(repositoryInterface), MUST_BE_A_REPOSITORY);
 
         // KeyValueRepository
-        TypeInformation<?> keyValueTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(RedisValueRepository.class);
-        if (keyValueTypeInformation != null) {
-            List<TypeInformation<?>> keyvalueArguments = keyValueTypeInformation.getTypeArguments();
-            if (Collections.nonNull(keyvalueArguments)) {
-                this.valueTypeInformation = resolveTypeParameter(keyvalueArguments, 0,
-                        () -> String.format("Could not resolve id type of %s", repositoryInterface));
-            }
-        }
+        this.valueTypeInformation = resolveTypeParameter();
+
         // HashRepository
         TypeInformation<?> hashTypeInformation = TypeInformation.of(repositoryInterface)//
                 .getSuperTypeInformation(RedisHashRepository.class);
@@ -68,6 +63,25 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
             }
         }
     }
+
+    private TypeInformation<?> resolveTypeParameter() {
+        TypeInformation<?> superTypeInformation = typeInformation.getSuperTypeInformation(RedisValueRepository.class);
+        if (superTypeInformation == null) {
+            superTypeInformation = typeInformation.getSuperTypeInformation(RedisListRepository.class);
+            if (superTypeInformation == null) {
+                superTypeInformation = typeInformation.getSuperTypeInformation(RedisSetRepository.class);
+            }
+        }
+        if (superTypeInformation != null) {
+            List<TypeInformation<?>> keyvalueArguments = superTypeInformation.getTypeArguments();
+            if (Collections.nonNull(keyvalueArguments)) {
+                return resolveTypeParameter(keyvalueArguments, 0,
+                        () -> String.format("Could not resolve id type of %s", repositoryInterface));
+            }
+        }
+        return null;
+    }
+
 
     /**
      * Creates a new {@link com.ziyao.harbor.data.redis.core.RepositoryMetadata} for the given repository interface.
