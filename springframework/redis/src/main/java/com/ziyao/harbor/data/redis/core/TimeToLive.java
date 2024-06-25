@@ -10,12 +10,12 @@ import java.util.concurrent.TimeUnit;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface Expired {
+public @interface TimeToLive {
 
     /**
      * 过期时间
      */
-    long timeout() default -1;
+    long ttl() default -1;
 
     /**
      * 时间单位

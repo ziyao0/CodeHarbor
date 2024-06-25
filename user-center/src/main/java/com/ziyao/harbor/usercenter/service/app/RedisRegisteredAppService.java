@@ -25,7 +25,7 @@ public class RedisRegisteredAppService implements RegisteredAppService {
     @Override
     public RegisteredApp findById(Long appId) {
         Assert.notNull(appId, "appId must not be null");
-        return registeredAppRepository.findByHK("registeredapp", appId).orElse(null);
+        return registeredAppRepository.findByHashKey("registeredapp", appId).orElse(null);
     }
 
 

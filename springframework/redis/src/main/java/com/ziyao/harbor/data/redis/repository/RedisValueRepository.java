@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2023/4/23
  */
 @NoRepositoryBean
-public interface KeyValueRepository<T> extends Repository {
+public interface RedisValueRepository<T> extends Repository {
 
 
     /**

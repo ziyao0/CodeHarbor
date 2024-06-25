@@ -1,8 +1,6 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.Expired;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
-import com.ziyao.harbor.data.redis.support.TimeoutUtils;
 import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformationCreator;
@@ -13,26 +11,20 @@ import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.Map;
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao
  * @since 2024/06/25 09:30:32
  */
-public class DefaultHashRepository<HK, HV> extends AbstractRepository<Object> implements HashRepository<HK, HV> {
+public class DefaultRedisHashRepository<HK, HV> extends AbstractRepository<Object> implements RedisHashRepository<HK, HV> {
 
-    private static final Log log = LogFactory.getLog(DefaultHashRepository.class);
+    private static final Log log = LogFactory.getLog(DefaultRedisHashRepository.class);
 
     private static final SerializerInformationCreator SerializerCreator = new DefaultSerializerInformationCreator();
     private final RedisOperations<String, Object> operations;
-    private final long timeout;
 
-    public DefaultHashRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, Object> template) {
-        super(template);
-        // 获取过期时间
-        Expired expiration = repositoryInformation.getRepositoryInterface().getAnnotation(Expired.class);
-        this.timeout = expiration != null && expiration.timeout() > 0
-                ? TimeoutUtils.toSeconds(expiration.timeout(), expiration.unit()) : -1;
+    public DefaultRedisHashRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, Object> template) {
+        super(template, repositoryInformation);
         // 设置序列化
         setSerializer(repositoryInformation, template);
         this.operations = template;
@@ -46,12 +38,12 @@ public class DefaultHashRepository<HK, HV> extends AbstractRepository<Object> im
 
     @SuppressWarnings("unchecked")
     @Override
-    public Optional<HV> findByHK(String id, Object hashKey) {
+    public Optional<HV> findByHashKey(String id, Object hashKey) {
         return Optional.ofNullable(this.operations.opsForHash().get(id, hashKey)).map(value -> (HV) value);
     }
 
     @Override
-    public Long deleteByHK(String id, Object... hashKey) {
+    public Long deleteByHashKey(String id, Object... hashKey) {
         return this.operations.opsForHash().delete(id, hashKey);
     }
 
@@ -63,11 +55,6 @@ public class DefaultHashRepository<HK, HV> extends AbstractRepository<Object> im
     @Override
     public void saveAll(String id, Map<HK, HV> map) {
         this.operations.opsForHash().putAll(id, map);
-    }
-
-    @Override
-    public void expire(String key) {
-        this.expire(key, timeout, TimeUnit.SECONDS);
     }
 
     /**
