@@ -13,26 +13,26 @@ import java.util.Map;
  */
 public class RedisOAuth2AuthorizationService extends AbstractOAuth2AuthorizationService {
 
-    private final OAuth2AuthorizationRepositoryRedis authorizationRepository;
+    private final OAuth2AuthorizationRepositoryRedis oauth2AuthorizationRepositoryRedis;
 
     public RedisOAuth2AuthorizationService(OAuth2AuthorizationRepositoryRedis authorizationRepository) {
-        this.authorizationRepository = authorizationRepository;
+        this.oauth2AuthorizationRepositoryRedis = authorizationRepository;
     }
 
     @Override
     public void save(OAuth2Authorization authorization) {
         Assert.notNull(authorization, "authorization must not be null");
-        authorizationRepository.save("oauth2authorization", authorization.getId(), authorization);
+        oauth2AuthorizationRepositoryRedis.save("oauth2authorization", authorization.getId(), authorization);
     }
 
     @Override
     public void remove(OAuth2Authorization authorization) {
-        authorizationRepository.deleteByHashKey("oauth2authorization", authorization.getId());
+        oauth2AuthorizationRepositoryRedis.deleteByHashKey("oauth2authorization", authorization.getId());
     }
 
     @Override
     public OAuth2Authorization findById(Long id) {
-        return authorizationRepository.findByHashKey("oauth2authorization", id).orElse(null);
+        return oauth2AuthorizationRepositoryRedis.findByHashKey("oauth2authorization", id).orElse(null);
     }
 
     @Override
@@ -41,7 +41,7 @@ public class RedisOAuth2AuthorizationService extends AbstractOAuth2Authorization
         Assert.notNull(tokenType, "tokenType must not be null");
 
         for (OAuth2Authorization authorization :
-                authorizationRepository.findById("oauth2authorization").orElse(Map.of()).values()) {
+                oauth2AuthorizationRepositoryRedis.findById("oauth2authorization").orElse(Map.of()).values()) {
             if (hasToken(authorization, token, tokenType)) {
                 return authorization;
             }
