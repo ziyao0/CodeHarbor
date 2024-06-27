@@ -29,4 +29,8 @@ public interface RedisValueRepository<T> extends Repository {
      */
     void save(String id, T value, long timeout, TimeUnit timeUnit);
 
+    /**
+     * @return 如果返回 {@code true} 则表示不存在并保存成功，反则证明存在该key
+     */
+    boolean saveIfAbsent(String id, T value);
 }

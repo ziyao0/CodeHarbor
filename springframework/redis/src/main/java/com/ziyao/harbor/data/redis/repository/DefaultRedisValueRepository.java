@@ -50,6 +50,11 @@ public class DefaultRedisValueRepository<T> extends AbstractRepository<T> implem
         this.operations.opsForValue().set(id, value, timeout, timeUnit);
     }
 
+    @Override
+    public boolean saveIfAbsent(String id, T value) {
+        return Optional.ofNullable(this.operations.opsForValue().setIfAbsent(id, value)).orElse(false);
+    }
+
     /**
      * 设置redis序列化
      */

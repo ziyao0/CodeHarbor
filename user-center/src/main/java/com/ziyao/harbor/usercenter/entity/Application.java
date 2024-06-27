@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.redis.core.mapping.RedisMappingContext;
+import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -33,6 +35,7 @@ public class Application implements Serializable {
      * 主键id
      */
     @Id
+    @org.springframework.data.annotation.Id
     @TableId("app_id")
     private Long appId;
 
@@ -102,5 +105,13 @@ public class Application implements Serializable {
     @TableField("remark")
     private String remark;
 
+    public static void main(String[] args) throws IllegalAccessException {
+        Application application = new Application();
+        application.setAppId(1111L);
+        RedisPersistentEntity<?> requiredPersistentEntity = new RedisMappingContext().getRequiredPersistentEntity(application.getClass());
+        System.out.println(requiredPersistentEntity.getIdProperty().isIdProperty());
+        Object o = requiredPersistentEntity.getIdProperty().getField().get(application);
+        System.out.println(o);
+    }
 
 }
