@@ -23,6 +23,7 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 
 /**
  * <p>
@@ -37,6 +38,7 @@ import java.util.stream.Collectors;
 <#else>
 @Controller
 </#if>
+@RequiredArgsConstructor
 @RequestMapping("<#if package.ModuleName?? && package.ModuleName != "">/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if kotlin>
 class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
@@ -47,8 +49,7 @@ public class ${table.controllerName} extends ${superControllerClass}<${table.ser
 <#--public class ${table.controllerName} {-->
 <#--</#if>-->
 
-@Autowired
-private ${table.serviceName} ${table.serviceName?uncap_first};
+private final ${table.serviceName} ${table.serviceName?uncap_first};
 
     @PostMapping("/save")
     public void save(@RequestBody ${entity}DTO entityDTO) {

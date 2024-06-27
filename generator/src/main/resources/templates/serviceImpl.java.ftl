@@ -9,7 +9,7 @@ import ${package.Mapper}.${table.mapperName};
 import ${package.Service}.${table.serviceName};
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
+import lombok.RequiredArgsConstructor;
 /**
 * <p>
     * ${table.comment!} 服务实现类
@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
  * @since ${date}
  */
 @Service
+@RequiredArgsConstructor
 <#if kotlin>
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 
@@ -26,8 +27,7 @@ open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperNam
 <#else>
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 
-    @Autowired
-    private ${table.mapperName} ${table.mapperName?uncap_first};
+    private final ${table.mapperName} ${table.mapperName?uncap_first};
 
     @Override
     public Page<${entity}> page(Page<${entity}> page, ${entity}DTO ${entity?uncap_first}DTO) {
