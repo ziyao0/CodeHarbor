@@ -12,7 +12,7 @@ import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -67,7 +67,7 @@ public class Application implements Serializable {
      * 颁发时间
      */
     @TableField("issued_at")
-    private Instant issuedAt;
+    private LocalDateTime issuedAt;
 
     /**
      * 应用秘钥
@@ -79,7 +79,7 @@ public class Application implements Serializable {
      * 应用秘钥过期时间
      */
     @TableField("app_secret_expires_at")
-    private Instant appSecretExpiresAt;
+    private LocalDateTime appSecretExpiresAt;
 
     /**
      * 应用名称

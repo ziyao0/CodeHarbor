@@ -57,12 +57,11 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
     }
 
     @Bean
-    public OAuth2AuthorizationService delegatingOAuth2AuthorizationService(RegisteredAppService delegatingRegisteredAppService,
-                                                                           AuthorizationRepository authorizationRepository,
+    public OAuth2AuthorizationService delegatingOAuth2AuthorizationService(AuthorizationRepository authorizationRepository,
                                                                            OAuth2AuthorizationRepositoryRedis oAuth2AuthorizationRepository) {
         return new DelegatingOAuth2AuthorizationService(
                 List.of(
-                        new JpaOAuth2AuthorizationService(delegatingRegisteredAppService, authorizationRepository),
+                        new JpaOAuth2AuthorizationService(authorizationRepository),
                         new RedisOAuth2AuthorizationService(oAuth2AuthorizationRepository),
                         new CaffeineOAuth2AuthorizationService()
                 )

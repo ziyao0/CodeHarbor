@@ -11,7 +11,7 @@ import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.time.Instant;
+import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -81,13 +81,13 @@ public class Authorization implements Serializable {
      * 授权码颁发时间
      */
     @TableField("authorization_code_issued_at")
-    private Instant authorizationCodeIssuedAt;
+    private LocalDateTime authorizationCodeIssuedAt;
 
     /**
      * 授权码失效时间
      */
     @TableField("authorization_code_expires_at")
-    private Instant authorizationCodeExpiresAt;
+    private LocalDateTime authorizationCodeExpiresAt;
 
     /**
      * 授权码元数据信息
@@ -105,13 +105,13 @@ public class Authorization implements Serializable {
      * 认证令牌颁发时间
      */
     @TableField("access_token_issued_at")
-    private Instant accessTokenIssuedAt;
+    private LocalDateTime accessTokenIssuedAt;
 
     /**
      * 认证临牌失效时间
      */
     @TableField("access_token_expires_at")
-    private Instant accessTokenExpiresAt;
+    private LocalDateTime accessTokenExpiresAt;
 
     /**
      * 认证令牌元数据信息
@@ -141,13 +141,13 @@ public class Authorization implements Serializable {
      * 刷新令牌颁发时间
      */
     @TableField("refresh_token_issued_at")
-    private Instant refreshTokenIssuedAt;
+    private LocalDateTime refreshTokenIssuedAt;
 
     /**
      * 刷新令牌过期时间
      */
     @TableField("refresh_token_expires_at")
-    private Instant refreshTokenExpiresAt;
+    private LocalDateTime refreshTokenExpiresAt;
 
     /**
      * 元数据信息
@@ -164,24 +164,23 @@ public class Authorization implements Serializable {
      * id令牌颁发时间
      */
     @TableField("oidc_id_token_issued_at")
-    private Instant oidcIdTokenIssuedAT;
+    private LocalDateTime oidcIdTokenIssuedAT;
 
     /**
      * id令牌过期时间
      */
     @TableField("oidc_id_token_expires_at")
-    private Instant oidcIdTokenExpiresAt;
+    private LocalDateTime oidcIdTokenExpiresAt;
     /**
      * id令牌声明
      */
     @TableField("oidc_id_token_claims")
-    private Instant oidcIdTokenClaims;
+    private String oidcIdTokenClaims;
 
     /**
      * id令牌元数据信息
      */
     @TableField("oidc_id_token_metadata")
     private String oidcIdTokenMetadata;
-
 
 }
