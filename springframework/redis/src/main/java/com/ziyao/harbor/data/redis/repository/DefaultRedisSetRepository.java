@@ -14,7 +14,7 @@ import java.util.Set;
  * @author ziyao
  * @since 2024/06/25 15:36:54
  */
-public class DefaultRedisSetRepository<T> extends AbstractRepository<T> implements RedisSetRepository<T> {
+public class DefaultRedisSetRepository<T> extends AbstractRepository<T, String> implements RedisSetRepository<T> {
 
 
     private static final SerializerInformationCreator CREATOR = new DefaultSerializerInformationCreator();

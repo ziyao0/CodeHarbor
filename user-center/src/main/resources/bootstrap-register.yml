@@ -11,6 +11,16 @@ spring:
         shared-configs:
           - data-id: db-config.yml
           - data-id: redis.yml
+  data:
+    redis:
+      password: '{SM4}ece1d611b1f09c91709978cbc4067df0'
+      port: '{SM4}3dac57b6c28afa3c32d9a95121772c0b'
+      host: '{SM4}97324eb26485f499e717dc7fbe0b9e48'
+  datasource:
+    password: '{SM4}ece1d611b1f09c91709978cbc4067df0'
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: '{SM4}5e25cb9dbe1a4c679a44ac24cd4ef1517b07e03b5e4b86ef6ccfa15757fa8d2afb75c54cd3b641c4ce4c01c46bd43e0c'
+    username: '{SM4}9a9ab954111a3342f03042b195527d48'
 
 
 

@@ -14,7 +14,7 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 15:17:24
  */
-public class DefaultRedisListRepository<T> extends AbstractRepository<T> implements RedisListRepository<T> {
+public class DefaultRedisListRepository<T> extends AbstractRepository<T, String> implements RedisListRepository<T> {
 
     private static final SerializerInformationCreator CREATOR = new DefaultSerializerInformationCreator();
     private final RedisOperations<String, T> operations;

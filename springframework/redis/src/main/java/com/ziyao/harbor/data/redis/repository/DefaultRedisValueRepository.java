@@ -1,9 +1,9 @@
 package com.ziyao.harbor.data.redis.repository;
 
+import com.ziyao.harbor.data.redis.core.RedisEntityInformation;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
 import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
 import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
-import com.ziyao.harbor.data.redis.support.serializer.SerializerInformationCreator;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.data.redis.core.RedisOperations;
@@ -16,18 +16,19 @@ import java.util.concurrent.TimeUnit;
  * @author ziyao zhang
  * @since 2024/2/2
  */
-public class DefaultRedisValueRepository<T> extends AbstractRepository<T> implements RedisValueRepository<T> {
+public class DefaultRedisValueRepository<T, ID> extends AbstractRepository<T, ID> implements RedisValueRepository<T, ID> {
 
     private static final Log log = LogFactory.getLog(DefaultRedisValueRepository.class);
-    private static final SerializerInformationCreator SerializerInformationCreator = new DefaultSerializerInformationCreator();
 
-    private final RedisOperations<String, T> operations;
+    private final RedisOperations<ID, T> operations;
 
 
-    public DefaultRedisValueRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, T> template) {
+    public DefaultRedisValueRepository(RepositoryInformation repositoryInformation, RedisTemplate<ID, T> template) {
         super(template, repositoryInformation);
         // 设置序列化
-        setSerializer(repositoryInformation, template);
+        SerializerInformation<?, ?, ?, ?> metadata = new DefaultSerializerInformationCreator().getInformation(repositoryInformation);
+        template.setKeySerializer(metadata.getKeySerializer());
+        template.setValueSerializer(metadata.getValueSerializer());
         this.operations = template;
     }
 
@@ -37,34 +38,43 @@ public class DefaultRedisValueRepository<T> extends AbstractRepository<T> implem
     }
 
     @Override
-    public void save(String id, T value) {
-        if (getTtl() > 0) {
-            this.save(id, value, getTtl(), TimeUnit.SECONDS);
+    public void save(T entity) {
+
+        RedisEntityInformation<T, ID> entityInformation = getEntityInformation();
+        ID id = entityInformation.getId(entity);
+
+        if (null == id) {
+            throw new IllegalArgumentException("未在实体类中获取存在id属性的字段或类");
+        }
+        if (entityInformation.hasExplicitTimeToLiveProperty()) {
+            Optional<Long> timeToLiveOptional = entityInformation.getTimeToLive(entity);
+            timeToLiveOptional.ifPresent(timeToLive -> this.operations.opsForValue().set(id, entity, timeToLive, TimeUnit.SECONDS));
         } else {
-            this.operations.opsForValue().set(id, value);
+            this.operations.opsForValue().set(id, entity);
         }
     }
 
     @Override
-    public void save(String id, T value, long timeout, TimeUnit timeUnit) {
-        this.operations.opsForValue().set(id, value, timeout, timeUnit);
-    }
+    public boolean saveIfAbsent(T entity) {
+        RedisEntityInformation<T, ID> entityInformation = getEntityInformation();
 
-    @Override
-    public boolean saveIfAbsent(String id, T value) {
-        return Optional.ofNullable(this.operations.opsForValue().setIfAbsent(id, value)).orElse(false);
-    }
+        Optional<String> keySpace = entityInformation.getKeySpace();
 
-    /**
-     * 设置redis序列化
-     */
-    private void setSerializer(RepositoryInformation repositoryInformation, RedisTemplate<String, T> template) {
-        //创建redis序列化
-        SerializerInformation<?, ?, ?, ?> metadata = SerializerInformationCreator.getInformation(repositoryInformation);
-        if (log.isDebugEnabled()) {
-            log.debug("repositoryInterfaceClass [" + repositoryInformation.getRepositoryInterface().getName() + "],metadata:" + metadata);
+        ID id = entityInformation.getId(entity);
+
+        if (null == id) {
+            throw new IllegalArgumentException("未在实体类中获取存在id属性的字段或类");
         }
-        template.setKeySerializer(metadata.getKeySerializer());
-        template.setValueSerializer(metadata.getValueSerializer());
+
+
+        if (entityInformation.hasExplicitTimeToLiveProperty()) {
+            Optional<Long> timeToLiveOptional = entityInformation.getTimeToLive(entity);
+            return timeToLiveOptional.map(
+                            timeToLive -> Optional.ofNullable(this.operations.opsForValue()
+                                    .setIfAbsent(id, entity, timeToLive, TimeUnit.SECONDS)).orElse(false))
+                    .orElseGet(() -> Optional.ofNullable(this.operations.opsForValue().setIfAbsent(id, entity)).orElse(false));
+        } else {
+            return Optional.ofNullable(this.operations.opsForValue().setIfAbsent(id, entity)).orElse(false);
+        }
     }
 }

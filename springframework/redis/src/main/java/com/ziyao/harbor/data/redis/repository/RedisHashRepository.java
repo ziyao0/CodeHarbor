@@ -1,6 +1,6 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.Repository;
+import com.ziyao.harbor.data.redis.core.RedisRepository;
 
 import java.util.Map;
 import java.util.Optional;
@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 09:10:50
  */
-public interface RedisHashRepository<HK, HV> extends Repository {
+public interface RedisHashRepository<HK, HV> extends RedisRepository<String> {
 
     /**
      * 通过ID 获取存储的hash数据

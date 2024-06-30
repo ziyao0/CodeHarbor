@@ -3,6 +3,7 @@ package com.ziyao.harbor.usercenter.service.app;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ziyao.harbor.core.utils.Dates;
 import com.ziyao.harbor.core.utils.Strings;
 import com.ziyao.harbor.usercenter.entity.Application;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
@@ -65,9 +66,9 @@ public class JpaRegisteredAppService implements RegisteredAppService {
         RegisteredApp.Builder builder = RegisteredApp.withAppId(application.getAppId())
                 .appName(application.getAppName())
                 .appType(application.getAppType())
-                .issuedAt(application.getIssuedAt())
+                .issuedAt(Dates.toInstant(application.getIssuedAt()))
                 .appSecret(application.getAppSecret())
-                .appSecretExpiresAt(application.getAppSecretExpiresAt())
+                .appSecretExpiresAt(Dates.toInstant(application.getIssuedAt()))
                 .state(application.getState())
                 .redirectUri(application.getRedirectUri())
                 .postLogoutRedirectUris(application.getPostLogoutRedirectUri())
@@ -90,8 +91,8 @@ public class JpaRegisteredAppService implements RegisteredAppService {
         application.setScopes(Strings.collectionToCommaDelimitedString(registeredApp.getScopes()));
         application.setAppType(registeredApp.getAppType());
         application.setAppSecret(registeredApp.getAppSecret());
-        application.setIssuedAt(registeredApp.getIssuedAt());
-        application.setAppSecretExpiresAt(registeredApp.getAppSecretExpiresAt());
+        application.setIssuedAt(Dates.toLocalDateTime(registeredApp.getIssuedAt()));
+        application.setAppSecretExpiresAt(Dates.toLocalDateTime(registeredApp.getAppSecretExpiresAt()));
         application.setRedirectUri(registeredApp.getRedirectUri());
         application.setPostLogoutRedirectUri(registeredApp.getPostLogoutRedirectUri());
         application.setTokenSettings(writeMap(registeredApp.getTokenSettings().getSettings()));

@@ -16,7 +16,7 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 09:30:32
  */
-public class DefaultRedisHashRepository<HK, HV> extends AbstractRepository<Object> implements RedisHashRepository<HK, HV> {
+public class DefaultRedisHashRepository<HK, HV> extends AbstractRepository<Object, String> implements RedisHashRepository<HK, HV> {
 
     private static final Log log = LogFactory.getLog(DefaultRedisHashRepository.class);
 
