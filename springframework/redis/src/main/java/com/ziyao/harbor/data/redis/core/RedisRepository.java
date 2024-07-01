@@ -6,21 +6,21 @@ import java.util.concurrent.TimeUnit;
  * @author ziyao zhang
  * @time 2024/6/29
  */
-public interface RedisRepository<ID> extends Repository {
+public interface RedisRepository<T> extends Repository {
 
     /**
      * 判断缓存中有没有这个key
      */
-    boolean hasKey(ID key);
+    boolean hasKey(Object id, String keyspace, Class<T> type);
 
     /**
      * 删除key
      */
-    boolean delete(ID key);
+    void delete(Object id, String keyspace, Class<T> type);
 
     /**
      * 刷新过期时间
      */
-    void timeToLive(ID key, long timeout, TimeUnit timeUnit);
+    void timeToLive(Object id, String keyspace, Class<T> type, long timeout, TimeUnit timeUnit);
 
 }

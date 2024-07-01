@@ -1,16 +1,13 @@
 package com.ziyao.harbor.data.redis.repository;
 
+import com.ziyao.harbor.data.redis.core.RedisAdapter;
 import com.ziyao.harbor.data.redis.core.RedisEntityInformation;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
-import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
-import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.ziyao.harbor.data.redis.core.convert.RedisUpdate;
 import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.lang.NonNull;
 
 import java.util.Optional;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author ziyao zhang
@@ -18,23 +15,17 @@ import java.util.concurrent.TimeUnit;
  */
 public class DefaultRedisValueRepository<T, ID> extends AbstractRepository<T, ID> implements RedisValueRepository<T, ID> {
 
-    private static final Log log = LogFactory.getLog(DefaultRedisValueRepository.class);
 
-    private final RedisOperations<ID, T> operations;
+    public DefaultRedisValueRepository(RepositoryInformation repositoryInformation, RedisOperations<byte[], byte[]> redisOps) {
+        super(new RedisAdapter(redisOps), repositoryInformation);
 
-
-    public DefaultRedisValueRepository(RepositoryInformation repositoryInformation, RedisTemplate<ID, T> template) {
-        super(template, repositoryInformation);
-        // 设置序列化
-        SerializerInformation<?, ?, ?, ?> metadata = new DefaultSerializerInformationCreator().getInformation(repositoryInformation);
-        template.setKeySerializer(metadata.getKeySerializer());
-        template.setValueSerializer(metadata.getValueSerializer());
-        this.operations = template;
     }
 
     @Override
-    public Optional<T> findById(String id) {
-        return Optional.ofNullable(operations.opsForValue().get(id));
+    public Optional<T> findById(@NonNull Object id) {
+        String keySpace = getEntityInformation().getKeySpace();
+        Class<T> javaType = getEntityInformation().getJavaType();
+        return Optional.ofNullable(redisAdapter.findById(id, keySpace, javaType));
     }
 
     @Override
@@ -46,19 +37,24 @@ public class DefaultRedisValueRepository<T, ID> extends AbstractRepository<T, ID
         if (null == id) {
             throw new IllegalArgumentException("未在实体类中获取存在id属性的字段或类");
         }
+        Class<T> javaType = entityInformation.getJavaType();
+
+        RedisUpdate<T> update = new RedisUpdate<>(id, javaType, entity, false);
+
         if (entityInformation.hasExplicitTimeToLiveProperty()) {
-            Optional<Long> timeToLiveOptional = entityInformation.getTimeToLive(entity);
-            timeToLiveOptional.ifPresent(timeToLive -> this.operations.opsForValue().set(id, entity, timeToLive, TimeUnit.SECONDS));
-        } else {
-            this.operations.opsForValue().set(id, entity);
+            Long timeToLive = entityInformation.getTimeToLive(entity);
+
+            if (timeToLive != null && timeToLive > 0) {
+                update.setRefresh(true);
+            }
+
         }
+        redisAdapter.update(update);
     }
 
     @Override
     public boolean saveIfAbsent(T entity) {
         RedisEntityInformation<T, ID> entityInformation = getEntityInformation();
-
-        Optional<String> keySpace = entityInformation.getKeySpace();
 
         ID id = entityInformation.getId(entity);
 
@@ -66,15 +62,15 @@ public class DefaultRedisValueRepository<T, ID> extends AbstractRepository<T, ID
             throw new IllegalArgumentException("未在实体类中获取存在id属性的字段或类");
         }
 
+        RedisUpdate<T> update = new RedisUpdate<>(id, entityInformation.getJavaType(), entity, false);
 
         if (entityInformation.hasExplicitTimeToLiveProperty()) {
-            Optional<Long> timeToLiveOptional = entityInformation.getTimeToLive(entity);
-            return timeToLiveOptional.map(
-                            timeToLive -> Optional.ofNullable(this.operations.opsForValue()
-                                    .setIfAbsent(id, entity, timeToLive, TimeUnit.SECONDS)).orElse(false))
-                    .orElseGet(() -> Optional.ofNullable(this.operations.opsForValue().setIfAbsent(id, entity)).orElse(false));
-        } else {
-            return Optional.ofNullable(this.operations.opsForValue().setIfAbsent(id, entity)).orElse(false);
+            Long timeToLive = entityInformation.getTimeToLive(entity);
+
+            if (timeToLive != null && timeToLive > 0) {
+                update.setRefresh(true);
+            }
         }
+        return redisAdapter.updateIfAbsent(update);
     }
 }

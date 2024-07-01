@@ -4,8 +4,6 @@ import lombok.Getter;
 import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 import org.springframework.data.repository.core.support.PersistentEntityInformation;
 
-import java.util.Optional;
-
 /**
  * @author ziyao zhang
  * @time 2024/6/29
@@ -20,12 +18,12 @@ public class RedisEntityInformation<T, ID> extends PersistentEntityInformation<T
         this.persistentEntity = persistentEntity;
     }
 
-    public Optional<Long> getTimeToLive(T entity) {
-        return Optional.ofNullable(this.persistentEntity.getTimeToLiveAccessor().getTimeToLive(entity));
+    public Long getTimeToLive(T entity) {
+        return this.persistentEntity.getTimeToLiveAccessor().getTimeToLive(entity);
     }
 
-    public Optional<String> getKeySpace() {
-        return Optional.ofNullable(this.persistentEntity.getKeySpace());
+    public String getKeySpace() {
+        return this.persistentEntity.getKeySpace();
     }
 
     public boolean hasExplicitTimeToLiveProperty() {

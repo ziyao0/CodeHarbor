@@ -1,6 +1,7 @@
 package com.ziyao.harbor.data.redis.core.convert;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -13,7 +14,8 @@ public class RedisUpdate<T> {
     private final Object id;
     private final Class<T> target;
     private final T value;
-    private boolean refresh = false;
+    @Setter
+    private boolean refresh;
 
 
     @SuppressWarnings("unchecked")

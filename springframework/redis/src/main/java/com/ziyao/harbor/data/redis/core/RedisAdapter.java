@@ -1,20 +1,22 @@
 package com.ziyao.harbor.data.redis.core;
 
 import com.ziyao.harbor.core.utils.Strings;
-import com.ziyao.harbor.data.redis.core.convert.RedisEntity;
 import com.ziyao.harbor.data.redis.core.convert.RedisEntityConverter;
+import com.ziyao.harbor.data.redis.core.convert.RedisMetadata;
 import com.ziyao.harbor.data.redis.core.convert.RedisUpdate;
+import lombok.Getter;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
+import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.data.redis.core.mapping.RedisMappingContext;
 import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 import org.springframework.data.redis.core.mapping.RedisPersistentProperty;
+import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.ObjectUtils;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -22,10 +24,10 @@ import java.util.concurrent.TimeUnit;
  * @author ziyao zhang
  * @time 2024/6/29
  */
+@Getter
 public class RedisAdapter {
 
     private final RedisOperations<byte[], byte[]> redisOps;
-
     private final RedisEntityConverter converter;
 
     public RedisAdapter(RedisOperations<byte[], byte[]> redisOps) {
@@ -38,19 +40,37 @@ public class RedisAdapter {
     }
 
 
+    /**
+     * 判断缓存中有没有这个key
+     */
+    public <T> boolean hasKey(Object id, String keyspace, Class<T> type) {
+
+
+        byte[] redisKey = createKey(id, keyspace, type);
+
+        return Boolean.TRUE.equals(redisOps.hasKey(redisKey));
+    }
+
+
+    /**
+     * 刷新过期时间
+     */
+    public <T> void timeToLive(Object id, String keyspace, Class<T> type, long timeout, TimeUnit timeUnit) {
+
+        byte[] redisKey = createKey(id, keyspace, type);
+
+        redisOps.expire(redisKey, timeout, timeUnit);
+    }
+
+
     @SuppressWarnings("deprecation")
     public <T> List<T> findByIdForList(Object id, String keyspace, Class<T> type) {
 
-        RedisPersistentEntity<?> entity = this.converter.getMappingContext()
-                .getRequiredPersistentEntity(type);
-        if (Strings.isEmpty(keyspace)) {
-            keyspace = entity.getKeySpace();
-        }
-        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
+        byte[] redisKey = createKey(id, keyspace, type);
 
         List<byte[]> raws = redisOps.execute((RedisCallback<List<byte[]>>) connection -> connection.lRange(redisKey, 0, -1));
 
-        RedisEntity rdo = new RedisEntity();
+        RedisMetadata rdo = new RedisMetadata();
 
         rdo.setRaws(raws);
 
@@ -60,16 +80,11 @@ public class RedisAdapter {
     @SuppressWarnings("deprecation")
     public <T> Set<T> findByIdForSet(Object id, String keyspace, Class<T> type) {
 
-        RedisPersistentEntity<?> entity = this.converter.getMappingContext()
-                .getRequiredPersistentEntity(type);
-        if (Strings.isEmpty(keyspace)) {
-            keyspace = entity.getKeySpace();
-        }
-        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
+        byte[] redisKey = createKey(id, keyspace, type);
 
         Set<byte[]> raws = redisOps.execute((RedisCallback<Set<byte[]>>) connection -> connection.sMembers(redisKey));
 
-        RedisEntity rdo = new RedisEntity();
+        RedisMetadata rdo = new RedisMetadata();
 
         rdo.setRaws(raws);
 
@@ -81,15 +96,11 @@ public class RedisAdapter {
         RedisPersistentEntity<?> entity = this.converter.getMappingContext()
                 .getRequiredPersistentEntity(type);
 
-        if (Strings.isEmpty(keyspace)) {
-            keyspace = entity.getKeySpace();
-        }
-
-        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
+        byte[] redisKey = createKey(id, keyspace, type);
 
         byte[] raw = redisOps.execute((RedisCallback<byte[]>) connection -> connection.get(redisKey));
 
-        RedisEntity rdo = RedisEntity.createRedisEntity(raw);
+        RedisMetadata rdo = RedisMetadata.createRedisEntity(raw);
 
         T target = this.converter.read(type, rdo);
 
@@ -129,44 +140,23 @@ public class RedisAdapter {
     @SuppressWarnings("deprecation")
     public <T> void delete(Object id, String keyspace, Class<T> type) {
 
-        RedisPersistentEntity<?> entity = this.converter.getMappingContext().getRequiredPersistentEntity(type);
-
-        if (Strings.isEmpty(keyspace)) {
-            keyspace = entity.getKeySpace();
-        }
-
-        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
-
-
+        byte[] redisKey = createKey(id, keyspace, type);
         redisOps.execute((RedisCallback<Long>) connection -> connection.del(redisKey));
 
     }
 
     @SuppressWarnings("deprecation")
     public void update(RedisUpdate<?> update) {
-        RedisPersistentEntity<?> entity = this.converter.getMappingContext()
-                .getRequiredPersistentEntity(update.getTarget());
 
-        String keySpace = entity.getKeySpace();
-        byte[] redisKey = createKey(keySpace, this.converter.getConversionService().convert(update.getId(), String.class));
+        byte[] redisKey = createKey(update.getId(), null, update.getTarget());
 
-        RedisEntity rdo = new RedisEntity();
+        RedisMetadata rdo = new RedisMetadata();
         this.converter.write(update, rdo);
 
         // @formatter:off
         redisOps.execute((RedisCallback<Void>) connection -> {
 
-            Object value = update.getValue();
-
-            if (value instanceof Set<?>){
-                connection.sAdd(redisKey,rdo.getRaws().toArray(new byte[0][]));
-            }else if (value instanceof List<?> ){
-                connection.lPush(redisKey,rdo.getRaws().toArray(new byte[0][]));
-            }else if (value instanceof Map<?,?>){
-                connection.hMSet(rdo.getRaw(),rdo.getRawMap());
-            }else {
-                connection.set(redisKey, rdo.getRaw());
-            }
+            connection.set(redisKey, rdo.getRaw());
 
             if (update.isRefresh()) {
 
@@ -182,8 +172,40 @@ public class RedisAdapter {
         // @formatter:on
     }
 
-    private byte[] createKey(String keySpace, String id) {
+    @SuppressWarnings("deprecation")
+    public boolean updateIfAbsent(RedisUpdate<?> update) {
 
-        return Strings.toBytes(keySpace + Strings.COLON + id);
+        byte[] redisKey = createKey(update.getId(), null, update.getTarget());
+
+        RedisMetadata rdo = new RedisMetadata();
+        this.converter.write(update, rdo);
+
+
+        return Boolean.TRUE.equals(redisOps.execute((RedisCallback<Boolean>) connection -> {
+
+            if (update.isRefresh()) {
+                if (rdo.getTimeToLive().isPresent()) {
+                    Expiration expiration = Expiration.from(rdo.getTimeToLive().get(), TimeUnit.SECONDS);
+                    return connection.set(redisKey, rdo.getRaw(), expiration, RedisStringCommands.SetOption.ifAbsent());
+                }
+            } else {
+                connection.persist(redisKey);
+                return connection.setNX(redisKey, rdo.getRaw());
+            }
+            return false;
+        }));
+
     }
+
+    public <T> byte[] createKey(Object id, String keyspace, Class<T> type) {
+
+        RedisPersistentEntity<?> entity = this.converter.getMappingContext().getRequiredPersistentEntity(type);
+
+        if (Strings.isEmpty(keyspace)) {
+            keyspace = entity.getKeySpace();
+        }
+
+        return Strings.toBytes(Strings.splicingRedisKey(keyspace, this.converter.getConversionService().convert(id, String.class)));
+    }
+
 }

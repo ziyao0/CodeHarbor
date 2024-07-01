@@ -234,6 +234,12 @@ public abstract class Strings implements StrPool {
         return null;
     }
 
+    public static String splicingRedisKey(String... values) {
+        return String.join(":", values);
+    }
+
+
+
     /**
      * toBytes
      * <p>

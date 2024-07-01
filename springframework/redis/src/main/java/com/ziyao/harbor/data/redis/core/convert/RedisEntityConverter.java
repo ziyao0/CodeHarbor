@@ -12,7 +12,9 @@ import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 import org.springframework.data.redis.serializer.SerializationException;
 import org.springframework.lang.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 /**
  * @author ziyao zhang
@@ -34,7 +36,7 @@ public class RedisEntityConverter {
         this.objectMapper.registerModules(modules);
     }
 
-    public <R> R read(Class<R> type, RedisEntity source) {
+    public <R> R read(Class<R> type, RedisMetadata source) {
 
         try {
             byte[] raw = source.getRaw();
@@ -51,7 +53,7 @@ public class RedisEntityConverter {
 
     }
 
-    public <R> List<R> readList(Class<R> type, RedisEntity source) {
+    public <R> List<R> readList(Class<R> type, RedisMetadata source) {
 
         try {
             Collection<byte[]> raws = source.getRaws();
@@ -75,24 +77,7 @@ public class RedisEntityConverter {
         }
     }
 
-    public <HK, HV> Map<HK, HV> readList(Class<HK> keyType, Class<HV> valueType, RedisEntity source) {
-
-        try {
-
-            Map<byte[], byte[]> rawMap = source.getRawMap();
-
-            if (rawMap == null || rawMap.isEmpty()) {
-                return Map.of();
-            }
-
-            return Map.of();
-
-        } catch (Exception ex) {
-            throw new SerializationException("Failed to deserialize byte array to object : " + ex.getMessage(), ex);
-        }
-    }
-
-    public void write(Object source, RedisEntity sink) {
+    public void write(Object source, RedisMetadata sink) {
 
         if (source instanceof RedisUpdate<?> update) {
             writeRedisUpdate(update, sink);
@@ -124,15 +109,9 @@ public class RedisEntityConverter {
             sourceCollection.forEach(item -> raws.add(toBytes(item)));
             sink.setRaws(raws);
         }
-
-        if (source instanceof Map<?, ?> sourceMap) {
-            Map<byte[], byte[]> rawMap = new HashMap<>();
-            sourceMap.forEach((k, v) -> rawMap.put(toBytes(k), toBytes(v)));
-            sink.setRawMap(rawMap);
-        }
     }
 
-    private void writeRedisUpdate(RedisUpdate<?> update, RedisEntity sink) {
+    private void writeRedisUpdate(RedisUpdate<?> update, RedisMetadata sink) {
 
         RedisPersistentEntity<?> entity = mappingContext.getRequiredPersistentEntity(update.getTarget());
 
@@ -145,7 +124,7 @@ public class RedisEntityConverter {
         }
     }
 
-    public void writeToRaw(Object value, RedisEntity sink) {
+    public void writeToRaw(Object value, RedisMetadata sink) {
 
         if (value == null) {
             return;

@@ -1,11 +1,10 @@
 package com.ziyao.harbor.data.redis.repository;
 
+import com.ziyao.harbor.data.redis.core.RedisAdapter;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
-import com.ziyao.harbor.data.redis.support.serializer.DefaultSerializerInformationCreator;
-import com.ziyao.harbor.data.redis.support.serializer.SerializerInformation;
-import com.ziyao.harbor.data.redis.support.serializer.SerializerInformationCreator;
+import com.ziyao.harbor.data.redis.core.convert.RedisMetadata;
+import com.ziyao.harbor.data.redis.core.convert.RedisUpdate;
 import org.springframework.data.redis.core.RedisOperations;
-import org.springframework.data.redis.core.RedisTemplate;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,56 +13,87 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 15:17:24
  */
-public class DefaultRedisListRepository<T> extends AbstractRepository<T, String> implements RedisListRepository<T> {
+public class DefaultRedisListRepository<T, ID> extends AbstractRepository<T, ID> implements RedisListRepository<T, ID> {
 
-    private static final SerializerInformationCreator CREATOR = new DefaultSerializerInformationCreator();
-    private final RedisOperations<String, T> operations;
-
-
-    public DefaultRedisListRepository(RepositoryInformation repositoryInformation, RedisTemplate<String, T> template) {
-        super(template, repositoryInformation);
-        // 设置序列化
-        SerializerInformation<?, ?, ?, ?> serializerInformation = CREATOR.getInformation(repositoryInformation);
-        template.setKeySerializer(serializerInformation.getKeySerializer());
-        template.setValueSerializer(serializerInformation.getValueSerializer());
-        this.operations = template;
-    }
-
-
-    @Override
-    public Optional<List<T>> findById(String id) {
-        return Optional.ofNullable(this.operations.opsForList().range(id, 0, -1));
+    public DefaultRedisListRepository(RepositoryInformation repositoryInformation, RedisOperations<byte[], byte[]> redisOps) {
+        super(new RedisAdapter(redisOps), repositoryInformation);
     }
 
     @Override
-    public void save(String id, T value) {
-        this.operations.opsForList().leftPush(id, value);
+    public Optional<List<T>> findById(ID id) {
+        return Optional.ofNullable(redisAdapter.findByIdForList(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType()));
     }
 
     @Override
-    public void saveAll(String id, List<T> values) {
-        this.operations.opsForList().leftPushAll(id, values);
+    public void save(T entity) {
+
+        ID id = getEntityInformation().getRequiredId(entity);
+        RedisUpdate<T> update = new RedisUpdate<>(id, getEntityInformation().getJavaType(), entity, false);
+
+        if (getEntityInformation().hasExplicitTimeToLiveProperty()) {
+            Long timeToLive = getEntityInformation().getTimeToLive(entity);
+            if (timeToLive != null && timeToLive > 0) {
+                update.setRefresh(true);
+            }
+        }
+        redisAdapter.update(update);
     }
 
     @Override
-    public Optional<T> leftPop(String id) {
-        return Optional.ofNullable(this.operations.opsForList().leftPop(id));
+    public void saveAll(List<T> values) {
+
+        T entity = values.get(0);
+
+        RedisMetadata rdo = RedisMetadata.createRedisEntity();
+
+        redisAdapter.getConverter().write(values, rdo);
+
+        byte[] redisKey = redisAdapter.createKey(getEntityInformation().getId(entity), getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+
+        redisAdapter.getRedisOps().opsForList().leftPushAll(redisKey, rdo.getRaws());
+
     }
 
     @Override
-    public Optional<T> rightPop(String id) {
-        return Optional.ofNullable(this.operations.opsForList().rightPop(id));
+    public Optional<T> leftPop(ID id) {
+
+        byte[] redisKey = redisAdapter.createKey(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+
+        byte[] raw = redisAdapter.getRedisOps().opsForList().leftPop(redisKey);
+
+        T entity = this.redisAdapter.getConverter().read(getEntityInformation().getJavaType(), RedisMetadata.createRedisEntity(raw));
+        return Optional.ofNullable(entity);
     }
 
     @Override
-    public void leftPush(String id, T value) {
-        this.operations.opsForList().leftPush(id, value);
+    public Optional<T> rightPop(ID id) {
+        byte[] redisKey = redisAdapter.createKey(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+        byte[] raw = redisAdapter.getRedisOps().opsForList().rightPop(redisKey);
+        T entity = this.redisAdapter.getConverter().read(getEntityInformation().getJavaType(), RedisMetadata.createRedisEntity(raw));
+        return Optional.ofNullable(entity);
     }
 
     @Override
-    public void rightPush(String id, T value) {
-        this.operations.opsForList().rightPush(id, value);
+    public void leftPush(T entity) {
+        byte[] redisKey = redisAdapter.createKey(getEntityInformation().getId(entity),
+                getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+
+        RedisMetadata rdo = RedisMetadata.createRedisEntity();
+
+        redisAdapter.getConverter().write(entity, rdo);
+
+        redisAdapter.getRedisOps().opsForList().leftPush(redisKey, rdo.getRaw());
     }
 
+    @Override
+    public void rightPush(T entity) {
+        byte[] redisKey = redisAdapter.createKey(getEntityInformation().getId(entity),
+                getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
 
+        RedisMetadata rdo = RedisMetadata.createRedisEntity();
+
+        redisAdapter.getConverter().write(entity, rdo);
+
+        redisAdapter.getRedisOps().opsForList().rightPush(redisKey, rdo.getRaw());
+    }
 }

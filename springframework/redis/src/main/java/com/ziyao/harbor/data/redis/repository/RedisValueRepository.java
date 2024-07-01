@@ -10,12 +10,12 @@ import java.util.Optional;
  * @since 2023/4/23
  */
 @NoRepositoryBean
-public interface RedisValueRepository<T, ID> extends RedisRepository<ID> {
+public interface RedisValueRepository<T, ID> extends RedisRepository<T> {
 
     /**
      * 通过key获取对象
      */
-    Optional<T> findById(String id);
+    Optional<T> findById(Object id);
 
     /**
      * 保存

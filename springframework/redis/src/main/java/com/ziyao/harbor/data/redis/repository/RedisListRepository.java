@@ -1,6 +1,6 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.Repository;
+import com.ziyao.harbor.data.redis.core.RedisRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,20 +9,20 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 15:14:54
  */
-public interface RedisListRepository<T> extends Repository {
+public interface RedisListRepository<T, ID> extends RedisRepository<T> {
 
 
-    Optional<List<T>> findById(String id);
+    Optional<List<T>> findById(ID id);
 
-    void save(String id, T value);
+    void save(T value);
 
-    void saveAll(String id, List<T> values);
+    void saveAll(List<T> values);
 
-    Optional<T> leftPop(String id);
+    Optional<T> leftPop(ID id);
 
-    Optional<T> rightPop(String id);
+    Optional<T> rightPop(ID id);
 
-    void leftPush(String id, T value);
+    void leftPush(T value);
 
-    void rightPush(String id, T value);
+    void rightPush(T value);
 }

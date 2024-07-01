@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -12,24 +11,22 @@ import java.util.Optional;
  * @time 2024/6/29
  */
 @Setter
-public class RedisEntity {
+public class RedisMetadata {
 
     @Getter
     private byte[] raw;
     @Getter
     private Collection<byte[]> raws;
-    @Getter
-    private Map<byte[], byte[]> rawMap;
 
     private String keyspace;
     private String id;
     private Long timeToLive;
 
-    public RedisEntity() {
+    public RedisMetadata() {
         this(null);
     }
 
-    public RedisEntity(byte[] raw) {
+    public RedisMetadata(byte[] raw) {
         this.raw = raw;
     }
 
@@ -45,11 +42,11 @@ public class RedisEntity {
         return Optional.ofNullable(timeToLive);
     }
 
-    public static RedisEntity createRedisEntity(byte[] raw) {
-        return new RedisEntity(raw);
+    public static RedisMetadata createRedisEntity(byte[] raw) {
+        return new RedisMetadata(raw);
     }
 
-    public static RedisEntity createRedisEntity() {
+    public static RedisMetadata createRedisEntity() {
         return createRedisEntity(null);
     }
 }
