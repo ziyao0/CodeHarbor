@@ -9,8 +9,8 @@ import com.ziyao.harbor.usercenter.entity.Application;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.service.oauth2.JpaOAuth2AuthorizationService;
 import com.ziyao.security.oauth2.core.RegisteredApp;
+import com.ziyao.security.oauth2.core.jackson2.Jackson2Modules;
 import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationServerJackson2Module;
-import com.ziyao.security.oauth2.core.jackson2.SecurityJackson2Modules;
 import com.ziyao.security.oauth2.core.settings.TokenSettings;
 import com.ziyao.security.oauth2.core.support.AuthorizationGrantTypes;
 
@@ -32,7 +32,7 @@ public class JpaRegisteredAppService implements RegisteredAppService {
         this.applicationRepository = applicationRepository;
 
         ClassLoader classLoader = JpaOAuth2AuthorizationService.class.getClassLoader();
-        List<Module> securityModules = SecurityJackson2Modules.getModules(classLoader);
+        List<Module> securityModules = Jackson2Modules.getModules(classLoader);
         this.objectMapper.registerModules(securityModules);
         this.objectMapper.registerModule(new OAuth2AuthorizationServerJackson2Module());
     }

@@ -20,6 +20,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author zhangziyao
@@ -65,11 +67,15 @@ public class UserCenter implements CommandLineRunner {
         Application application = new Application();
         application.setAppId(1111L);
         application.setIssuedAt(LocalDateTime.now());
-        RedisUpdate<Application> update = new RedisUpdate<Application>(application.getAppId(), application);
+
+        List<Application> applications = new ArrayList<>();
+        applications.add(application);
+        Application application1 = new Application();
+        application1.setAppId(2222L);
+        application1.setIssuedAt(LocalDateTime.now());
+        applications.add(application1);
+        RedisUpdate<List<Application>> update = new RedisUpdate<>(application.getAppId(), applications);
         redisAdapter.update(update);
 
-        Application adapter = redisAdapter.findById(1111L, null, Application.class);
-
-        System.out.println(adapter);
     }
 }

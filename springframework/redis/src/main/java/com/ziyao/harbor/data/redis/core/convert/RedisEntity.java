@@ -3,6 +3,8 @@ package com.ziyao.harbor.data.redis.core.convert;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Collection;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -14,6 +16,10 @@ public class RedisEntity {
 
     @Getter
     private byte[] raw;
+    @Getter
+    private Collection<byte[]> raws;
+    @Getter
+    private Map<byte[], byte[]> rawMap;
 
     private String keyspace;
     private String id;

@@ -13,6 +13,9 @@ import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 import org.springframework.data.redis.core.mapping.RedisPersistentProperty;
 import org.springframework.util.ObjectUtils;
 
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -22,6 +25,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisAdapter {
 
     private final RedisOperations<byte[], byte[]> redisOps;
+
     private final RedisEntityConverter converter;
 
     public RedisAdapter(RedisOperations<byte[], byte[]> redisOps) {
@@ -33,18 +37,60 @@ public class RedisAdapter {
         this.converter = converter;
     }
 
+
+    @SuppressWarnings("deprecation")
+    public <T> List<T> findByIdForList(Object id, String keyspace, Class<T> type) {
+
+        RedisPersistentEntity<?> entity = this.converter.getMappingContext()
+                .getRequiredPersistentEntity(type);
+        if (Strings.isEmpty(keyspace)) {
+            keyspace = entity.getKeySpace();
+        }
+        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
+
+        List<byte[]> raws = redisOps.execute((RedisCallback<List<byte[]>>) connection -> connection.lRange(redisKey, 0, -1));
+
+        RedisEntity rdo = new RedisEntity();
+
+        rdo.setRaws(raws);
+
+        return this.converter.readList(type, rdo);
+    }
+
+    @SuppressWarnings("deprecation")
+    public <T> Set<T> findByIdForSet(Object id, String keyspace, Class<T> type) {
+
+        RedisPersistentEntity<?> entity = this.converter.getMappingContext()
+                .getRequiredPersistentEntity(type);
+        if (Strings.isEmpty(keyspace)) {
+            keyspace = entity.getKeySpace();
+        }
+        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
+
+        Set<byte[]> raws = redisOps.execute((RedisCallback<Set<byte[]>>) connection -> connection.sMembers(redisKey));
+
+        RedisEntity rdo = new RedisEntity();
+
+        rdo.setRaws(raws);
+
+        return Set.copyOf(this.converter.readList(type, rdo));
+    }
+
     @SuppressWarnings("deprecation")
     public <T> T findById(Object id, String keyspace, Class<T> type) {
         RedisPersistentEntity<?> entity = this.converter.getMappingContext()
                 .getRequiredPersistentEntity(type);
-        String keySpace = entity.getKeySpace();
-        byte[] redisKey = createKey(keySpace, this.converter.getConversionService().convert(id, String.class));
+
+        if (Strings.isEmpty(keyspace)) {
+            keyspace = entity.getKeySpace();
+        }
+
+        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
 
         byte[] raw = redisOps.execute((RedisCallback<byte[]>) connection -> connection.get(redisKey));
 
         RedisEntity rdo = RedisEntity.createRedisEntity(raw);
 
-        rdo.setId(keySpace);
         T target = this.converter.read(type, rdo);
 
         if (entity.hasExplictTimeToLiveProperty()) {
@@ -80,7 +126,19 @@ public class RedisAdapter {
         return target;
     }
 
+    @SuppressWarnings("deprecation")
     public <T> void delete(Object id, String keyspace, Class<T> type) {
+
+        RedisPersistentEntity<?> entity = this.converter.getMappingContext().getRequiredPersistentEntity(type);
+
+        if (Strings.isEmpty(keyspace)) {
+            keyspace = entity.getKeySpace();
+        }
+
+        byte[] redisKey = createKey(keyspace, this.converter.getConversionService().convert(id, String.class));
+
+
+        redisOps.execute((RedisCallback<Long>) connection -> connection.del(redisKey));
 
     }
 
@@ -97,7 +155,18 @@ public class RedisAdapter {
 
         // @formatter:off
         redisOps.execute((RedisCallback<Void>) connection -> {
-            connection.set(redisKey, rdo.getRaw());
+
+            Object value = update.getValue();
+
+            if (value instanceof Set<?>){
+                connection.sAdd(redisKey,rdo.getRaws().toArray(new byte[0][]));
+            }else if (value instanceof List<?> ){
+                connection.lPush(redisKey,rdo.getRaws().toArray(new byte[0][]));
+            }else if (value instanceof Map<?,?>){
+                connection.hMSet(rdo.getRaw(),rdo.getRawMap());
+            }else {
+                connection.set(redisKey, rdo.getRaw());
+            }
 
             if (update.isRefresh()) {
 
@@ -114,7 +183,7 @@ public class RedisAdapter {
     }
 
     private byte[] createKey(String keySpace, String id) {
+
         return Strings.toBytes(keySpace + Strings.COLON + id);
     }
-
 }
