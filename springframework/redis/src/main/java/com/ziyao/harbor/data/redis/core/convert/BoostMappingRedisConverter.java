@@ -114,9 +114,9 @@ public class BoostMappingRedisConverter
     @SuppressWarnings("unchecked")
     public <R> R read(@Nullable Class<R> type, RedisRawData source) {
 
-        Map<byte[], byte[]> rawMap = this.getConversionService().convert(source.getRaw(), Map.class);
 
-        source = source.create(rawMap);
+        Map<String, Object> rawMap = this.getConversionService().convert(source.getRaw(), Map.class);
+
 
         TypeInformation<?> readType = typeMapper.readType(source.getBucket().getPath(), TypeInformation.of(type));
 
@@ -138,11 +138,11 @@ public class BoostMappingRedisConverter
 
         if (customConversions.hasCustomReadTarget(Map.class, readType.getType())) {
 
-            Map<String, byte[]> partial = new HashMap<>();
+            Map<String, Object> partial = new HashMap<>();
 
             if (!path.isEmpty()) {
 
-                for (Map.Entry<String, byte[]> entry : source.getBucket().extract(path + ".").entrySet()) {
+                for (Map.Entry<String, Object> entry : source.getBucket().extract(path + ".").entrySet()) {
                     partial.put(entry.getKey().substring(path.length() + 1), entry.getValue());
                 }
 
