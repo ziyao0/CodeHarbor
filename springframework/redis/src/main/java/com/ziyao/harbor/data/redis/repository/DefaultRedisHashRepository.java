@@ -20,12 +20,12 @@ public class DefaultRedisHashRepository<T extends RedisHashEntity, ID>
     }
 
     @Override
-    public Optional<Map<Object, Object>> findById(String id) {
+    public Optional<Map<Object, Object>> findById(ID id) {
         return Optional.empty();
     }
 
     @Override
-    public Optional<Object> findByHashKey(String id, Object hashKey) {
+    public Optional<Object> findByHashKey(ID id, Object hashKey) {
         return Optional.empty();
     }
 

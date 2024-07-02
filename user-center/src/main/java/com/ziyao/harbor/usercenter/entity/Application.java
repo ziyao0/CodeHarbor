@@ -35,7 +35,6 @@ public class Application implements Serializable {
      * 主键id
      */
     @Id
-    @org.springframework.data.annotation.Id
     @TableId("app_id")
     private Long appId;
 

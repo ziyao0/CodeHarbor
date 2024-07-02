@@ -9,7 +9,7 @@ import java.util.Set;
  * @author ziyao
  * @since 2024/06/25 15:36:24
  */
-public interface RedisSetRepository<T, ID> extends RedisRepository<T> {
+public interface RedisSetRepository<T, ID> extends RedisRepository<T, ID> {
 
 
     Optional<Set<T>> findById(ID id);

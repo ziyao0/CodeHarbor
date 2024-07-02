@@ -7,15 +7,15 @@ import com.ziyao.harbor.data.redis.core.convert.RedisUpdate;
 import lombok.Getter;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
 import org.springframework.data.redis.connection.RedisStringCommands;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.data.redis.core.TimeToLive;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.mapping.RedisMappingContext;
 import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 import org.springframework.data.redis.core.mapping.RedisPersistentProperty;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.util.ObjectUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
@@ -25,7 +25,11 @@ import java.util.concurrent.TimeUnit;
  * @time 2024/6/29
  */
 @Getter
+@SuppressWarnings("deprecation")
 public class RedisAdapter {
+
+
+    private static final String SCAN_ = ":*";
 
     private final RedisOperations<byte[], byte[]> redisOps;
     private final RedisEntityConverter converter;
@@ -62,8 +66,6 @@ public class RedisAdapter {
         redisOps.expire(redisKey, timeout, timeUnit);
     }
 
-
-    @SuppressWarnings("deprecation")
     public <T> List<T> findByIdForList(Object id, String keyspace, Class<T> type) {
 
         byte[] redisKey = createKey(id, keyspace, type);
@@ -77,7 +79,6 @@ public class RedisAdapter {
         return this.converter.readList(type, rdo);
     }
 
-    @SuppressWarnings("deprecation")
     public <T> Set<T> findByIdForSet(Object id, String keyspace, Class<T> type) {
 
         byte[] redisKey = createKey(id, keyspace, type);
@@ -91,7 +92,7 @@ public class RedisAdapter {
         return Set.copyOf(this.converter.readList(type, rdo));
     }
 
-    @SuppressWarnings("deprecation")
+
     public <T> T findById(Object id, String keyspace, Class<T> type) {
         RedisPersistentEntity<?> entity = this.converter.getMappingContext()
                 .getRequiredPersistentEntity(type);
@@ -99,6 +100,10 @@ public class RedisAdapter {
         byte[] redisKey = createKey(id, keyspace, type);
 
         byte[] raw = redisOps.execute((RedisCallback<byte[]>) connection -> connection.get(redisKey));
+
+        if (null == raw) {
+            return null;
+        }
 
         RedisMetadata rdo = RedisMetadata.createRedisEntity(raw);
 
@@ -137,7 +142,31 @@ public class RedisAdapter {
         return target;
     }
 
-    @SuppressWarnings("deprecation")
+
+    public <T> List<T> findAll(String keyspace, Class<T> type) {
+
+        byte[] redisKey = Strings.toBytesOrEmpty(keyspace + SCAN_);
+
+        List<byte[]> raws = redisOps.execute((RedisCallback<List<byte[]>>) connection -> {
+            List<byte[]> rawList = new ArrayList<>();
+
+            Cursor<byte[]> cursor = connection.scan(ScanOptions.scanOptions().match(redisKey).count(3000).build());
+
+            if (cursor.hasNext()) {
+                byte[] key = cursor.next();
+                byte[] raw = connection.get(key);
+                rawList.add(raw);
+            }
+            return rawList;
+        });
+
+        RedisMetadata rdo = new RedisMetadata();
+
+        rdo.setRaws(raws);
+
+        return this.converter.readList(type, rdo);
+    }
+
     public <T> void delete(Object id, String keyspace, Class<T> type) {
 
         byte[] redisKey = createKey(id, keyspace, type);
@@ -145,7 +174,6 @@ public class RedisAdapter {
 
     }
 
-    @SuppressWarnings("deprecation")
     public void update(RedisUpdate<?> update) {
 
         byte[] redisKey = createKey(update.getId(), null, update.getTarget());

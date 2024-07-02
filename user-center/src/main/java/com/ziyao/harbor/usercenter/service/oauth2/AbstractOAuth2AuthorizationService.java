@@ -115,9 +115,9 @@ public abstract class AbstractOAuth2AuthorizationService implements OAuth2Author
         if (entity.getOidcIdTokenValue() != null) {
             OidcIdToken oidcIdToken = new OidcIdToken(
                     entity.getOidcIdTokenValue(),
-                    Dates.toInstant(entity.getOidcIdTokenIssuedAT()),
+                    Dates.toInstant(entity.getOidcIdTokenIssuedAt()),
                     Dates.toInstant(entity.getOidcIdTokenExpiresAt()),
-                    null
+                    parseMap(entity.getOidcIdTokenClaims())
             );
             builder.token(oidcIdToken, metadata -> metadata.putAll(parseMap(entity.getOidcIdTokenMetadata())));
         }
@@ -175,11 +175,14 @@ public abstract class AbstractOAuth2AuthorizationService implements OAuth2Author
                 authorization.getToken(OidcIdToken.class);
         setTokenValues(
                 oidcToken,
-                entity::setRefreshTokenValue,
-                entity::setRefreshTokenIssuedAt,
-                entity::setRefreshTokenExpiresAt,
-                entity::setRefreshTokenMetadata
+                entity::setOidcIdTokenValue,
+                entity::setOidcIdTokenIssuedAt,
+                entity::setOidcIdTokenExpiresAt,
+                entity::setOidcIdTokenMetadata
         );
+        if (oidcToken != null) {
+            entity.setOidcIdTokenClaims(writeMap(oidcToken.getClaims()));
+        }
         return entity;
     }
 

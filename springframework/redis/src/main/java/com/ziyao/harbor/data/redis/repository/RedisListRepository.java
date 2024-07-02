@@ -9,7 +9,7 @@ import java.util.Optional;
  * @author ziyao
  * @since 2024/06/25 15:14:54
  */
-public interface RedisListRepository<T, ID> extends RedisRepository<T> {
+public interface RedisListRepository<T, ID> extends RedisRepository<T, ID> {
 
 
     Optional<List<T>> findById(ID id);

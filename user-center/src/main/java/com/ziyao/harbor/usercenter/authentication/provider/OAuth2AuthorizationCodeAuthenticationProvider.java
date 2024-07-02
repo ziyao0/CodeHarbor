@@ -98,7 +98,7 @@ public class OAuth2AuthorizationCodeAuthenticationProvider implements Authentica
         }
 
         // 更新授权信息
-        OAuth2Authorization updateAuthorization = OAuth2AuthenticationUtils.invalidate(authorization, authorizationCode);
+        OAuth2Authorization updateAuthorization = OAuth2AuthenticationUtils.invalidate(authorizationBuilder.build(), authorizationCode);
 
         authorizationService.save(updateAuthorization);
 

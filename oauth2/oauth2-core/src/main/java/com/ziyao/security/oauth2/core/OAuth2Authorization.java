@@ -6,6 +6,10 @@ import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationDeserializer;
 import com.ziyao.security.oauth2.core.jackson2.OAuth2AuthorizationSerializer;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.keyvalue.annotation.KeySpace;
+import org.springframework.data.redis.core.TimeToLive;
 import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.CollectionUtils;
@@ -14,6 +18,7 @@ import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
 /**
@@ -24,12 +29,17 @@ import java.util.function.Consumer;
 @EqualsAndHashCode
 @JsonSerialize(using = OAuth2AuthorizationSerializer.class)
 @JsonDeserialize(using = OAuth2AuthorizationDeserializer.class)
+@KeySpace("oauth2:authorization")
 public class OAuth2Authorization implements Serializable {
     @Serial
     private static final long serialVersionUID = 161440620113264850L;
+    @Id
     private Long id;
     private Long appId;
     private Long userId;
+    @Setter
+    @TimeToLive(unit = TimeUnit.DAYS)
+    private Long ttl = 7L;
     /**
      * 授权类型
      */

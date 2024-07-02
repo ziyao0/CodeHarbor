@@ -29,28 +29,23 @@ import java.util.stream.Collectors;
 public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFactoryAware {
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
-//    @Setter
-//    private Class<?> keyValueRepositoryBaseClass;
-//    @Setter
-//    private Class<?> hashRepositoryBaseClass;
 
-    private final RedisOperations<?, ?> redisOperations;
 
-    public DefaultRepositoryFactory(RedisOperations<?, ?> redisOperations) {
-        this.redisOperations = redisOperations;
-//        this.keyValueRepositoryBaseClass = DefaultRedisValueRepository.class;
-//        this.hashRepositoryBaseClass = DefaultRedisHashRepository.class;
+    private final RedisOperations<byte[], byte[]> redisOps;
+
+    public DefaultRepositoryFactory(RedisOperations<byte[], byte[]> redisOps) {
+        this.redisOps = redisOps;
     }
 
     /**
-     * Returns a repository instance for the given interface backed by an instance providing implementation logic for
-     * custom logic.
+     * 返回给定接口的存储库实例，该实例由为自定义逻辑提供实现逻辑的实例提供支持。
      */
     @SuppressWarnings({"unchecked"})
     public <T> T getRepository(Class<T> repositoryInterface) {
 
         RepositoryMetadata metadata = getRepositoryMetadata(repositoryInterface);
         RepositoryInformation information = getRepositoryInformation(metadata);
+        // 创建redisRepository对象
         Object target = getTargetRepository(information);
 
         ProxyFactory result = new ProxyFactory();
@@ -68,8 +63,7 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
 
 
     /**
-     * Returns the base class backing the actual repository instance. Make sure
-     * {@link #getTargetRepository(RepositoryInformation)} returns an instance of this class.
+     * 返回支持实际存储库实例的基类。确保{@link #getTargetRepository(RepositoryInformation)} 返回此类的实例。
      */
     protected Class<?> getRepositoryBaseClass(RepositoryMetadata metadata) {
         if (!isCacheRepository(metadata.getRepositoryInterface())) {
@@ -92,7 +86,7 @@ public class DefaultRepositoryFactory implements BeanClassLoaderAware, BeanFacto
 
 
     protected Object getTargetRepository(RepositoryInformation metadata) {
-        return getTargetRepositoryViaReflection(metadata, metadata, redisOperations);
+        return getTargetRepositoryViaReflection(metadata, metadata, redisOps);
     }
 
     protected final <R> R getTargetRepositoryViaReflection(RepositoryInformation information,

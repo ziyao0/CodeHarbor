@@ -1,6 +1,6 @@
 package com.ziyao.harbor.usercenter.repository.redis;
 
-import com.ziyao.harbor.data.redis.repository.RedisHashRepository;
+import com.ziyao.harbor.data.redis.repository.RedisValueRepository;
 import com.ziyao.security.oauth2.core.RegisteredApp;
 import org.springframework.data.redis.core.RedisHash;
 import org.springframework.stereotype.Repository;
@@ -11,5 +11,5 @@ import org.springframework.stereotype.Repository;
  */
 @RedisHash
 @Repository
-public interface RedisRegisteredAppRepository extends RedisHashRepository<Long, RegisteredApp> {
+public interface RegisteredAppRepositoryRedis extends RedisValueRepository<RegisteredApp, Long> {
 }

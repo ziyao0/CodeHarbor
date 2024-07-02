@@ -1,7 +1,6 @@
 package com.ziyao.harbor.usercenter.service.security;
 
 import com.ziyao.harbor.usercenter.authentication.AuthenticationManager;
-import com.ziyao.harbor.usercenter.authentication.core.UserInfo;
 import com.ziyao.harbor.usercenter.authentication.support.SecurityUtils;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AccessTokenAuthenticationToken;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2TokenGenerator;
@@ -63,10 +62,11 @@ public class PrincipalAuthorizationServer implements AuthorizationServer {
         }
         OAuth2AuthorizationCode authorizationCode = (OAuth2AuthorizationCode) auth2Token;
 
-        UserInfo principal = (UserInfo) authentication.getPrincipal();
+        UserDetails principal = (UserDetails) authentication.getPrincipal();
 
         OAuth2Authorization authorization = OAuth2Authorization.withAppId(registeredApp.getAppId())
-                .userId(principal.getId())
+//                .userId(principal.getId())
+                .userId(10001L)
                 .token(authorizationCode)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .build();

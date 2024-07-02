@@ -57,6 +57,9 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
     }
 
 
+    /**
+     * 获取redis bean name
+     */
     @Override
     public void registerBeansForRoot(@NonNull BeanDefinitionRegistry registry, @NonNull RepositoryConfigurationSource configurationSource) {
         Optional<String> templateRef = configurationSource.getAttribute("redisTemplateRef");
@@ -120,7 +123,7 @@ public class RedisRepositoryConfigurationExtension implements RepositoryConfigur
     public void postProcess(@NonNull BeanDefinitionBuilder builder, @NonNull AnnotationRepositoryConfigurationSource config) {
         AnnotationAttributes attributes = config.getAttributes();
 
-        builder.addPropertyReference("redisOperations", attributes.getString(REDIS_TEMPLATE_BEAN_REF_ATTRIBUTE));
+        builder.addPropertyReference("redisOps", attributes.getString(REDIS_TEMPLATE_BEAN_REF_ATTRIBUTE));
     }
 
     @Override

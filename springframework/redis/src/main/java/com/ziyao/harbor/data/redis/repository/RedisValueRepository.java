@@ -3,6 +3,7 @@ package com.ziyao.harbor.data.redis.repository;
 import com.ziyao.harbor.data.redis.core.RedisRepository;
 import org.springframework.data.repository.NoRepositoryBean;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -10,12 +11,17 @@ import java.util.Optional;
  * @since 2023/4/23
  */
 @NoRepositoryBean
-public interface RedisValueRepository<T, ID> extends RedisRepository<T> {
+public interface RedisValueRepository<T, ID> extends RedisRepository<T, ID> {
 
     /**
      * 通过key获取对象
      */
     Optional<T> findById(Object id);
+
+    /**
+     * 查询所有
+     */
+    Optional<List<T>> findAll();
 
     /**
      * 保存

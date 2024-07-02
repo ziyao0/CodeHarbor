@@ -23,29 +23,20 @@ public class DefaultRepositoryInformation implements RepositoryInformation {
         this.repositoryBaseClass = repositoryBaseClass;
     }
 
-    @Override
-    public TypeInformation<?> getKeyTypeInformation() {
-        return metadata.getKeyTypeInformation();
-    }
-
-    @Override
-    public TypeInformation<?> getValueTypeInformation() {
-        return metadata.getValueTypeInformation();
-    }
-
-    @Override
-    public TypeInformation<?> getHashKeyTypeInformation() {
-        return metadata.getHashKeyTypeInformation();
-    }
-
-    @Override
-    public TypeInformation<?> getHashValueTypeInformation() {
-        return metadata.getHashValueTypeInformation();
-    }
 
     @Override
     public Class<?> getRepositoryInterface() {
         return metadata.getRepositoryInterface();
+    }
+
+    @Override
+    public TypeInformation<?> getIdTypeInformation() {
+        return metadata.getIdTypeInformation();
+    }
+
+    @Override
+    public TypeInformation<?> getJavaTypeInformation() {
+        return metadata.getJavaTypeInformation();
     }
 
     @Override

@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -22,7 +21,6 @@ import java.time.LocalDateTime;
  * @since 2024-06-13
  */
 @Data
-@RedisHash
 @EqualsAndHashCode(callSuper = false)
 @TableName("authorization")
 @Entity(name = "authorization")
@@ -164,7 +162,7 @@ public class Authorization implements Serializable {
      * id令牌颁发时间
      */
     @TableField("oidc_id_token_issued_at")
-    private LocalDateTime oidcIdTokenIssuedAT;
+    private LocalDateTime oidcIdTokenIssuedAt;
 
     /**
      * id令牌过期时间

@@ -6,5 +6,5 @@ package com.ziyao.harbor.data.redis.support;
  */
 public interface CacheBeanName {
 
-    public static final String cache_name = "ziyao_redis_operations";
+    public static final String cache_name = "bytesRedisOps";
 }

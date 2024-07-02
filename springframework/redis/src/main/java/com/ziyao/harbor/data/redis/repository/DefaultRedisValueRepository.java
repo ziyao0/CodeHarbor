@@ -7,6 +7,7 @@ import com.ziyao.harbor.data.redis.core.convert.RedisUpdate;
 import org.springframework.data.redis.core.RedisOperations;
 import org.springframework.lang.NonNull;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -27,6 +28,18 @@ public class DefaultRedisValueRepository<T, ID> extends AbstractRepository<T, ID
         Class<T> javaType = getEntityInformation().getJavaType();
         return Optional.ofNullable(redisAdapter.findById(id, keySpace, javaType));
     }
+
+    @Override
+    public Optional<List<T>> findAll() {
+        final String keySpace = getEntityInformation().getKeySpace();
+        Class<T> javaType = getEntityInformation().getJavaType();
+        List<T> entities = this.redisAdapter.findAll(keySpace, javaType);
+        return Optional.ofNullable(entities);
+    }
+
+
+
+
 
     @Override
     public void save(T entity) {

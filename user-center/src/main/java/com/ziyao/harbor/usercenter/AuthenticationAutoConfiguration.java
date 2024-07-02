@@ -10,7 +10,7 @@ import com.ziyao.harbor.usercenter.authentication.token.*;
 import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
 import com.ziyao.harbor.usercenter.repository.jpa.AuthorizationRepository;
 import com.ziyao.harbor.usercenter.repository.redis.OAuth2AuthorizationRepositoryRedis;
-import com.ziyao.harbor.usercenter.repository.redis.RedisRegisteredAppRepository;
+import com.ziyao.harbor.usercenter.repository.redis.RegisteredAppRepositoryRedis;
 import com.ziyao.harbor.usercenter.service.app.*;
 import com.ziyao.harbor.usercenter.service.oauth2.*;
 import com.ziyao.harbor.web.ApplicationContextUtils;
@@ -47,11 +47,11 @@ public class AuthenticationAutoConfiguration implements ApplicationContextAware 
 
     @Bean
     public RegisteredAppService delegatingRegisteredAppService(
-            ApplicationRepository applicationRepository, RedisRegisteredAppRepository redisRegisteredAppRepository) {
+            ApplicationRepository applicationRepository, RegisteredAppRepositoryRedis registeredAppRepositoryRedis) {
 
         return new DelegatingRegisteredAppService(
                 List.of(new JpaRegisteredAppService(applicationRepository),
-                        new RedisRegisteredAppService(redisRegisteredAppRepository),
+                        new RedisRegisteredAppService(registeredAppRepositoryRedis),
                         new CaffeineRegisteredAppService())
         );
     }

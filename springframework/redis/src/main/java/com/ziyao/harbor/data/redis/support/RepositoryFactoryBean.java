@@ -18,7 +18,7 @@ public class RepositoryFactoryBean<T extends Repository>
 
     private ClassLoader classLoader;
     private BeanFactory beanFactory;
-    private RedisOperations<?, ?> operations;
+    private RedisOperations<byte[], byte[]> redisOps;
     private DefaultRepositoryFactory factory;
     private final Class<? extends T> repositoryInterface;
     private T repository;
@@ -27,11 +27,11 @@ public class RepositoryFactoryBean<T extends Repository>
         this.repositoryInterface = repositoryInterface;
     }
 
-    public void setRedisOperations(RedisOperations<?, ?> operations) {
+    public void setRedisOps(RedisOperations<byte[], byte[]> redisOps) {
 
-        Assert.notNull(operations, "KeyValueOperations must not be null");
+        Assert.notNull(redisOps, "KeyValueOperations must not be null");
 
-        this.operations = operations;
+        this.redisOps = redisOps;
     }
 
     @Override
@@ -63,7 +63,7 @@ public class RepositoryFactoryBean<T extends Repository>
     }
 
     private DefaultRepositoryFactory createRepositoryFactory() {
-        Assert.notNull(operations, "operations are not initialized");
-        return new DefaultRepositoryFactory(operations);
+        Assert.notNull(redisOps, "operations are not initialized");
+        return new DefaultRepositoryFactory(redisOps);
     }
 }

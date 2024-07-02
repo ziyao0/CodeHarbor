@@ -1,12 +1,9 @@
 package com.ziyao.harbor.data.redis.support;
 
 import com.ziyao.harbor.core.utils.Collections;
+import com.ziyao.harbor.data.redis.core.RedisRepository;
 import com.ziyao.harbor.data.redis.core.Repository;
 import com.ziyao.harbor.data.redis.core.RepositoryMetadata;
-import com.ziyao.harbor.data.redis.repository.RedisHashRepository;
-import com.ziyao.harbor.data.redis.repository.RedisListRepository;
-import com.ziyao.harbor.data.redis.repository.RedisSetRepository;
-import com.ziyao.harbor.data.redis.repository.RedisValueRepository;
 import lombok.Getter;
 import org.springframework.data.util.TypeInformation;
 import org.springframework.util.Assert;
@@ -26,10 +23,9 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
             Repository.class);
     private final TypeInformation<?> typeInformation;
     private final Class<?> repositoryInterface;
-    private final TypeInformation<?> keyTypeInformation;
-    private final TypeInformation<?> valueTypeInformation;
-    private TypeInformation<?> hashKeyTypeInformation;
-    private TypeInformation<?> hashValueTypeInformation;
+
+    private TypeInformation<?> javaTypeInformation;
+    private TypeInformation<?> idTypeInformation;
 
     /**
      * Creates a new {@link DefaultRepositoryMetadata} for the given repository interface.
@@ -43,43 +39,21 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
 
         this.repositoryInterface = repositoryInterface;
         this.typeInformation = TypeInformation.of(repositoryInterface);
-        this.keyTypeInformation = TypeInformation.of(String.class);
+
         Assert.isTrue(Repository.class.isAssignableFrom(repositoryInterface), MUST_BE_A_REPOSITORY);
 
-        // KeyValueRepository
-        this.valueTypeInformation = resolveTypeParameter();
-
         // HashRepository
-        TypeInformation<?> hashTypeInformation = TypeInformation.of(repositoryInterface)//
-                .getSuperTypeInformation(RedisHashRepository.class);
-        if (hashTypeInformation != null) {
-            List<TypeInformation<?>> hashArguments = hashTypeInformation.getTypeArguments();
+        TypeInformation<?> redisTypeInformation = TypeInformation.of(repositoryInterface)//
+                .getSuperTypeInformation(RedisRepository.class);
+        if (redisTypeInformation != null) {
+            List<TypeInformation<?>> hashArguments = redisTypeInformation.getTypeArguments();
             if (Collections.nonNull(hashArguments)) {
-
-                this.hashKeyTypeInformation = resolveTypeParameter(hashArguments, 0,
+                this.javaTypeInformation = resolveTypeParameter(hashArguments, 0,
                         () -> String.format("Could not resolve id type of %s", repositoryInterface));
-                this.hashValueTypeInformation = resolveTypeParameter(hashArguments, 1,
-                        () -> String.format("Could not resolve id type of %s", repositoryInterface));
-            }
-        }
-    }
-
-    private TypeInformation<?> resolveTypeParameter() {
-        TypeInformation<?> superTypeInformation = typeInformation.getSuperTypeInformation(RedisValueRepository.class);
-        if (superTypeInformation == null) {
-            superTypeInformation = typeInformation.getSuperTypeInformation(RedisListRepository.class);
-            if (superTypeInformation == null) {
-                superTypeInformation = typeInformation.getSuperTypeInformation(RedisSetRepository.class);
-            }
-        }
-        if (superTypeInformation != null) {
-            List<TypeInformation<?>> keyvalueArguments = superTypeInformation.getTypeArguments();
-            if (Collections.nonNull(keyvalueArguments)) {
-                return resolveTypeParameter(keyvalueArguments, 0,
+                this.idTypeInformation = resolveTypeParameter(hashArguments, 1,
                         () -> String.format("Could not resolve id type of %s", repositoryInterface));
             }
         }
-        return null;
     }
 
 
@@ -96,24 +70,13 @@ public class DefaultRepositoryMetadata implements RepositoryMetadata {
                 : /*new AnnotationRepositoryMetadata(repositoryInterface)*/ null;
     }
 
-    @Override
-    public TypeInformation<?> getKeyTypeInformation() {
-        return Objects.requireNonNullElseGet(this.keyTypeInformation, () -> TypeInformation.of(String.class));
+
+    public TypeInformation<?> getIdTypeInformation() {
+        return Objects.requireNonNullElseGet(this.idTypeInformation, () -> TypeInformation.of(Object.class));
     }
 
-    @Override
-    public TypeInformation<?> getValueTypeInformation() {
-        return Objects.requireNonNullElseGet(this.valueTypeInformation, () -> TypeInformation.of(Object.class));
-    }
-
-    @Override
-    public TypeInformation<?> getHashKeyTypeInformation() {
-        return Objects.requireNonNullElseGet(this.hashKeyTypeInformation, () -> TypeInformation.of(Object.class));
-    }
-
-    @Override
-    public TypeInformation<?> getHashValueTypeInformation() {
-        return Objects.requireNonNullElseGet(this.hashValueTypeInformation, () -> TypeInformation.of(Object.class));
+    public TypeInformation<?> getJavaTypeInformation() {
+        return Objects.requireNonNullElseGet(this.javaTypeInformation, () -> TypeInformation.of(Object.class));
     }
 
     @Override

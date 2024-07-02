@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * @since 2024/06/25 09:30:49
  */
 @Getter
-public abstract class AbstractRepository<T, ID> implements RedisRepository<T> {
+public abstract class AbstractRepository<T, ID> implements RedisRepository<T, ID> {
 
     protected final RedisAdapter redisAdapter;
     private final RedisEntityInformation<T, ID> entityInformation;
@@ -25,23 +25,23 @@ public abstract class AbstractRepository<T, ID> implements RedisRepository<T> {
     public AbstractRepository(RedisAdapter redisAdapter, RepositoryInformation repositoryInformation) {
         this.redisAdapter = redisAdapter;
 
-        RedisPersistentEntity<?> persistentEntity = new RedisMappingContext().getPersistentEntity(repositoryInformation.getValueType());
+        RedisPersistentEntity<?> persistentEntity = new RedisMappingContext().getPersistentEntity(repositoryInformation.getJavaType());
         this.entityInformation = (RedisEntityInformation<T, ID>) new RedisEntityInformation<>(persistentEntity);
     }
 
     @Override
-    public boolean hasKey(Object id, String keyspace, Class<T> type) {
-        return Optional.of(redisAdapter.hasKey(id, keyspace, type)).orElse(false);
+    public boolean hasKey(ID id) {
+        return Optional.of(redisAdapter.hasKey(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType())).orElse(false);
     }
 
     @Override
-    public void delete(Object id, String keyspace, Class<T> type) {
-        redisAdapter.delete(id, keyspace, type);
+    public void delete(ID id) {
+        redisAdapter.delete(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType());
     }
 
     @Override
-    public void timeToLive(Object id, String keyspace, Class<T> type, long timeout, TimeUnit timeUnit) {
-        redisAdapter.timeToLive(id, keyspace, type, timeout, timeUnit);
+    public void timeToLive(ID id, long timeout, TimeUnit timeUnit) {
+        redisAdapter.timeToLive(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType(), timeout, timeUnit);
     }
 
 }
