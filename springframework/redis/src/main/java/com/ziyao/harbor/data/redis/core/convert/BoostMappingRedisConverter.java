@@ -50,7 +50,7 @@ public class BoostMappingRedisConverter
     private final GenericConversionService conversionService;
     @Getter
     private final EntityInstantiators entityInstantiators;
-    private final RedisTypeMapper typeMapper;
+    private final BoostRedisTypeMapper typeMapper;
     private final Comparator<String> listKeyComparator = Comparator.nullsFirst(NaturalOrderingKeyComparator.INSTANCE);
 
     @Setter
@@ -60,38 +60,10 @@ public class BoostMappingRedisConverter
     private CustomConversions customConversions;
 
     /**
-     * Creates new {@link BoostMappingRedisConverter}.
-     *
-     * @param context can be {@literal null}.
-     * @since 2.4
-     */
-    public BoostMappingRedisConverter(RedisMappingContext context) {
-        this(context, null, null, null);
-    }
-
-    /**
      * Creates new {@link BoostMappingRedisConverter} and defaults {@link RedisMappingContext} when {@literal null}.
-     *
-     * @param mappingContext    can be {@literal null}.
-     * @param indexResolver     can be {@literal null}.
-     * @param referenceResolver can be not be {@literal null}.
      */
     public BoostMappingRedisConverter(@Nullable RedisMappingContext mappingContext, @Nullable IndexResolver indexResolver,
                                       @Nullable ReferenceResolver referenceResolver) {
-        this(mappingContext, indexResolver, referenceResolver, null);
-    }
-
-    /**
-     * Creates new {@link BoostMappingRedisConverter} and defaults {@link RedisMappingContext} when {@literal null}.
-     *
-     * @param mappingContext    can be {@literal null}.
-     * @param indexResolver     can be {@literal null}.
-     * @param referenceResolver can be {@literal null}.
-     * @param typeMapper        can be {@literal null}.
-     * @since 2.1
-     */
-    public BoostMappingRedisConverter(@Nullable RedisMappingContext mappingContext, @Nullable IndexResolver indexResolver,
-                                      @Nullable ReferenceResolver referenceResolver, @Nullable RedisTypeMapper typeMapper) {
 
         this.mappingContext = mappingContext != null ? mappingContext : new RedisMappingContext();
 
@@ -101,10 +73,12 @@ public class BoostMappingRedisConverter
         this.conversionService = new DefaultConversionService();
         this.conversionService.addConverter(new BytesToMapConverter());
         this.conversionService.addConverter(new MapToBytesConverter());
+        this.conversionService.addConverter(new ClassToStringConverter());
+        this.conversionService.addConverter(new StringToClassConverter());
+        this.conversionService.addConverter(new StringToLongConverter());
         this.customConversions = new RedisCustomConversions(converters);
 
-        this.typeMapper = typeMapper != null ? typeMapper
-                : new DefaultRedisTypeMapper(DefaultRedisTypeMapper.DEFAULT_TYPE_KEY, this.mappingContext);
+        this.typeMapper = new BoostRedisTypeMapper(DefaultRedisTypeMapper.DEFAULT_TYPE_KEY, this.mappingContext);
 
         this.indexResolver = indexResolver != null ? indexResolver : new PathIndexResolver(this.mappingContext);
         this.referenceResolver = referenceResolver;
@@ -246,33 +220,37 @@ public class BoostMappingRedisConverter
         if (mappingContext.getPersistentEntity(typeInformation) != null
                 && !conversionService.canConvert(byte[].class, typeInformation.getRequiredActualType().getType())) {
 
-            Bucket bucket = source.getBucket().extract(currentPath + ".");
+            Bucket2 bucket = source.getBucket().extract(currentPath + ".");
 
             RedisRawData newBucket = new RedisRawData(bucket);
 
             return readInternal(currentPath, typeInformation.getType(), newBucket);
         }
+        Bucket2 bucket = source.getBucket().extract(currentPath + ".");
 
-        byte[] sourceBytes = source.getBucket().get(currentPath);
+        RedisRawData newBucket = new RedisRawData(bucket);
 
-        if (typeInformation.getType().isPrimitive() && sourceBytes == null) {
+        Object o = readInternal(currentPath, typeInformation.getType(), newBucket);
+        Object sourceObject = source.getBucket().get(currentPath);
+
+        if (typeInformation.getType().isPrimitive() && sourceObject == null) {
             return null;
         }
 
         if (persistentProperty.isIdProperty() && ObjectUtils.isEmpty(path)) {
-            return sourceBytes != null ? fromBytes(sourceBytes, typeInformation.getType()) : source.getId();
+            return sourceObject != null ? fromObject(sourceObject, typeInformation.getType()) : source.getId();
         }
 
-        if (sourceBytes == null) {
+        if (sourceObject == null) {
             return null;
         }
 
         if (customConversions.hasCustomReadTarget(byte[].class, persistentProperty.getType())) {
-            return fromBytes(sourceBytes, persistentProperty.getType());
+            return fromObject(sourceObject, persistentProperty.getType());
         }
 
         Class<?> typeToUse = getTypeHint(currentPath, source.getBucket(), persistentProperty.getType());
-        return fromBytes(sourceBytes, typeToUse);
+        return fromObject(sourceObject, typeToUse);
     }
 
     private void readAssociation(String path, RedisRawData source, RedisPersistentEntity<?> entity,
@@ -285,14 +263,14 @@ public class BoostMappingRedisConverter
 
             if (association.getInverse().isCollectionLike()) {
 
-                Bucket bucket = source.getBucket().extract(currentPath + ".[");
+                Bucket2 bucket = source.getBucket().extract(currentPath + ".[");
 
                 Collection<Object> target = CollectionFactory.createCollection(association.getInverse().getType(),
                         association.getInverse().getComponentType(), bucket.size());
 
-                for (Map.Entry<String, byte[]> entry : bucket.entrySet()) {
+                for (Map.Entry<String, Object> entry : bucket.entrySet()) {
 
-                    String referenceKey = fromBytes(entry.getValue(), String.class);
+                    String referenceKey = fromObject(entry.getValue(), String.class);
 
                     if (!BoostMappingRedisConverter.KeyspaceIdentifier.isValid(referenceKey)) {
                         continue;
@@ -302,8 +280,9 @@ public class BoostMappingRedisConverter
                     Map<byte[], byte[]> rawHash = referenceResolver.resolveReference(identifier.getId(),
                             identifier.getKeyspace());
 
+//todo
                     if (!CollectionUtils.isEmpty(rawHash)) {
-                        target.add(read(association.getInverse().getActualType(), new RedisRawData(rawHash)));
+//                        target.add(read(association.getInverse().getActualType(), new RedisRawData(rawHash)));
                     }
                 }
 
@@ -311,22 +290,24 @@ public class BoostMappingRedisConverter
 
             } else {
 
-                byte[] binKey = source.getBucket().get(currentPath);
-                if (binKey == null || binKey.length == 0) {
+                Object binKey = source.getBucket().get(currentPath);
+                if (binKey == null) {
                     return;
                 }
 
-                String referenceKey = fromBytes(binKey, String.class);
+                String referenceKey = fromObject(binKey, String.class);
                 if (BoostMappingRedisConverter.KeyspaceIdentifier.isValid(referenceKey)) {
 
                     BoostMappingRedisConverter.KeyspaceIdentifier identifier = BoostMappingRedisConverter.KeyspaceIdentifier.of(referenceKey);
+
 
                     Map<byte[], byte[]> rawHash = referenceResolver.resolveReference(identifier.getId(),
                             identifier.getKeyspace());
 
                     if (!CollectionUtils.isEmpty(rawHash)) {
-                        accessor.setProperty(association.getInverse(),
-                                read(association.getInverse().getActualType(), new RedisRawData(rawHash)));
+                        //todo
+//                        accessor.setProperty(association.getInverse(),
+//                                read(association.getInverse().getActualType(), new RedisRawData(rawHash)));
                     }
                 }
             }
@@ -383,8 +364,7 @@ public class BoostMappingRedisConverter
             sink.addIndexedData(indexedData);
         }
 
-        byte[] raw = this.getConversionService().convert(sink.getBucket().rawMap(), byte[].class);
-
+        byte[] raw = this.getConversionService().convert(sink.getBucket().asMap(), byte[].class);
         sink.setRaw(raw);
     }
 
@@ -450,7 +430,7 @@ public class BoostMappingRedisConverter
 
                     Object refId = ref.getPropertyAccessor(o).getProperty(ref.getRequiredIdProperty());
                     if (refId != null) {
-                        sink.getBucket().put(pUpdate.getPropertyPath() + ".[" + i + "]", toBytes(ref.getKeySpace() + ":" + refId));
+                        sink.getBucket().put(pUpdate.getPropertyPath() + ".[" + i + "]", ref.getKeySpace() + ":" + refId);
                         i++;
                     }
                 }
@@ -461,7 +441,7 @@ public class BoostMappingRedisConverter
 
                 Object refId = ref.getPropertyAccessor(pUpdate.getValue()).getProperty(ref.getRequiredIdProperty());
                 if (refId != null) {
-                    sink.getBucket().put(pUpdate.getPropertyPath(), toBytes(ref.getKeySpace() + ":" + refId));
+                    sink.getBucket().put(pUpdate.getPropertyPath(), ref.getKeySpace() + ":" + refId);
                 }
             }
         } else if (targetProperty.isCollectionLike() && isNotByteArray(targetProperty)) {
@@ -563,7 +543,7 @@ public class BoostMappingRedisConverter
             if (persistentProperty.isIdProperty()) {
 
                 if (propertyValue != null) {
-                    sink.getBucket().put(propertyStringPath, toBytes(propertyValue));
+                    sink.getBucket().put(propertyStringPath, propertyValue);
                 }
                 return;
             }
@@ -638,7 +618,7 @@ public class BoostMappingRedisConverter
 
                     Object refId = ref.getPropertyAccessor(o).getProperty(ref.getRequiredIdProperty());
                     if (refId != null) {
-                        sink.getBucket().put(propertyStringPath + ".[" + i + "]", toBytes(keyspace + ":" + refId));
+                        sink.getBucket().put(propertyStringPath + ".[" + i + "]", keyspace + ":" + refId);
                         i++;
                     }
                 }
@@ -654,7 +634,7 @@ public class BoostMappingRedisConverter
 
                     if (refId != null) {
                         String propertyStringPath = pv + association.getInverse().getName();
-                        sink.getBucket().put(propertyStringPath, toBytes(keyspace + ":" + refId));
+                        sink.getBucket().put(propertyStringPath, keyspace + ":" + refId);
                     }
                 }
             }
@@ -698,10 +678,10 @@ public class BoostMappingRedisConverter
             return;
         }
 
-        if (value instanceof byte[]) {
-            sink.getBucket().put(path, toBytes(value));
-            return;
-        }
+//        if (value instanceof byte[]) {
+//            sink.getBucket().put(path, toBytes(value));
+//            return;
+//        }
 
         if (customConversions.hasCustomWriteTarget(value.getClass())) {
 
@@ -717,10 +697,10 @@ public class BoostMappingRedisConverter
                 Map<?, ?> map = (Map<?, ?>) conversionService.convert(value, targetType.get());
                 for (Map.Entry<?, ?> entry : map.entrySet()) {
                     sink.getBucket().put(path + (StringUtils.hasText(path) ? "." : "") + entry.getKey(),
-                            toBytes(entry.getValue()));
+                            entry.getValue());
                 }
             } else if (targetType.filter(it -> ClassUtils.isAssignable(byte[].class, it)).isPresent()) {
-                sink.getBucket().put(path, toBytes(value));
+                sink.getBucket().put(path, value);
             } else {
                 throw new IllegalArgumentException(
                         String.format("Cannot convert value '%s' of type %s to bytes", value, value.getClass()));
@@ -729,7 +709,7 @@ public class BoostMappingRedisConverter
     }
 
     @Nullable
-    private Object readCollectionOrArray(String path, Class<?> collectionType, Class<?> valueType, Bucket bucket) {
+    private Object readCollectionOrArray(String path, Class<?> collectionType, Class<?> valueType, Bucket2 bucket) {
 
         List<String> keys = new ArrayList<>(bucket.extractAllKeysFor(path));
         keys.sort(listKeyComparator);
@@ -744,14 +724,14 @@ public class BoostMappingRedisConverter
                 continue;
             }
 
-            Bucket elementData = bucket.extract(key);
+            Bucket2 elementData = bucket.extract(key);
 
             TypeInformation<?> typeInformation = typeMapper.readType(elementData.getPropertyPath(key),
                     TypeInformation.of(valueType));
 
             Class<?> typeToUse = typeInformation.getType();
             if (conversionService.canConvert(byte[].class, typeToUse)) {
-                target.add(fromBytes(elementData.get(key), typeToUse));
+                target.add(fromObject(elementData.get(key), typeToUse));
             } else {
                 target.add(readInternal(key, typeToUse, new RedisRawData(elementData)));
             }
@@ -803,11 +783,11 @@ public class BoostMappingRedisConverter
     private Map<?, ?> readMapOfSimpleTypes(String path, Class<?> mapType, Class<?> keyType, Class<?> valueType,
                                            RedisRawData source) {
 
-        Bucket partial = source.getBucket().extract(path + ".[");
+        Bucket2 partial = source.getBucket().extract(path + ".[");
 
         Map<Object, Object> target = CollectionFactory.createMap(mapType, partial.size());
 
-        for (Map.Entry<String, byte[]> entry : partial.entrySet()) {
+        for (Map.Entry<String, Object> entry : partial.entrySet()) {
 
             if (typeMapper.isTypeKey(entry.getKey())) {
                 continue;
@@ -815,7 +795,7 @@ public class BoostMappingRedisConverter
 
             Object key = extractMapKeyForPath(path, entry.getKey(), keyType);
             Class<?> typeToUse = getTypeHint(path + ".[" + key + "]", source.getBucket(), valueType);
-            target.put(key, fromBytes(entry.getValue(), typeToUse));
+            target.put(key, fromObject(entry.getValue(), typeToUse));
         }
 
         return target.isEmpty() ? null : target;
@@ -832,7 +812,7 @@ public class BoostMappingRedisConverter
 
         for (String key : keys) {
 
-            Bucket partial = source.getBucket().extract(key);
+            Bucket2 partial = source.getBucket().extract(key);
 
             Object mapKey = extractMapKeyForPath(path, key, keyType);
 
@@ -867,7 +847,7 @@ public class BoostMappingRedisConverter
         return conversionService.convert(toBytes(mapKey), targetType);
     }
 
-    private Class<?> getTypeHint(String path, Bucket bucket, Class<?> fallback) {
+    private Class<?> getTypeHint(String path, Bucket2 bucket, Class<?> fallback) {
 
         TypeInformation<?> typeInformation = typeMapper.readType(bucket.getPropertyPath(path),
                 TypeInformation.of(fallback));
@@ -898,13 +878,15 @@ public class BoostMappingRedisConverter
         return conversionService.convert(source, type);
     }
 
-    /**
-     * Converts a given {@link Collection} into an array considering primitive types.
-     *
-     * @param source    {@link Collection} of values to be added to the array.
-     * @param arrayType {@link Class} of array.
-     * @param valueType to be used for conversion before setting the actual value.
-     */
+    public <T> T fromObject(Object source, Class<T> type) {
+
+        if (type.isInstance(source)) {
+            return type.cast(source);
+        }
+
+        return conversionService.convert(source, type);
+    }
+
     @Nullable
     private Object toArray(Collection<Object> source, Class<?> arrayType, Class<?> valueType) {
 

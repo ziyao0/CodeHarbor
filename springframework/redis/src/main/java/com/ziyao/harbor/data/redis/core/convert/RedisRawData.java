@@ -37,6 +37,11 @@ public class RedisRawData {
         this(Collections.emptyMap());
     }
 
+    public RedisRawData(byte[] raw) {
+        this(Collections.emptyMap());
+        this.raw = raw;
+    }
+
     public RedisRawData(Map<String, Object> raw) {
         this(Bucket2.newBucketFromRawMap(raw));
     }

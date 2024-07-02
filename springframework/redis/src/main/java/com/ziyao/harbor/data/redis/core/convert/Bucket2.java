@@ -32,7 +32,7 @@ public class Bucket2 {
         this.data.putAll(data);
     }
 
-    public void put(String path, @Nullable byte[] value) {
+    public void put(String path, @Nullable Object value) {
 
         Assert.hasText(path, "Path to property must not be null or empty");
         data.put(path, value);
@@ -147,6 +147,14 @@ public class Bucket2 {
 
         public static BucketPropertyPath from(Bucket2 bucket, @Nullable String prefix) {
             return new BucketPropertyPath(bucket, prefix);
+        }
+
+        public Object get(String key) {
+            return bucket.get(getPath(key));
+        }
+
+        public void put(String key, Object value) {
+            bucket.put(getPath(key), value);
         }
 
 

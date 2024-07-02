@@ -1,10 +1,7 @@
 package com.ziyao.harbor.data.redis.core;
 
 import com.ziyao.harbor.core.utils.Collections;
-import com.ziyao.harbor.data.redis.core.convert.BoostMappingRedisConverter;
-import com.ziyao.harbor.data.redis.core.convert.BytesToMapConverter;
-import com.ziyao.harbor.data.redis.core.convert.MapToBytesConverter;
-import com.ziyao.harbor.data.redis.core.convert.RedisRawData;
+import com.ziyao.harbor.data.redis.core.convert.*;
 import lombok.Getter;
 import org.springframework.data.mapping.PersistentPropertyAccessor;
 import org.springframework.data.redis.core.PartialUpdate;
@@ -48,7 +45,8 @@ public class RedisOpsAdapter {
         this.converter = new BoostMappingRedisConverter(mappingContext,
                 new PathIndexResolver(mappingContext), new ReferenceResolverImpl(redisOps));
         this.converter.setCustomConversions(
-                new RedisCustomConversions(List.of(new BytesToMapConverter(), new MapToBytesConverter())));
+                new RedisCustomConversions(List.of(new BytesToMapConverter(), new MapToBytesConverter(),
+                        new StringToClassConverter(), new ClassToStringConverter(), new StringToLongConverter())));
         this.converter.afterPropertiesSet();
         this.redisOps = redisOps;
         this.mappingContext = mappingContext;

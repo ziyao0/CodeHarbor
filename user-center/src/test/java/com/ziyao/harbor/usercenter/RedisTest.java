@@ -6,7 +6,6 @@ import com.ziyao.harbor.usercenter.entity.Application;
 import org.springframework.data.redis.core.RedisTemplate;
 
 import java.time.LocalDateTime;
-import java.util.Map;
 
 /**
  * @author ziyao
@@ -32,21 +31,8 @@ public class RedisTest {
 
         System.out.println(redisData);
 
-        Map<byte[], byte[]> map = redisData.getBucket().rawMap();
-
-        byte[] convert = redisOpsAdapter.getConverter().getConversionService().convert(map, byte[].class);
-
-        Map<byte[], byte[]> convert1 = redisOpsAdapter.getConverter().getConversionService().convert(convert, Map.class);
-
-        RedisRawData data = new RedisRawData(convert1);
 
 
-        data.setId(redisData.getId());
-        data.setKeyspace(redisData.getKeyspace());
-
-        Application read = redisOpsAdapter.getConverter().read(Application.class, redisData);
-
-        System.out.println(read);
 
     }
 
