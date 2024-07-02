@@ -1,7 +1,7 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.RedisAdapter;
 import com.ziyao.harbor.data.redis.core.RedisHashEntity;
+import com.ziyao.harbor.data.redis.core.RedisOpsAdapter;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
 import org.springframework.data.redis.core.RedisOperations;
 
@@ -16,7 +16,7 @@ public class DefaultRedisHashRepository<T extends RedisHashEntity, ID>
         extends AbstractRepository<T, ID> implements RedisHashRepository<T, ID> {
 
     public DefaultRedisHashRepository(RepositoryInformation repositoryInformation, RedisOperations<byte[], byte[]> redisOps) {
-        super(new RedisAdapter(redisOps), repositoryInformation);
+        super(new RedisOpsAdapter(redisOps), repositoryInformation);
     }
 
     @Override

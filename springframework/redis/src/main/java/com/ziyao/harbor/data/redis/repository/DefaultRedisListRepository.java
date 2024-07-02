@@ -1,8 +1,7 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.RedisAdapter;
+import com.ziyao.harbor.data.redis.core.RedisOpsAdapter;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
-import com.ziyao.harbor.data.redis.core.convert.RedisMetadata;
 import com.ziyao.harbor.data.redis.core.convert.RedisUpdate;
 import org.springframework.data.redis.core.RedisOperations;
 
@@ -16,12 +15,13 @@ import java.util.Optional;
 public class DefaultRedisListRepository<T, ID> extends AbstractRepository<T, ID> implements RedisListRepository<T, ID> {
 
     public DefaultRedisListRepository(RepositoryInformation repositoryInformation, RedisOperations<byte[], byte[]> redisOps) {
-        super(new RedisAdapter(redisOps), repositoryInformation);
+        super(new RedisOpsAdapter(redisOps), repositoryInformation);
     }
 
     @Override
     public Optional<List<T>> findById(ID id) {
-        return Optional.ofNullable(redisAdapter.findByIdForList(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType()));
+//        return Optional.ofNullable(redisOpsAdapter.findByIdForList(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType()));
+        return Optional.empty();
     }
 
     @Override
@@ -36,64 +36,65 @@ public class DefaultRedisListRepository<T, ID> extends AbstractRepository<T, ID>
                 update.setRefresh(true);
             }
         }
-        redisAdapter.update(update);
+//        redisOpsAdapter.update(update);
     }
 
     @Override
     public void saveAll(List<T> values) {
-
-        T entity = values.get(0);
-
-        RedisMetadata rdo = RedisMetadata.createRedisEntity();
-
-        redisAdapter.getConverter().write(values, rdo);
-
-        byte[] redisKey = redisAdapter.createKey(getEntityInformation().getId(entity), getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
-
-        redisAdapter.getRedisOps().opsForList().leftPushAll(redisKey, rdo.getRaws());
+//
+//        T entity = values.get(0);
+//
+//        RedisMetadata rdo = RedisMetadata.createRedisEntity();
+//
+//        redisOpsAdapter.getConverter().write(values, rdo);
+//
+//        byte[] redisKey = redisOpsAdapter.createKey(getEntityInformation().getId(entity), getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+//
+//        redisOpsAdapter.getRedisOps().opsForList().leftPushAll(redisKey, rdo.getRaws());
 
     }
 
     @Override
     public Optional<T> leftPop(ID id) {
 
-        byte[] redisKey = redisAdapter.createKey(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
-
-        byte[] raw = redisAdapter.getRedisOps().opsForList().leftPop(redisKey);
-
-        T entity = this.redisAdapter.getConverter().read(getEntityInformation().getJavaType(), RedisMetadata.createRedisEntity(raw));
-        return Optional.ofNullable(entity);
+//        byte[] redisKey = redisOpsAdapter.createKey(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+//
+//        byte[] raw = redisOpsAdapter.getRedisOps().opsForList().leftPop(redisKey);
+//
+//        T entity = this.redisOpsAdapter.getConverter().read(getEntityInformation().getJavaType(), RedisMetadata.createRedisEntity(raw));
+//        return Optional.ofNullable(entity);
+        return Optional.empty();
     }
 
     @Override
     public Optional<T> rightPop(ID id) {
-        byte[] redisKey = redisAdapter.createKey(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
-        byte[] raw = redisAdapter.getRedisOps().opsForList().rightPop(redisKey);
-        T entity = this.redisAdapter.getConverter().read(getEntityInformation().getJavaType(), RedisMetadata.createRedisEntity(raw));
-        return Optional.ofNullable(entity);
+//        byte[] redisKey = redisOpsAdapter.createKey(id, getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+//        byte[] raw = redisOpsAdapter.getRedisOps().opsForList().rightPop(redisKey);
+//        T entity = this.redisOpsAdapter.getConverter().read(getEntityInformation().getJavaType(), RedisMetadata.createRedisEntity(raw));
+        return Optional.empty();
     }
 
     @Override
     public void leftPush(T entity) {
-        byte[] redisKey = redisAdapter.createKey(getEntityInformation().getId(entity),
-                getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
-
-        RedisMetadata rdo = RedisMetadata.createRedisEntity();
-
-        redisAdapter.getConverter().write(entity, rdo);
-
-        redisAdapter.getRedisOps().opsForList().leftPush(redisKey, rdo.getRaw());
+//        byte[] redisKey = redisOpsAdapter.createKey(getEntityInformation().getId(entity),
+//                getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+//
+//        RedisMetadata rdo = RedisMetadata.createRedisEntity();
+//
+//        redisOpsAdapter.getConverter().write(entity, rdo);
+//
+//        redisOpsAdapter.getRedisOps().opsForList().leftPush(redisKey, rdo.getRaw());
     }
 
     @Override
     public void rightPush(T entity) {
-        byte[] redisKey = redisAdapter.createKey(getEntityInformation().getId(entity),
-                getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
-
-        RedisMetadata rdo = RedisMetadata.createRedisEntity();
-
-        redisAdapter.getConverter().write(entity, rdo);
-
-        redisAdapter.getRedisOps().opsForList().rightPush(redisKey, rdo.getRaw());
+//        byte[] redisKey = redisOpsAdapter.createKey(getEntityInformation().getId(entity),
+//                getEntityInformation().getKeySpace(), getEntityInformation().getJavaType());
+//
+//        RedisMetadata rdo = RedisMetadata.createRedisEntity();
+//
+//        redisOpsAdapter.getConverter().write(entity, rdo);
+//
+//        redisOpsAdapter.getRedisOps().opsForList().rightPush(redisKey, rdo.getRaw());
     }
 }

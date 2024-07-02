@@ -1,14 +1,13 @@
 package com.ziyao.harbor.data.redis.repository;
 
-import com.ziyao.harbor.data.redis.core.RedisAdapter;
 import com.ziyao.harbor.data.redis.core.RedisEntityInformation;
+import com.ziyao.harbor.data.redis.core.RedisOpsAdapter;
 import com.ziyao.harbor.data.redis.core.RedisRepository;
 import com.ziyao.harbor.data.redis.core.RepositoryInformation;
 import lombok.Getter;
 import org.springframework.data.redis.core.mapping.RedisMappingContext;
 import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -20,12 +19,12 @@ public abstract class AbstractRepository<T, ID> implements RedisRepository<T, ID
 
     private static final String SCAN_ = ":*";
 
-    protected final RedisAdapter redisAdapter;
+    protected final RedisOpsAdapter redisOpsAdapter;
     private final RedisEntityInformation<T, ID> entityInformation;
 
     @SuppressWarnings("unchecked")
-    public AbstractRepository(RedisAdapter redisAdapter, RepositoryInformation repositoryInformation) {
-        this.redisAdapter = redisAdapter;
+    public AbstractRepository(RedisOpsAdapter redisOpsAdapter, RepositoryInformation repositoryInformation) {
+        this.redisOpsAdapter = redisOpsAdapter;
 
         RedisPersistentEntity<?> persistentEntity = new RedisMappingContext().getPersistentEntity(repositoryInformation.getJavaType());
         this.entityInformation = (RedisEntityInformation<T, ID>) new RedisEntityInformation<>(persistentEntity);
@@ -33,17 +32,17 @@ public abstract class AbstractRepository<T, ID> implements RedisRepository<T, ID
 
     @Override
     public boolean hasKey(ID id) {
-        return Optional.of(redisAdapter.hasKey(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType())).orElse(false);
+        return redisOpsAdapter.contains(id, this.entityInformation.getKeySpace());
     }
 
     @Override
     public void delete(ID id) {
-        redisAdapter.delete(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType());
+        redisOpsAdapter.delete(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType());
     }
 
     @Override
-    public void expire(ID id, long timeout, TimeUnit timeUnit) {
-        redisAdapter.expire(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType(), timeout, timeUnit);
+    public boolean expire(ID id, long timeout, TimeUnit timeUnit) {
+        return redisOpsAdapter.expire(id, this.entityInformation.getKeySpace(), timeout);
     }
 
 }

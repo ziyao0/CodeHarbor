@@ -1,18 +1,11 @@
 package com.ziyao.harbor.usercenter;
 
-import com.ziyao.harbor.data.redis.core.convert.BoostMappingRedisConverter;
-import com.ziyao.harbor.data.redis.core.convert.BytesToMapConverter;
-import com.ziyao.harbor.data.redis.core.convert.MapToBytesConverter;
-import com.ziyao.harbor.data.redis.core.convert.RedisData2;
+import com.ziyao.harbor.data.redis.core.RedisOpsAdapter;
+import com.ziyao.harbor.data.redis.core.convert.RedisRawData;
 import com.ziyao.harbor.usercenter.entity.Application;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.convert.PathIndexResolver;
-import org.springframework.data.redis.core.convert.RedisCustomConversions;
-import org.springframework.data.redis.core.convert.ReferenceResolverImpl;
-import org.springframework.data.redis.core.mapping.RedisMappingContext;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -23,12 +16,7 @@ import java.util.Map;
 public class RedisTest {
 
     public static void main(String[] args) {
-        RedisMappingContext mappingContext = new RedisMappingContext();
-        BoostMappingRedisConverter converter = new BoostMappingRedisConverter(mappingContext,
-                new PathIndexResolver(mappingContext), new ReferenceResolverImpl(new RedisTemplate<>()));
-
-        converter.setCustomConversions(new RedisCustomConversions(List.of(new BytesToMapConverter(), new MapToBytesConverter())));
-        converter.afterPropertiesSet();
+        RedisOpsAdapter redisOpsAdapter = new RedisOpsAdapter(new RedisTemplate<>());
 
         Application application = new Application();
 
@@ -39,24 +27,24 @@ public class RedisTest {
         application.setState(1);
         application.setIssuedAt(LocalDateTime.now());
 
-        RedisData2 redisData = new RedisData2();
-        converter.write(application, redisData);
+        RedisRawData redisData = new RedisRawData();
+        redisOpsAdapter.getConverter().write(application, redisData);
 
         System.out.println(redisData);
 
         Map<byte[], byte[]> map = redisData.getBucket().rawMap();
 
-        byte[] convert = converter.getConversionService().convert(map, byte[].class);
+        byte[] convert = redisOpsAdapter.getConverter().getConversionService().convert(map, byte[].class);
 
-        Map<byte[], byte[]> convert1 = converter.getConversionService().convert(convert, Map.class);
+        Map<byte[], byte[]> convert1 = redisOpsAdapter.getConverter().getConversionService().convert(convert, Map.class);
 
-        RedisData2 data = new RedisData2(convert1);
+        RedisRawData data = new RedisRawData(convert1);
 
 
         data.setId(redisData.getId());
         data.setKeyspace(redisData.getKeyspace());
 
-        Application read = converter.read(Application.class, redisData);
+        Application read = redisOpsAdapter.getConverter().read(Application.class, redisData);
 
         System.out.println(read);
 

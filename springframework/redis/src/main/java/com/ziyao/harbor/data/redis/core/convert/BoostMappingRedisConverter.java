@@ -41,7 +41,7 @@ import java.util.regex.Pattern;
  * @since 2024/07/02 16:26:52
  */
 public class BoostMappingRedisConverter
-        implements EntityConverter<RedisPersistentEntity<?>, RedisPersistentProperty, Object, RedisData2> {
+        implements EntityConverter<RedisPersistentEntity<?>, RedisPersistentProperty, Object, RedisRawData> {
 
 
     private static final String INVALID_TYPE_ASSIGNMENT = "Value of type %s cannot be assigned to property %s of type %s";
@@ -99,6 +99,8 @@ public class BoostMappingRedisConverter
 
         this.entityInstantiators = new EntityInstantiators();
         this.conversionService = new DefaultConversionService();
+        this.conversionService.addConverter(new BytesToMapConverter());
+        this.conversionService.addConverter(new MapToBytesConverter());
         this.customConversions = new RedisCustomConversions(converters);
 
         this.typeMapper = typeMapper != null ? typeMapper
@@ -110,7 +112,7 @@ public class BoostMappingRedisConverter
 
     @Override
     @SuppressWarnings("unchecked")
-    public <R> R read(@Nullable Class<R> type, RedisData2 source) {
+    public <R> R read(@Nullable Class<R> type, RedisRawData source) {
 
         Map<byte[], byte[]> rawMap = this.getConversionService().convert(source.getRaw(), Map.class);
 
@@ -125,12 +127,12 @@ public class BoostMappingRedisConverter
     }
 
     @Nullable
-    private <R> R readInternal(String path, Class<R> type, RedisData2 source) {
+    private <R> R readInternal(String path, Class<R> type, RedisRawData source) {
         return source.getBucket().isEmpty() ? null : doReadInternal(path, type, source);
     }
 
     @SuppressWarnings("unchecked")
-    private <R> R doReadInternal(String path, Class<R> type, RedisData2 source) {
+    private <R> R doReadInternal(String path, Class<R> type, RedisRawData source) {
 
         TypeInformation<?> readType = typeMapper.readType(source.getBucket().getPath(), TypeInformation.of(type));
 
@@ -195,7 +197,7 @@ public class BoostMappingRedisConverter
     }
 
     @Nullable
-    protected Object readProperty(String path, RedisData2 source, RedisPersistentProperty persistentProperty) {
+    protected Object readProperty(String path, RedisRawData source, RedisPersistentProperty persistentProperty) {
 
         String currentPath = !path.isEmpty() ? path + "." + persistentProperty.getName() : persistentProperty.getName();
         TypeInformation<?> typeInformation = typeMapper.readType(source.getBucket().getPropertyPath(currentPath),
@@ -246,7 +248,7 @@ public class BoostMappingRedisConverter
 
             Bucket bucket = source.getBucket().extract(currentPath + ".");
 
-            RedisData2 newBucket = new RedisData2(bucket);
+            RedisRawData newBucket = new RedisRawData(bucket);
 
             return readInternal(currentPath, typeInformation.getType(), newBucket);
         }
@@ -273,7 +275,7 @@ public class BoostMappingRedisConverter
         return fromBytes(sourceBytes, typeToUse);
     }
 
-    private void readAssociation(String path, RedisData2 source, RedisPersistentEntity<?> entity,
+    private void readAssociation(String path, RedisRawData source, RedisPersistentEntity<?> entity,
                                  PersistentPropertyAccessor<?> accessor) {
 
         entity.doWithAssociations((AssociationHandler<RedisPersistentProperty>) association -> {
@@ -301,7 +303,7 @@ public class BoostMappingRedisConverter
                             identifier.getKeyspace());
 
                     if (!CollectionUtils.isEmpty(rawHash)) {
-                        target.add(read(association.getInverse().getActualType(), new RedisData2(rawHash)));
+                        target.add(read(association.getInverse().getActualType(), new RedisRawData(rawHash)));
                     }
                 }
 
@@ -324,7 +326,7 @@ public class BoostMappingRedisConverter
 
                     if (!CollectionUtils.isEmpty(rawHash)) {
                         accessor.setProperty(association.getInverse(),
-                                read(association.getInverse().getActualType(), new RedisData2(rawHash)));
+                                read(association.getInverse().getActualType(), new RedisRawData(rawHash)));
                     }
                 }
             }
@@ -333,7 +335,7 @@ public class BoostMappingRedisConverter
 
     @Override
     @SuppressWarnings({"rawtypes"})
-    public void write(@Nullable Object source, @NonNull RedisData2 sink) {
+    public void write(@Nullable Object source, @NonNull RedisRawData sink) {
 
         if (source == null) {
             return;
@@ -386,7 +388,7 @@ public class BoostMappingRedisConverter
         sink.setRaw(raw);
     }
 
-    protected void writePartialUpdate(PartialUpdate<?> update, RedisData2 sink) {
+    protected void writePartialUpdate(PartialUpdate<?> update, RedisRawData sink) {
 
         RedisPersistentEntity<?> entity = mappingContext.getRequiredPersistentEntity(update.getTarget());
 
@@ -418,7 +420,7 @@ public class BoostMappingRedisConverter
     }
 
 
-    private void writePartialPropertyUpdate(PartialUpdate<?> update, PartialUpdate.PropertyUpdate pUpdate, RedisData2 sink,
+    private void writePartialPropertyUpdate(PartialUpdate<?> update, PartialUpdate.PropertyUpdate pUpdate, RedisRawData sink,
                                             RedisPersistentEntity<?> entity, String path) {
 
         RedisPersistentProperty targetProperty = getTargetPropertyOrNullForPath(path, update.getTarget());
@@ -517,7 +519,7 @@ public class BoostMappingRedisConverter
 
 
     private void writeInternal(@Nullable String keyspace, String path, @Nullable Object value,
-                               TypeInformation<?> typeHint, RedisData2 sink) {
+                               TypeInformation<?> typeHint, RedisRawData sink) {
 
         if (value == null) {
             return;
@@ -607,7 +609,7 @@ public class BoostMappingRedisConverter
         writeAssociation(path, entity, value, sink);
     }
 
-    private void writeAssociation(String path, RedisPersistentEntity<?> entity, @Nullable Object value, RedisData2 sink) {
+    private void writeAssociation(String path, RedisPersistentEntity<?> entity, @Nullable Object value, RedisRawData sink) {
 
         if (value == null) {
             return;
@@ -661,7 +663,7 @@ public class BoostMappingRedisConverter
 
 
     private void writeCollection(@Nullable String keyspace, String path, @Nullable Iterable<?> values,
-                                 TypeInformation<?> typeHint, RedisData2 sink) {
+                                 TypeInformation<?> typeHint, RedisRawData sink) {
 
         if (values == null) {
             return;
@@ -690,7 +692,7 @@ public class BoostMappingRedisConverter
         }
     }
 
-    private void writeToBucket(String path, @Nullable Object value, RedisData2 sink, Class<?> propertyType) {
+    private void writeToBucket(String path, @Nullable Object value, RedisRawData sink, Class<?> propertyType) {
 
         if (value == null || (value instanceof Optional && ((Optional<?>) value).isEmpty())) {
             return;
@@ -751,7 +753,7 @@ public class BoostMappingRedisConverter
             if (conversionService.canConvert(byte[].class, typeToUse)) {
                 target.add(fromBytes(elementData.get(key), typeToUse));
             } else {
-                target.add(readInternal(key, typeToUse, new RedisData2(elementData)));
+                target.add(readInternal(key, typeToUse, new RedisRawData(elementData)));
             }
         }
 
@@ -760,7 +762,7 @@ public class BoostMappingRedisConverter
 
 
     private void writeMap(@Nullable String keyspace, String path, Class<?> mapValueType, Map<?, ?> source,
-                          RedisData2 sink) {
+                          RedisRawData sink) {
 
         if (CollectionUtils.isEmpty(source)) {
             return;
@@ -799,7 +801,7 @@ public class BoostMappingRedisConverter
 
     @Nullable
     private Map<?, ?> readMapOfSimpleTypes(String path, Class<?> mapType, Class<?> keyType, Class<?> valueType,
-                                           RedisData2 source) {
+                                           RedisRawData source) {
 
         Bucket partial = source.getBucket().extract(path + ".[");
 
@@ -822,7 +824,7 @@ public class BoostMappingRedisConverter
 
     @Nullable
     private Map<?, ?> readMapOfComplexTypes(String path, Class<?> mapType, Class<?> keyType, Class<?> valueType,
-                                            RedisData2 source) {
+                                            RedisRawData source) {
 
         Set<String> keys = source.getBucket().extractAllKeysFor(path);
 
@@ -837,7 +839,7 @@ public class BoostMappingRedisConverter
             TypeInformation<?> typeInformation = typeMapper.readType(source.getBucket().getPropertyPath(key),
                     TypeInformation.of(valueType));
 
-            Object o = readInternal(key, typeInformation.getType(), new RedisData2(partial));
+            Object o = readInternal(key, typeInformation.getType(), new RedisRawData(partial));
             target.put(mapKey, o);
         }
 
@@ -975,10 +977,10 @@ public class BoostMappingRedisConverter
     private class ConverterAwareParameterValueProvider implements PropertyValueProvider<RedisPersistentProperty> {
 
         private final String path;
-        private final RedisData2 source;
+        private final RedisRawData source;
         private final ConversionService conversionService;
 
-        ConverterAwareParameterValueProvider(String path, RedisData2 source, ConversionService conversionService) {
+        ConverterAwareParameterValueProvider(String path, RedisRawData source, ConversionService conversionService) {
 
             this.path = path;
             this.source = source;

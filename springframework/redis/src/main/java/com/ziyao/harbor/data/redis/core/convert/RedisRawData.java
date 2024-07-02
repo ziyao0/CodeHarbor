@@ -14,35 +14,35 @@ import java.util.Map;
  */
 @Setter
 @Getter
-public class RedisData2 extends RedisData {
+public class RedisRawData extends RedisData {
 
     private byte[] raw;
 
-    public RedisData2(Map<byte[], byte[]> raw) {
+    public RedisRawData(Map<byte[], byte[]> raw) {
         super(Bucket.newBucketFromRawMap(raw));
     }
 
-    public RedisData2(byte[] raw) {
+    public RedisRawData(byte[] raw) {
         this.raw = raw;
     }
 
 
-    public RedisData2() {
+    public RedisRawData() {
 
     }
 
-    public RedisData2(Bucket bucket) {
+    public RedisRawData(Bucket bucket) {
         super(bucket);
     }
 
-    public RedisData2 create(Map<byte[], byte[]> raw) {
-        RedisData2 redisData2 = new RedisData2(raw);
-        redisData2.setId(getId());
-        redisData2.setKeyspace(getKeyspace());
+    public RedisRawData create(Map<byte[], byte[]> raw) {
+        RedisRawData redisRawData = new RedisRawData(raw);
+        redisRawData.setId(getId());
+        redisRawData.setKeyspace(getKeyspace());
         if (getTimeToLive() != null) {
-            redisData2.setTimeToLive(getTimeToLive());
+            redisRawData.setTimeToLive(getTimeToLive());
         }
-        return redisData2;
+        return redisRawData;
     }
 
 }
