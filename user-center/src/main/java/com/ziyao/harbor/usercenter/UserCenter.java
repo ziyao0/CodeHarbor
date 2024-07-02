@@ -9,6 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 
 /**
  * @author zhangziyao
@@ -20,6 +21,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @MapperScan("com.ziyao.harbor.usercenter.repository.mapper")
 @EntityScan(basePackages = "com.ziyao.harbor.usercenter.entity")
 @EnableJpaRepositories(basePackages = "com.ziyao.harbor.usercenter.repository.jpa")
+@EnableRedisRepositories(basePackages = "com.ziyao.harbor.usercenter.repository.redis2")
 public class UserCenter {
 
     public static void main(String[] args) {
@@ -29,4 +31,6 @@ public class UserCenter {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication);
     }
+
+
 }

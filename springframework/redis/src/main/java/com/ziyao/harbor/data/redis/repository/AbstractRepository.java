@@ -18,6 +18,8 @@ import java.util.concurrent.TimeUnit;
 @Getter
 public abstract class AbstractRepository<T, ID> implements RedisRepository<T, ID> {
 
+    private static final String SCAN_ = ":*";
+
     protected final RedisAdapter redisAdapter;
     private final RedisEntityInformation<T, ID> entityInformation;
 
@@ -40,8 +42,8 @@ public abstract class AbstractRepository<T, ID> implements RedisRepository<T, ID
     }
 
     @Override
-    public void timeToLive(ID id, long timeout, TimeUnit timeUnit) {
-        redisAdapter.timeToLive(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType(), timeout, timeUnit);
+    public void expire(ID id, long timeout, TimeUnit timeUnit) {
+        redisAdapter.expire(id, this.entityInformation.getKeySpace(), this.entityInformation.getJavaType(), timeout, timeUnit);
     }
 
 }

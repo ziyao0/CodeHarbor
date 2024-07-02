@@ -59,7 +59,7 @@ public class RedisAdapter {
     /**
      * 刷新过期时间
      */
-    public <T> void timeToLive(Object id, String keyspace, Class<T> type, long timeout, TimeUnit timeUnit) {
+    public <T> void expire(Object id, String keyspace, Class<T> type, long timeout, TimeUnit timeUnit) {
 
         byte[] redisKey = createKey(id, keyspace, type);
 

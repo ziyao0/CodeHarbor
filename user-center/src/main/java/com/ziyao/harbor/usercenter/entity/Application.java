@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.springframework.data.keyvalue.annotation.KeySpace;
 import org.springframework.data.redis.core.mapping.RedisMappingContext;
 import org.springframework.data.redis.core.mapping.RedisPersistentEntity;
 
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode(callSuper = false)
 @TableName("application")
 @Entity(name = "application")
+@KeySpace("application")
 public class Application implements Serializable {
 
     @Serial
@@ -35,11 +37,12 @@ public class Application implements Serializable {
      * 主键id
      */
     @Id
+    @org.springframework.data.annotation.Id
     @TableId("app_id")
     private Long appId;
 
     /**
-     * 应用类型 0内部系统应用 1三方平台应用 
+     * 应用类型 0内部系统应用 1三方平台应用
      */
     @TableField("app_type")
     private Integer appType;

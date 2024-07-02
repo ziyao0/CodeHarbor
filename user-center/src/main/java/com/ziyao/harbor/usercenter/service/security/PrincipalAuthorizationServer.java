@@ -4,6 +4,9 @@ import com.ziyao.harbor.usercenter.authentication.AuthenticationManager;
 import com.ziyao.harbor.usercenter.authentication.support.SecurityUtils;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2AccessTokenAuthenticationToken;
 import com.ziyao.harbor.usercenter.authentication.token.OAuth2TokenGenerator;
+import com.ziyao.harbor.usercenter.entity.Application;
+import com.ziyao.harbor.usercenter.repository.jpa.ApplicationRepository;
+import com.ziyao.harbor.usercenter.repository.redis2.ApplicationRepositoryRedis;
 import com.ziyao.harbor.usercenter.response.AccessTokenResponse;
 import com.ziyao.harbor.usercenter.response.OAuth2AuthorizationCodeResponse;
 import com.ziyao.harbor.usercenter.service.app.RegisteredAppService;
@@ -11,14 +14,19 @@ import com.ziyao.harbor.usercenter.service.oauth2.OAuth2AuthorizationService;
 import com.ziyao.security.oauth2.core.*;
 import com.ziyao.security.oauth2.core.context.SecurityContextHolder;
 import com.ziyao.security.oauth2.core.token.DefaultOAuth2TokenContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * @author ziyao zhang
  * @time 2024/6/15
  */
 @Service
+@RequiredArgsConstructor
 public class PrincipalAuthorizationServer implements AuthorizationServer {
 
 
@@ -26,21 +34,28 @@ public class PrincipalAuthorizationServer implements AuthorizationServer {
     private final OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator;
     private final RegisteredAppService registeredAppService;
     private final OAuth2AuthorizationService authorizationService;
+    private final ApplicationRepositoryRedis applicationRepositoryRedis;
+    private final ApplicationRepository applicationRepository;
 
-    public PrincipalAuthorizationServer(AuthenticationManager authenticationManager,
-                                        OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
-                                        RegisteredAppService registeredAppService,
-                                        OAuth2AuthorizationService authorizationService) {
-        this.authenticationManager = authenticationManager;
-        this.tokenGenerator = tokenGenerator;
-        this.registeredAppService = registeredAppService;
-        this.authorizationService = authorizationService;
-    }
+//    public PrincipalAuthorizationServer(AuthenticationManager authenticationManager,
+//                                        OAuth2TokenGenerator<? extends OAuth2Token> tokenGenerator,
+//                                        RegisteredAppService registeredAppService,
+//                                        OAuth2AuthorizationService authorizationService) {
+//        this.authenticationManager = authenticationManager;
+//        this.tokenGenerator = tokenGenerator;
+//        this.registeredAppService = registeredAppService;
+//        this.authorizationService = authorizationService;
+//    }
 
     @Override
     public OAuth2AuthorizationCodeResponse authorize(Long appId, String state, String grantType) {
 
         RegisteredApp registeredApp = registeredAppService.findById(appId);
+        Application application = applicationRepository.findById(appId).get();
+        Application save = applicationRepositoryRedis.save(application);
+
+        List<Application> all = applicationRepositoryRedis.findAll();
+        Optional<Application> byId = applicationRepositoryRedis.findById(appId);
 
         if (registeredApp == null) {
             throw new DataRetrievalFailureException(

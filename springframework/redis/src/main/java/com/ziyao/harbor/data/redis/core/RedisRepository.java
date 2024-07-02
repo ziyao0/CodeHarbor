@@ -21,6 +21,6 @@ public interface RedisRepository<T, ID> extends Repository {
     /**
      * 刷新过期时间
      */
-    void timeToLive(ID id, long timeout, TimeUnit timeUnit);
+    void expire(ID id, long timeout, TimeUnit timeUnit);
 
 }
